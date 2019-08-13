@@ -19,31 +19,35 @@ Auth::routes();
 
 
 Route::group(['middleware' => 'auth'], function () {
-	
+
     Route::get('/home', 'HomeController@index');
-    
+
     // Route::get('form_pruebas', 'PruebasController@form_pruebas');
 
+
+    Route::get('form_agregar_usuario', 'PersonasController@form_agregar_usuario');
+
     Route::get('form_prueba_merge', 'PersonasController@form_prueba_merge');
+
     Route::get('form_agregar_persona', 'PersonasController@form_agregar_persona');
     Route::get('agregar_usuario', 'UsuariosController@agregar_usuario');
 
     Route::get('consultaDistritos/{id_circunscripcion}', 'RecintosController@consultaDistritos');
     Route::get('consultaRecintos/{id_distrito}', 'RecintosController@consultaRecintos');
-    
+
     Route::get('/listado_usuarios', 'UsuariosController@listado_usuarios');
     Route::post('crear_usuario', 'UsuariosController@crear_usuario');
     Route::post('editar_usuario', 'UsuariosController@editar_usuario');
     Route::post('buscar_usuario', 'UsuariosController@buscar_usuario');
     Route::post('borrar_usuario', 'UsuariosController@borrar_usuario');
     Route::post('editar_acceso', 'UsuariosController@editar_acceso');
-  
+
 
     Route::post('crear_rol', 'UsuariosController@crear_rol');
     Route::post('crear_permiso', 'UsuariosController@crear_permiso');
     Route::post('asignar_permiso', 'UsuariosController@asignar_permiso');
     Route::get('quitar_permiso/{idrol}/{idper}', 'UsuariosController@quitar_permiso');
-    
+
     Route::get('form_nuevo_usuario', 'UsuariosController@form_nuevo_usuario');
     Route::get('form_nuevo_rol', 'UsuariosController@form_nuevo_rol');
     Route::get('form_nuevo_permiso', 'UsuariosController@form_nuevo_permiso');
@@ -79,7 +83,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('asistencia', 'EncuestasController@asistencia');
     Route::get('reporte_final', 'EncuestasController@reporte_final');
 
-    
+
     Route::get('form_encuesta_visitante', 'EncuestasController@form_encuesta_visitante');
     Route::post('enviar_visitante', 'EncuestasController@enviar_visitante');
 
@@ -122,7 +126,7 @@ Route::group(['middleware' => 'auth'], function () {
     //Unidades
     Route::get('consultaUnidades/{id}', 'UnidadesController@consultaUnidades');
 
-    
+
     //Usuarios
     Route::get('form_agregar_usuario', 'UsuariosController@form_agregar_usuario');
     Route::get('reporte_usuarios', 'UsuariosController@reporte_usuarios');
@@ -136,4 +140,3 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 });
-

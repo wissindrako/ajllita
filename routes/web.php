@@ -24,6 +24,10 @@ Route::group(['middleware' => 'auth'], function () {
     
     // Route::get('form_pruebas', 'PruebasController@form_pruebas');
 
+
+    Route::get('agregar_persona', 'PersonasController@agregar_persona');
+
+
     Route::get('/listado_usuarios', 'UsuariosController@listado_usuarios');
     Route::post('crear_usuario', 'UsuariosController@crear_usuario');
     Route::post('editar_usuario', 'UsuariosController@editar_usuario');

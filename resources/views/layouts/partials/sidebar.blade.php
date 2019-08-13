@@ -16,9 +16,9 @@
                         @if ( $persona->ci == Auth::user()->ci)
                             <!-- Status -->
                     <p><i class="fa fa-caret-right text-yellow"></i> {{ $persona->sigla }}</p>
-                        @endif   
+                        @endif
                     @endforeach --}}
-                    
+
                     <p><i class="fa fa-caret-right text-yellow"></i> </p>
                 </div>
             </div>
@@ -29,16 +29,77 @@
             <li class="header">MENU</li>
             <!-- Optionally, you can add icons to the links -->
 
-{{-- 
+
             <li class="treeview">
-                <a href="#"><i class='fa fa-phone'></i> <span>Directorio</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><i class='fa fa-user-plus'></i> <span>Registro</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ url('form_nuevo_contacto') }}">Nuevo Contacto</a></li>
-                    <li><a href="{{ url('listado_empresas') }}">Listado Empresas</a></li>
-                     <li><a href="{{ url('listado_personas') }}">Listado Personas</a></li>
-                    <li><a href="#"></a></li>
+                    <li><a href="{{ url('form_nuevo_contacto') }}">Personas</a></li>
+                    <li><a href="{{ url('listado_empresas') }}">Usuarios</a></li>
+                    <li><a href="{{ url('listado_personas') }}">Transporte</a></li>
+                    <li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
+                    <li><a href="{{ url('listado_personas') }}">Candidatos</a></li>
                 </ul>
-            </li> --}}
+            </li>
+
+            <li class="treeview">
+                <a href="#"><i class='fa fa-legal'></i> <span>Asignación</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('form_nuevo_contacto') }}">Persona - Mesa</a></li>
+                    <li><a href="{{ url('listado_empresas') }}">Usuario - Mesa</a></li>
+                    <li><a href="{{ url('listado_personas') }}">Usuario - Recinto</a></li>
+                    <li><a href="{{ url('listado_personas') }}">Usuario - Distrito</a></li>
+                    <li><a href="{{ url('listado_personas') }}">Usuario - Circunscripción</a></li>
+                    <li><a href="{{ url('listado_personas') }}">Usuario - Casa</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="{{ url('form_nuevo_contacto') }}"><i class='fa fa-edit'></i> <span>Crear lista de asistencia</span> </a>
+            </li>
+
+            <li class="treeview">
+                <a href="{{ url('form_nuevo_contacto') }}"><i class='fa fa-calendar-check-o'></i> <span>Registrar asistencia</span> </a>
+            </li>
+
+            <li class="treeview">
+                <a href="{{ url('form_nuevo_contacto') }}"><i class='fa fa-list-ol'></i> <span>Registrar votos</span> </a>
+            </li>
+
+            <li class="treeview">
+                <a href="#"><i class='fa fa-file-pdf-o'></i> <span>Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('form_nuevo_contacto') }}">Persona - Mesa</a></li>
+                    <li><a href="{{ url('listado_empresas') }}">Usuario - Mesa</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="{{ url('form_nuevo_contacto') }}"><i class='fa fa-file-video-o'></i> <span>Tutorial</span> </a>
+            </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @role('admin')
 <li class="treeview">
     <a href="#"><i class='fa fa-user'></i> <span>GESTION DE USUARIOS</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -69,12 +130,12 @@
             <li class="treeview">
                 <a href="#"><i class='fa fa-users'></i> <span>VISITANTE</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    
-                
+
+
                     <li><a href="{{url('/form_encuesta_visitante')}}">Encuesta</a></li>
                     <li><a href="{{url('/form_conteo')}}">Conteo Varones</a></li>
                     <li><a href="{{url('/form_conteo_mujeres')}}">Conteo Mujeres</a></li>
-                    
+
                     @can('aprobar_solicitud')
                     <li><a href="{{url('/listado_solicitudes_unidad')}}">Solicitudes por Aprobar</a></li>
                     @endcan
@@ -87,13 +148,13 @@
             <li class="treeview">
                 <a href="#"><i class='fa fa-tags'></i> <span>EXPOSITORES</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    
+
                     <li><a href="{{url('/form_encuesta_gastronomia')}}">Gastronomía</a></li>
                     <li><a href="{{url('/form_encuesta_literatura')}}">Literatura</a></li>
                     <li><a href="{{url('/form_encuesta_turismo')}}">ServicioS Turístico</a></li>
                     <li><a href="{{url('/form_encuesta_productores')}}">Productores</a></li>
                     <li><a href="{{url('/form_encuesta_artesania')}}">Artesanía</a></li>
-                    
+
                     @can('aprobar_solicitud')
                     <li><a href="{{url('/listado_suspension_unidad')}}">Suspension por Aprobar</a></li>
                     @endcan
@@ -104,7 +165,7 @@
                 </ul>
             </li>
             @endrole
-            @role('revisor')
+            @role('revisors')
             <li class="treeview">
                 <a href="#"><i class='fa fa-power-off'></i> <span>On / Off</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
@@ -115,7 +176,7 @@
             <li class="treeview">
                 <a href="#"><i class='fa fa-database'></i> <span>BASE</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    
+
                     <li><a href="{{url('/reporte_encuesta')}}">Visitantes</a></li>
                     <li><a href="{{url('/reporte_encuesta_gastronomia')}}">Gastronomía</a></li>
                     <li><a href="{{url('/reporte_encuesta_literatura')}}">Literatura</a></li>
@@ -126,7 +187,7 @@
                     {{-- <li><a href="{{url('/reporte_final')}}">Reporte final</a></li> --}}
                     {{-- <li><a href="{{url('/reporte_plato_genero')}}">Plato preferido por sexo</a></li> --}}
                     {{-- <li><a href="{{url('/reporte_plato_genero')}}">Plato preferido por sexo</a></li> --}}
-                    
+
                     @can('aprobar_solicitud')
                     {{-- <li><a href="{{url('/listado_suspension_unidad')}}">Suspension por Aprobar</a></li> --}}
                     <li><a href="{{url('/reporte_encuesta')}}">Visitantes</a></li>

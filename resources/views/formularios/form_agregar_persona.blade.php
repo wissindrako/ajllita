@@ -17,11 +17,11 @@
                      <div class="myform-top">
                         <div class="myform-top-left">
                            {{-- <img  src="" class="img-responsive logo" /> --}}
-                          <h3>Gastronomía</h3>
-                            <p>Por favor responda las siguientes preguntas</p>
+                          <h3>Agregar Persona</h3>
+                            <p>Por favor llene los siguientes campos</p>
                         </div>
                         <div class="myform-top-right">
-                          <i class="fa fa-cutlery"></i>
+                          <i class="fa fa-child"></i>
                         </div>
                       </div>
 
@@ -45,79 +45,135 @@
                     <form action="{{ url('enviar_gastronomia') }}"  method="post" id="f_enviar_gastronomia" class="formentrada" >
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
                       
-                        {{-- <div class="col-md-12">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label >Nombre</label>
-                                <input type="text" name="nombre" placeholder="Nombre Completo" class="form-control" value="{{ old('nombre') }}" >
+                                <label >Nombres</label>
+                                <input type="input" name="nombres" placeholder="" class="form-control" value="" />
                             </div>
-                        </div> --}}
-                        {{-- <div class="col-md-6">
+                        </div>
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label >Cuál es el plato que más a vendido?</label>
-                                <div class="form-group">
-                                    <select class="form-control" name="plato_preparado" id="">
-                                        <option>Wallake</option>
-                                        <option>Pesq'e</option>
-                                        <option>Ispi</option>
-                                        <option>Aji de papa con Ispi</option>
-                                        <option>Caldo de Cardán</option>
-                                        <option>Fiambre</option>
-                                        <option>Sopa de Fideo</option>
-                                        <option>Aji de pata</option>
-                                    </select>
-                                </div>
+                                <label >Paterno</label>
+                                <input type="input" name="paterno" placeholder="" class="form-control" value="" />
                             </div>
-                        </div> --}}
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label >Materno</label>
+                                <input type="input" name="materno" placeholder="" class="form-control" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label >Carnet</label>
+                                <input type="input" name="cedula" placeholder="" class="form-control" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label >Comp.</label>
+                                <input type="input" name="cedula" placeholder="" class="form-control" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label >Exp.</label>
+                                <input type="input" name="cedula" placeholder="" class="form-control" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class=" ">Fecha de nacimiento</label>
+                                <input type="date" name="nacimiento" placeholder="" class="form-control" value="" />
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label >Cuál es el plato que más a vendido?</label>
-                                <div class="form-group">
-                                    <select class="form-control" name="plato_preparado" id="">
-                                        @foreach ($platos_tarija as $platos)
-                                            <option value="{{$platos->plato}}">{{$platos->id}} - {{$platos->plato}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <label >Telefono</label>
+                                <input type="input" name="telefono" placeholder="" class="form-control" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label >Telefono de Referencia</label>
+                                <input type="input" name="telefono_ref" placeholder="" class="form-control" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label >Direccion</label>
+                                <input type="input" name="direccion" placeholder="" class="form-control" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label >Email</label>
+                                <input type="email" name="email" placeholder="Correo electrónico" class="form-control" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label >Grado de compromiso</label>
+                                <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="1" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="text-black ">Circuns.</label>
+                                <select class="form-control" name="area" id="id_uni">
+                                        <option value="0" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
+                                    @foreach ($unidades as $unidad)
+                                        {{-- <option value="{{$unidad->id}}" {{ old('area', $unidad->id) == $unidad->id ? 'selected' : '' }}>{{$unidad->nombre}}</option> --}}
+                                        <option value="{{$unidad->id}}">{{$unidad->nombre}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group cargo_json">
+                                <label class="text-muted ">Cargo</label>
+                                <select class="form-control" name="cargo">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="text-black">Circuns.</label>
+                                <select class="form-control" name="circunscripcion">
+                                    {{-- @foreach ($cargos as $cargo)
+                                <option value="{{$cargo->idcargo}}" {{ old('cargo', $cargo->idcargod) == $cargo->idcargo ? 'selected' : '' }}>{{$cargo->nombrecargo}}</option>
+                                    @endforeach --}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="text-black">Distrito</label>
+                                <select class="form-control" name="distrito">
+                                    {{-- @foreach ($unidades as $unidad)
+                                <option value="{{$unidad->id}}" {{ old('area', $unidad->id) == $unidad->id ? 'selected' : '' }}>{{$unidad->nombre}}</option>
+                                    @endforeach --}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="text-black">Recinto</label>
+                                <select class="form-control" name="recinto">
+                                    {{-- @foreach ($unidades as $unidad)
+                                <option value="{{$unidad->id}}" {{ old('area', $unidad->id) == $unidad->id ? 'selected' : '' }}>{{$unidad->nombre}}</option>
+                                    @endforeach --}}
+                                </select>
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label >Cuantos platos ha preparado en total?</label>
-                                <input type="number" name="platos_preparados" placeholder="0" class="form-control" value="" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label >Cuantos platos ha vendido?</label>
-                                <input type="number" name="platos_vendidos" placeholder="0" class="form-control" value="" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label >Cual es el costo promedio de sus platos?</label>
-                                <input type="number" name="platos_costo" placeholder="0" class="form-control" value="" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                                <div class="form-group">
-                                    <label >Cuanto ingreso ha generado por su venta?</label>
-                                    <input type="number" name="platos_ingreso" placeholder="0" class="form-control" value="" />
-                                </div>
-                            </div>
-                       
                         <button type="submit" class="mybtn">Registrar</button>
                       </form>
                     
                     </div>
               </div>
             </div>
-            {{-- <div class="row">
-                <div class="col-sm-12 mysocial-login">
-                    <h3>...Visitanos en nuestra Pagina</h3>
-                    <h1><strong>minculturas.gob.bo</strong>.net</h1>
-                </div>
-            </div> --}}
+
         </div>
       </div>
  

@@ -22,6 +22,10 @@ use App\Gestion;
 class UsuariosController extends Controller
 {
  
+public function form_agregar_usuario(){
+    //carga el formulario para agregar un nuevo usuario
+    return view("formularios.form_agregar_usuario");
+}
 
 public function form_nuevo_usuario(){
     //carga el formulario para agregar un nuevo usuario
@@ -54,12 +58,12 @@ public function reporte_usuarios(){
         ->with('vac_tomadas', $vac_tomadas);
 }
 
-public function form_agregar_usuario(){
-    //carga el formulario para agregar un nuevo usuario
-    $unidades=Unidad::all();
-    $roles=Role::all();
-    return view("formularios.form_agregar_usuario")->with("roles",$roles)->with('unidades', $unidades);
-}
+// public function form_agregar_usuario(){
+//     //carga el formulario para agregar un nuevo usuario
+//     $unidades=Unidad::all();
+//     $roles=Role::all();
+//     return view("formularios.form_agregar_usuario")->with("roles",$roles)->with('unidades', $unidades);
+// }
 
 public function listado_usuarios_duo(){
     //presenta un listado de usuarios paginados de 100 en 100

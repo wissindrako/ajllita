@@ -24,7 +24,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Route::get('form_pruebas', 'PruebasController@form_pruebas');
 
+
     Route::get('form_agregar_usuario', 'PersonasController@form_agregar_usuario');
+
+    Route::get('form_prueba_merge', 'PersonasController@form_prueba_merge');
+
     Route::get('form_agregar_persona', 'PersonasController@form_agregar_persona');
     Route::get('agregar_usuario', 'UsuariosController@agregar_usuario');
 

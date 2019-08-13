@@ -26,6 +26,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('form_agregar_persona', 'PersonasController@form_agregar_persona');
     Route::get('agregar_usuario', 'UsuariosController@agregar_usuario');
+
+    Route::get('consultaDistritos/{id_circunscripcion}', 'RecintosController@consultaDistritos');
+    Route::get('consultaRecintos/{id_distrito}', 'RecintosController@consultaRecintos');
     
     Route::get('/listado_usuarios', 'UsuariosController@listado_usuarios');
     Route::post('crear_usuario', 'UsuariosController@crear_usuario');

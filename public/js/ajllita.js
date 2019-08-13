@@ -1,5 +1,41 @@
 $(document).ready(function(){
+  $("#id_circunscripcion").change(function(){
+    cargaDistritos();
+  });
 
+  $("#id_distrito").change(function(){
+    cargaRecintos();
+  });
+
+function cargaDistritos(){
+  $(".distrito_json select").html("");
+  var id_circunscripcion = $("#id_circunscripcion").val();
+
+  // console.log($("#anio").val());
+  $.getJSON("consultaDistritos/"+id_circunscripcion+"",{},function(objetosretorna){
+      $("#error").html("");
+      var TamanoArray = objetosretorna.length;
+      $(".distrito_json select").append('<option value="0"> --- SELECCIONE EL DISTRITO --- </option>');
+      $.each(objetosretorna, function(i,value){
+          $(".distrito_json select").append('<option value="'+value.distrito+'">'+value.distrito+'</option>');
+      });
+  });
+};
+
+function cargaRecintos(){
+  $(".recinto_json select").html("");
+  var id_distrito = $("#id_distrito").val();
+
+  // console.log($("#anio").val());
+  $.getJSON("consultaRecintos/"+id_distrito+"",{},function(objetosretorna){
+      $("#error").html("");
+      var TamanoArray = objetosretorna.length;
+      $(".recinto_json select").append('<option value="0"> --- SELECCIONE EL RECINTO --- </option>');
+      $.each(objetosretorna, function(i,value){
+          $(".recinto_json select").append('<option value="'+value.id_recinto+'">'+value.id_recinto+' - '+value.nombre+'</option>');
+      });
+  });
+};
 
 //
 $('#btn_vaciar').click(function(){

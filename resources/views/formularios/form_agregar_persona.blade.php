@@ -48,7 +48,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label >Nombres</label>
-                                <input type="input" name="nombres" placeholder="" class="form-control" value="" />
+                                <input type="input" name="nombres" placeholder="" class="form-control" value=""  required/>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -66,7 +66,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label >Carnet</label>
-                                <input type="input" name="cedula" placeholder="" class="form-control" value="" />
+                                <input type="input" name="cedula" placeholder="" class="form-control" value="" required/>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -90,7 +90,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label >Telefono</label>
-                                <input type="input" name="telefono" placeholder="" class="form-control" value="" />
+                                <input type="input" name="telefono" placeholder="" class="form-control" value="" required/>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -102,7 +102,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label >Direccion</label>
-                                <input type="input" name="direccion" placeholder="" class="form-control" value="" />
+                                <input type="input" name="direccion" placeholder="" class="form-control" value="" required/>
                             </div>
                         </div>
                         <div class="col-md-8">
@@ -117,53 +117,30 @@
                                 <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="1" />
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label class="text-black ">Circuns.</label>
-                                <select class="form-control" name="area" id="id_uni">
-                                        <option value="0" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
-                                    @foreach ($unidades as $unidad)
-                                        {{-- <option value="{{$unidad->id}}" {{ old('area', $unidad->id) == $unidad->id ? 'selected' : '' }}>{{$unidad->nombre}}</option> --}}
-                                        <option value="{{$unidad->id}}">{{$unidad->nombre}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group cargo_json">
-                                <label class="text-muted ">Cargo</label>
-                                <select class="form-control" name="cargo">
+                                <select class="form-control" name="id_circunscripcion" id="id_circunscripcion">
+                                    <option value="0" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div class="form-group">
-                                <label class="text-black">Circuns.</label>
-                                <select class="form-control" name="circunscripcion">
-                                    {{-- @foreach ($cargos as $cargo)
-                                <option value="{{$cargo->idcargo}}" {{ old('cargo', $cargo->idcargod) == $cargo->idcargo ? 'selected' : '' }}>{{$cargo->nombrecargo}}</option>
-                                    @endforeach --}}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label class="text-black">Distrito</label>
-                                <select class="form-control" name="distrito">
-                                    {{-- @foreach ($unidades as $unidad)
-                                <option value="{{$unidad->id}}" {{ old('area', $unidad->id) == $unidad->id ? 'selected' : '' }}>{{$unidad->nombre}}</option>
-                                    @endforeach --}}
+                            <div class="form-group distrito_json">
+                                <label class="">Distrito</label>
+                                <select class="form-control" name="id_distrito" id="id_distrito">
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <div class="form-group">
+                            <div class="form-group recinto_json">
                                 <label class="text-black">Recinto</label>
                                 <select class="form-control" name="recinto">
-                                    {{-- @foreach ($unidades as $unidad)
-                                <option value="{{$unidad->id}}" {{ old('area', $unidad->id) == $unidad->id ? 'selected' : '' }}>{{$unidad->nombre}}</option>
-                                    @endforeach --}}
-                                </select>
+                                  </select>
                             </div>
                         </div>
 

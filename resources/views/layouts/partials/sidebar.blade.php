@@ -33,7 +33,7 @@
             <li class="treeview">
                 <a href="#"><i class='fa fa-user-plus'></i> <span>Registro</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ url('form_nuevo_contacto') }}">Personas</a></li>
+                    <li><a href="{{ url('form_agregar_persona') }}">Personas</a></li>
                     <li><a href="{{ url('listado_empresas') }}">Usuarios</a></li>
                     <li><a href="{{ url('listado_personas') }}">Transporte</a></li>
                     <li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>

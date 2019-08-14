@@ -30,10 +30,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('form_prueba_merge', 'PersonasController@form_prueba_merge');
 
     Route::get('form_agregar_persona', 'PersonasController@form_agregar_persona');
+    Route::post('agregar_persona', 'PersonasController@agregar_persona');
+
     Route::get('agregar_usuario', 'UsuariosController@agregar_usuario');
+
 
     Route::get('consultaDistritos/{id_circunscripcion}', 'RecintosController@consultaDistritos');
     Route::get('consultaRecintos/{id_distrito}', 'RecintosController@consultaRecintos');
+    Route::get('consultaSubOrigen/{id_origen}', 'PersonasController@consultaSubOrigen');
 
     Route::get('/listado_usuarios', 'UsuariosController@listado_usuarios');
     Route::post('crear_usuario', 'UsuariosController@crear_usuario');

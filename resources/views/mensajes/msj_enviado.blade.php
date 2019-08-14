@@ -13,6 +13,10 @@
 
  <div class="margin" style="margin-top:50px; text-align:center;margin-bottom: 50px;">
     <div class="btn-group">
+        @if ($msj == 'enviado_crear_persona')
+        <a href="{{ url('/form_agregar_persona') }}" class="btn btn-success"    value=" "  > Nueva Persona</a>
+        @endif
+
         @if ($msj == 'enviado_gastronomia')
         <a href="{{ url('/form_encuesta_gastronomia') }}" class="btn btn-success"    value=" "  > Nueva Encuesta</a>
         @endif

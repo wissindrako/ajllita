@@ -1,4 +1,26 @@
 $(document).ready(function(){
+
+  $("#id_origen").change(function(){
+    cargaSubOrigen();
+  });
+
+  function cargaSubOrigen(){
+    $(".sub_origen_json select").html("");
+    var id_origen = $("#id_origen").val();
+  
+    // console.log($("#anio").val());
+    $.getJSON("consultaSubOrigen/"+id_origen+"",{},function(objetosretorna){
+        $("#error").html("");
+        var TamanoArray = objetosretorna.length;
+        $(".sub_origen_json select").append('<option value="0"> --- SELECCIONE EL SUB ORIGEN --- </option>');
+        $.each(objetosretorna, function(i,value){
+            $(".sub_origen_json select").append('<option value="'+value.id_sub_origen+'">'+value.nombre+'</option>');
+        });
+    });
+  };
+  
+
+
   $("#id_circunscripcion").change(function(){
     cargaDistritos();
   });
@@ -687,6 +709,8 @@ $(document).on("submit",".formentrada",function(e){
   var formu=$(this);
   var varurl="";
 
+  if(quien=="f_enviar_agregar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
+
   if(quien=="f_enviar_gastronomia"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_visitante"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_literatura"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
@@ -736,6 +760,19 @@ $(document).on("submit",".formentrada",function(e){
           alertify.success('Está tratando de ingresar una fecha anterior?');
           $('#btn_guarda_fecha').attr("disabled", false);
         }
+      }else if(quien=="f_enviar_agregar_persona"){
+        if (resul == 'failed') {
+          alertify.success('Ocurrió un error, revise su conexión');
+        }else if(resul == 'apellido'){
+          alertify.error('Debe ingresar al menos un apellido');
+        }else if(resul == 'cedula_repetida'){
+          alertify.error('El número de Carnet ya se encuentra registrado!');
+        }else if(resul == 'recinto'){
+        alertify.error('Seleccione un recinto');
+        }else{
+          $("#"+div_resul+"").html(resul);
+        }
+
       }else if(quien=="f_editar_tiempo" && resul == 'ok'){
         $('#ModalEdit').modal('hide');
         refresh_calendar();

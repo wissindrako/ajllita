@@ -15,12 +15,15 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         view()->composer('*', function($view) {
-            $personas = \DB::table('personal')
-            ->join('users', 'personal.cedula', '=', 'users.ci')
-            ->join('areas', 'personal.idarea', '=', 'areas.idarea')
-            ->join('unidades', 'areas.idunidad', '=', 'unidades.id')
-            ->select('users.id as id_usuario', 'users.nombre', 'users.paterno','users.materno', 'users.ci',
-                    'areas.*', 'unidades.nombre as unidad', 'unidades.id as idunidad')
+            // $personas = \DB::table('personal')
+            // ->join('users', 'personal.cedula', '=', 'users.ci')
+            // ->join('areas', 'personal.idarea', '=', 'areas.idarea')
+            // ->join('unidades', 'areas.idunidad', '=', 'unidades.id')
+            // ->select('users.id as id_usuario', 'users.nombre', 'users.paterno','users.materno', 'users.ci',
+            //         'areas.*', 'unidades.nombre as unidad', 'unidades.id as idunidad')
+            // ->get();
+            $personas = \DB::table('users')
+            ->select('users.id as id_usuario', 'users.nombre', 'users.paterno','users.materno', 'users.ci')
             ->get();
             $view->with('personas', $personas);
         });

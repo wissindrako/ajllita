@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('htmlheader_title')
@@ -42,73 +43,83 @@
 
                     <div id="div_notificacion_sol" class="myform-bottom">
                       
-                    <form action="{{ url('enviar_gastronomia') }}"  method="post" id="f_enviar_gastronomia" class="formentrada" >
+                    <form action="{{ url('agregar_persona') }}"  method="post" id="f_enviar_agregar_persona" class="formentrada" >
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
                       
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label >Nombres</label>
-                                <input type="input" name="nombres" placeholder="" class="form-control" value=""  required/>
+                                <input type="input" name="nombres" placeholder="" class="form-control" value="{{ old('nombres') }}"  required/>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label >Paterno</label>
-                                <input type="input" name="paterno" placeholder="" class="form-control" value="" />
+                                <input type="input" name="paterno" placeholder="" class="form-control" value="{{ old('paterno') }}" />
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label >Materno</label>
-                                <input type="input" name="materno" placeholder="" class="form-control" value="" />
+                                <input type="input" name="materno" placeholder="" class="form-control" value="{{ old('materno') }}" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label >Carnet</label>
-                                <input type="input" name="cedula" placeholder="" class="form-control" value="" required/>
+                                <input type="input" name="cedula" placeholder="" class="form-control" value="{{ old('cedula') }}" required/>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label >Comp.</label>
-                                <input type="input" name="cedula" placeholder="" class="form-control" value="" />
+                                <input type="input" name="complemento" placeholder="" class="form-control" value="{{ old('complemento') }}" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label >Exp.</label>
-                                <input type="input" name="cedula" placeholder="" class="form-control" value="" />
+                                <select class="form-control" name="expedido">
+                                    <option>LP</option>
+                                    <option>OR</option>
+                                    <option>PT</option>
+                                    <option>CB</option>
+                                    <option>SC</option>
+                                    <option>BN</option>
+                                    <option>PA</option>
+                                    <option>TJ</option>
+                                    <option>CH</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class=" ">Fecha de nacimiento</label>
-                                <input type="date" name="nacimiento" placeholder="" class="form-control" value="" />
+                                <input type="date" name="nacimiento" placeholder="" class="form-control" value="{{ old('nacimiento') }}" required />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label >Telefono</label>
-                                <input type="input" name="telefono" placeholder="" class="form-control" value="" required/>
+                                <input type="input" name="telefono" placeholder="" class="form-control" value="{{ old('telefono') }}" required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label >Telefono de Referencia</label>
-                                <input type="input" name="telefono_ref" placeholder="" class="form-control" value="" />
+                                <input type="input" name="telefono_ref" placeholder="" class="form-control" value="{{ old('telefono_ref') }}" />
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label >Direccion</label>
-                                <input type="input" name="direccion" placeholder="" class="form-control" value="" required/>
+                                <input type="input" name="direccion" placeholder="" class="form-control" value="{{ old('direccion') }}" required/>
                             </div>
                         </div>
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label >Email</label>
-                                <input type="email" name="email" placeholder="Correo electrónico" class="form-control" value="" />
+                                <input type="email" name="email" placeholder="Correo electrónico" class="form-control" value="{{ old('email') }}" />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -122,10 +133,9 @@
                                 <label class="text-black ">Circuns.</label>
                                 <select class="form-control" name="id_circunscripcion" id="id_circunscripcion">
                                     <option value="0" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                    <option value="13">13</option>
+                                    @foreach ($circunscripciones as $circ)
+                                <option value="{{$circ->circunscripcion}}">{{$circ->circunscripcion}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -143,7 +153,27 @@
                                   </select>
                             </div>
                         </div>
-
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="text-black ">Organización de Origen</label>
+                                <select class="form-control" name="id_origen" id="id_origen">
+                                    @foreach ($origenes as $origen)
+                                <option value="{{$origen->id_origen}}">{{$origen->id_origen}} - {{$origen->origen}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group sub_origen_json">
+                                <label class="text-black">Sub Origen</label>
+                                <select class="form-control" name="id_sub_origen">
+                                    <option value="0" selected> --- SELECCIONE UN ORIGEN--- </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <br>
+                        </div>
                         <button type="submit" class="mybtn">Registrar</button>
                       </form>
                     

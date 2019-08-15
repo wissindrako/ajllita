@@ -655,6 +655,8 @@ function  verinfo_usuario(id, form){
   var urlraiz=$("#url_raiz_proyecto").val();
   if(form == 1){var miurl =urlraiz+"/form_editar_usuario/"+id+""; }
 
+  if(form == 20){var miurl =urlraiz+"/form_asignar_usuario_mesa/"+id+""; }
+
   if(form == 4){var miurl =urlraiz+"/form_editar_gestion/"+id+""; }
   if(form == 7){var miurl =urlraiz+"/form_sol_vacacion_unidad/"+id+""; }
   if(form == 8){var miurl =urlraiz+"/form_sol_vacacion_rr_hh/"+id+""; }

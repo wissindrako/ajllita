@@ -56,7 +56,7 @@
                 <a href="#"><i class='fa fa-legal'></i> <span>Asignación</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="{{ url('form_nuevo_contacto') }}">Persona - Mesa</a></li>
-                    <li><a href="javascript:void(0);"  onclick="cargar_formulario(20);">Usuario - Mesa</a></li>
+                    <li><a href="{{ url('listado_personas_asignacion') }}">Usuario - Mesa</a></li>
                     <li><a href="{{ url('listado_personas') }}">Usuario - Recinto</a></li>
                     <li><a href="{{ url('listado_personas') }}">Usuario - Distrito</a></li>
                     <li><a href="{{ url('listado_personas') }}">Usuario - Circunscripción</a></li>

@@ -39,12 +39,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('listado_personas', 'PersonasController@listado_personas');
     Route::post('buscar_persona', 'PersonasController@buscar_persona');
-
+    
     Route::post('baja_persona', 'PersonasController@baja_persona');
 
+    Route::get('listado_personas_asignacion', 'PersonasController@listado_personas_asignacion');
+    Route::post('buscar_persona_asignacion', 'PersonasController@buscar_persona_asignacion');
 
 
-    Route::get('form_asignar_usuario_mesa', 'MesasController@form_asignar_usuario_mesa');
+    Route::get('form_asignar_usuario_mesa/{id_persona}', 'MesasController@form_asignar_usuario_mesa');
 
     Route::get('agregar_usuario', 'UsuariosController@agregar_usuario');
 

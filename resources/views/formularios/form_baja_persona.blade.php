@@ -34,7 +34,7 @@
     
                         <div class="myform-bottom">
                           <h4 class="text-black" >NOMBRE: <b>{{$persona->nombre}} {{$persona->paterno}} {{$persona->materno}}</b></h4 class="text-black" >
-                          <h4 class="text-black" >CEDULA: <b>{{$persona->cedula_identidad}} {{$persona->complemento}} {{$persona->expedido}}</b></h4 class="text-black" >
+                          <h4 class="text-black" >CEDULA: <b>{{$persona->cedula_identidad}} {{$persona->complemento_cedula}} {{$persona->expedido}}</b></h4 class="text-black" >
                           <h4 class="text-black" >FECHA DE REGISTRO: <b>{{$persona->fecha_registro}}</b></h4 class="text-black" >
                         <form  action="{{ url('baja_persona') }}"  method="post" id="f_baja_persona" class="formentrada" >
                             <input type="hidden" class="form-control" name="id_persona" id="" value="{{$persona->id_persona}}">

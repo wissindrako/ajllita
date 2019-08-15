@@ -22,10 +22,10 @@ class AppServiceProvider extends ServiceProvider
             // ->select('users.id as id_usuario', 'users.nombre', 'users.paterno','users.materno', 'users.ci',
             //         'areas.*', 'unidades.nombre as unidad', 'unidades.id as idunidad')
             // ->get();
-            $personas = \DB::table('users')
+            $personas_logueadas = \DB::table('users')
             ->select('users.id as id_usuario', 'users.nombre', 'users.paterno','users.materno', 'users.ci')
             ->get();
-            $view->with('personas', $personas);
+            $view->with('personas_logueadas', $personas_logueadas);
         });
     }
 

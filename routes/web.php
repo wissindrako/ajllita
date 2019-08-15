@@ -32,11 +32,25 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('form_agregar_persona', 'PersonasController@form_agregar_persona');
     Route::post('agregar_persona', 'PersonasController@agregar_persona');
 
+    Route::get('form_editar_persona/{id_persona}', 'PersonasController@form_editar_persona');
+    Route::post('editar_persona', 'PersonasController@editar_persona');
+
+    Route::get('form_baja_persona/{id_persona}', 'PersonasController@form_baja_persona');
+
+    Route::get('listado_personas', 'PersonasController@listado_personas');
+    Route::post('buscar_persona', 'PersonasController@buscar_persona');
+
+    Route::post('baja_persona', 'PersonasController@baja_persona');
+
+
+
+    Route::get('form_asignar_usuario_mesa', 'MesasController@form_asignar_usuario_mesa');
+
     Route::get('agregar_usuario', 'UsuariosController@agregar_usuario');
 
 
     Route::get('consultaDistritos/{id_circunscripcion}', 'RecintosController@consultaDistritos');
-    Route::get('consultaRecintos/{id_distrito}', 'RecintosController@consultaRecintos');
+    Route::get('consultaRecintos/{id_distrito}/{id_circunscripcion}', 'RecintosController@consultaRecintos');
     Route::get('consultaSubOrigen/{id_origen}', 'PersonasController@consultaSubOrigen');
 
     Route::get('/listado_usuarios', 'UsuariosController@listado_usuarios');
@@ -84,7 +98,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('plato_mas_vendido', 'EncuestasController@plato_mas_vendido');
     Route::get('reporte_plato_genero', 'EncuestasController@reporte_plato_genero');
     Route::get('plato_genero', 'EncuestasController@plato_genero');
-    Route::get('asistencia', 'EncuestasController@asistencia');
+    // Route::get('asistencia', 'EncuestasController@asistencia');
     Route::get('reporte_final', 'EncuestasController@reporte_final');
 
 
@@ -116,9 +130,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('crear_contacto', 'DirectorioController@crear_contacto');
     Route::post('editar_contacto', 'DirectorioController@editar_contacto');
 
-    Route::post('buscar_persona', 'DirectorioController@buscar_persona');
-    Route::get('listado_personas/{filtro?}/{orden?}', 'DirectorioController@listado_personas');
-    Route::any('buscar_persona', 'DirectorioController@buscar_persona');
+    // Route::post('buscar_persona', 'DirectorioController@buscar_persona');
+    // Route::get('listado_personas/{filtro?}/{orden?}', 'DirectorioController@listado_personas');
+    // Route::any('buscar_persona', 'DirectorioController@buscar_persona');
 
     Route::resource('listado_empresas', 'DirectorioController@listado_empresas');
     Route::resource('listado_empresas_data', 'DirectorioController@data_empresas');

@@ -8,53 +8,79 @@
 @section('main-content')
 <section  id="contenido_principal">
 
-<div class="box box-success">
+<div class="box box-primary">
 		<div class="box-header">
-				<h3 class="box-title">Lista de Personas</h3>	
-		
-		  <div class="box-tools">
-			{{-- <div class="input-group input-group-sm" style="width: 150px;">
-			  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-
-			  <div class="input-group-btn">
-				<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-			  </div>
-			</div> --}}
-		  </div>
+				<h3 class="box-title">Listado de Personas</h3>	
+	
+			<div class="box-header">
+				<h4 class="box-title">Usuarios</h4>	        
+				<form   action="{{ url('buscar_persona') }}"  method="post"  >
+					<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> 
+					<div class="input-group input-group-sm">
+						<input type="text" class="form-control" id="dato_buscado" name="dato_buscado" required>
+						<span class="input-group-btn">
+						<input type="submit" class="btn btn-primary" value="buscar" >
+						</span>
+					</div>
+				</form>
+			</div>
 		</div>
 		<!-- /.box-header -->
-		{{-- {{dd($personal)}} --}}
+		{{-- {{dd($personas)}} --}}
 		<div class="box-body table-responsive no-padding">
 		  <table class="table table-hover table-striped table-bordered">
 			<tbody>
-			<tr>
-				{{-- <th colspan="5" style="text-align:center;">Datos de la persona</th> --}}
-				<th>Fecha</th>
-				<th>Días de Vacación</th>
-				<th></th>
-			</tr>
+
 			<tr>
 				<th>ID</th>
-				<th>Unidad</th>
-				<th>Nombre</th>
+				<th>Nombre Completo</th>
+				<th>Cedula de Identidad</th>
+				<th>Fecha nacimiento</th>
+				<th>Telf. Cel.</th>
+				<th>Telf. Ref.</th>
+				{{-- <th>Email</th> --}}
+				<th>Dirección</th>
+				<th>Compromiso</th>
+				<th>Fecha de Registro</th>
+				<th>Activo</th>
+				<th>Recinto</th>
+				<th>Origen</th>
+				<th>Sub Origen</th>
+				<th>Rol</th>
+				<th colspan="2">Acción</th>
 			</tr>
 			{{-- // ->where('personal.idarea', $persona->idarea)
 			// ->where('vacaciones.id_estado', '=' ,1) --}}
-			@php
-					$count = 0;
-			@endphp
-			@foreach ($personal as $p)
-				@if ($p->id_usuario != $usuario->id)
+
+			@foreach ($personas as $p)
 				<tr>
-					<td>{{$p->id_solicitud}}</td>
-					<td>{{$p->sigla}}</td>
+					<td>{{$p->id_persona}}</td>
 					<td>{{$p->nombre.' '.$p->paterno.' '.$p->materno}}</td>
-					<td>{{f_formato($p->fechaingreso)}}</td>
-					<td>{{$p->item}}</td>
-					<td>{{f_formato($p->fecha_solicitud)}}</td>
-					<td>{{f_formato_array($p->fechas)}}</td>
-					<td>{{$p->dias}}</td>
-					@if ($p->estado == 'SOLICITADA')
+					<td>{{$p->cedula_identidad}} {{$p->complemento_cedula}} {{$p->expedido}}</td>
+					<td>{{f_formato($p->fecha_nacimiento)}}</td>
+					<td>{{$p->telefono_celular}}</td>
+					<td>{{$p->telefono_referencia}}</td>
+					{{-- <td>{{$p->email}}</td> --}}
+					<td>{{$p->direccion}}</td>
+					<td>{{$p->grado_compromiso}}</td>
+					<td>{{f_formato($p->fecha_registro)}}</td>
+					<td>{{$p->activo}}</td>
+					<td>{{$p->nombre_recinto}}</td>
+					<td>{{$p->origen}}</td>
+					<td>{{$p->sub_origen}}</td>
+					<td>{{$p->nombre_rol}}</td>
+					
+					@if ($p->activo == 1)
+					<td><button type="button" class="btn btn-success btn-xs" onclick="verinfo_persona({{ $p->id_persona }}, 1)" ><i class="fa fa-pencil-square-o"></i></button></td>
+					<td><button type="button" class="btn btn-danger btn-xs" onclick="verinfo_persona({{ $p->id_persona }}, 2)" ><i class="fa fa-fw fa-user-times"></i></button></td>
+					@else
+					<td><button disabled type="button" class="btn btn-success btn-xs" ><i class="fa fa-pencil-square-o"></i></button></td>
+					<td><button disabled type="button" class="btn btn-danger btn-xs"  ><i class="fa fa-fw fa-user-times"></i></button></td>
+					@endif
+					
+
+
+					{{-- @if ($p->estado == 'SOLICITADA')
 					<td><span class="badge bg-blue">{{$p->estado}}</span></td>
 					<td><button type="button" class="btn  btn-default btn-xs" disabled><i class="fa fa-fw fa-edit"></i></button></td>
 					@endif
@@ -69,24 +95,20 @@
 					@if ($p->estado == 'RECHAZADA')
 					<td><span class="badge bg-red">{{$p->estado}}</span></td>
 					<td><button type="button" class="btn  btn-default btn-xs" disabled ><i class="fa fa-fw fa-edit"></i></button></td>
-					@endif
+					@endif --}}
 				</tr>
-				@endif
-					@php
-							$count++;
-					@endphp
 			@endforeach
 
 			</tbody></table>
-			@if ($count == 0)
+			@if (count($personas) == 0)
 			<div class="box box-primary col-xs-12">
 				<div class='aprobado' style="margin-top:70px; text-align: center">
 				<label style='color:#177F6B'>
-											... no se encontraron resultados para su busqueda...
+					... no se encontraron resultados para su busqueda...
 				</label> 
 				</div>
 			</div> 
-		@endif
+			@endif
 		</div>
 		<!-- /.box-body -->
 	  </div>

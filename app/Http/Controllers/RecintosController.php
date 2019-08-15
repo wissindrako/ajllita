@@ -13,16 +13,18 @@ class RecintosController extends Controller
         ->select('distrito')
         ->where('circunscripcion', $id_circunscripcion)
         ->distinct()
+        ->orderBy('distrito', 'asc')
         ->get();
         
         return $distritos;
     }
-    public function consultaRecintos($id_distrito){
+    public function consultaRecintos($id_distrito, $id_circunscripcion){
         $recintos = \DB::table('recintos')
         ->select('id_recinto', 'nombre')
+        ->where('circunscripcion', $id_circunscripcion)
         ->where('distrito', $id_distrito)
+        ->orderBy('id_recinto', 'asc')
         ->get();
-
         return $recintos;
     }
 }

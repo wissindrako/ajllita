@@ -1,0 +1,479 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Auth;
+
+class VotacionesController extends Controller
+{
+  public function form_votar_seleccionar_mesa(){
+    //Tomamos el id del usuario
+    $id_usuario = Auth::user()->id;
+    $id_usuario = 45;
+
+    //Tomamos las mesas y los registros intorducidos
+    $mesas = \DB::table('rel_usuario_mesa')
+    ->leftjoin('mesas', 'rel_usuario_mesa.id_mesa', '=', 'mesas.id_mesa')
+    ->where('id_usuario', $id_usuario)
+    ->where('activo', 1)
+    ->select('mesas.id_mesa', 'mesas.codigo_mesas_oep', 'mesas.codigo_ajllita', 'mesas.numero_votantes',
+                \DB::raw("(SELECT COUNT(id_votos_presidenciales) FROM votos_presidenciales WHERE id_mesa=mesas.id_mesa) as registros_presidenciales"),
+                \DB::raw("(SELECT COUNT(id_votos_presidenciales_r) FROM votos_presidenciales_r WHERE id_mesa=mesas.id_mesa) as registros_presidenciales_r"),
+                \DB::raw("(SELECT COUNT(id_votos_uninominales) FROM votos_uninominales WHERE id_mesa=mesas.id_mesa) as registros_uninominales"),
+                \DB::raw("(SELECT COUNT(id_votos_uninominales_r) FROM votos_uninominales_r WHERE id_mesa=mesas.id_mesa) as registros_uninominales_r"),
+                \DB::raw("(SELECT SUM(validos) FROM votos_presidenciales WHERE id_mesa=mesas.id_mesa) as suma_presidenciales"),
+                \DB::raw("(SELECT nulos FROM votos_presidenciales_r WHERE id_mesa=mesas.id_mesa) as suma_presidenciales_nulos"),
+                \DB::raw("(SELECT blancos FROM votos_presidenciales_r WHERE id_mesa=mesas.id_mesa) as suma_presidenciales_blancos"),
+                \DB::raw("(SELECT SUM(validos) FROM votos_uninominales WHERE id_mesa=mesas.id_mesa) as suma_uninominales"),
+                \DB::raw("(SELECT nulos FROM votos_uninominales_r WHERE id_mesa=mesas.id_mesa) as suma_uninominales_nulos"),
+                \DB::raw("(SELECT blancos FROM votos_uninominales_r WHERE id_mesa=mesas.id_mesa) as suma_uninominales_blancos")
+              )
+    ->get();
+
+    $cantidad_partidos = \DB::table('partidos')
+                            ->count('id_partido');
+
+    return view("formularios.form_votar_seleccionar_mesa")
+          ->with("mesas",$mesas)
+          ->with("cantidad_partidos",$cantidad_partidos);
+  }
+
+  public function form_votar_seleccionar_tipo(Request $request){
+    //Tomamos los datos de la mesa
+    $mesas = \DB::table('mesas')
+    ->select('id_mesa', 'codigo_mesas_oep')
+    ->where('id_mesa', $request->id_mesa)
+    ->get();
+
+    return view("formularios.form_votar_seleccionar_tipo")
+          ->with("mesas",$mesas);
+  }
+
+
+  public function form_votar_presidencial(Request $request){
+    //Tomamos los datos de la mesa
+    $mesas = \DB::table('mesas')
+    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+    ->where('id_mesa', $request->id_mesa)
+    ->get();
+
+    foreach ($mesas as $mesa) {
+      $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+    }
+
+    //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
+    $partidos = \DB::table('partidos')->get();
+
+    $votos_introducidos = \DB::table('votos_presidenciales')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('id_partido', 'validos')
+                              ->get();
+
+    /*$partidos = \DB::table('partidos')
+                    ->leftjoin('votos_presidenciales', 'partidos.id_partido', '=', 'votos_presidenciales.id_partido')
+                    ->where('votos_presidenciales.id_mesa', $request->id_mesa)
+                    ->select('partidos.id_partido', 'partidos.nombre', 'partidos.sigla', 'partidos.logo', 'votos_presidenciales.validos')
+                    ->get();*/
+
+    $votos_introducidos_nyb = \DB::table('votos_presidenciales_r')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('nulos', 'blancos')
+                              ->get();
+
+    return view("formularios.form_votar_presidencial")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep)
+          ->with("partidos",$partidos)
+          ->with("votos_introducidos",$votos_introducidos)
+          ->with("votos_introducidos_nyb",$votos_introducidos_nyb);
+  }
+
+  public function form_votar_presidencial_partido(Request $request){
+    //Tomamos los datos de la mesa
+    $mesas = \DB::table('mesas')
+              ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+              ->where('id_mesa', $request->id_mesa)
+              ->get();
+
+    foreach ($mesas as $mesa) {
+      $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+      $numero_votantes = $mesa->numero_votantes;
+    }
+
+    //Tomamos los datos del partido
+    $sigla_partido = \DB::table('partidos')
+                    ->where('id_partido', $request->id_partido)
+                    ->value('sigla');
+
+    //Tomamos el valor ingresado para el partido y mesa dado
+    $validos = \DB::table('votos_presidenciales')
+                    ->where('id_mesa', $request->id_mesa)
+                    ->where('id_partido', $request->id_partido)
+                    ->value('validos');
+
+    return view("formularios.form_votar_presidencial_partido")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep)
+          ->with("numero_votantes",$numero_votantes)
+          ->with("id_partido",$request->id_partido)
+          ->with("sigla_partido",$sigla_partido)
+          ->with("validos",$validos);
+  }
+
+  public function votar_presidencial_partido(Request $request){
+    //Verificamos si se hizo el registro previamente
+    $id_votos_presidenciales = \DB::table('votos_presidenciales')
+                ->where('id_mesa', $request->id_mesa)
+                ->where('id_partido', $request->id_partido)
+                ->value('id_votos_presidenciales');
+
+    //Si no existe el registro, lo creamos, caso contrario lo actualizamos
+    if ($id_votos_presidenciales == "") {
+      //Realizamos el registro
+      \DB::table('votos_presidenciales')->insert([
+          ['id_mesa' => $request->id_mesa,
+           'id_partido' => $request->id_partido,
+           'validos' => $request->validos,
+           'id_usuario' => Auth::user()->id]
+      ]);
+    }
+    else {
+      \DB::table('votos_presidenciales')
+            ->where('id_mesa', $request->id_mesa)
+            ->where('id_partido', $request->id_partido)
+            ->update(['validos' => $request->validos,
+                      'id_usuario' => Auth::user()->id]);
+    }
+
+    //Tomamos los datos de la mesa
+    $mesas = \DB::table('mesas')
+    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+    ->where('id_mesa', $request->id_mesa)
+    ->get();
+
+    foreach ($mesas as $mesa) {
+      $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+    }
+
+    //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
+    $partidos = \DB::table('partidos')->get();
+
+    $votos_introducidos = \DB::table('votos_presidenciales')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('id_partido', 'validos')
+                              ->get();
+
+    $votos_introducidos_nyb = \DB::table('votos_presidenciales_r')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('nulos', 'blancos')
+                              ->get();
+
+    return view("formularios.form_votar_presidencial")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep)
+          ->with("partidos",$partidos)
+          ->with("votos_introducidos",$votos_introducidos)
+          ->with("votos_introducidos_nyb",$votos_introducidos_nyb);
+  }
+
+  public function form_votar_presidencial_nyb(Request $request){
+    //Tomamos los datos de la mesa
+    $mesas = \DB::table('mesas')
+              ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+              ->where('id_mesa', $request->id_mesa)
+              ->get();
+
+    foreach ($mesas as $mesa) {
+      $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+      $numero_votantes = $mesa->numero_votantes;
+    }
+
+    //Tomamos el registro de nulos y blancos
+    $votos_introducidos_nyb = \DB::table('votos_presidenciales_r')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('nulos', 'blancos')
+                              ->get();
+
+    //Inicializamos para evitar error de variable indefinida
+    $nulos = 0;
+    $blancos = 0;
+
+    foreach ($votos_introducidos_nyb as $voto_introducido_nyb) {
+      $nulos = $voto_introducido_nyb->nulos;
+      $blancos = $voto_introducido_nyb->blancos;
+    }
+
+    return view("formularios.form_votar_presidencial_nyb")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep)
+          ->with("numero_votantes",$numero_votantes)
+          ->with("nulos",$nulos)
+          ->with("blancos",$blancos);
+  }
+
+  public function votar_presidencial_nyb(Request $request){
+    //Verificamos si se hizo el registro previamente
+    $id_votos_presidenciales_nyb = \DB::table('votos_presidenciales_r')
+                ->where('id_mesa', $request->id_mesa)
+                ->value('id_votos_presidenciales_r');
+
+    //Si no existe el registro, lo creamos, caso contrario lo actualizamos
+    if ($id_votos_presidenciales_nyb == "") {
+      //Realizamos el registro
+      \DB::table('votos_presidenciales_r')->insert([
+          ['id_mesa' => $request->id_mesa,
+           'nulos' => $request->nulos,
+           'blancos' => $request->blancos,
+           'id_usuario' => Auth::user()->id]
+      ]);
+    }
+    else {
+      \DB::table('votos_presidenciales_r')
+            ->where('id_mesa', $request->id_mesa)
+            ->update(['nulos' => $request->nulos,
+                      'blancos' => $request->blancos,
+                      'id_usuario' => Auth::user()->id]);
+    }
+
+    //Tomamos los datos de la mesa
+    $mesas = \DB::table('mesas')
+    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+    ->where('id_mesa', $request->id_mesa)
+    ->get();
+
+    foreach ($mesas as $mesa) {
+      $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+    }
+
+    //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
+    $partidos = \DB::table('partidos')->get();
+
+    $votos_introducidos = \DB::table('votos_presidenciales')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('id_partido', 'validos')
+                              ->get();
+
+    $votos_introducidos_nyb = \DB::table('votos_presidenciales_r')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('nulos', 'blancos')
+                              ->get();
+
+    return view("formularios.form_votar_presidencial")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep)
+          ->with("partidos",$partidos)
+          ->with("votos_introducidos",$votos_introducidos)
+          ->with("votos_introducidos_nyb",$votos_introducidos_nyb);
+  }
+
+  public function form_votar_uninominal(Request $request){
+    //Tomamos los datos de la mesa
+    $mesas = \DB::table('mesas')
+    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+    ->where('id_mesa', $request->id_mesa)
+    ->get();
+
+    foreach ($mesas as $mesa) {
+      $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+    }
+
+    //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
+    $partidos = \DB::table('partidos')->get();
+
+    $votos_introducidos = \DB::table('votos_uninominales')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('id_partido', 'validos')
+                              ->get();
+
+    $votos_introducidos_nyb = \DB::table('votos_uninominales_r')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('nulos', 'blancos')
+                              ->get();
+
+    return view("formularios.form_votar_uninominal")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep)
+          ->with("partidos",$partidos)
+          ->with("votos_introducidos",$votos_introducidos)
+          ->with("votos_introducidos_nyb",$votos_introducidos_nyb);
+  }
+
+  public function form_votar_uninominal_partido(Request $request){
+    //Tomamos los datos de la mesa
+    $mesas = \DB::table('mesas')
+              ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+              ->where('id_mesa', $request->id_mesa)
+              ->get();
+
+    foreach ($mesas as $mesa) {
+      $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+      $numero_votantes = $mesa->numero_votantes;
+    }
+
+    //Tomamos los datos del partido
+    $sigla_partido = \DB::table('partidos')
+                    ->where('id_partido', $request->id_partido)
+                    ->value('sigla');
+
+    //Tomamos el valor ingresado para el partido y mesa dado
+    $validos = \DB::table('votos_uninominales')
+                    ->where('id_mesa', $request->id_mesa)
+                    ->where('id_partido', $request->id_partido)
+                    ->value('validos');
+
+    return view("formularios.form_votar_uninominal_partido")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep)
+          ->with("numero_votantes",$numero_votantes)
+          ->with("id_partido",$request->id_partido)
+          ->with("sigla_partido",$sigla_partido)
+          ->with("validos",$validos);
+  }
+
+  public function votar_uninominal_partido(Request $request){
+    //Verificamos si se hizo el registro previamente
+    $id_votos_uninominales = \DB::table('votos_uninominales')
+                ->where('id_mesa', $request->id_mesa)
+                ->where('id_partido', $request->id_partido)
+                ->value('id_votos_uninominales');
+
+    //Si no existe el registro, lo creamos, caso contrario lo actualizamos
+    if ($id_votos_uninominales == "") {
+      //Realizamos el registro
+      \DB::table('votos_uninominales')->insert([
+          ['id_mesa' => $request->id_mesa,
+           'id_partido' => $request->id_partido,
+           'validos' => $request->validos,
+           'id_usuario' => Auth::user()->id]
+      ]);
+    }
+    else {
+      \DB::table('votos_uninominales')
+            ->where('id_mesa', $request->id_mesa)
+            ->where('id_partido', $request->id_partido)
+            ->update(['validos' => $request->validos,
+                      'id_usuario' => Auth::user()->id]);
+    }
+
+    //Tomamos los datos de la mesa
+    $mesas = \DB::table('mesas')
+    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+    ->where('id_mesa', $request->id_mesa)
+    ->get();
+
+    foreach ($mesas as $mesa) {
+      $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+    }
+
+    //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
+    $partidos = \DB::table('partidos')->get();
+
+    $votos_introducidos = \DB::table('votos_uninominales')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('id_partido', 'validos')
+                              ->get();
+
+    $votos_introducidos_nyb = \DB::table('votos_uninominales_r')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('nulos', 'blancos')
+                              ->get();
+
+    return view("formularios.form_votar_uninominal")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep)
+          ->with("partidos",$partidos)
+          ->with("votos_introducidos",$votos_introducidos)
+          ->with("votos_introducidos_nyb",$votos_introducidos_nyb);
+  }
+
+  public function form_votar_uninominal_nyb(Request $request){
+    //Tomamos los datos de la mesa
+    $mesas = \DB::table('mesas')
+              ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+              ->where('id_mesa', $request->id_mesa)
+              ->get();
+
+    foreach ($mesas as $mesa) {
+      $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+      $numero_votantes = $mesa->numero_votantes;
+    }
+
+    //Tomamos el registro de nulos y blancos
+    $votos_introducidos_nyb = \DB::table('votos_uninominales_r')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('nulos', 'blancos')
+                              ->get();
+
+    //Inicializamos para evitar error de variable indefinida
+    $nulos = 0;
+    $blancos = 0;
+    foreach ($votos_introducidos_nyb as $voto_introducido_nyb) {
+      $nulos = $voto_introducido_nyb->nulos;
+      $blancos = $voto_introducido_nyb->blancos;
+    }
+
+    return view("formularios.form_votar_uninominal_nyb")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep)
+          ->with("numero_votantes",$numero_votantes)
+          ->with("nulos",$nulos)
+          ->with("blancos",$blancos);
+  }
+
+  public function votar_uninominal_nyb(Request $request){
+    //Verificamos si se hizo el registro previamente
+    $id_votos_uninominales_nyb = \DB::table('votos_uninominales_r')
+                ->where('id_mesa', $request->id_mesa)
+                ->value('id_votos_uninominales_r');
+
+    //Si no existe el registro, lo creamos, caso contrario lo actualizamos
+    if ($id_votos_uninominales_nyb == "") {
+      //Realizamos el registro
+      \DB::table('votos_uninominales_r')->insert([
+          ['id_mesa' => $request->id_mesa,
+           'nulos' => $request->nulos,
+           'blancos' => $request->blancos,
+           'id_usuario' => Auth::user()->id]
+      ]);
+    }
+    else {
+      \DB::table('votos_uninominales_r')
+            ->where('id_mesa', $request->id_mesa)
+            ->update(['nulos' => $request->nulos,
+                      'blancos' => $request->blancos,
+                      'id_usuario' => Auth::user()->id]);
+    }
+
+    //Tomamos los datos de la mesa
+    $mesas = \DB::table('mesas')
+    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+    ->where('id_mesa', $request->id_mesa)
+    ->get();
+
+    foreach ($mesas as $mesa) {
+      $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+    }
+
+    //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
+    $partidos = \DB::table('partidos')->get();
+
+    $votos_introducidos = \DB::table('votos_uninominales')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('id_partido', 'validos')
+                              ->get();
+
+    $votos_introducidos_nyb = \DB::table('votos_uninominales_r')
+                              ->where('id_mesa', $request->id_mesa)
+                              ->select('nulos', 'blancos')
+                              ->get();
+
+    return view("formularios.form_votar_uninominal")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep)
+          ->with("partidos",$partidos)
+          ->with("votos_introducidos",$votos_introducidos)
+          ->with("votos_introducidos_nyb",$votos_introducidos_nyb);
+  }
+}

@@ -33,9 +33,11 @@
             <li class="treeview">
                 <a href="#"><i class='fa fa-user-plus'></i> <span>Registro</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ url('form_nuevo_contacto') }}">Personas</a></li>
+                    <li><a href="{{ url('form_agregar_persona') }}">Agregar Personas</a></li>
+                    <li><a href="{{ url('form_agregar_persona') }}">Editar Personas</a></li>
                     <li><a href="{{ url('listado_empresas') }}">Usuarios</a></li>
-                    <li><a href="{{ url('listado_personas') }}">Transporte</a></li>
+                    <li><a href="{{ url('form_agregar_transporte') }}">Agregar Transporte</a></li>
+                    <li><a href="{{ url('listado_personas') }}">Editar Transporte</a></li>
                     <li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
                     <li><a href="{{ url('listado_personas') }}">Candidatos</a></li>
                 </ul>
@@ -54,15 +56,27 @@
             </li>
 
             <li class="treeview">
-                <a href="{{ url('form_nuevo_contacto') }}"><i class='fa fa-edit'></i> <span>Crear lista de asistencia</span> </a>
+                <a href="#"><i class='fa fa-eye'></i> <span>Revisar</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('revisar_transportes') }}">Medios de Transporte Registrados</a></li>
+                    <li><a href="{{ url('revisar_transportes_asistencia') }}">Medios de Transporte (Asistencia)</a></li>
+                </ul>
             </li>
 
             <li class="treeview">
-                <a href="{{ url('form_nuevo_contacto') }}"><i class='fa fa-calendar-check-o'></i> <span>Registrar asistencia</span> </a>
+                <a href="#"><i class='fa fa-edit'></i> <span>Asistencia</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('form_agregar_lista_de_asistencia') }}">Crear lista de asistencia</a></li>
+                    <li><a href="{{ url('form_listas_de_asistencia') }}">Ver listas de asistencia</a></li>
+                </ul>
             </li>
 
             <li class="treeview">
-                <a href="{{ url('form_nuevo_contacto') }}"><i class='fa fa-list-ol'></i> <span>Registrar votos</span> </a>
+                <a href="{{ url('form_registrar_asistencia') }}"><i class='fa fa-calendar-check-o'></i> <span>Registrar asistencia</span> </a>
+            </li>
+
+            <li class="treeview">
+                <a href="{{ url('form_votar_seleccionar_mesa') }}"><i class='fa fa-list-ol'></i> <span>Registrar votos</span> </a>
             </li>
 
             <li class="treeview">

@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         view()->composer('*', function($view) {
-            $personas = \DB::table('users')
+            $personas_logueadas = \DB::table('users')
             /*->join('users', 'personal.cedula', '=', 'users.ci')
             ->join('areas', 'personal.idarea', '=', 'areas.idarea')
             ->join('unidades', 'areas.idunidad', '=', 'unidades.id')*/

@@ -10,11 +10,11 @@
 
 <div class="box box-primary">
 		<div class="box-header">
-				<h3 class="box-title">Listado de Personas</h3>	
+				<h3 class="box-title">Listado de Personas - Asignacion</h3>	
 	
 			<div class="box-header">
 				<h4 class="box-title">Usuarios</h4>	        
-				<form   action="{{ url('buscar_persona') }}"  method="post"  >
+				<form   action="{{ url('buscar_persona_asignacion') }}"  method="post"  >
 					<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> 
 					<div class="input-group input-group-sm">
 						<input type="text" class="form-control" id="dato_buscado" name="dato_buscado" required>
@@ -35,11 +35,11 @@
 				<th>ID</th>
 				<th>Nombre Completo</th>
 				<th>Cedula de Identidad</th>
-				<th>Fecha nacimiento</th>
-				<th>Telf. Cel.</th>
-				<th>Telf. Ref.</th>
+				{{-- <th>Fecha nacimiento</th> --}}
+				{{-- <th>Telf. Cel.</th> --}}
+				{{-- <th>Telf. Ref.</th> --}}
 				{{-- <th>Email</th> --}}
-				<th>Dirección</th>
+				{{-- <th>Dirección</th> --}}
 				<th>Compromiso</th>
 				<th>Fecha de Registro</th>
 				<th>Activo</th>
@@ -47,7 +47,7 @@
 				<th>Origen</th>
 				<th>Sub Origen</th>
 				<th>Rol</th>
-				<th colspan="2">Acción</th>
+				<th>Asignar</th>
 			</tr>
 			{{-- // ->where('personal.idarea', $persona->idarea)
 			// ->where('vacaciones.id_estado', '=' ,1) --}}
@@ -57,11 +57,11 @@
 					<td>{{$p->id_persona}}</td>
 					<td>{{$p->nombre.' '.$p->paterno.' '.$p->materno}}</td>
 					<td>{{$p->cedula_identidad}} {{$p->complemento_cedula}} {{$p->expedido}}</td>
-					<td>{{f_formato($p->fecha_nacimiento)}}</td>
+					{{-- <td>{{f_formato($p->fecha_nacimiento)}}</td>
 					<td>{{$p->telefono_celular}}</td>
-					<td>{{$p->telefono_referencia}}</td>
+					<td>{{$p->telefono_referencia}}</td> --}}
 					{{-- <td>{{$p->email}}</td> --}}
-					<td>{{$p->direccion}}</td>
+					{{-- <td>{{$p->direccion}}</td> --}}
 					<td>{{$p->grado_compromiso}}</td>
 					<td>{{f_formato($p->fecha_registro)}}</td>
 					<td>{{$p->activo}}</td>
@@ -71,11 +71,11 @@
 					<td>{{$p->nombre_rol}}</td>
 					
 					@if ($p->activo == 1)
-					<td><button type="button" class="btn btn-success btn-xs" onclick="verinfo_persona({{ $p->id_persona }}, 1)" ><i class="fa fa-pencil-square-o"></i></button></td>
-					<td><button type="button" class="btn btn-danger btn-xs" onclick="verinfo_persona({{ $p->id_persona }}, 2)" ><i class="fa fa-fw fa-user-times"></i></button></td>
+					<td><button type="button" class="btn btn-success btn-xs" onclick="verinfo_usuario({{ $p->id_persona }}, 20)" ><i class="fa fa-random"></i></button></td>
+					{{-- <td><button type="button" class="btn btn-danger btn-xs" onclick="verinfo_persona({{ $p->id_persona }}, 2)" ><i class="fa fa-fw fa-user-times"></i></button></td> --}}
 					@else
-					<td><button disabled type="button" class="btn btn-success btn-xs" ><i class="fa fa-pencil-square-o"></i></button></td>
-					<td><button disabled type="button" class="btn btn-danger btn-xs"  ><i class="fa fa-fw fa-user-times"></i></button></td>
+					<td><button disabled type="button" class="btn btn-success btn-xs" ><i class="fa fa-random"></i></button></td>
+					{{-- <td><button disabled type="button" class="btn btn-danger btn-xs"  ><i class="fa fa-fw fa-user-times"></i></button></td> --}}
 					@endif
 					
 
@@ -104,7 +104,7 @@
 			<div class="box box-primary col-xs-12">
 				<div class='aprobado' style="margin-top:70px; text-align: center">
 				<label style='color:#177F6B'>
-					... no se encontraron resultados para su busqueda...
+					... Realizar nueva busqueda ...
 				</label> 
 				</div>
 			</div> 

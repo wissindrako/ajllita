@@ -13,28 +13,12 @@
 
  <div class="margin" style="margin-top:50px; text-align:center;margin-bottom: 50px;">
     <div class="btn-group">
-        @if ($msj == 'enviado_gastronomia')
-        <a href="{{ url('/form_encuesta_gastronomia') }}" class="btn btn-success"    value=" "  > Nueva Encuesta</a>
+        @if ($msj == 'enviado_crear_persona')
+        <a href="{{ url('/form_agregar_persona') }}" class="btn btn-success"    value=" "  > Nueva Persona</a>
         @endif
 
-        @if ($msj == 'enviado_visitante')
-        <a href="{{ url('/form_encuesta_visitante') }}" class="btn btn-success"    value=" "  > Nueva Encuesta</a>
-        @endif
-
-        @if ($msj == 'enviado_literatura')
-        <a href="{{ url('/form_encuesta_literatura') }}" class="btn btn-success"    value=" "  > Nueva Encuesta</a>
-        @endif
-
-        @if ($msj == 'enviado_turismo')
-        <a href="{{ url('/form_encuesta_turismo') }}" class="btn btn-success"    value=" "  > Nueva Encuesta</a>
-        @endif
-        
-        @if ($msj == 'enviado_productores')
-        <a href="{{ url('/form_encuesta_productores') }}" class="btn btn-success"    value=" "  > Nueva Encuesta</a>
-        @endif
-        
-        @if ($msj == 'enviado_artesania')
-        <a href="{{ url('/form_encuesta_artesania') }}" class="btn btn-success"    value=" "  > Nueva Encuesta</a>
+        @if ($msj == 'enviado_editar_persona')
+        <a href="{{ url('/listado_personas') }}" class="btn btn-success"    value=" "  > Regresar</a>
         @endif
       
     </div>

@@ -1,4 +1,24 @@
 $(document).ready(function(){
+
+  $("#id_origen").change(function(){
+    cargaSubOrigen();
+  });
+
+  function cargaSubOrigen(){
+    $(".sub_origen_json select").html("");
+    var id_origen = $("#id_origen").val();
+  
+    // console.log($("#anio").val());
+    $.getJSON("consultaSubOrigen/"+id_origen+"",{},function(objetosretorna){
+        $("#error").html("");
+        var TamanoArray = objetosretorna.length;
+        $(".sub_origen_json select").append('<option value="0"> --- SELECCIONE EL SUB ORIGEN --- </option>');
+        $.each(objetosretorna, function(i,value){
+            $(".sub_origen_json select").append('<option value="'+value.id_sub_origen+'">'+value.nombre+'</option>');
+        });
+    });
+  };
+  
   $("#id_circunscripcion").change(function(){
     cargaDistritos();
   });
@@ -29,10 +49,11 @@ function cargaDistritos(){
 
 function cargaRecintos(){
   $(".recinto_json select").html("");
+  var id_circunscripcion = $("#id_circunscripcion").val();
   var id_distrito = $("#id_distrito").val();
 
   // console.log($("#anio").val());
-  $.getJSON("consultaRecintos/"+id_distrito+"",{},function(objetosretorna){
+  $.getJSON("consultaRecintos/"+id_distrito+"/"+id_circunscripcion+"",{},function(objetosretorna){
       $("#error").html("");
       var TamanoArray = objetosretorna.length;
       $(".recinto_json select").append('<option value="0"> --- SELECCIONE EL RECINTO --- </option>');
@@ -626,9 +647,34 @@ function  sol_vacaciones(arg){
    }) ;
 }
 
+function  verinfo_persona(id, form){
+  var urlraiz=$("#url_raiz_proyecto").val();
+  if(form == 1){var miurl =urlraiz+"/form_editar_persona/"+id+""; }
+  if(form == 2){var miurl =urlraiz+"/form_baja_persona/"+id+""; }
+  
+	$("#capa_modal").show();
+	$("#capa_formularios").show();
+	var screenTop = $(document).scrollTop();
+	$("#capa_formularios").css('top', screenTop);
+  $("#capa_formularios").html($("#cargador_empresa").html());
+
+    $.ajax({
+    url: miurl
+    }).done( function(resul) 
+    {
+     $("#capa_formularios").html(resul);
+   
+    }).fail( function() 
+   {
+    $("#capa_formularios").html('<span>...Ha ocurrido un error, revise su conexión y vuelva a intentarlo...</span>');
+   }) ;
+}
+
 function  verinfo_usuario(id, form){
   var urlraiz=$("#url_raiz_proyecto").val();
   if(form == 1){var miurl =urlraiz+"/form_editar_usuario/"+id+""; }
+
+  if(form == 20){var miurl =urlraiz+"/form_asignar_usuario_mesa/"+id+""; }
 
   if(form == 4){var miurl =urlraiz+"/form_editar_gestion/"+id+""; }
   if(form == 7){var miurl =urlraiz+"/form_sol_vacacion_unidad/"+id+""; }
@@ -681,6 +727,8 @@ function cargar_formulario(arg){
    if(arg==3){ var miurl=urlraiz+"/form_nuevo_permiso"; }
    if(arg==4){ var miurl=urlraiz+"/form_nueva_gestion"; }
 
+   if(arg==20){ var miurl=urlraiz+"/form_asignar_usuario_mesa"; }
+
     $.ajax({
     url: miurl
     }).done( function(resul)
@@ -705,6 +753,10 @@ $(document).on("submit",".formentrada",function(e){
   var quien=$(this).attr("id");
   var formu=$(this);
   var varurl="";
+
+  if(quien=="f_enviar_agregar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
+  if(quien=="f_enviar_editar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
+  if(quien=="f_baja_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
 
   if(quien=="f_enviar_gastronomia"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_visitante"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
@@ -741,20 +793,27 @@ $(document).on("submit",".formentrada",function(e){
     dataType : 'html',
 
     success : function(resul) {
-
-      if(quien=="f_agregar_fechas"){
+      
+      if(quien=="f_baja_persona"){
         if (resul == 'ok') {
-                    // calendario();
-          refresh_calendar();
-          refresh_calendar_emergencias(id_sol);
-          estado_calendario(id_sol);
-          $('#btn_guarda_fecha').attr("disabled", false);
+          recargar();
         }
-        else if(resul == 'pasado'){
-          // alert('Está tratando de ingresar una fecha anterior?');
-          alertify.success('Está tratando de ingresar una fecha anterior?');
-          $('#btn_guarda_fecha').attr("disabled", false);
+        else if(resul == 'failed'){
+          $("#"+div_resul+"").html('ha ocurrido un error, revise su conexion e intentelo nuevamente');
         }
+      }else if(quien=="f_enviar_agregar_persona" || quien=="f_enviar_editar_persona"){
+        if (resul == 'failed') {
+          alertify.success('Ocurrió un error, revise su conexión');
+        }else if(resul == 'apellido'){
+          alertify.error('Debe ingresar al menos un apellido');
+        }else if(resul == 'cedula_repetida'){
+          alertify.error('El número de Carnet ya se encuentra registrado!');
+        }else if(resul == 'recinto'){
+        alertify.error('Seleccione un recinto');
+        }else{
+          $("#"+div_resul+"").html(resul);
+        }
+
       }else if(quien=="f_editar_tiempo" && resul == 'ok'){
         $('#ModalEdit').modal('hide');
         refresh_calendar();

@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
             ->select('users.id as id_usuario')
 //                    'areas.*', 'unidades.nombre as unidad', 'unidades.id as idunidad')
             ->get();
-            $view->with('personas', $personas);
+            $view->with('personas_logueadas', $personas_logueadas);
         });
     }
 

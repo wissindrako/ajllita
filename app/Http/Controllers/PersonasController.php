@@ -17,6 +17,7 @@ class PersonasController extends Controller
         $circunscripciones = \DB::table('recintos')
         ->select('circunscripcion')
         ->distinct()
+        ->orderBy('circunscripcion', 'asc')
         ->get();
 
         $origenes = \DB::table('origen')
@@ -279,6 +280,7 @@ class PersonasController extends Controller
     public function buscar_persona_asignacion(Request $request){
         $dato = $request->input("dato_buscado");
         $personas = Persona::join('recintos', 'personas.id_recinto', 'recintos.id_recinto')
+        ->leftjoin('users', 'personas.id_persona', 'users.id_persona')
         ->join('origen', 'personas.id_origen', 'origen.id_origen')
         ->leftjoin('sub_origen', 'personas.id_sub_origen', 'sub_origen.id_sub_origen')
         ->leftjoin('roles', 'personas.id_rol', 'roles.id')
@@ -289,10 +291,11 @@ class PersonasController extends Controller
         ->select('personas.*', 'recintos.id_recinto', 'recintos.nombre as nombre_recinto', 'recintos.circunscripcion', 'recintos.distrito',
         'recintos.zona', 'recintos.direccion as direccion_recinto',
         'origen.origen', 'sub_origen.nombre as sub_origen',
-        'roles.name as nombre_rol'
+        'roles.name as nombre_rol',
+        'users.activo as usuario_activo', 'users.name as codigo_usuario'
         )
-        ->orderBy('fecha_registro', 'desc')
         ->orderBy('id_persona', 'desc')
+        // ->orderBy('fecha_registro', 'desc')
         ->paginate(30);
         return view('listados.listado_personas_asignacion')->with("personas",$personas);
     }

@@ -735,6 +735,7 @@ $(document).on("submit",".formentrada",function(e){
   var formu=$(this);
   var varurl="";
 
+  if(quien=="f_asignar_usuario_mesa"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_agregar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_editar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_baja_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
@@ -781,6 +782,16 @@ $(document).on("submit",".formentrada",function(e){
         }
         else if(resul == 'failed'){
           $("#"+div_resul+"").html('ha ocurrido un error, revise su conexion e intentelo nuevamente');
+        }
+      }else if(quien=="f_asignar_usuario_mesa"){
+        if (resul == 'failed') {
+          alertify.success('Ocurrió un error, revise su conexión');
+        }else if (resul == 'mesas') {
+          alertify.success('Seleccione las mesas');
+        }else if(resul == 'ok'){
+          recargar();
+        }else{
+          $("#"+div_resul+"").html(resul);
         }
       }else if(quien=="f_enviar_agregar_persona" || quien=="f_enviar_editar_persona"){
         if (resul == 'failed') {

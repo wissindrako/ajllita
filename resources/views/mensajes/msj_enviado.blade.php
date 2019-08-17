@@ -23,7 +23,10 @@
       
     </div>
     <div class="btn-group" style="margin-left:50px; " >
-      <a href="{{ url('/') }}" class="btn btn-info"    value=" "  > Salir </a>
+      @if ($msj == 'enviado_crear_persona')
+      <a href="{{ url('/listado_personas') }}" class="btn btn-success"    value=" "  > Regresar</a>
+      @endif
+      {{-- <a href="{{ url('/') }}" class="btn btn-info"    value=" "  > Salir </a> --}}
     </div>
  </div> 
 

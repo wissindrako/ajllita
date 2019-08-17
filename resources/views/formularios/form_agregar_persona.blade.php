@@ -156,7 +156,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="text-black ">Organización de Origen</label>
-                                <select class="form-control" name="id_origen" id="id_origen">
+                                <select class="form-control" name="id_origen" id="id_origen" required>
+                                        <option value="" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
                                     @foreach ($origenes as $origen)
                                 <option value="{{$origen->id_origen}}">{{$origen->id_origen}} - {{$origen->origen}}</option>
                                     @endforeach

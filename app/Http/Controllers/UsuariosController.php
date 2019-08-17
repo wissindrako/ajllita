@@ -12,6 +12,8 @@ use Caffeinated\Shinobi\Models\Permission;
 use Auth;
 use DateTime;
 
+use App\Persona;
+
 use App\Personal;
 use App\Unidad;
 use App\Cargo;
@@ -248,7 +250,6 @@ public function crear_rol(Request $request){
                  'rol_descripcion.required' => 'la descripcion es obligatoria',
             ];
 
-
     $validator = Validator::make( $request->all(),$reglas,$mensajes );
     if( $validator->fails() ){ 
      
@@ -283,8 +284,6 @@ public function crear_permiso(Request $request){
     {
         return view("mensajes.mensaje_error")->with("msj","...Hubo un error al agregar ;...") ;
     }
-
-
 }
 
 public function asignar_permiso(Request $request){
@@ -414,7 +413,6 @@ public function form_borrado_usuario($id){
 
 }
 
-
 public function quitar_permiso($idrole,$idper){ 
     
     $role = Role::find($idrole);
@@ -431,6 +429,44 @@ public function borrar_rol($idrole){
     $role->delete();
     return "ok";
 }
+
+public function ObtieneUsuario($id_persona){
+    $persona = Persona::find($id_persona);
+
+    $ci = $persona->cedula_identidad.$persona->complemento_cedula;
+    $numero = 0;
+    $username = $ci;
+    while (User::where('name', '=', $username)->exists()) { // user found 
+        $username=$username.$numero;
+        $numero++;
+    }
+
+    //Quitar espacios en blanco
+    $username = str_replace(' ', '', $username); 
+    return $username;
+}
+
+public function ObtieneUsuarioMd5 ($circ, $distrito, $recinto)
+{
+    $circ = $circ."-".$distrito."-".$recinto;
+    $numero = 0;
+
+    $exp_reg="[^A-Z0-9]";   
+    $longitud = 4; 
+    $codigo = substr(preg_replace($exp_reg, "", md5($circ)).preg_replace($exp_reg, "", md5($distrito)).preg_replace($exp_reg, "", md5($recinto)),
+    0, $longitud);
+    
+    // $codigo = strtoupper(chr($i));
+
+    $username = strtolower($circ."-".$codigo);
+    
+    while (User::where('name', '=', $username)->exists()) { // user found 
+        $username=$username.$numero;
+        $numero++;
+    }
+    return $username;
+}
+
 
 
 }

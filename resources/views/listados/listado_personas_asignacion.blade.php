@@ -34,6 +34,7 @@
 			<tr>
 				<th>ID</th>
 				<th>Nombre Completo</th>
+				<th>Código</th>
 				<th>Cedula de Identidad</th>
 				{{-- <th>Fecha nacimiento</th> --}}
 				{{-- <th>Telf. Cel.</th> --}}
@@ -42,12 +43,12 @@
 				{{-- <th>Dirección</th> --}}
 				<th>Compromiso</th>
 				<th>Fecha de Registro</th>
-				<th>Activo</th>
+				<th>Persona/Usuario Activo</th>
 				<th>Recinto</th>
 				<th>Origen</th>
 				<th>Sub Origen</th>
 				<th>Rol</th>
-				<th>Asignar</th>
+				<th width="10%">Asignar</th>
 			</tr>
 			{{-- // ->where('personal.idarea', $persona->idarea)
 			// ->where('vacaciones.id_estado', '=' ,1) --}}
@@ -56,6 +57,7 @@
 				<tr>
 					<td>{{$p->id_persona}}</td>
 					<td>{{$p->nombre.' '.$p->paterno.' '.$p->materno}}</td>
+					<td>{{$p->codigo_usuario}}</td>
 					<td>{{$p->cedula_identidad}} {{$p->complemento_cedula}} {{$p->expedido}}</td>
 					{{-- <td>{{f_formato($p->fecha_nacimiento)}}</td>
 					<td>{{$p->telefono_celular}}</td>
@@ -64,17 +66,28 @@
 					{{-- <td>{{$p->direccion}}</td> --}}
 					<td>{{$p->grado_compromiso}}</td>
 					<td>{{f_formato($p->fecha_registro)}}</td>
-					<td>{{$p->activo}}</td>
+					@if ($p->usuario_activo != null)
+					<td>{{$p->activo}}/{{$p->usuario_activo}}</td>
+					@else
+					<td>{{$p->activo}}/0</td>
+					@endif
 					<td>{{$p->nombre_recinto}}</td>
 					<td>{{$p->origen}}</td>
 					<td>{{$p->sub_origen}}</td>
 					<td>{{$p->nombre_rol}}</td>
 					
-					@if ($p->activo == 1)
-					<td><button type="button" class="btn btn-success btn-xs" onclick="verinfo_usuario({{ $p->id_persona }}, 20)" ><i class="fa fa-random"></i></button></td>
+					@if ($p->activo == 1 && $p->usuario_activo == null)
+					<td><button type="button" class="btn btn-success btn-xs" onclick="verinfo_usuario({{ $p->id_persona }}, 20)" ><i class="fa fa-arrow-right"></i></button>
+					<button disabled type="button" class="btn btn-default btn-xs" ><i class="fa fa-arrow-right"></i></button></td>
 					{{-- <td><button type="button" class="btn btn-danger btn-xs" onclick="verinfo_persona({{ $p->id_persona }}, 2)" ><i class="fa fa-fw fa-user-times"></i></button></td> --}}
 					@else
-					<td><button disabled type="button" class="btn btn-success btn-xs" ><i class="fa fa-random"></i></button></td>
+					<td><button disabled type="button" class="btn btn-success btn-xs" ><i class="fa fa-arrow-right"></i></button>
+						@if ($p->activo == 1)
+						<button type="button" class="btn btn-default btn-xs" onclick="verinfo_usuario({{ $p->id_persona }}, 20)" ><i class="fa fa-arrow-right"></i></button></td>
+						@else
+						<button disabled type="button" class="btn btn-default btn-xs" ><i class="fa fa-arrow-right"></i></button></td>
+						@endif
+					
 					{{-- <td><button disabled type="button" class="btn btn-danger btn-xs"  ><i class="fa fa-fw fa-user-times"></i></button></td> --}}
 					@endif
 					

@@ -14,5 +14,4 @@ class DirectorioController extends Controller
         return view('listados.listado_personas');
     }
 
-
 }

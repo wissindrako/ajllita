@@ -37,49 +37,79 @@
                         <h4 class="text-black" >CEDULA: <b>{{$persona->cedula_identidad}} {{$persona->complemento_cedula}} {{$persona->expedido}}</b></h4 class="text-black" >
                         <h4 class="text-black" >GRADO DE COMPROMISO: <b>{{$persona->grado_compromiso}}</b></h4 class="text-black" >
                         <h4 class="text-black" >ORIGEN: <b>{{ $persona->origen }} - {{ $persona->sub_origen }}</b></h4 class="text-black" >
-                        <h4 class="text-black" >RECINTO: <b>C-{{ $persona->circunscripcion }} D-{{ $persona->distrito }} R-{{ $persona->nombre_recinto }}</b></h4 class="text-black" >
+                        <h4 class="text-black" >RECINTO: <b>C-{{ $persona->circunscripcion }} D-{{ $persona->distrito }} R-{{ $persona->id_recinto }}: {{ $persona->nombre_recinto }}</b></h4 class="text-black" >
                         
-
-                    <form action="{{ url('editar_persona') }}"  method="post" id="f_enviar_editar_persona" class="formentrada" >
+                    <form action="{{ url('asignar_usuario_mesa') }}"  method="post" id="f_asignar_usuario_mesa" class="formentrada" >
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                      <input type="hidden" name="id_persona" value="{{ $persona->id_persona }}">
-
+                      <input type="hidden" name="id_persona" id="id_persona" value="{{ $persona->id_persona }}">
+                      <input type="hidden" name="cedula_identidad" id="cedula_identidad" value="{{ $persona->cedula_identidad }}">
+                      <input type="hidden" name="complemento_cedula" id="complemento_cedula" value="{{ $persona->complemento_cedula }}">
+                        <div class="col-md-12">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="text-black">Rol</label>
+                                <div class="form-group bg-gray">
+                                    <select  class="form-control" name="rol_slug" id="rol_slug">
+                                        @foreach ($roles as $rol)
+                                    <option value={{$rol->id}} {{$rol->slug == 'delegado_mas' ? 'selected' : ''}}>{{$rol->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label class="text-black ">Circuns.</label>
-                                <select class="form-control" name="id_circunscripcion" id="id_circunscripcion">
+                                <select class="form-control" name="circunscripcion" id="id_circunscripcion">
                                     <option value="0" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
+                                    @foreach ($circunscripciones as $circ)
+                                    <option value="{{$circ->circunscripcion}}">{{$circ->circunscripcion}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group distrito_json">
                                 <label class="text-black ">Distrito</label>
-                                <select class="form-control" name="id_distrito" id="id_distrito">
-
+                                <select class="form-control" name="distrito" id="id_distrito">
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-8">
                             <div class="form-group recinto_json">
                                 <label class="text-black">Recinto</label>
-                                <select class="form-control" name="recinto">
+                                <select class="form-control" name="recinto" id="id_recinto">
                                     {{-- @foreach ($recintos as $recinto)
                                     <option value={{$recinto->id_recinto}} {{ $persona->id_recinto == $recinto->id_recinto ? 'selected' : '' }}>{{$recinto->id_recinto}} - {{$recinto->nombre_recinto}}</option>
                                     @endforeach --}}
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="text-black">Mesas - Recinto</label>
+                                <div class="form-group bg-gray mesas_json">
+                                    <select  multiple="" class="form-control" name="mesas[]" id="id_mesa">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- <div class="col-md-12">
+                            <br>
+                        </div> --}}
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label >Usuario</label>
-                                <input type="input" name="nombres" placeholder="" class="form-control" value="{{ $persona->nombre }}"  required/>
+                                <label class="text-black" >Usuario</label>
+                                <input type="input" name="username" id="username" placeholder="" class="form-control" value=""  required/>
+                                <button type="button" class="btn btn-xs btn-info" id="generar_usuario">Generar Usuario</button>  
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label >Password</label>
-                                <input type="input" name="cedula" placeholder="" class="form-control" value="{{ $persona->cedula_identidad }}" required/>
+                                <label class="text-black">Password</label>
+                                <input type="password" name="password" id="password" placeholder="" class="form-control" value="" required/>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -99,23 +129,69 @@
 
 <script>
   $(document).ready(function() {
-    var id_sol = $("#id_solicitud").val();
-    
-    $("#id_origen").change(function(){
-        cargaSubOrigen();
+
+    document.getElementById('generar_usuario').onclick = function(){
+        
+        var id_persona = $("#id_persona").val();
+        var id_recinto = $("#id_recinto").val();
+        if (id_recinto != null) {
+        $.ajax({
+            type:'get',
+            // url:"ObtieneUsuarioMd5/"+id_circunscripcion+"/"+id_distrito+"/"+id_recinto+"",
+            url:"ObtieneUsuario/"+id_persona+"",
+            data:{},
+            success: function(result){
+                // alertify.success("Nombre de usuario y Contraseña:"+result);
+                $("#username").val(result);
+                $("#password").val(result);
+            }
+        });
+
+        }else {
+            alertify.success("Seleccione el recinto y las mesas");
+        }
+    };
+
+    $("#rol_slug").change(function(){
+        //id obtenido de la base de datos "campo : slug"
+        var rol_slug = $("#rol_slug").val();
+        
+        if (rol_slug == 'conductor') {
+            
+        }else if(rol_slug == 'conductor'){
+            
+        }else if(rol_slug == 'conductor'){
+            
+        }else if(rol_slug == 'conductor'){
+            
+        }else if(rol_slug == 'conductor'){
+            
+        }else if(rol_slug == 'conductor'){
+            
+        }else if(rol_slug == 'conductor'){
+            
+        }else if(rol_slug == 'conductor'){
+            
+        }else {
+            
+        }
+    });
+  
+    $("#id_recinto").change(function(){
+        cargaMesasRecinto();
     });
 
-    function cargaSubOrigen(){
-        $(".sub_origen_json select").html("");
-        var id_origen = $("#id_origen").val();
+    function cargaMesasRecinto(){
+        $(".mesas_json select").html("");
+        var id_recinto = $("#id_recinto").val();
     
         // console.log($("#anio").val());
-        $.getJSON("consultaSubOrigen/"+id_origen+"",{},function(objetosretorna){
+        $.getJSON("consultaMesasRecinto/"+id_recinto+"",{},function(objetosretorna){
             $("#error").html("");
             var TamanoArray = objetosretorna.length;
-            $(".sub_origen_json select").append('<option value="0"> --- SELECCIONE EL SUB ORIGEN --- </option>');
+            // $(".mesas_json select").append('<input type="checkbox" disabled="">');
             $.each(objetosretorna, function(i,value){
-                $(".sub_origen_json select").append('<option value="'+value.id_sub_origen+'">'+value.nombre+'</option>');
+                $(".mesas_json select").append('<option selected value="'+value.id_mesa+'">'+value.id_mesa+'-'+value.codigo_mesas_oep+'</option>');
             });
         });
     };
@@ -154,7 +230,7 @@
         var TamanoArray = objetosretorna.length;
         $(".recinto_json select").append('<option value="0"> --- SELECCIONE EL RECINTO --- </option>');
         $.each(objetosretorna, function(i,value){
-            $(".recinto_json select").append('<option value="'+value.id_recinto+'">'+value.id_recinto+' - '+value.nombre+'</option>');
+            $(".recinto_json select").append('<option value="'+value.id_recinto+'"> R:'+value.id_recinto+' - '+value.nombre+'</option>');
         });
     });
     };

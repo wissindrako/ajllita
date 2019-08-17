@@ -27,6 +27,11 @@ $(document).ready(function(){
     cargaRecintos();
   });
 
+  $("#id_origen").change(function(){
+    //alert("hola");
+    cargaSuborigen();
+  });
+
 function cargaDistritos(){
   $(".distrito_json select").html("");
   var id_circunscripcion = $("#id_circunscripcion").val();
@@ -58,14 +63,28 @@ function cargaRecintos(){
   });
 };
 
+function cargaSuborigen(){
+  $(".suborigen_json select").html("");
+  var id_origen = $("#id_origen").val();
+
+  $.getJSON("consultaSuborigen/"+id_origen+"",{},function(objetosretorna){
+      $("#error").html("");
+      var TamanoArray = objetosretorna.length;
+      $(".suborigen_json select").append('<option value="0"> SELECCIONE LA SUB ORGANIZACION </option>');
+      $.each(objetosretorna, function(i,value){
+          $(".suborigen_json select").append('<option value="'+value.id_sub_origen+'">'+value.nombre+'</option>');
+      });
+  });
+};
+
 //
 $('#btn_vaciar').click(function(){
   var div_resul="div_notificacion_sol";
-  $.ajax({                        
-    type: "POST",                 
-    url: "truncate",                     
-    data: {}, 
-    success: function(resul)             
+  $.ajax({
+    type: "POST",
+    url: "truncate",
+    data: {},
+    success: function(resul)
     {
         if (resul == 'ok') {
           alertify.success('listo Bro!');
@@ -79,11 +98,11 @@ $('#btn_vaciar').click(function(){
 
   $('#btn_habilitar').click(function(){
     var div_resul="div_notificacion_sol";
-    $.ajax({                        
-      type: "POST",                 
-      url: "habilitar_encuesta",                     
-      data: {}, 
-      success: function(resul)             
+    $.ajax({
+      type: "POST",
+      url: "habilitar_encuesta",
+      data: {},
+      success: function(resul)
       {
           if (resul == 'ok') {
             alertify.success('Encuestas Habilitadas');
@@ -97,11 +116,11 @@ $('#btn_vaciar').click(function(){
 
   $('#btn_inhabilitar').click(function(){
     var div_resul="div_notificacion_sol";
-    $.ajax({                        
-      type: "POST",                 
-      url: "inhabilitar_encuesta",                     
-      data: {}, 
-      success: function(resul)             
+    $.ajax({
+      type: "POST",
+      url: "inhabilitar_encuesta",
+      data: {},
+      success: function(resul)
       {
           if (resul == 'ok') {
             alertify.success('Encuestas Deshabilitadas');
@@ -187,7 +206,7 @@ $('#btn_vaciar').click(function(){
                 }
             })
           });
-      
+
           $('#btn_plus_cinco_m').click(function(){
             //$('#btn-cancelar_suspension').attr("disabled", true);//desabilitando despues del click
             var div_resul="div_notificacion_sol";
@@ -227,7 +246,7 @@ $('#btn_vaciar').click(function(){
 
 
   var Eventos_iniciales = {
-       
+
     url: 'calendario_feriados',
     type: 'GET', // Send post data
     error: function() {
@@ -266,14 +285,14 @@ $('#btn_vaciar').click(function(){
       },
       events: Eventos_iniciales,
       eventOverlap: false,
-      // eventRender: false   
+      // eventRender: false
   });
 
   $('#btn_borrar_feriado').click(function(){
     $('#ModalEdit').modal('hide');
   });
 
-  
+
   $('#btn-pdf').hide()
   $('#btn-cancelar').hide()
   //REPORTES
@@ -325,7 +344,7 @@ $('#btn_vaciar').click(function(){
       }
     });
   };
-  
+
   function cargaDirecciones(){
     $(".dir_json select").html("");
     var id_min = $("#id_min").val();
@@ -359,7 +378,7 @@ $('#btn_vaciar').click(function(){
   //CALENDARIO
   $("#tablajson tbody").html("");
   $("#div_calendar").hide()
-  
+
   $('#btn-calendar').click(function(){
     $("#div_calendar").show();
     $('#btn-pdf').show()
@@ -367,11 +386,11 @@ $('#btn_vaciar').click(function(){
     limpiar();
     var id_sol = $("#id_solicitud").val();
     calendario();
-    
+
     $("#btn-calendar").hide();
   });
-  
-  
+
+
   $('#btn_guarda_fecha').click(function(){
     // $('#btn_guarda_fecha').attr("disabled", true);
   });
@@ -510,7 +529,7 @@ function aceptar_suspension_rr_hh(id_suspension){
             if (result == 'ok') {
               location.reload()
               // refrescar();
-              // $('#div-suspension').load(location.href);  
+              // $('#div-suspension').load(location.href);
             }
             else{
               $(div_resul).html(result);
@@ -529,7 +548,7 @@ function aceptar_suspension_unidad(id_suspension){
             if (result == 'ok') {
               location.reload()
               // refrescar();
-              // $('#div-suspension').load(location.href);  
+              // $('#div-suspension').load(location.href);
             }
             else{
               $(div_resul).html(result);
@@ -551,12 +570,12 @@ function estado_calendario(arg){//get con Json
     if(TamanoArray > 0){
       disponible = parseFloat(objetosretorna[0].disponible);
     }
-    
+
     $("#total_solicitud").text(solicitados);
     $("#total_saldo").text(saldo);
     $("#total_disponible").text(disponible);
     $.each(objetosretorna, function(i,items){
-      
+
       solicitados = solicitados + parseFloat(items.usadas);
       // disponible = (parseFloat(items.disponible) - total);
       saldo = (parseFloat(disponible - solicitados));
@@ -567,10 +586,10 @@ function estado_calendario(arg){//get con Json
     +"<td>"+formato(items.start)+"</td>"
     +"<td>"+items.title+"</td>"
     +"</tr>";
-    
+
       $(nuevaFila).appendTo("#tablajson tbody");
     });
-    
+
     $("#total_solicitud").text(solicitados);
     $("#total_saldo").text(saldo);
     if(TamanoArray==0){
@@ -610,7 +629,7 @@ function limpiar(){
 
 function  sol_vacaciones(arg){
 	var urlraiz=$("#url_raiz_proyecto").val();
-	var miurl =urlraiz+"/form_sol_vacacion/"+arg+""; 
+	var miurl =urlraiz+"/form_sol_vacacion/"+arg+"";
 	$("#capa_modal").show();
 	$("#capa_formularios").show();
 	var screenTop = $(document).scrollTop();
@@ -619,10 +638,10 @@ function  sol_vacaciones(arg){
 
     $.ajax({
     url: miurl
-    }).done( function(resul) 
+    }).done( function(resul)
     {
      $("#capa_formularios").html(resul);
-    }).fail( function() 
+    }).fail( function()
    {
     $("#capa_formularios").html('<span>...Ha ocurrido un error, revise su conexión y vuelva a intentarlo...</span>');
    }) ;
@@ -665,8 +684,8 @@ function  verinfo_usuario(id, form){
   if(form == 11){var miurl =urlraiz+"/form_sol_suspension_rr_hh/"+id+""; }
   if(form == 12){var miurl =urlraiz+"/form_anulacion_vacacion/"+id+""; }
   if(form == 13){var miurl =urlraiz+"/form_sol_emergencias_usuario/"+id+""; }
-  
-	
+
+
 	$("#capa_modal").show();
 	$("#capa_formularios").show();
 	var screenTop = $(document).scrollTop();
@@ -675,11 +694,11 @@ function  verinfo_usuario(id, form){
 
     $.ajax({
     url: miurl
-    }).done( function(resul) 
+    }).done( function(resul)
     {
      $("#capa_formularios").html(resul);
-   
-    }).fail( function() 
+
+    }).fail( function()
    {
     $("#capa_formularios").html('<span>...Ha ocurrido un error, revise su conexión y vuelva a intentarlo...</span>');
    }) ;
@@ -712,11 +731,11 @@ function cargar_formulario(arg){
 
     $.ajax({
     url: miurl
-    }).done( function(resul) 
+    }).done( function(resul)
     {
      $("#capa_formularios").html(resul);
-   
-    }).fail( function() 
+
+    }).fail( function()
    {
     $("#capa_formularios").html('<span>...Ha ocurrido un error, revise su conexión y vuelva a intentarlo...</span>');
    }) ;
@@ -724,7 +743,7 @@ function cargar_formulario(arg){
 }
 
 $(document).on("submit",".formentrada",function(e){
-  
+
   var id_sol = $("#id_solicitud").val();
   e.preventDefault();
   $('#btn_guarda_fecha').attr("disabled", true);
@@ -735,7 +754,6 @@ $(document).on("submit",".formentrada",function(e){
   var formu=$(this);
   var varurl="";
 
-  if(quien=="f_asignar_usuario_mesa"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_agregar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_editar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_baja_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
@@ -749,8 +767,8 @@ $(document).on("submit",".formentrada",function(e){
 
 
   if(quien=="f_editar_solicitud"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
-  if(quien=="f_editar_gestion"){  var varurl=$(this).attr("action");  var div_resul="capa_formularios";}  
-  if(quien=="f_crear_gestion"){  var varurl=$(this).attr("action");  var div_resul="capa_formularios";}  
+  if(quien=="f_editar_gestion"){  var varurl=$(this).attr("action");  var div_resul="capa_formularios";}
+  if(quien=="f_crear_gestion"){  var varurl=$(this).attr("action");  var div_resul="capa_formularios";}
   if(quien=="f_editar_tiempo"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_agregar_fechas"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_modal";  }
   if(quien=="f_autorizar_solicitud"){  var varurl=$(this).attr("action");  var div_resul="capa_formularios";  }
@@ -764,16 +782,16 @@ $(document).on("submit",".formentrada",function(e){
   if(quien=="f_asignar_permiso"){  var varurl=$(this).attr("action");  var div_resul="capa_formularios";  }
   if(quien=="f_agregar_feriado"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_editar_feriado"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";  }
-  
+
   // $("#"+div_resul+"").html( $("#cargador_empresa").html());
-  
+
   $.ajax({
     // la URL para la petición
     url : varurl,
     data : formu.serialize(),
     type : 'POST',
     dataType : 'html',
-  
+
     success : function(resul) {
       
       if(quien=="f_baja_persona"){
@@ -782,16 +800,6 @@ $(document).on("submit",".formentrada",function(e){
         }
         else if(resul == 'failed'){
           $("#"+div_resul+"").html('ha ocurrido un error, revise su conexion e intentelo nuevamente');
-        }
-      }else if(quien=="f_asignar_usuario_mesa"){
-        if (resul == 'failed') {
-          alertify.success('Ocurrió un error, revise su conexión');
-        }else if (resul == 'mesas') {
-          alertify.success('Seleccione las mesas');
-        }else if(resul == 'ok'){
-          recargar();
-        }else{
-          $("#"+div_resul+"").html(resul);
         }
       }else if(quien=="f_enviar_agregar_persona" || quien=="f_enviar_editar_persona"){
         if (resul == 'failed') {
@@ -816,7 +824,7 @@ $(document).on("submit",".formentrada",function(e){
         alertify.success('No puede editar otras solicitudes');
       }
       else if(quien=="f_editar_solicitud" && resul == 'ok'){
-        
+
         refresh_calendar(id_sol);
         // estado_calendario(id_sol);
       }
@@ -828,10 +836,10 @@ $(document).on("submit",".formentrada",function(e){
       }
       else{
         // $('#capa_modal').modal('hide');
-        
+
         $("#"+div_resul+"").html(resul);
       }
-      
+
        },
     error : function(xhr, status) {
           $("#"+div_resul+"").html('ha ocurrido un error, revise su conexion e intentelo nuevamente');
@@ -843,19 +851,19 @@ $(document).on("submit",".form_crear_rol",function(e){
   e.preventDefault();
   var quien=$(this).attr("id");
   var formu=$(this);
-  var varurl=$(this).attr("action"); 
+  var varurl=$(this).attr("action");
 
    $("#div_notificacion_rol").html( $("#cargador_empresa").html());
    $(".form-group").removeClass("has-error");
    $(".help-block").text('');
-  
+
   $.ajax({
     // la URL para la petición
     url : varurl,
     data : formu.serialize(),
     type : 'POST',
     dataType : "html",
-  
+
     success : function(resul) {
       $("#capa_formularios").html(resul);
     },
@@ -878,12 +886,12 @@ function asignar_rol(idusu){
    var idrol=$("#rol1").val();
    var urlraiz=$("#url_raiz_proyecto").val();
    $("#zona_etiquetas_roles").html($("#cargador_empresa").html());
-   var miurl=urlraiz+"/asignar_rol/"+idusu+"/"+idrol+""; 
+   var miurl=urlraiz+"/asignar_rol/"+idusu+"/"+idrol+"";
 
     $.ajax({
     url: miurl
-    }).done( function(resul) 
-    { 
+    }).done( function(resul)
+    {
       var etiquetas="";
       var roles=$.parseJSON(resul);
       $.each(roles,function(index, value) {
@@ -891,8 +899,8 @@ function asignar_rol(idusu){
       })
 
      $("#zona_etiquetas_roles").html(etiquetas);
-   
-    }).fail( function() 
+
+    }).fail( function()
     {
     $("#zona_etiquetas_roles").html('<span style="color:red;">...Error: Aun no ha agregado roles o revise su conexion...</span>');
     }) ;
@@ -903,12 +911,12 @@ function quitar_rol(idusu){
    var idrol=$("#rol2").val();
    var urlraiz=$("#url_raiz_proyecto").val();
    $("#zona_etiquetas_roles").html($("#cargador_empresa").html());
-   var miurl=urlraiz+"/quitar_rol/"+idusu+"/"+idrol+""; 
+   var miurl=urlraiz+"/quitar_rol/"+idusu+"/"+idrol+"";
 
     $.ajax({
     url: miurl
-    }).done( function(resul) 
-    { 
+    }).done( function(resul)
+    {
       var etiquetas="";
       var roles=$.parseJSON(resul);
       $.each(roles,function(index, value) {
@@ -916,8 +924,8 @@ function quitar_rol(idusu){
       })
 
      $("#zona_etiquetas_roles").html(etiquetas);
-   
-    }).fail( function() 
+
+    }).fail( function()
     {
     $("#zona_etiquetas_roles").html('<span style="color:red;">...Error: Aun no ha agregado roles  o revise su conexion...</span>');
     }) ;
@@ -931,15 +939,15 @@ function borrado_usuario(idusu){
    var screenTop = $(document).scrollTop();
    $("#capa_formularios").css('top', screenTop);
    $("#capa_formularios").html($("#cargador_empresa").html());
-   var miurl=urlraiz+"/form_borrado_usuario/"+idusu+""; 
-  
+   var miurl=urlraiz+"/form_borrado_usuario/"+idusu+"";
+
     $.ajax({
     url: miurl
-    }).done( function(resul) 
+    }).done( function(resul)
     {
      $("#capa_formularios").html(resul);
-   
-    }).fail( function(resul) 
+
+    }).fail( function(resul)
    {
     $("#capa_formularios").html(resul);
    }) ;
@@ -949,15 +957,15 @@ function borrado_usuario(idusu){
 function borrar_permiso(idrol,idper){
 
      var urlraiz=$("#url_raiz_proyecto").val();
-     var miurl=urlraiz+"/quitar_permiso/"+idrol+"/"+idper+""; 
+     var miurl=urlraiz+"/quitar_permiso/"+idrol+"/"+idper+"";
      $("#filaP_"+idper+"").html($("#cargador_empresa").html() );
         $.ajax({
     url: miurl
-    }).done( function(resul) 
+    }).done( function(resul)
     {
      $("#filaP_"+idper+"").hide();
-   
-    }).fail( function() 
+
+    }).fail( function()
    {
      alert("No se borro correctamente, intentalo nuevamente o revisa tu conexion");
    }) ;
@@ -970,15 +978,15 @@ function borrar_permiso(idrol,idper){
 function borrar_rol(idrol){
 
      var urlraiz=$("#url_raiz_proyecto").val();
-     var miurl=urlraiz+"/borrar_rol/"+idrol+""; 
+     var miurl=urlraiz+"/borrar_rol/"+idrol+"";
      $("#filaR_"+idrol+"").html($("#cargador_empresa").html() );
         $.ajax({
     url: miurl
-    }).done( function(resul) 
+    }).done( function(resul)
     {
      $("#filaR_"+idrol+"").hide();
-   
-    }).fail( function() 
+
+    }).fail( function()
    {
      alert("No se borro correctamente, intentalo nuevamente o revisa tu conexion");
    }) ;

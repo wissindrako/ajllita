@@ -52,13 +52,13 @@
                                 <div class="form-group bg-gray">
                                     <select  class="form-control" name="rol_slug" id="rol_slug">
                                         @foreach ($roles as $rol)
-                                    <option value={{$rol->id}} {{$rol->slug == 'delegado_mas' ? 'selected' : ''}}>{{$rol->name}}</option>
+                                    <option value={{$rol->slug}} {{$rol->slug == 'delegado_mas' ? 'selected' : ''}}>{{$rol->description}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2" id="div_circ">
                             <div class="form-group">
                                 <label class="text-black ">Circuns.</label>
                                 <select class="form-control" name="circunscripcion" id="id_circunscripcion">
@@ -69,14 +69,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2" id="div_distrito">
                             <div class="form-group distrito_json">
                                 <label class="text-black ">Distrito</label>
                                 <select class="form-control" name="distrito" id="id_distrito">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8" id="div_recinto">
                             <div class="form-group recinto_json">
                                 <label class="text-black">Recinto</label>
                                 <select class="form-control" name="recinto" id="id_recinto">
@@ -86,7 +86,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12" id="div_mesas">
                             <div class="form-group">
                                 <label class="text-black">Mesas - Recinto</label>
                                 <div class="form-group bg-gray mesas_json">
@@ -95,27 +95,54 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="col-md-12" id="div_casa_campana">
+                            <div class="form-group">
+                                <label class="text-black">Casa de Campaña</label>
+                                <div class="form-group bg-gray">
+                                    <select  class="form-control" name="id_casa_campana" id="id_casa_campana">
+                                        <option value="" selected> --- SELECCIONE UNA CASA DE CAMPAÑA --- </option>
+                                        @foreach ($casas as $casa)
+                                        <option value="{{$casa->id_casa_campana}}">C:{{$casa->circunscripcion}} - D:{{$casa->distrito}} - {{$casa->nombre_casa_campana}} {{$casa->direccion}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" id="div_vehiculo">
+                            <div class="form-group">
+                                <label class="text-black">Vehiculo</label>
+                                <div class="form-group bg-gray">
+                                    <select  class="form-control" name="id_vehiculo" id="id_vehiculo">
+                                        <option value="" selected> --- SELECCIONE UN VEHICULO --- </option>
+                                        @foreach ($vehiculos as $vehiculo)
+                                        <option value="{{$vehiculo->id_transporte}}">{{$vehiculo->id_transporte}} - {{$vehiculo->marca}} {{$vehiculo->modelo}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         {{-- <div class="col-md-12">
                             <br>
                         </div> --}}
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="text-black" >Usuario</label>
-                                <input type="input" name="username" id="username" placeholder="" class="form-control" value=""  required/>
-                                <button type="button" class="btn btn-xs btn-info" id="generar_usuario">Generar Usuario</button>  
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-black" >Usuario</label>
+                                    <input type="input" name="username" id="username" placeholder="" class="form-control" value=""  required/>
+                                    <button type="button" class="btn btn-xs btn-info" id="generar_usuario">Generar Usuario</button>  
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="text-black">Password</label>
-                                <input type="password" name="password" id="password" placeholder="" class="form-control" value="" required/>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-black">Password</label>
+                                    <input type="password" name="password" id="password" placeholder="" class="form-control" value="" required/>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <br>
                         </div>
-                        <button type="submit" class="mybtn">Registrar</button>
+                            <button type="submit" class="mybtn" id="btn_registrar">Registrar</button>
                       </form>
                     
                     </div>
@@ -130,6 +157,27 @@
 <script>
   $(document).ready(function() {
 
+    var id_persona = $("#id_persona").val();
+    $.ajax({
+        type:'get',
+        // url:"ObtieneUsuarioMd5/"+id_circunscripcion+"/"+id_distrito+"/"+id_recinto+"",
+        url:"ObtieneUsuario/"+id_persona+"",
+        data:{},
+        success: function(result){
+            // alertify.success("Nombre de usuario y Contraseña:"+result);
+            $("#username").val(result);
+            $("#password").val(result);
+        }
+    });
+
+    // Ocultando Divs al iniciar
+    $("#div_circ").hide();
+    $("#div_distrito").hide();
+    $("#div_recinto").hide();
+    $("#div_mesas").hide();
+    $("#div_casa_campana").hide();
+    $("#div_vehiculo").hide();
+    // $("#btn_registrar").prop('disabled', true);
     document.getElementById('generar_usuario').onclick = function(){
         
         var id_persona = $("#id_persona").val();
@@ -153,25 +201,73 @@
     };
 
     $("#rol_slug").change(function(){
+        
         //id obtenido de la base de datos "campo : slug"
         var rol_slug = $("#rol_slug").val();
-        
-        if (rol_slug == 'conductor') {
-            
+        if (rol_slug == 'delegado_mas') {
+            $("#div_circ").hide();
+            $("#div_distrito").hide();
+            $("#div_recinto").hide();
+            $("#div_mesas").hide();
+            $("#div_casa_campana").hide();
+            $("#div_vehiculo").hide();
+            $("#btn_registrar").prop('disabled', true);
         }else if(rol_slug == 'conductor'){
-            
-        }else if(rol_slug == 'conductor'){
-            
-        }else if(rol_slug == 'conductor'){
-            
-        }else if(rol_slug == 'conductor'){
-            
-        }else if(rol_slug == 'conductor'){
-            
-        }else if(rol_slug == 'conductor'){
-            
-        }else if(rol_slug == 'conductor'){
-            
+            $("#div_circ").hide();
+            $("#div_distrito").hide();
+            $("#div_recinto").hide();
+            $("#div_mesas").hide();
+            $("#div_casa_campana").hide();
+            $("#div_vehiculo").show();
+            $("#btn_registrar").prop('disabled', false);
+        }else if(rol_slug == 'registrador'){
+            $("#div_circ").hide();
+            $("#div_distrito").hide();
+            $("#div_recinto").hide();
+            $("#div_mesas").hide();
+            $("#div_casa_campana").show();
+            $("#div_vehiculo").hide();
+            $("#btn_registrar").prop('disabled', false);
+        }else if(rol_slug == 'call_center'){
+            $("#div_circ").hide();
+            $("#div_distrito").hide();
+            $("#div_recinto").hide();
+            $("#div_mesas").hide();
+            $("#div_casa_campana").hide();
+            $("#div_vehiculo").hide();
+            $("#btn_registrar").prop('disabled', false);
+        }else if(rol_slug == 'informatico'){
+            $("#div_circ").show();
+            $("#div_distrito").show();
+            $("#div_recinto").show();
+            $("#div_mesas").show();
+            $("#div_casa_campana").hide();
+            $("#div_vehiculo").hide();
+            $("#btn_registrar").prop('disabled', false);
+        }else if(rol_slug == 'responsable_recinto'){
+            $("#div_circ").show();
+            $("#div_distrito").show();
+            $("#div_recinto").show();
+            $("#div_mesas").hide();
+            $("#div_casa_campana").hide();
+            $("#div_vehiculo").hide();
+            $("#btn_registrar").prop('disabled', false);
+        }else if(rol_slug == 'responsable_distrito'){
+            $("#div_circ").show();
+            $("#div_distrito").show();
+            $("#div_recinto").hide();
+            $("#div_mesas").hide();
+            $("#div_casa_campana").hide();
+            $("#div_vehiculo").hide();
+            $("#btn_registrar").prop('disabled', false);
+        }else if(rol_slug == 'responsable_circunscripcion'){
+            $("#div_circ").show();
+            $("#div_distrito").hide();
+            $("#div_recinto").hide();
+            $("#div_mesas").hide();
+            $("#div_casa_campana").hide();
+            $("#div_vehiculo").hide();
+            $("#btn_registrar").prop('disabled', false);
         }else {
             
         }

@@ -1,5 +1,22 @@
 $(document).ready(function(){
 
+  function liberar_responsabilidad(id_persona){
+    var div_resul="div_notificacion_sol";
+    $.ajax({
+      type:'POST',
+      url:"liberar_responsabilidad", // sending the request to the same page we're on right now
+      data:{'id_persona':id_persona},
+         success: function(result){
+              if (result == 'ok') {
+                location.reload()
+              }
+              else{
+                $(div_resul).html(result);
+              }
+          }
+      })
+  }
+
   $("#id_origen").change(function(){
     cargaSubOrigen();
   });
@@ -754,6 +771,8 @@ $(document).on("submit",".formentrada",function(e){
   var formu=$(this);
   var varurl="";
 
+  if(quien=="f_asignar_usuario_mesa"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
+  if(quien=="f_enviar_agregar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_agregar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_editar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_baja_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}

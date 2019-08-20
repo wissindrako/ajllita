@@ -99,6 +99,7 @@ class PersonasController extends Controller
                     $persona->grado_compromiso=$request->input("grado_compromiso");
                     $persona->fecha_registro=date('Y-m-d');
                     $persona->activo=1;
+                    $persona->asignado=0;
                     $persona->id_recinto=$request->input("recinto");
                     $persona->id_origen=$request->input("id_origen");
                     $persona->id_sub_origen=$request->input("id_sub_origen");
@@ -234,7 +235,7 @@ class PersonasController extends Controller
                     $persona->id_sub_origen=$request->input("id_sub_origen");
                     $persona->id_responsable_registro=Auth::user()->id;
 
-                    $persona->id_rol=16;
+                    $persona->id_rol=15;
 
                     if($persona->save())
                     {
@@ -288,6 +289,7 @@ class PersonasController extends Controller
         ->orwhere("paterno","like","%".$dato."%")
         ->orwhere("materno","like","%".$dato."%")
         ->orwhere("cedula_identidad","like","%".$dato."%")
+        ->orwhere("roles.slug","like","%".$dato."%")
         ->select('personas.*', 'recintos.id_recinto', 'recintos.nombre as nombre_recinto', 'recintos.circunscripcion', 'recintos.distrito',
         'recintos.zona', 'recintos.direccion as direccion_recinto',
         'origen.origen', 'sub_origen.nombre as sub_origen',

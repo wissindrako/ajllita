@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CasaCampana;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Caffeinated\Shinobi\Models\Role;
@@ -9,6 +10,11 @@ use Caffeinated\Shinobi\Models\Permission;
 use App\User;
 use App\Persona;
 use App\UsuarioMesa;
+use App\UsuarioRecinto;
+use App\UsuarioDistrito;
+use App\UsuarioCircunscripcion;
+use App\UsuarioTransporte;
+use App\UsuarioCasaCampana;
 
 class MesasController extends Controller
 {
@@ -36,9 +42,23 @@ class MesasController extends Controller
 
         $roles = Role::all();
 
+        $casas =  \DB::table('casas_campana')
+        ->where('casas_campana.activo', 1)
+        ->orderBy('circunscripcion', 'asc')
+        ->orderBy('distrito', 'asc')
+        ->orderBy('id_casa_campana', 'asc')
+        ->get();
+
+        $vehiculos = \DB::table('transportes')
+        ->where('transportes.activo', 1)
+        ->orderBy('id_transporte', 'asc')
+        ->get();
+
         return view("formularios.form_asignar_usuario_mesa")
         ->with('circunscripciones', $circunscripciones)
         ->with('roles', $roles)
+        ->with('casas', $casas)
+        ->with('vehiculos', $vehiculos)
         ->with('persona', $persona);
     }
 
@@ -63,56 +83,299 @@ class MesasController extends Controller
     }
 
     public function asignar_usuario_mesa(Request $request){
-        if ($request->has("mesas")) {
+        $persona = Persona::find($request->input("id_persona"));
+        // $persona->id_rol =$request->input("id_rol");
 
-            $usuario=new User;
-            $usuario->id_persona=$request->input("id_persona");
-            $usuario->name=$request->input("username");
-            $usuario->email=$request->input("username");
-            $usuario->password= bcrypt($request->input("password"));
-            $usuario->id_persona=$request->input("id_persona");
-            $usuario->activo=1;
-            
-            // $mesas_join = "";
+        if($request->input("rol_slug") == 'delegado_mas'){
+            //rol delegado del MAS
+            return 'delegado_mas';
+        }elseif ($request->input("rol_slug") == 'conductor') {
+            // rol Conductor
+            if ($request->input("id_vehiculo") != "") {
 
-            // foreach ($request->mesas as $value) {
-            //     $mesas_join = $mesas_join.$value;
-            // }
-
-            //Si el usuario es creado correctamente modificamos su rol
-            if ($usuario->save()) {
-
-                $rol = \DB::table('roles')
-                ->where('roles.slug', $request->input("rol_slug"))
-                ->first();
-
-
-                $persona = Persona::find($request->input("id_persona"));
-                $persona->id_rol =$request->input("id_rol");
-
-                if ($persona->save()) {
-                    // creamos las relaciones usuario - mesas
-                    foreach ($request->mesas as $value) {
-                        $usuario_mesa = new UsuarioMesa;
-                        $usuario_mesa->id_usuario = $usuario->id;
-                        $usuario_mesa->id_mesa = $value;
-                        $usuario_mesa->activo = 1;
-                        $usuario_mesa->save();
+                $usuario=new User;
+                $usuario->id_persona=$request->input("id_persona");
+                $usuario->name=$request->input("username");
+                $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
+                $usuario->password= bcrypt($request->input("password"));
+                $usuario->id_persona=$request->input("id_persona");
+                $usuario->activo=1;
+    
+                //Si el usuario es creado correctamente modificamos su rol
+                if ($usuario->save()) {
+    
+                    $rol = \DB::table('roles')
+                    ->where('roles.slug', $request->input("rol_slug"))
+                    ->first();
+                        // $persona->id_rol =$request->input("id_rol");
+                    $persona->id_rol =$rol->id;
+                    $persona->asignado =1;
+    
+                    if ($persona->save()) {
+                        // creamos las relaciones usuario - recinto
+                        $usuario_transporte = new UsuarioTransporte();
+                        $usuario_transporte->id_usuario = $usuario->id;
+                        $usuario_transporte->id_transporte = $request->input("id_vehiculo");
+                        $usuario_transporte->activo = 1;
+                        if ($usuario_transporte->save()) {
+                            return "ok";
+                        } else {
+                            # code...
+                        }
+                    } else {
+                        // si no se guarda el update
                     }
-                    return "ok";
+                    
                 } else {
-                    // si no se guarda el update
+                    //si el usuario no se guarda
+                    return "failed usuario;";
                 }
                 
             } else {
-                //si el usuario no se guarda
-                return "failed usuario;";
+                return "id_vehiculo";
             }
-            
-        } else {
-            return "mesas";
+            // fin Conductor
+        }elseif ($request->input("rol_slug") == 'registrador') {
+            // rol Registrador
+            if ($request->input("id_casa_campana") != "") {
+
+                $usuario=new User;
+                $usuario->id_persona=$request->input("id_persona");
+                $usuario->name=$request->input("username");
+                $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
+                $usuario->password= bcrypt($request->input("password"));
+                $usuario->id_persona=$request->input("id_persona");
+                $usuario->activo=1;
+    
+                //Si el usuario es creado correctamente modificamos su rol
+                if ($usuario->save()) {
+    
+                    $rol = \DB::table('roles')
+                    ->where('roles.slug', $request->input("rol_slug"))
+                    ->first();
+                        // $persona->id_rol =$request->input("id_rol");
+                    $persona->id_rol =$rol->id;
+                    $persona->asignado =1;
+    
+                    if ($persona->save()) {
+                        // creamos las relaciones usuario - recinto
+                        $usuario_casa_campana = new UsuarioCasaCampana();
+                        $usuario_casa_campana->id_usuario = $usuario->id;
+                        $usuario_casa_campana->id_casa_campana = $request->input("id_casa_campana");
+                        $usuario_casa_campana->activo = 1;
+                        if ($usuario_casa_campana->save()) {
+                            return "ok";
+                        } else {
+                            # code...
+                        }
+                    } else {
+                        // si no se guarda el update
+                    }
+                    
+                } else {
+                    //si el usuario no se guarda
+                    return "failed usuario;";
+                }
+                
+            } else {
+                return "id_casa_campana";
+            }
+            // fin Registrador
+        }elseif ($request->input("rol_slug") == 'call_center') {
+            //rol 
+            return 'call_center';
+        }elseif ($request->input("rol_slug") == 'informatico') {
+            //rol informatico
+            if ($request->has("mesas")) {
+
+                $usuario=new User;
+                $usuario->id_persona=$request->input("id_persona");
+                $usuario->name=$request->input("username");
+                $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
+                $usuario->password= bcrypt($request->input("password"));
+                $usuario->id_persona=$request->input("id_persona");
+                $usuario->activo=1;
+    
+                //Si el usuario es creado correctamente modificamos su rol
+                if ($usuario->save()) {
+    
+                    $rol = \DB::table('roles')
+                    ->where('roles.slug', $request->input("rol_slug"))
+                    ->first();
+    
+                    $persona->id_rol =$rol->id;
+                    $persona->asignado =1;
+    
+                    if ($persona->save()) {
+                        // creamos las relaciones usuario - mesas
+                        foreach ($request->mesas as $value) {
+                            $usuario_mesa = new UsuarioMesa;
+                            $usuario_mesa->id_usuario = $usuario->id;
+                            $usuario_mesa->id_mesa = $value;
+                            $usuario_mesa->activo = 1;
+                            $usuario_mesa->save();
+                        }
+                        return "ok";
+                    } else {
+                        // si no se guarda el update
+                    }
+                    
+                } else {
+                    //si el usuario no se guarda
+                    return "failed usuario;";
+                }
+                
+            } else {
+                return "mesas";
+            }
+        //fin rol informarico
+        }elseif ($request->input("rol_slug") == 'responsable_recinto') {
+            // rol responsable recinto
+            if ($request->input("recinto") != "" && $request->input("recinto") != 0) {
+
+                $usuario=new User;
+                $usuario->id_persona=$request->input("id_persona");
+                $usuario->name=$request->input("username");
+                $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
+                $usuario->password= bcrypt($request->input("password"));
+                $usuario->id_persona=$request->input("id_persona");
+                $usuario->activo=1;
+    
+                //Si el usuario es creado correctamente modificamos su rol
+                if ($usuario->save()) {
+    
+                    $rol = \DB::table('roles')
+                    ->where('roles.slug', $request->input("rol_slug"))
+                    ->first();
+                        // $persona->id_rol =$request->input("id_rol");
+                    $persona->id_rol =$rol->id;
+                    $persona->asignado =1;
+    
+                    if ($persona->save()) {
+                        // creamos las relaciones usuario - recinto
+                        $usuario_recinto = new UsuarioRecinto;
+                        $usuario_recinto->id_usuario = $usuario->id;
+                        $usuario_recinto->id_recinto = $request->input("recinto");
+                        $usuario_recinto->activo = 1;
+                        if ($usuario_recinto->save()) {
+                            return "ok";
+                        } else {
+                            # code...
+                        }
+                    } else {
+                        // si no se guarda el update
+                    }
+                    
+                } else {
+                    //si el usuario no se guarda
+                    return "failed usuario;";
+                }
+                
+            } else {
+                return "recinto";
+            }
+            // finresponsable recinto
+        }elseif ($request->input("rol_slug") == 'responsable_distrito') {
+            //rol Responsable de Distrito
+            if ($request->input("distrito") != "" && $request->input("distrito") != 0) {
+
+                $usuario=new User;
+                $usuario->id_persona=$request->input("id_persona");
+                $usuario->name=$request->input("username");
+                $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
+                $usuario->password= bcrypt($request->input("password"));
+                $usuario->id_persona=$request->input("id_persona");
+                $usuario->activo=1;
+    
+                //Si el usuario es creado correctamente modificamos su rol
+                if ($usuario->save()) {
+    
+                    $rol = \DB::table('roles')
+                    ->where('roles.slug', $request->input("rol_slug"))
+                    ->first();
+                        // $persona->id_rol =$request->input("id_rol");
+                    $persona->id_rol =$rol->id;
+                    $persona->asignado =1;
+    
+                    if ($persona->save()) {
+                        // creamos las relaciones usuario - recinto
+                        $usuario_distrito = new UsuarioDistrito;
+                        $usuario_distrito->id_usuario = $usuario->id;
+                        $usuario_distrito->id_distrito = $request->input("distrito");
+                        $usuario_distrito->activo = 1;
+                        if ($usuario_distrito->save()) {
+                            return "ok";
+                        } else {
+                            # code...
+                        }
+                    } else {
+                        // si no se guarda el update
+                    }
+                    
+                } else {
+                    //si el usuario no se guarda
+                    return "failed usuario;";
+                }
+                
+            } else {
+                return "distrito";
+            }
+            //fin Responsable de Distrito
+        }elseif ($request->input("rol_slug") == 'responsable_circunscripcion') {
+            //rol Responsable Circunscripcion
+            if ($request->input("circunscripcion") != "" && $request->input("circunscripcion") != 0) {
+
+                $usuario=new User;
+                $usuario->id_persona=$request->input("id_persona");
+                $usuario->name=$request->input("username");
+                $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
+                $usuario->password= bcrypt($request->input("password"));
+                $usuario->id_persona=$request->input("id_persona");
+                $usuario->activo=1;
+    
+                //Si el usuario es creado correctamente modificamos su rol
+                if ($usuario->save()) {
+    
+                    $rol = \DB::table('roles')
+                    ->where('roles.slug', $request->input("rol_slug"))
+                    ->first();
+                        // $persona->id_rol =$request->input("id_rol");
+                    $persona->id_rol =$rol->id;
+                    $persona->asignado =1;
+    
+                    if ($persona->save()) {
+                        // creamos las relaciones usuario - recinto
+                        $usuario_circunscripcion = new UsuarioCircunscripcion;
+                        $usuario_circunscripcion->id_usuario = $usuario->id;
+                        $usuario_circunscripcion->id_circunscripcion = $request->input("circunscripcion");
+                        $usuario_circunscripcion->activo = 1;
+                        if ($usuario_circunscripcion->save()) {
+                            return "ok";
+                        } else {
+                            # code...
+                        }
+                    } else {
+                        // si no se guarda el update
+                    }
+                    
+                } else {
+                    //si el usuario no se guarda
+                    return "failed usuario;";
+                }
+                
+            } else {
+                return "circunscripcion";
+            }
+            // fin Responsable Circunscripcion
+        }else{
+
         }
         
-        
+    }
+
+    public function liberar_responsabilidad(Request $request){
+
+        $persona = Persona::find($request->input("id_persona"));
+        return "ok";
     }
 }

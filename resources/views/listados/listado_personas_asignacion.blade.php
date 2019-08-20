@@ -76,23 +76,22 @@
 					<td>{{$p->sub_origen}}</td>
 					<td>{{$p->nombre_rol}}</td>
 					
-					@if ($p->activo == 1 && $p->usuario_activo == null)
+					{{-- @if ($p->activo == 1 && $p->usuario_activo == null && $p->asignado == 0) --}}
+					@if (($p->activo == 1 && $p->asignado == 0) && ($p->usuario_activo == null || $p->usuario_activo == 1) )
+					{{-- persona activa, sin usuario creado y sin asignacion --}}
 					<td><button type="button" class="btn btn-success btn-xs" onclick="verinfo_usuario({{ $p->id_persona }}, 20)" ><i class="fa fa-arrow-right"></i></button>
-					<button disabled type="button" class="btn btn-default btn-xs" ><i class="fa fa-arrow-right"></i></button></td>
+					<button disabled type="button" class="btn btn-default btn-xs" ><i class="fa fa-rotate-left "></i></button></td>
 					{{-- <td><button type="button" class="btn btn-danger btn-xs" onclick="verinfo_persona({{ $p->id_persona }}, 2)" ><i class="fa fa-fw fa-user-times"></i></button></td> --}}
 					@else
 					<td><button disabled type="button" class="btn btn-success btn-xs" ><i class="fa fa-arrow-right"></i></button>
 						@if ($p->activo == 1)
-						<button type="button" class="btn btn-default btn-xs" onclick="verinfo_usuario({{ $p->id_persona }}, 20)" ><i class="fa fa-arrow-right"></i></button></td>
+						<button type="button" class="btn btn-warning btn-xs" onclick="liberar_responsabilidad({{ $p->id_persona }})" ><i class="fa fa-rotate-left "></i></button></td>
 						@else
-						<button disabled type="button" class="btn btn-default btn-xs" ><i class="fa fa-arrow-right"></i></button></td>
+						<button disabled type="button" class="btn btn-default btn-xs" ><i class="fa fa-rotate-left "></i></button></td>
 						@endif
-					
 					{{-- <td><button disabled type="button" class="btn btn-danger btn-xs"  ><i class="fa fa-fw fa-user-times"></i></button></td> --}}
 					@endif
 					
-
-
 					{{-- @if ($p->estado == 'SOLICITADA')
 					<td><span class="badge bg-blue">{{$p->estado}}</span></td>
 					<td><button type="button" class="btn  btn-default btn-xs" disabled><i class="fa fa-fw fa-edit"></i></button></td>

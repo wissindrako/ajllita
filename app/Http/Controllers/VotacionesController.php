@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Storage;
 
 class VotacionesController extends Controller
 {
@@ -18,7 +19,7 @@ class VotacionesController extends Controller
     ->leftjoin('mesas', 'rel_usuario_mesa.id_mesa', '=', 'mesas.id_mesa')
     ->where('id_usuario', $id_usuario)
     ->where('activo', 1)
-    ->select('mesas.id_mesa', 'mesas.codigo_mesas_oep', 'mesas.codigo_ajllita', 'mesas.numero_votantes',
+    ->select('mesas.id_mesa', 'mesas.codigo_mesas_oep', 'mesas.codigo_ajllita', 'mesas.numero_votantes', 'mesas.foto_presidenciales','foto_uninominales',
                 \DB::raw("(SELECT COUNT(id_votos_presidenciales) FROM votos_presidenciales WHERE id_mesa=mesas.id_mesa) as registros_presidenciales"),
                 \DB::raw("(SELECT COUNT(id_votos_presidenciales_r) FROM votos_presidenciales_r WHERE id_mesa=mesas.id_mesa) as registros_presidenciales_r"),
                 \DB::raw("(SELECT COUNT(id_votos_uninominales) FROM votos_uninominales WHERE id_mesa=mesas.id_mesa) as registros_uninominales"),
@@ -55,12 +56,13 @@ class VotacionesController extends Controller
   public function form_votar_presidencial(Request $request){
     //Tomamos los datos de la mesa
     $mesas = \DB::table('mesas')
-    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes', 'foto_presidenciales')
     ->where('id_mesa', $request->id_mesa)
     ->get();
 
     foreach ($mesas as $mesa) {
       $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+      $foto_presidenciales = $mesa->foto_presidenciales;
     }
 
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
@@ -87,7 +89,8 @@ class VotacionesController extends Controller
           ->with("codigo_mesas_oep",$codigo_mesas_oep)
           ->with("partidos",$partidos)
           ->with("votos_introducidos",$votos_introducidos)
-          ->with("votos_introducidos_nyb",$votos_introducidos_nyb);
+          ->with("votos_introducidos_nyb",$votos_introducidos_nyb)
+          ->with("foto_presidenciales",$foto_presidenciales);
   }
 
   public function form_votar_presidencial_partido(Request $request){
@@ -149,12 +152,13 @@ class VotacionesController extends Controller
 
     //Tomamos los datos de la mesa
     $mesas = \DB::table('mesas')
-    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes', 'foto_presidenciales')
     ->where('id_mesa', $request->id_mesa)
     ->get();
 
     foreach ($mesas as $mesa) {
       $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+      $foto_presidenciales = $mesa->foto_presidenciales;
     }
 
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
@@ -175,7 +179,8 @@ class VotacionesController extends Controller
           ->with("codigo_mesas_oep",$codigo_mesas_oep)
           ->with("partidos",$partidos)
           ->with("votos_introducidos",$votos_introducidos)
-          ->with("votos_introducidos_nyb",$votos_introducidos_nyb);
+          ->with("votos_introducidos_nyb",$votos_introducidos_nyb)
+          ->with("foto_presidenciales",$foto_presidenciales);
   }
 
   public function form_votar_presidencial_nyb(Request $request){
@@ -239,12 +244,13 @@ class VotacionesController extends Controller
 
     //Tomamos los datos de la mesa
     $mesas = \DB::table('mesas')
-    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes', 'foto_presidenciales')
     ->where('id_mesa', $request->id_mesa)
     ->get();
 
     foreach ($mesas as $mesa) {
       $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+      $foto_presidenciales = $mesa->foto_presidenciales;
     }
 
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
@@ -265,18 +271,90 @@ class VotacionesController extends Controller
           ->with("codigo_mesas_oep",$codigo_mesas_oep)
           ->with("partidos",$partidos)
           ->with("votos_introducidos",$votos_introducidos)
-          ->with("votos_introducidos_nyb",$votos_introducidos_nyb);
+          ->with("votos_introducidos_nyb",$votos_introducidos_nyb)
+          ->with("foto_presidenciales",$foto_presidenciales);
   }
+
+
+  public function form_votar_presidencial_subir_imagen(Request $request){
+    //Tomamos los datos de la mesa
+    $codigo_mesas_oep = \DB::table('mesas')
+                        ->where('id_mesa', $request->id_mesa)
+                        ->value('codigo_mesas_oep');
+
+    return view("formularios.form_votar_presidencial_subir_imagen")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep);
+  }
+
+
+  public function votar_presidencial_subir_imagen(Request $request){
+
+    //Subimos el archivo
+    if($request->file('archivo') != ""){
+        $archivo = $request->file('archivo');
+        $mime = $archivo->getMimeType();
+        $extension=strtolower($archivo->getClientOriginalExtension());
+        $nuevo_nombre="presidencial-id_mesa_".$request->id_mesa;
+        $r1=Storage::disk('media/foto_presidenciales')->put($nuevo_nombre, \File::get($archivo) );
+        $rutadelaimagen="../storage/media/foto_presidenciales/".$nuevo_nombre;
+        if ($r1){
+          //Introducimos la ruta en la BD
+          \DB::table('mesas')
+                ->where('id_mesa', $request->id_mesa)
+                ->update(['foto_presidenciales' => $rutadelaimagen]);
+
+          //Redirigimos a la vista form_votar_presidencial
+          //Tomamos los datos de la mesa
+          $mesas = \DB::table('mesas')
+          ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes', 'foto_presidenciales')
+          ->where('id_mesa', $request->id_mesa)
+          ->get();
+
+          foreach ($mesas as $mesa) {
+            $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+            $foto_presidenciales = $mesa->foto_presidenciales;
+          }
+
+          //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
+          $partidos = \DB::table('partidos')->get();
+
+          $votos_introducidos = \DB::table('votos_presidenciales')
+                                    ->where('id_mesa', $request->id_mesa)
+                                    ->select('id_partido', 'validos')
+                                    ->get();
+
+          $votos_introducidos_nyb = \DB::table('votos_presidenciales_r')
+                                    ->where('id_mesa', $request->id_mesa)
+                                    ->select('nulos', 'blancos')
+                                    ->get();
+
+          return view("formularios.form_votar_presidencial")
+                ->with("id_mesa",$request->id_mesa)
+                ->with("codigo_mesas_oep",$codigo_mesas_oep)
+                ->with("partidos",$partidos)
+                ->with("votos_introducidos",$votos_introducidos)
+                ->with("votos_introducidos_nyb",$votos_introducidos_nyb)
+                ->with("foto_presidenciales",$foto_presidenciales);
+
+        }
+        else{
+          return view("mensajes.msj_error")->with("msj","Ocurrio un error al subir la imagen");
+        }
+     }
+  }
+
 
   public function form_votar_uninominal(Request $request){
     //Tomamos los datos de la mesa
     $mesas = \DB::table('mesas')
-    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes', 'foto_uninominales')
     ->where('id_mesa', $request->id_mesa)
     ->get();
 
     foreach ($mesas as $mesa) {
       $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+      $foto_uninominales = $mesa->foto_uninominales;
     }
 
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
@@ -297,7 +375,8 @@ class VotacionesController extends Controller
           ->with("codigo_mesas_oep",$codigo_mesas_oep)
           ->with("partidos",$partidos)
           ->with("votos_introducidos",$votos_introducidos)
-          ->with("votos_introducidos_nyb",$votos_introducidos_nyb);
+          ->with("votos_introducidos_nyb",$votos_introducidos_nyb)
+          ->with("foto_uninominales",$foto_uninominales);
   }
 
   public function form_votar_uninominal_partido(Request $request){
@@ -359,12 +438,13 @@ class VotacionesController extends Controller
 
     //Tomamos los datos de la mesa
     $mesas = \DB::table('mesas')
-    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes', 'foto_uninominales')
     ->where('id_mesa', $request->id_mesa)
     ->get();
 
     foreach ($mesas as $mesa) {
       $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+      $foto_uninominales = $mesa->foto_uninominales;
     }
 
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
@@ -385,7 +465,8 @@ class VotacionesController extends Controller
           ->with("codigo_mesas_oep",$codigo_mesas_oep)
           ->with("partidos",$partidos)
           ->with("votos_introducidos",$votos_introducidos)
-          ->with("votos_introducidos_nyb",$votos_introducidos_nyb);
+          ->with("votos_introducidos_nyb",$votos_introducidos_nyb)
+          ->with("foto_uninominales",$foto_uninominales);
   }
 
   public function form_votar_uninominal_nyb(Request $request){
@@ -448,12 +529,13 @@ class VotacionesController extends Controller
 
     //Tomamos los datos de la mesa
     $mesas = \DB::table('mesas')
-    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes')
+    ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes', 'foto_uninominales')
     ->where('id_mesa', $request->id_mesa)
     ->get();
 
     foreach ($mesas as $mesa) {
       $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+      $foto_uninominales = $mesa->foto_uninominales;
     }
 
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
@@ -474,6 +556,79 @@ class VotacionesController extends Controller
           ->with("codigo_mesas_oep",$codigo_mesas_oep)
           ->with("partidos",$partidos)
           ->with("votos_introducidos",$votos_introducidos)
-          ->with("votos_introducidos_nyb",$votos_introducidos_nyb);
+          ->with("votos_introducidos_nyb",$votos_introducidos_nyb)
+          ->with("foto_uninominales",$foto_uninominales);
+  }
+
+
+  public function form_votar_uninominal_subir_imagen(Request $request){
+    //Tomamos los datos de la mesa
+    $codigo_mesas_oep = \DB::table('mesas')
+                        ->where('id_mesa', $request->id_mesa)
+                        ->value('codigo_mesas_oep');
+
+    return view("formularios.form_votar_uninominal_subir_imagen")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep);
+  }
+
+
+  public function votar_uninominal_subir_imagen(Request $request){
+
+    //Subimos el archivo
+    if($request->file('archivo') != ""){
+        $archivo = $request->file('archivo');
+        $mime = $archivo->getMimeType();
+        $extension=strtolower($archivo->getClientOriginalExtension());
+        $nuevo_nombre="uninominal-id_mesa_".$request->id_mesa;
+        $r1=Storage::disk('media/foto_uninominales')->put($nuevo_nombre, \File::get($archivo) );
+        $rutadelaimagen="../storage/media/foto_uninominales/".$nuevo_nombre;
+        if ($r1){
+          //Introducimos la ruta en la BD
+          \DB::table('mesas')
+                ->where('id_mesa', $request->id_mesa)
+                ->update(['foto_uninominales' => $rutadelaimagen]);
+
+          //Redirigimos a la vista form_votar_uninominal
+          //Tomamos los datos de la mesa
+          $mesas = \DB::table('mesas')
+          ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes', 'foto_uninominales')
+          ->where('id_mesa', $request->id_mesa)
+          ->get();
+
+          foreach ($mesas as $mesa) {
+            $codigo_mesas_oep = $mesa->codigo_mesas_oep;
+            $foto_uninominales = $mesa->foto_uninominales;
+          }
+
+          //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
+          $partidos = \DB::table('partidos')->get();
+
+          $votos_introducidos = \DB::table('votos_uninominales')
+                                    ->where('id_mesa', $request->id_mesa)
+                                    ->select('id_partido', 'validos')
+                                    ->get();
+
+          $votos_introducidos_nyb = \DB::table('votos_uninominales_r')
+                                    ->where('id_mesa', $request->id_mesa)
+                                    ->select('nulos', 'blancos')
+                                    ->get();
+
+          return view("formularios.form_votar_uninominal")
+                ->with("id_mesa",$request->id_mesa)
+                ->with("codigo_mesas_oep",$codigo_mesas_oep)
+                ->with("partidos",$partidos)
+                ->with("votos_introducidos",$votos_introducidos)
+                ->with("votos_introducidos_nyb",$votos_introducidos_nyb)
+                ->with("foto_uninominales",$foto_uninominales);
+        }
+        else{
+          return view("mensajes.msj_error")->with("msj","Ocurrio un error al subir la imagen");
+        }
+     }
+
+    /*return view("formularios.form_votar_presidencial_subir_imagen")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep);*/
   }
 }

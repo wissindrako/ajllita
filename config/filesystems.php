@@ -48,6 +48,16 @@ return [
             'root' => storage_path('app'),
         ],
 
+        'media/foto_presidenciales' => [
+            'driver' => 'local',
+            'root' => storage_path('media/foto_presidenciales'),
+        ],
+
+        'media/foto_uninominales' => [
+            'driver' => 'local',
+            'root' => storage_path('media/foto_uninominales'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

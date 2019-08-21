@@ -21,6 +21,21 @@
 			  </div>
 			</div> --}}
 		  </div>
+
+
+			<div class="box-header">
+				<h4 class="box-title">Buscar</h4>
+				<form   action="{{ url('lista_de_asistencia_buscar') }}"  method="post"  >
+					<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+					<input type="hidden" name="fecha" value="{{$fecha}}">
+					<div class="input-group input-group-sm">
+						<input type="text" class="form-control" name="dato_buscado" required>
+						<span class="input-group-btn">
+						<input type="submit" class="btn btn-primary" value="Buscar" >
+						</span>
+					</div>
+				</form>
+			</div>
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body table-responsive no-padding">
@@ -35,7 +50,7 @@
 				<th>Dirección del Recinto</th>
 				<th>Asistencia</th>
 				<th>Usuario</th>
-				<th>Contraseña</th>
+				<th>Tipo de Usuario</th>
 				<th>Nombre Completo</th>
 				<th>Cédula</th>
 				<th>Contacto</th>
@@ -63,8 +78,8 @@
 							<p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;"></p>
 						@endif
 					</td>
-					<td>{{$lista->email}}</td>
-					<td>{{$lista->password}}</td>
+					<td>{{$lista->name." / ".$lista->email}}</td>
+					<td>{{$lista->rol}}</td>
 					<td>{{$lista->nombre_usuario." ".$lista->paterno." ".$lista->materno}}</td>
 					<td>{{$lista->cedula_identidad." ".$lista->complemento_cedula." ".$lista->expedido}}</td>
 					<td>{{$lista->telefono_celular." - ".$lista->telefono_referencia}}</td>

@@ -92,6 +92,23 @@
 										</form>
 
 										<br>
+										<form action="{{ url('form_votar_presidencial_subir_imagen') }}"  method="post">
+											<input type="hidden" name="id_mesa" value="{{ $id_mesa }}">
+											<button type="submit" style="font-size: 16px; padding: 20px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+												<i class="fa fa-camera"></i> Subir Imagen
+												@if($foto_presidenciales == "")
+													<p style="width: 2rem; height: 2rem; border-radius: 50%; background: red;	justify-content: center; margin:0px auto;">
+														<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSin&nbspImágen</span>
+													</p>
+												@else
+													<p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
+														<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspImágen&nbspSubida</span>
+													</p>
+												@endif
+											</button>
+										</form>
+
+										<br>
 										<form action="{{ url('form_votar_seleccionar_tipo') }}"  method="post">
 											<input type="hidden" name="id_mesa" value="{{ $id_mesa }}">
 											<button type="submit" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">

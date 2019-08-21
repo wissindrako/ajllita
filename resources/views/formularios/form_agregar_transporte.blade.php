@@ -45,7 +45,7 @@
                     <form action="{{ url('agregar_transporte') }}"  method="post" id="f_enviar_gastronomia" class="formentrada" >
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                        <div class="col-md-12">
+                        <!--div class="col-md-12">
                             <div class="form-group">
                                 <label >Nombre completo del conductor</label>
                                 <input type="input" name="conductor" placeholder="" class="form-control" value=""  required/>
@@ -56,7 +56,7 @@
                                 <label >Teléfono de contacto del conductor</label>
                                 <input type="input" name="contacto_conductor" placeholder="" class="form-control" value="" required/>
                             </div>
-                        </div>
+                        </div-->
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label >Propietario del Vehiculo</label>

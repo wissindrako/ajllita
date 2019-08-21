@@ -29,7 +29,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('form_agregar_transporte', 'TransportesController@form_agregar_transporte');
     Route::post('agregar_transporte', 'TransportesController@agregar_transporte');
     Route::get('consultaSuborigen/{id_suborigen}', 'TransportesController@consultaSuborigen');
+    //
     Route::get('revisar_transportes', 'TransportesController@revisar_transportes');
+    //
+    Route::get('listado_transportes', 'TransportesController@listado_transportes');
+    Route::post('buscar_transportes', 'TransportesController@buscar_transportes');
     Route::get('revisar_transportes_asistencia', 'TransportesController@revisar_transportes_asistencia');
 
     Route::get('form_agregar_persona', 'PersonasController@form_agregar_persona');
@@ -42,7 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('listado_personas', 'PersonasController@listado_personas');
     Route::post('buscar_persona', 'PersonasController@buscar_persona');
-    
+
     Route::post('baja_persona', 'PersonasController@baja_persona');
 
     Route::get('listado_personas_asignacion', 'PersonasController@listado_personas_asignacion');
@@ -72,6 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('agregar_lista_de_asistencia', 'AsistenciasController@agregar_lista_de_asistencia');
     Route::get('form_listas_de_asistencia', 'AsistenciasController@form_listas_de_asistencia');
     Route::post('lista_de_asistencia', 'AsistenciasController@lista_de_asistencia');
+    Route::post('lista_de_asistencia_buscar', 'AsistenciasController@lista_de_asistencia_buscar');
     Route::get('form_registrar_asistencia', 'AsistenciasController@form_registrar_asistencia');
     Route::post('registrar_asistencia', 'AsistenciasController@registrar_asistencia');
     Route::post('registrar_falta', 'AsistenciasController@registrar_falta');
@@ -84,11 +89,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('votar_presidencial_partido', 'VotacionesController@votar_presidencial_partido');
     Route::post('form_votar_presidencial_nyb', 'VotacionesController@form_votar_presidencial_nyb');
     Route::post('votar_presidencial_nyb', 'VotacionesController@votar_presidencial_nyb');
+    Route::post('form_votar_presidencial_subir_imagen', 'VotacionesController@form_votar_presidencial_subir_imagen');
+    Route::post('votar_presidencial_subir_imagen', 'VotacionesController@votar_presidencial_subir_imagen');
     Route::post('form_votar_uninominal', 'VotacionesController@form_votar_uninominal');
     Route::post('form_votar_uninominal_partido', 'VotacionesController@form_votar_uninominal_partido');
     Route::post('votar_uninominal_partido', 'VotacionesController@votar_uninominal_partido');
     Route::post('form_votar_uninominal_nyb', 'VotacionesController@form_votar_uninominal_nyb');
     Route::post('votar_uninominal_nyb', 'VotacionesController@votar_uninominal_nyb');
+    Route::post('form_votar_uninominal_subir_imagen', 'VotacionesController@form_votar_uninominal_subir_imagen');
+    Route::post('votar_uninominal_subir_imagen', 'VotacionesController@votar_uninominal_subir_imagen');
 
 
 

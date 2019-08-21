@@ -10,12 +10,12 @@
 
 <div class="box box-primary">
 		<div class="box-header">
-				<h3 class="box-title">Listado de Personas</h3>	
-	
+				<h3 class="box-title">Listado de Personas</h3>
+
 			<div class="box-header">
-				<h4 class="box-title">Usuarios</h4>	        
+				<h4 class="box-title">Usuarios</h4>
 				<form   action="{{ url('buscar_persona') }}"  method="post"  >
-					<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> 
+					<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 					<div class="input-group input-group-sm">
 						<input type="text" class="form-control" id="dato_buscado" name="dato_buscado" required>
 						<span class="input-group-btn">
@@ -69,7 +69,7 @@
 					<td>{{$p->origen}}</td>
 					<td>{{$p->sub_origen}}</td>
 					<td>{{$p->nombre_rol}}</td>
-					
+
 					@if ($p->activo == 1)
 					<td><button type="button" class="btn btn-success btn-xs" onclick="verinfo_persona({{ $p->id_persona }}, 1)" ><i class="fa fa-pencil-square-o"></i></button></td>
 					<td><button type="button" class="btn btn-danger btn-xs" onclick="verinfo_persona({{ $p->id_persona }}, 2)" ><i class="fa fa-fw fa-user-times"></i></button></td>
@@ -77,7 +77,7 @@
 					<td><button disabled type="button" class="btn btn-success btn-xs" ><i class="fa fa-pencil-square-o"></i></button></td>
 					<td><button disabled type="button" class="btn btn-danger btn-xs"  ><i class="fa fa-fw fa-user-times"></i></button></td>
 					@endif
-					
+
 
 
 					{{-- @if ($p->estado == 'SOLICITADA')
@@ -105,9 +105,9 @@
 				<div class='aprobado' style="margin-top:70px; text-align: center">
 				<label style='color:#177F6B'>
 					... no se encontraron resultados para su busqueda...
-				</label> 
+				</label>
 				</div>
-			</div> 
+			</div>
 			@endif
 		</div>
 		<!-- /.box-body -->

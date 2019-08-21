@@ -46,14 +46,76 @@ class AsistenciasController extends Controller
     //Tomamos todas las listas creadas
     $listas = \DB::table('asistencia')
     ->join('users', 'users.id', '=', 'asistencia.id_usuario')
-    ->join('personas', 'personas.id_persona', '=', 'users.id_persona')
-    ->join('recintos', 'personas.id_recinto', '=', 'recintos.id_recinto')
-    ->join('origen', 'origen.id_origen', '=', 'personas.id_origen')
-    ->join('sub_origen', 'sub_origen.id_sub_origen', '=', 'personas.id_sub_origen')
+    ->leftjoin('personas', 'personas.id_persona', '=', 'users.id_persona')
+    ->leftjoin('recintos', 'personas.id_recinto', '=', 'recintos.id_recinto')
+    ->leftjoin('origen', 'origen.id_origen', '=', 'personas.id_origen')
+    ->leftjoin('sub_origen', 'sub_origen.id_sub_origen', '=', 'personas.id_sub_origen')
+    ->leftjoin('roles', 'personas.id_rol', '=', 'roles.id')
     ->select('recintos.circunscripcion', 'recintos.distrito', 'recintos.zona', 'recintos.nombre as recinto', 'recintos.direccion as direccion_recinto', 'asistencia.asistencia',
-             'users.email', 'users.password', 'personas.nombre as nombre_usuario', 'personas.paterno', 'personas.materno', 'personas.cedula_identidad',
+             'users.name', 'users.email', 'users.password', 'personas.nombre as nombre_usuario', 'personas.paterno', 'personas.materno', 'personas.cedula_identidad',
              'personas.complemento_cedula', 'personas.expedido', 'personas.telefono_celular', 'personas.telefono_referencia', 'personas.direccion as direccion_usuario',
-             'origen.origen', 'sub_origen.nombre as nombre_sub_origen')
+             'origen.origen', 'sub_origen.nombre as nombre_sub_origen', 'roles.description as rol')
+    ->where('asistencia.fecha', $request->fecha)
+    ->orderBy('recintos.circunscripcion', 'ASC')
+    ->orderBy('recintos.distrito', 'ASC')
+    ->orderBy('recintos.zona', 'ASC')
+    ->orderBy('recintos.nombre', 'ASC')
+    ->orderBy('asistencia.asistencia', 'DESC')
+    ->orderBy('users.email', 'ASC')
+    ->get();
+
+    return view("listados.lista_de_asistencia")
+          ->with("listas",$listas)
+          ->with("fecha",$request->fecha);
+  }
+
+  public function lista_de_asistencia_buscar(Request $request){
+    $dato = $request->dato_buscado;
+    //Tomamos todas las listas creadas
+    $listas = \DB::table('asistencia')
+    ->join('users', 'users.id', '=', 'asistencia.id_usuario')
+    ->leftjoin('personas', 'personas.id_persona', '=', 'users.id_persona')
+    ->leftjoin('recintos', 'personas.id_recinto', '=', 'recintos.id_recinto')
+    ->leftjoin('origen', 'origen.id_origen', '=', 'personas.id_origen')
+    ->leftjoin('sub_origen', 'sub_origen.id_sub_origen', '=', 'personas.id_sub_origen')
+    ->leftjoin('roles', 'personas.id_rol', '=', 'roles.id')
+    ->select('recintos.circunscripcion', 'recintos.distrito', 'recintos.zona', 'recintos.nombre as recinto', 'recintos.direccion as direccion_recinto', 'asistencia.asistencia',
+             'users.name','users.email', 'users.password', 'personas.nombre as nombre_usuario', 'personas.paterno', 'personas.materno', 'personas.cedula_identidad',
+             'personas.complemento_cedula', 'personas.expedido', 'personas.telefono_celular', 'personas.telefono_referencia', 'personas.direccion as direccion_usuario',
+             'origen.origen', 'sub_origen.nombre as nombre_sub_origen', 'roles.description as rol')
+    ->where('recintos.circunscripcion',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('recintos.distrito',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('recintos.zona',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('recintos.nombre',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('recintos.direccion',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('users.name',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('users.email',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('personas.nombre',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('personas.paterno',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('personas.materno',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('personas.cedula_identidad',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('personas.telefono_celular',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('personas.telefono_referencia',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('personas.direccion',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('origen.origen',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('sub_origen.nombre',  "like","%".$dato."%")
+    ->where('asistencia.fecha', $request->fecha)
+    ->orwhere('roles.description',  "like","%".$dato."%")
     ->where('asistencia.fecha', $request->fecha)
     ->orderBy('recintos.circunscripcion', 'ASC')
     ->orderBy('recintos.distrito', 'ASC')
@@ -167,5 +229,30 @@ class AsistenciasController extends Controller
     else {
       return view("mensajes.mensaje_error")->with("msj"," Estimado usuario, no existe una lista de asistencia para la fecha $fecha ");
     }
+  }
+
+  public function revisar_asistencia_transportes(){
+      //Tomamos la fecha actual
+      $date = new Carbon();
+      $hoy = Carbon::now();
+      $fecha = $hoy->format('Y-m-d');
+
+      $transportes = \DB::table('transportes')
+      ->leftjoin('origen', 'origen.id_origen', '=', 'transportes.id_origen')
+      ->leftjoin('sub_origen', 'sub_origen.id_sub_origen', '=', 'transportes.id_suborigen')
+      ->leftjoin('rel_usuario_transporte', 'rel_usuario_transporte.id_transporte', '=', 'transportes.id_transporte')
+      ->leftjoin('asistencia', 'asistencia.id_usuario', '=', 'rel_usuario_transporte.id_usuario')
+      ->where('asistencia.fecha', $fecha)
+      //->where('personas.id_rol', 16)
+      ->orderBy('transportes.distrito', 'ASC')
+      ->orderBy('transportes.id_origen', 'ASC')
+      ->orderBy('transportes.id_suborigen', 'ASC')
+      ->orderBy('transportes.conductor', 'ASC')
+      ->orderBy('transportes.propietario', 'ASC')
+      ->orderBy('asistencia.asistencia', 'DESC')
+      ->get();
+
+      return view("listados.revisar_transportes_asistencia")
+            ->with("transportes",$transportes);
   }
 }

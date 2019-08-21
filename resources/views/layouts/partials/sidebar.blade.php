@@ -35,9 +35,9 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ url('form_agregar_persona') }}">Personas</a></li>
                     <li><a href="{{ url('listado_empresas') }}">Usuarios</a></li>
-                    <li><a href="{{ url('listado_personas') }}">Transporte</a></li>
-                    <li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
-                    <li><a href="{{ url('listado_personas') }}">Candidatos</a></li>
+                    <li><a href="{{ url('form_agregar_transporte') }}">Transportes</a></li>
+                    <!--li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
+                    <li><a href="{{ url('listado_personas') }}">Candidatos</a></li-->
                 </ul>
             </li>
 
@@ -46,8 +46,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ url('listado_personas') }}">Personas</a></li>
                     <li><a href="{{ url('listado_empresas') }}">Usuarios</a></li>
-                    <li><a href="{{ url('form_agregar_transporte') }}">Agregar Transporte</a></li>
-                    <li><a href="{{ url('listado_personas') }}">Editar Transporte</a></li>
+                    <li><a href="{{ url('listado_transportes') }}">Transporte</a></li>
                     <li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
                     <li><a href="{{ url('listado_personas') }}">Candidatos</a></li>
                 </ul>
@@ -66,18 +65,11 @@
             </li>
 
             <li class="treeview">
-                <a href="#"><i class='fa fa-eye'></i> <span>Revisar</span> <i class="fa fa-angle-left pull-right"></i></a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ url('revisar_transportes') }}">Medios de Transporte Registrados</a></li>
-                    <li><a href="{{ url('revisar_transportes_asistencia') }}">Medios de Transporte (Asistencia)</a></li>
-                </ul>
-            </li>
-
-            <li class="treeview">
                 <a href="#"><i class='fa fa-edit'></i> <span>Asistencia</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="{{ url('form_agregar_lista_de_asistencia') }}">Crear lista de asistencia</a></li>
                     <li><a href="{{ url('form_listas_de_asistencia') }}">Ver listas de asistencia</a></li>
+                    <li><a href="{{ url('revisar_transportes_asistencia') }}">Asistencia Conductores (Hoy)</a></li>
                 </ul>
             </li>
 

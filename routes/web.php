@@ -73,6 +73,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('form_listas_de_asistencia', 'AsistenciasController@form_listas_de_asistencia');
     Route::post('lista_de_asistencia', 'AsistenciasController@lista_de_asistencia');
     Route::post('lista_de_asistencia_buscar', 'AsistenciasController@lista_de_asistencia_buscar');
+    Route::get('listas_de_asistencia_transporte', 'AsistenciasController@listas_de_asistencia_transporte');
+    Route::post('listas_de_asistencia_transporte_buscar', 'AsistenciasController@listas_de_asistencia_transporte_buscar');
     Route::get('form_registrar_asistencia', 'AsistenciasController@form_registrar_asistencia');
     Route::post('registrar_asistencia', 'AsistenciasController@registrar_asistencia');
     Route::post('registrar_falta', 'AsistenciasController@registrar_falta');

@@ -14,12 +14,12 @@
 	
 			<div class="box-header">
 				<h4 class="box-title">Usuarios</h4>	        
-				<form   action="{{ url('buscar_persona_asignacion') }}"  method="post"  >
+				<form   action="{{ url('buscar_persona_asignacion') }}"  method="post">
 					<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> 
 					<div class="input-group input-group-sm">
 						<input type="text" class="form-control" id="dato_buscado" name="dato_buscado" required>
 						<span class="input-group-btn">
-						<input type="submit" class="btn btn-primary" value="buscar" >
+							<input type="button" class="btn btn-primary" id="id_buscar_asignacion" value="buscar">
 						</span>
 					</div>
 				</form>
@@ -66,10 +66,11 @@
 					{{-- <td>{{$p->direccion}}</td> --}}
 					<td>{{$p->grado_compromiso}}</td>
 					<td>{{f_formato($p->fecha_registro)}}</td>
-					@if ($p->usuario_activo != null)
-					<td>{{$p->activo}}/{{$p->usuario_activo}}</td>
+					
+					@if ($p->usuario_activo == '0' || $p->usuario_activo == 1)
+						<td>{{$p->activo}}/{{$p->usuario_activo}}</td>
 					@else
-					<td>{{$p->activo}}/0</td>
+						<td>{{$p->activo}}/--</td>
 					@endif
 					<td>{{$p->nombre_recinto}}</td>
 					<td>{{$p->origen}}</td>
@@ -77,14 +78,14 @@
 					<td>{{$p->nombre_rol}}</td>
 					
 					{{-- @if ($p->activo == 1 && $p->usuario_activo == null && $p->asignado == 0) --}}
-					@if (($p->activo == 1 && $p->asignado == 0) && ($p->usuario_activo == null || $p->usuario_activo == 1) )
+					@if (($p->activo == 1 && $p->asignado == 0) && ($p->usuario_activo != '0') )
 					{{-- persona activa, sin usuario creado y sin asignacion --}}
 					<td><button type="button" class="btn btn-success btn-xs" onclick="verinfo_usuario({{ $p->id_persona }}, 20)" ><i class="fa fa-arrow-right"></i></button>
 					<button disabled type="button" class="btn btn-default btn-xs" ><i class="fa fa-rotate-left "></i></button></td>
 					{{-- <td><button type="button" class="btn btn-danger btn-xs" onclick="verinfo_persona({{ $p->id_persona }}, 2)" ><i class="fa fa-fw fa-user-times"></i></button></td> --}}
 					@else
 					<td><button disabled type="button" class="btn btn-success btn-xs" ><i class="fa fa-arrow-right"></i></button>
-						@if ($p->activo == 1)
+						@if ($p->activo == 1 && $p->asignado == 1 && $p->usuario_activo != '0')
 						<button type="button" class="btn btn-warning btn-xs" onclick="liberar_responsabilidad({{ $p->id_persona }})" ><i class="fa fa-rotate-left "></i></button></td>
 						@else
 						<button disabled type="button" class="btn btn-default btn-xs" ><i class="fa fa-rotate-left "></i></button></td>
@@ -127,3 +128,4 @@
 
 </section>
 @endsection
+

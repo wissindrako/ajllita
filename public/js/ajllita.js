@@ -1,22 +1,5 @@
 $(document).ready(function(){
 
-  function liberar_responsabilidad(id_persona){
-    var div_resul="div_notificacion_sol";
-    $.ajax({
-      type:'POST',
-      url:"liberar_responsabilidad", // sending the request to the same page we're on right now
-      data:{'id_persona':id_persona},
-         success: function(result){
-              if (result == 'ok') {
-                location.reload()
-              }
-              else{
-                $(div_resul).html(result);
-              }
-          }
-      })
-  }
-
   $("#id_origen").change(function(){
     cargaSubOrigen();
   });
@@ -437,25 +420,29 @@ $('#btn_vaciar').click(function(){
     });
   });
 
-  $('#btn-cancelar').click(function(){
-    var div_resul="div_notificacion_sol";
-    var id_sol = $("#id_solicitud").val();
-    $.ajax({
-      type:'POST',
-      url:"borrar_sol", // sending the request to the same page we're on right now
-      data:{'id_sol':id_sol},
-         success: function(result){
-              if (result == 'ok') {
-                refrescar();
-              }
-              else{
-                $("#"+div_resul+"").html(result);
-              }
-          }
-      }
-  )
+  // $('#id_buscar_asignacion').click(function(){
+    
+  //   var div_resul="div_notificacion_sol";
+  //   var dato_buscado = $("#dato_buscado").val();
+    
+  //   $.ajax({
+  //     type:'POST',
+  //     url:"buscar_persona_asignacion", // sending the request to the same page we're on right now
+  //     data:{'dato_buscado':dato_buscado},
+  //        success: function(result){
+  //             if (result == 'ok') {
+  //               alertify.success('uhhh '+dato_buscado);
+  //               // refrescar();
+  //             }
+  //             else{
+  //               alertify.success('uhhh '+dato_buscado);
+  //               $("#"+div_resul+"").html(result);
+  //             }
+  //         }
+  //     }
+  // )
 
-  });
+  // });
 
 
     var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -664,11 +651,55 @@ function  sol_vacaciones(arg){
    }) ;
 }
 
+
+function  liberar_responsabilidad(id_persona){
+  var div_resul="div_notificacion_sol";
+  
+  $.ajax({
+    type:'POST',
+    url:"liberar_responsabilidad", // sending the request to the same page we're on right now
+    data:{'id_persona':id_persona},
+       success: function(result){
+            if (result == 'ok') {
+              location.reload()
+            }
+            else{
+              alertify.success('resultado:'+result);
+            }
+        }
+    }).done( function(resul) 
+      {
+       $("#capa_formularios").html(resul);
+     
+      }).fail( function() 
+     {
+      $("#capa_formularios").html('<span>...Ha ocurrido un error, revise su conexión y vuelva a intentarlo...</span>');
+     }) ;
+  }
+
 function  verinfo_persona(id, form){
   var urlraiz=$("#url_raiz_proyecto").val();
   if(form == 1){var miurl =urlraiz+"/form_editar_persona/"+id+""; }
   if(form == 2){var miurl =urlraiz+"/form_baja_persona/"+id+""; }
-  
+
+  if (form == 30) {
+
+    alertify.success('id_persona:'+id_persona);
+    $.ajax({
+      type:'POST',
+      url:"liberar_responsabilidad", // sending the request to the same page we're on right now
+      data:{'id_persona':id_persona},
+         success: function(result){
+              if (result == 'ok') {
+                location.reload()
+              }
+              else{
+                $(div_resul).html(result);
+              }
+          }
+      })
+  }
+ 
 	$("#capa_modal").show();
 	$("#capa_formularios").show();
 	var screenTop = $(document).scrollTop();
@@ -702,6 +733,7 @@ function  verinfo_usuario(id, form){
   if(form == 12){var miurl =urlraiz+"/form_anulacion_vacacion/"+id+""; }
   if(form == 13){var miurl =urlraiz+"/form_sol_emergencias_usuario/"+id+""; }
 
+ 
 
 	$("#capa_modal").show();
 	$("#capa_formularios").show();
@@ -833,6 +865,10 @@ $(document).on("submit",".formentrada",function(e){
           $("#"+div_resul+"").html(resul);
         }
 
+      }else if(quien=="f_asignar_usuario_mesa" && resul == 'ok'){
+        recargar();
+      }else if(quien=="f_asignar_usuario_mesa" && resul != 'ok'){
+        alertify.success(resul);
       }else if(quien=="f_editar_tiempo" && resul == 'ok'){
         $('#ModalEdit').modal('hide');
         refresh_calendar();
@@ -855,7 +891,6 @@ $(document).on("submit",".formentrada",function(e){
       }
       else{
         // $('#capa_modal').modal('hide');
-
         $("#"+div_resul+"").html(resul);
       }
 

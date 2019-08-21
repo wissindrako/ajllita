@@ -34,7 +34,7 @@
                 <a href="#"><i class='fa fa-user-plus'></i> <span>Registro</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="{{ url('form_agregar_persona') }}">Personas</a></li>
-                    <li><a href="{{ url('listado_empresas') }}">Usuarios</a></li>
+                    {{-- <li><a href="{{ url('listado_empresas') }}">Usuarios</a></li> --}}
                     <li><a href="{{ url('form_agregar_transporte') }}">Transporte</a></li>
                     <li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
                     <li><a href="{{ url('listado_personas') }}">Candidatos</a></li>
@@ -45,7 +45,7 @@
                 <a href="#"><i class='fa fa-list'></i> <span>Listado</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="{{ url('listado_personas') }}">Personas</a></li>
-                    <li><a href="{{ url('listado_empresas') }}">Usuarios</a></li>
+                    {{-- <li><a href="{{ url('listado_empresas') }}">Usuarios</a></li> --}}
                     <li><a href="{{ url('form_agregar_transporte') }}">Agregar Transporte</a></li>
                     <li><a href="{{ url('listado_personas') }}">Editar Transporte</a></li>
                     <li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
@@ -56,12 +56,7 @@
             <li class="treeview">
                 <a href="#"><i class='fa fa-legal'></i> <span>Asignación</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ url('form_nuevo_contacto') }}">Persona - Mesa</a></li>
-                    <li><a href="{{ url('listado_personas_asignacion') }}">Usuario - Mesa</a></li>
-                    <li><a href="{{ url('listado_personas') }}">Usuario - Recinto</a></li>
-                    <li><a href="{{ url('listado_personas') }}">Usuario - Distrito</a></li>
-                    <li><a href="{{ url('listado_personas') }}">Usuario - Circunscripción</a></li>
-                    <li><a href="{{ url('listado_personas') }}">Usuario - Casa</a></li>
+                    <li><a href="{{ url('listado_personas_asignacion') }}">Rol - Usuario</a></li>
                 </ul>
             </li>
 
@@ -87,6 +82,9 @@
 
             <li class="treeview">
                 <a href="{{ url('form_votar_seleccionar_mesa') }}"><i class='fa fa-list-ol'></i> <span>Registrar votos</span> </a>
+            </li>
+            <li class="treeview">
+                <a href="{{ url('form_ver_recinto') }}"><i class='fa fa-map-o'></i> <span>Ver mi Recinto</span> </a>
             </li>
 
             <li class="treeview">

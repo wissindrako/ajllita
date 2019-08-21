@@ -437,7 +437,7 @@ public function ObtieneUsuario($id_persona){
     $numero = 0;
     $username = $ci;
     while (User::where('name', '=', $username)->exists()) { // user found 
-        $username=$username.$numero;
+        $username=$username+$numero;
         $numero++;
     }
 

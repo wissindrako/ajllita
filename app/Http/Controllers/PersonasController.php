@@ -105,7 +105,7 @@ class PersonasController extends Controller
                     $persona->id_sub_origen=$request->input("id_sub_origen");
                     $persona->id_responsable_registro=Auth::user()->id;
 
-                    $persona->id_rol=16;
+                    $persona->id_rol=15;
     
                     if($persona->save())
                     {

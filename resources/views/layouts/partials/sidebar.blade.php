@@ -38,6 +38,7 @@
                     <li><a href="{{ url('form_agregar_transporte') }}">Transportes</a></li>
                     <!--li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
                     <li><a href="{{ url('listado_personas') }}">Candidatos</a></li-->
+
                 </ul>
             </li>
 

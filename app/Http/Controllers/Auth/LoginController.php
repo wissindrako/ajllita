@@ -57,6 +57,13 @@ class LoginController extends Controller
         ]);
     }
 
+    public function username()
+    {
+        $login = request()->input('email');
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        request()->merge([$field => $login]);
+        return $field;
+    }
 
 
 

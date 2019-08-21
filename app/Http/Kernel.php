@@ -54,6 +54,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'roleshinobi' => \Caffeinated\Shinobi\Middleware\UserHasRole::class,
         'permissionshinobi' => \Caffeinated\Shinobi\Middleware\UserHasPermission::class,
-
+        'cors' => \App\Http\Middleware\Cors::class, 
     ];
 }

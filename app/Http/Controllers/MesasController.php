@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Caffeinated\Shinobi\Models\Role;
 use Caffeinated\Shinobi\Models\Permission;
+use Auth;
 use App\User;
 use App\Persona;
+use App\Recinto;
 use App\UsuarioMesa;
 use App\UsuarioRecinto;
 use App\UsuarioDistrito;
@@ -143,7 +145,7 @@ class MesasController extends Controller
                 $usuario->id_persona=$request->input("id_persona");
                 $usuario->name=$request->input("username");
                 $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
-                $usuario->password= bcrypt($request->input("password"));
+                $usuario->password= bcrypt($request->input("username"));
                 $usuario->id_persona=$request->input("id_persona");
                 $usuario->activo=1;
     
@@ -375,7 +377,110 @@ class MesasController extends Controller
 
     public function liberar_responsabilidad(Request $request){
 
+        //Obteniendo los datos de la persona
         $persona = Persona::find($request->input("id_persona"));
-        return "ok";
+        
+        // Obteniendo los datos del Usuario segun el id_persona
+        $usuario = \DB::table('users')
+        ->where('id_persona', $request->input('id_persona'))
+        ->first();
+        
+        $rol = \DB::table('roles')
+        ->where('roles.id', $persona->id_rol)
+        ->first();
+
+        if ($rol->slug == 'delegado_mas') {
+            # code...
+        }elseif ($rol->slug == 'conductor') {
+            // Rol Conductor
+            $user = User::find($usuario->id);
+            $user->activo = 0;
+            if ($user->save()) {
+                return 'ok';
+            } else {
+                return 'failed_usuario';
+            }
+            // Fin Conductor
+        }elseif ($rol->slug == 'registrador') {
+            # code...
+            $user = User::find($usuario->id);
+            $user->activo = 0;
+            if ($user->save()) {
+                return 'ok';
+            } else {
+                return 'failed_usuario';
+            }
+        }elseif ($rol->slug == 'call_center') {
+            # code...
+            $user = User::find($usuario->id);
+            $user->activo = 0;
+            if ($user->save()) {
+                return 'ok';
+            } else {
+                return 'failed_usuario';
+            }
+        }elseif ($rol->slug == 'informatico') {
+            // Rol informatico
+            if (UsuarioMesa::where('id_usuario', $usuario->id)
+            ->update(array('activo' => 0))) {
+                $user = User::find($usuario->id);
+                $user->activo = 0;
+                if ($user->save()) {
+                    return 'ok';
+                } else {
+                    return 'failed_usuario';
+                }
+                // $persona->asignado = 0;
+                // if ($persona->save()) {
+                //     return 'ok';
+                // } else {
+                //     return 'failed_persona';
+                // }
+            } else {
+                return 'failed_usuario_mesas';
+            }
+            //Fin informatico
+        }elseif ($rol->slug == 'responsable_recinto') {
+            # code...
+            $user = User::find($usuario->id);
+            $user->activo = 0;
+            if ($user->save()) {
+                return 'ok';
+            } else {
+                return 'failed_usuario';
+            }
+        }elseif ($rol->slug == 'responsable_distrito') {
+            # code...
+            $user = User::find($usuario->id);
+            $user->activo = 0;
+            if ($user->save()) {
+                return 'ok';
+            } else {
+                return 'failed_usuario';
+            }
+        }elseif ($rol->slug == 'responsable_circunscripcion') {
+            # code...
+            $user = User::find($usuario->id);
+            $user->activo = 0;
+            if ($user->save()) {
+                return 'ok';
+            } else {
+                return 'failed_usuario';
+            }
+        }else {
+            return 'failed';
+        }
+
+    }
+
+    public function form_ver_recinto(){
+        
+        $id_persona = Auth::user()->id_persona;
+        $persona = Persona::find($id_persona);
+        $recinto = Recinto::find($id_persona);
+
+        return view("formularios.form_ver_recinto")
+        ->with('persona', $persona)
+        ->with('recinto', $recinto);
     }
 }

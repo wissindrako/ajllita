@@ -17,13 +17,14 @@ Route::get('form_pruebas', 'PruebasController@form_pruebas');
 
 Auth::routes();
 
+Route::group(['middleware' => 'cors'], function () {
+});
 
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/home', 'HomeController@index');
 
     Route::get('form_agregar_persona', 'PersonasController@form_agregar_persona');
-
 
     Route::get('form_agregar_transporte', 'TransportesController@form_agregar_transporte');
     Route::post('agregar_transporte', 'TransportesController@agregar_transporte');
@@ -55,6 +56,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('form_asignar_usuario_mesa/{id_persona}', 'MesasController@form_asignar_usuario_mesa');
     Route::post('asignar_usuario_mesa', 'MesasController@asignar_usuario_mesa');
     Route::post('liberar_responsabilidad', 'MesasController@liberar_responsabilidad');
+
+    Route::get('form_ver_recinto', 'MesasController@form_ver_recinto');
 
     // Route::get('ObtieneUsuarioMd5/{id_circ}/{id_distrito}/{id_recinto}', 'UsuariosController@ObtieneUsuarioMd5');
     Route::get('ObtieneUsuario/{id_persona}/', 'UsuariosController@ObtieneUsuario');

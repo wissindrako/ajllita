@@ -12,33 +12,23 @@
 		<div class="box-header">
 				<h3 class="box-title">Listado de Personas</h3>
 
-			<div class="box-header">
-				<h4 class="box-title">Usuarios</h4>
-				<form   action="{{ url('buscar_persona') }}"  method="post"  >
-					<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-					<div class="input-group input-group-sm">
-						<input type="text" class="form-control" id="dato_buscado" name="dato_buscado" required>
-						<span class="input-group-btn">
-						<input type="submit" class="btn btn-primary" value="buscar" >
-						</span>
-					</div>
-				</form>
-			</div>
+
+			
 		</div>
 		<!-- /.box-header -->
 		{{-- {{dd($personas)}} --}}
 		<div class="box-body table-responsive no-padding">
-		  <table class="table table-hover table-striped table-bordered">
-			<tbody>
-
-			<tr>
-				<th>ID</th>
-				<th>Nombre Completo</th>
-				<th>Cedula de Identidad</th>
-				<th>Fecha nacimiento</th>
-				<th>Telf. Cel.</th>
-				<th>Telf. Ref.</th>
-				{{-- <th>Email</th> --}}
+		  <table id="tabla_personas" class="table table-hover table-striped table-bordered">
+			<thead>
+			
+				<th>Nombre</th>
+				<th>Paterno</th>
+				<th>Materno</th>
+				<th>Cedula</th>
+				<th>Comp.</th>
+				<th>Nacimiento</th>
+				<th>Telefono - Celular</th>
+				<th>Telefono Ref.</th>
 				<th>Dirección</th>
 				<th>Compromiso</th>
 				<th>Fecha de Registro</th>
@@ -47,12 +37,32 @@
 				<th>Origen</th>
 				<th>Sub Origen</th>
 				<th>Rol</th>
-				<th colspan="2">Acción</th>
-			</tr>
+				<th>Acción</th>
+				
+			</thead>
+			{{-- <tbody> --}}
+
+			{{-- <tr>
+				<th>ID</th> --}}
+				{{-- <th>Nombre Completo</th>
+				<th>Cedula de Identidad</th>
+				<th>Fecha nacimiento</th>
+				<th>Telf. Cel.</th>
+				<th>Telf. Ref.</th>
+				<th>Dirección</th>
+				<th>Compromiso</th>
+				<th>Fecha de Registro</th>
+				<th>Activo</th>
+				<th>Recinto</th>
+				<th>Origen</th>
+				<th>Sub Origen</th>
+				<th>Rol</th>
+				<th colspan="2">Acción</th> --}}
+			{{-- </tr> --}}
 			{{-- // ->where('personal.idarea', $persona->idarea)
 			// ->where('vacaciones.id_estado', '=' ,1) --}}
 
-			@foreach ($personas as $p)
+			{{-- @foreach ($personas as $p)
 				<tr>
 					<td>{{$p->id_persona}}</td>
 					<td>{{$p->nombre.' '.$p->paterno.' '.$p->materno}}</td>
@@ -60,7 +70,6 @@
 					<td>{{f_formato($p->fecha_nacimiento)}}</td>
 					<td>{{$p->telefono_celular}}</td>
 					<td>{{$p->telefono_referencia}}</td>
-					{{-- <td>{{$p->email}}</td> --}}
 					<td>{{$p->direccion}}</td>
 					<td>{{$p->grado_compromiso}}</td>
 					<td>{{f_formato($p->fecha_registro)}}</td>
@@ -77,29 +86,11 @@
 					<td><button disabled type="button" class="btn btn-success btn-xs" ><i class="fa fa-pencil-square-o"></i></button></td>
 					<td><button disabled type="button" class="btn btn-danger btn-xs"  ><i class="fa fa-fw fa-user-times"></i></button></td>
 					@endif
-
-
-
-					{{-- @if ($p->estado == 'SOLICITADA')
-					<td><span class="badge bg-blue">{{$p->estado}}</span></td>
-					<td><button type="button" class="btn  btn-default btn-xs" disabled><i class="fa fa-fw fa-edit"></i></button></td>
-					@endif
-					@if ($p->estado == 'APROBADA')
-					<td><span class="badge bg-yellow">{{$p->estado}}</span></td>
-					<td><button type="button" class="btn  btn-default btn-xs" onclick="verinfo_usuario({{  $p->id_solicitud }}, 8)"  ><i class="fa fa-fw fa-edit"></i></button></td>
-					@endif
-					@if ($p->estado == 'AUTORIZADA')
-					<td><span class="badge bg-green">{{$p->estado}}</span></td>
-					<td><button type="button" class="btn  btn-default btn-xs" disabled ><i class="fa fa-fw fa-edit"></i></button></td>
-					@endif
-					@if ($p->estado == 'RECHAZADA')
-					<td><span class="badge bg-red">{{$p->estado}}</span></td>
-					<td><button type="button" class="btn  btn-default btn-xs" disabled ><i class="fa fa-fw fa-edit"></i></button></td>
-					@endif --}}
 				</tr>
-			@endforeach
+			@endforeach --}}
 
-			</tbody></table>
+			{{-- </tbody> --}}
+		</table>
 			@if (count($personas) == 0)
 			<div class="box box-primary col-xs-12">
 				<div class='aprobado' style="margin-top:70px; text-align: center">
@@ -114,4 +105,70 @@
 	  </div>
 
 </section>
+@endsection
+
+@section('scripts')
+
+@parent
+
+<script>
+ function activar_tabla_empresas() {
+    var t = $('#tabla_personas').DataTable({
+
+		scrollY:"600px",
+		dom: 'Bfrtip',
+        processing: true,
+        serverSide: true,
+		pageLength: 20,
+		buttons: [
+			'excel', 'pdf', 'print'
+		],
+		// buttons: [
+        //           {
+        //               extend: 'pdfHtml5',
+        //               orientation: 'landscape',
+        //               pageSize: 'LEGAL'
+        //           }
+        //         ],
+        language: {
+                 "url": '{!! asset('/plugins/datatables/latino.json') !!}'
+                  } ,
+        ajax: '{!! url('buscar_persona') !!}',
+        columns: [
+            { data: 'nombre', name: 'nombre' },
+            { data: 'paterno', name: 'paterno' },
+            { data: 'materno', name: 'materno' },
+            { data: 'cedula_identidad', name: 'cedula_identidad' },
+            { data: 'complemento_cedula', name: 'complemento_cedula' },
+            { data: 'fecha_nacimiento', name: 'fecha_nacimiento' },
+            { data: 'telefono_celular', name: 'telefono_celular' },
+            { data: 'telefono_referencia', name: 'telefono_referencia' },
+            { data: 'direccion', name: 'direccion' },
+            { data: 'grado_compromiso', name: 'grado_compromiso' },
+            { data: 'fecha_registro', name: 'fecha_registro' },
+            { data: 'activo', name: 'activo' },
+            { data: 'nombre_recinto', name: 'nombre_recinto' },
+            { data: 'origen', name: 'origen' },
+            { data: 'sub_origen', name: 'sub_origen' },
+            { data: 'nombre_rol', name: 'nombre_rol' },
+            { data: null,  render: function ( data, type, row ) {
+				if ( row.activo === 1) {
+						// return "<a href='{{ url('form_editar_contacto/') }}/"+ data.id +"' class='btn btn-xs btn-primary' >Editar</button>"
+						return "<td><button type='button' class='btn btn-success btn-xs' onclick='verinfo_persona("+data.id_persona+","+1+")' ><i class='fa fa-pencil-square-o'></i></button></td><td><button type='button' class='btn btn-danger btn-xs' onclick='verinfo_persona("+data.id_persona+","+2+")' ><i class='fa fa-fw fa-user-times'></i></button></td>"
+					} else {
+						return "<td><button disabled type='button' class='btn btn-success btn-xs'><i class='fa fa-pencil-square-o'></i></button></td><td><button disabled type='button' class='btn btn-danger btn-xs'><i class='fa fa-fw fa-user-times'></i></button></td>"
+					}
+				}  
+			},
+        ]
+    });
+
+}	
+activar_tabla_empresas();
+
+
+</script>
+
+
+
 @endsection

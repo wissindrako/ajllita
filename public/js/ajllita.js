@@ -682,6 +682,8 @@ function  verinfo_persona(id, form){
   if(form == 1){var miurl =urlraiz+"/form_editar_persona/"+id+""; }
   if(form == 2){var miurl =urlraiz+"/form_baja_persona/"+id+""; }
 
+  if(form == 31){var miurl = urlraiz+"/form_mesas_recinto";}
+
   if (form == 30) {
 
     alertify.success('id_persona:'+id_persona);
@@ -803,6 +805,7 @@ $(document).on("submit",".formentrada",function(e){
   var formu=$(this);
   var varurl="";
 
+  if(quien=="f_asignar_mesas_recinto"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_asignar_usuario_mesa"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_agregar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_agregar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}

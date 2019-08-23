@@ -11,6 +11,7 @@ use Auth;
 use App\User;
 use App\Persona;
 use App\Recinto;
+use App\Mesa;
 use App\UsuarioMesa;
 use App\UsuarioRecinto;
 use App\UsuarioDistrito;
@@ -64,29 +65,48 @@ class MesasController extends Controller
         ->with('persona', $persona);
     }
 
-    public function consultaMesasRecinto($id_recinto){
+    public function consultaMesasRecinto($id_recinto, $id_persona){
 
         //Mesas Asignadas
 
-        $mesas_recinto =\DB::table('mesas')
-        ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
-        ->where(function($query){
-            $query
-            ->where('rel_usuario_mesa.activo', null)
-            ->orwhere('rel_usuario_mesa.activo', 0);
-        })
+        // $mesas_recinto =\DB::table('mesas')
+        // ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
+        // ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
+        // ->where(function($query){
+        //     $query
+        //     ->where('rel_usuario_mesa.activo', null)
+        //     ->orwhere('rel_usuario_mesa.activo', 0);
+        // })
+        // ->where('mesas.id_recinto', $id_recinto)
+        // ->select('users.id as id_usuario',
+        //     'rel_usuario_mesa.id_mesa as rel_idmesa', 'rel_usuario_mesa.activo', 
+        //          'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_ajllita')
+        // ->orderBy('mesas.id_mesa')
+        // ->get();
+
+        $mesas_recinto =\DB::table('rel_usuario_mesa')
+        ->where('rel_usuario_mesa.activo', 1)
+        ->pluck('rel_usuario_mesa.id_mesa')
+        ->toArray();
+
+        $mesas =\DB::table('mesas')
         ->where('mesas.id_recinto', $id_recinto)
-        ->select('rel_usuario_mesa.id_mesa as rel_idmesa', 'rel_usuario_mesa.activo', 
-                 'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_ajllita')
-        ->orderBy('mesas.id_mesa')
+        ->whereNotIn('id_mesa', $mesas_recinto)
+        ->select('id_mesa', 'codigo_mesas_oep', 'codigo_ajllita',  'id_recinto')
         ->get();
         
-        return $mesas_recinto;
+        return $mesas;
     }
 
     public function asignar_usuario_mesa(Request $request){
         $persona = Persona::find($request->input("id_persona"));
+
+        $username = $this->ObtieneUsuario($request->input("id_persona"));
         // $persona->id_rol =$request->input("id_rol");
+
+        $usuario = \DB::table('users')
+        ->where('id_persona', $request->input("id_persona"))
+        ->first();
 
         if($request->input("rol_slug") == 'delegado_mas'){
             //rol delegado del MAS
@@ -95,16 +115,24 @@ class MesasController extends Controller
             // rol Conductor
             if ($request->input("id_vehiculo") != "") {
 
-                $usuario=new User;
-                $usuario->id_persona=$request->input("id_persona");
-                $usuario->name=$request->input("username");
-                $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
-                $usuario->password= bcrypt($request->input("password"));
-                $usuario->id_persona=$request->input("id_persona");
-                $usuario->activo=1;
+                $user = false;
+                if ($usuario != null) {
+                    $user = true;
+                }else {
+                    $usuario=new User;
+                    $usuario->id_persona=$request->input("id_persona");
+                    $usuario->name=$username;
+                    $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$username;
+                    $usuario->password= bcrypt($username);
+                    $usuario->id_persona=$request->input("id_persona");
+                    $usuario->activo=1;
+                    if ($usuario->save()) {
+                        $user = true;
+                    }
+                }
     
                 //Si el usuario es creado correctamente modificamos su rol
-                if ($usuario->save()) {
+                if ($user) {
     
                     $rol = \DB::table('roles')
                     ->where('roles.slug', $request->input("rol_slug"))
@@ -112,7 +140,8 @@ class MesasController extends Controller
                         // $persona->id_rol =$request->input("id_rol");
                     $persona->id_rol =$rol->id;
                     $persona->asignado =1;
-    
+                    //Asignando rol
+                    $usuario->assignRole($rol->id);
                     if ($persona->save()) {
                         // creamos las relaciones usuario - recinto
                         $usuario_transporte = new UsuarioTransporte();
@@ -141,16 +170,24 @@ class MesasController extends Controller
             // rol Registrador
             if ($request->input("id_casa_campana") != "") {
 
-                $usuario=new User;
-                $usuario->id_persona=$request->input("id_persona");
-                $usuario->name=$request->input("username");
-                $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
-                $usuario->password= bcrypt($request->input("username"));
-                $usuario->id_persona=$request->input("id_persona");
-                $usuario->activo=1;
+                $user = false;
+                if ($usuario != null) {
+                    $user = true;
+                }else {
+                    $usuario=new User;
+                    $usuario->id_persona=$request->input("id_persona");
+                    $usuario->name=$username;
+                    $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$username;
+                    $usuario->password= bcrypt($username);
+                    $usuario->id_persona=$request->input("id_persona");
+                    $usuario->activo=1;
+                    if ($usuario->save()) {
+                        $user = true;
+                    }
+                }
     
                 //Si el usuario es creado correctamente modificamos su rol
-                if ($usuario->save()) {
+                if ($user) {
     
                     $rol = \DB::table('roles')
                     ->where('roles.slug', $request->input("rol_slug"))
@@ -158,7 +195,9 @@ class MesasController extends Controller
                         // $persona->id_rol =$request->input("id_rol");
                     $persona->id_rol =$rol->id;
                     $persona->asignado =1;
-    
+                    //Asignando rol
+                    $usuario->assignRole($rol->id);
+
                     if ($persona->save()) {
                         // creamos las relaciones usuario - recinto
                         $usuario_casa_campana = new UsuarioCasaCampana();
@@ -190,16 +229,24 @@ class MesasController extends Controller
             //rol informatico
             if ($request->has("mesas")) {
 
-                $usuario=new User;
-                $usuario->id_persona=$request->input("id_persona");
-                $usuario->name=$request->input("username");
-                $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
-                $usuario->password= bcrypt($request->input("password"));
-                $usuario->id_persona=$request->input("id_persona");
-                $usuario->activo=1;
+                $user = false;
+                if ($usuario != null) {
+                    $user = true;
+                }else {
+                    $usuario=new User;
+                    $usuario->id_persona=$request->input("id_persona");
+                    $usuario->name=$username;
+                    $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$username;
+                    $usuario->password= bcrypt($username);
+                    $usuario->id_persona=$request->input("id_persona");
+                    $usuario->activo=1;
+                    if ($usuario->save()) {
+                        $user = true;
+                    }
+                }
     
                 //Si el usuario es creado correctamente modificamos su rol
-                if ($usuario->save()) {
+                if ($user) {
     
                     $rol = \DB::table('roles')
                     ->where('roles.slug', $request->input("rol_slug"))
@@ -207,6 +254,8 @@ class MesasController extends Controller
     
                     $persona->id_rol =$rol->id;
                     $persona->asignado =1;
+                    //Asignando rol
+                    $usuario->assignRole($rol->id);
     
                     if ($persona->save()) {
                         // creamos las relaciones usuario - mesas
@@ -235,16 +284,24 @@ class MesasController extends Controller
             // rol responsable recinto
             if ($request->input("recinto") != "" && $request->input("recinto") != 0) {
 
-                $usuario=new User;
-                $usuario->id_persona=$request->input("id_persona");
-                $usuario->name=$request->input("username");
-                $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
-                $usuario->password= bcrypt($request->input("password"));
-                $usuario->id_persona=$request->input("id_persona");
-                $usuario->activo=1;
+                $user = false;
+                if ($usuario != null) {
+                    $user = true;
+                }else {
+                    $usuario=new User;
+                    $usuario->id_persona=$request->input("id_persona");
+                    $usuario->name=$username;
+                    $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$username;
+                    $usuario->password= bcrypt($username);
+                    $usuario->id_persona=$request->input("id_persona");
+                    $usuario->activo=1;
+                    if ($usuario->save()) {
+                        $user = true;
+                    }
+                }
     
                 //Si el usuario es creado correctamente modificamos su rol
-                if ($usuario->save()) {
+                if ($user) {
     
                     $rol = \DB::table('roles')
                     ->where('roles.slug', $request->input("rol_slug"))
@@ -252,7 +309,9 @@ class MesasController extends Controller
                         // $persona->id_rol =$request->input("id_rol");
                     $persona->id_rol =$rol->id;
                     $persona->asignado =1;
-    
+                    //Asignando rol
+                    $usuario->assignRole($rol->id);
+
                     if ($persona->save()) {
                         // creamos las relaciones usuario - recinto
                         $usuario_recinto = new UsuarioRecinto;
@@ -281,16 +340,24 @@ class MesasController extends Controller
             //rol Responsable de Distrito
             if ($request->input("distrito") != "" && $request->input("distrito") != 0) {
 
-                $usuario=new User;
-                $usuario->id_persona=$request->input("id_persona");
-                $usuario->name=$request->input("username");
-                $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
-                $usuario->password= bcrypt($request->input("password"));
-                $usuario->id_persona=$request->input("id_persona");
-                $usuario->activo=1;
+                $user = false;
+                if ($usuario != null) {
+                    $user = true;
+                }else {
+                    $usuario=new User;
+                    $usuario->id_persona=$request->input("id_persona");
+                    $usuario->name=$username;
+                    $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$username;
+                    $usuario->password= bcrypt($username);
+                    $usuario->id_persona=$request->input("id_persona");
+                    $usuario->activo=1;
+                    if ($usuario->save()) {
+                        $user = true;
+                    }
+                }
     
                 //Si el usuario es creado correctamente modificamos su rol
-                if ($usuario->save()) {
+                if ($user) {
     
                     $rol = \DB::table('roles')
                     ->where('roles.slug', $request->input("rol_slug"))
@@ -298,6 +365,8 @@ class MesasController extends Controller
                         // $persona->id_rol =$request->input("id_rol");
                     $persona->id_rol =$rol->id;
                     $persona->asignado =1;
+                    //Asignando rol
+                    $usuario->assignRole($rol->id);
     
                     if ($persona->save()) {
                         // creamos las relaciones usuario - recinto
@@ -327,16 +396,24 @@ class MesasController extends Controller
             //rol Responsable Circunscripcion
             if ($request->input("circunscripcion") != "" && $request->input("circunscripcion") != 0) {
 
-                $usuario=new User;
-                $usuario->id_persona=$request->input("id_persona");
-                $usuario->name=$request->input("username");
-                $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$request->input("username");
-                $usuario->password= bcrypt($request->input("password"));
-                $usuario->id_persona=$request->input("id_persona");
-                $usuario->activo=1;
+                $user = false;
+                if ($usuario != null) {
+                    $user = true;
+                }else {
+                    $usuario=new User;
+                    $usuario->id_persona=$request->input("id_persona");
+                    $usuario->name=$username;
+                    $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$username;
+                    $usuario->password= bcrypt($username);
+                    $usuario->id_persona=$request->input("id_persona");
+                    $usuario->activo=1;
+                    if ($usuario->save()) {
+                        $user = true;
+                    }
+                }
     
                 //Si el usuario es creado correctamente modificamos su rol
-                if ($usuario->save()) {
+                if ($user) {
     
                     $rol = \DB::table('roles')
                     ->where('roles.slug', $request->input("rol_slug"))
@@ -344,7 +421,9 @@ class MesasController extends Controller
                         // $persona->id_rol =$request->input("id_rol");
                     $persona->id_rol =$rol->id;
                     $persona->asignado =1;
-    
+                    //Asignando rol
+                    $usuario->assignRole($rol->id);
+
                     if ($persona->save()) {
                         // creamos las relaciones usuario - recinto
                         $usuario_circunscripcion = new UsuarioCircunscripcion;
@@ -393,79 +472,73 @@ class MesasController extends Controller
             # code...
         }elseif ($rol->slug == 'conductor') {
             // Rol Conductor
-            $user = User::find($usuario->id);
-            $user->activo = 0;
-            if ($user->save()) {
-                return 'ok';
-            } else {
-                return 'failed_usuario';
-            }
+                $persona->asignado = 0;
+                if ($persona->save()) {
+                    return 'ok';
+                } else {
+                    return 'failed_persona';
+                }
             // Fin Conductor
         }elseif ($rol->slug == 'registrador') {
             # code...
-            $user = User::find($usuario->id);
-            $user->activo = 0;
-            if ($user->save()) {
+            $persona->asignado = 0;
+            if ($persona->save()) {
                 return 'ok';
             } else {
-                return 'failed_usuario';
+                return 'failed_persona';
             }
         }elseif ($rol->slug == 'call_center') {
             # code...
-            $user = User::find($usuario->id);
-            $user->activo = 0;
-            if ($user->save()) {
+            $persona->asignado = 0;
+            if ($persona->save()) {
                 return 'ok';
             } else {
-                return 'failed_usuario';
+                return 'failed_persona';
             }
         }elseif ($rol->slug == 'informatico') {
             // Rol informatico
             if (UsuarioMesa::where('id_usuario', $usuario->id)
             ->update(array('activo' => 0))) {
-                $user = User::find($usuario->id);
-                $user->activo = 0;
-                if ($user->save()) {
-                    return 'ok';
-                } else {
-                    return 'failed_usuario';
-                }
-                // $persona->asignado = 0;
-                // if ($persona->save()) {
+                // $user = User::find($usuario->id);
+                // $user->activo = 0;
+                // if ($user->save()) {
                 //     return 'ok';
                 // } else {
-                //     return 'failed_persona';
+                //     return 'failed_usuario';
                 // }
+                $persona->asignado = 0;
+                if ($persona->save()) {
+                    return 'ok';
+                } else {
+                    return 'failed_persona';
+                }
             } else {
                 return 'failed_usuario_mesas';
             }
             //Fin informatico
         }elseif ($rol->slug == 'responsable_recinto') {
             # code...
-            $user = User::find($usuario->id);
-            $user->activo = 0;
-            if ($user->save()) {
+            $persona->asignado = 0;
+            if ($persona->save()) {
                 return 'ok';
             } else {
-                return 'failed_usuario';
+                return 'failed_persona';
             }
         }elseif ($rol->slug == 'responsable_distrito') {
             # code...
-            $user = User::find($usuario->id);
-            $user->activo = 0;
-            if ($user->save()) {
+            $persona->asignado = 0;
+            if ($persona->save()) {
                 return 'ok';
             } else {
-                return 'failed_usuario';
+                return 'failed_persona';
             }
         }elseif ($rol->slug == 'responsable_circunscripcion') {
             # code...
-            $user = User::find($usuario->id);
-            $user->activo = 0;
-            if ($user->save()) {
+            $persona->asignado = 0;
+            if ($persona->save()) {
                 return 'ok';
             } else {
-                return 'failed_usuario';
+                return 'failed_persona';
             }
         }else {
             return 'failed';
@@ -477,10 +550,59 @@ class MesasController extends Controller
         
         $id_persona = Auth::user()->id_persona;
         $persona = Persona::find($id_persona);
-        $recinto = Recinto::find($id_persona);
+        $recinto = Recinto::find($persona->id_recinto);
+        $rol = Role::find($persona->id_rol);
 
         return view("formularios.form_ver_recinto")
         ->with('persona', $persona)
-        ->with('recinto', $recinto);
+        ->with('recinto', $recinto)
+        ->with('rol', $rol);
     }
+
+    public function form_mesas_recinto(){
+        return view("formularios.form_mesas_recinto");
+    }
+
+    public function asignar_mesas_recinto(){
+        $recintos = Recinto::all();
+        $mesas = Mesa::all();
+        if(count($mesas) == 0){
+            $codigo = 0;
+            foreach ($recintos as $recinto) {
+                $a = 0;
+                while ($a < $recinto->numero_mesas) {
+                    $codigo++;
+                    $a++;
+                    $mesa = new Mesa;
+                    $mesa->codigo_mesas_oep = $codigo;
+                    $mesa->codigo_ajllita = $codigo;
+                    $mesa->foto_presidenciales = '';
+                    $mesa->foto_uninominales = '';
+                    $mesa->numero_votantes = 500; // *** ACTUALIZAR DE ACUERDO AL NUMERO DE VOTANTES POR MESA ***
+                    $mesa->id_recinto = $recinto->id_recinto;
+                    $mesa->save();
+                }
+            }
+            return "ok";
+        }else{
+            return "Existen mesas";
+        }
+    }
+
+    public function ObtieneUsuario($id_persona){
+        $persona = Persona::find($id_persona);
+    
+        $ci = $persona->cedula_identidad.$persona->complemento_cedula;
+        $numero = 0;
+        $username = $ci;
+        while (User::where('name', '=', $username)->exists()) { // user found 
+            $username=$username+$numero;
+            $numero++;
+        }
+    
+        //Quitar espacios en blanco
+        $username = str_replace(' ', '', $username); 
+        return $username;
+    }
+
 }

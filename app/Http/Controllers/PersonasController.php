@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Datatables;
 use Auth;
 use App\Persona;
 
@@ -320,25 +321,38 @@ class PersonasController extends Controller
         ->with('personas', $personas);
     }
     
-    public function buscar_persona(Request $request){
-        $dato = $request->input("dato_buscado");
-        $personas = Persona::join('recintos', 'personas.id_recinto', 'recintos.id_recinto')
+    // public function buscar_persona(Request $request){
+    //     $dato = $request->input("dato_buscado");
+    //     $personas = Persona::join('recintos', 'personas.id_recinto', 'recintos.id_recinto')
+    //     ->join('origen', 'personas.id_origen', 'origen.id_origen')
+    //     ->leftjoin('sub_origen', 'personas.id_sub_origen', 'sub_origen.id_sub_origen')
+    //     ->leftjoin('roles', 'personas.id_rol', 'roles.id')
+    //     ->where("personas.nombre","like","%".$dato."%")
+    //     ->orwhere("paterno","like","%".$dato."%")
+    //     ->orwhere("materno","like","%".$dato."%")
+    //     ->orwhere("cedula_identidad","like","%".$dato."%")
+    //     ->select('personas.*', 'recintos.id_recinto', 'recintos.nombre as nombre_recinto', 'recintos.circunscripcion', 'recintos.distrito',
+    //     'recintos.zona', 'recintos.direccion as direccion_recinto',
+    //     'origen.origen', 'sub_origen.nombre as sub_origen',
+    //     'roles.name as nombre_rol'
+    //     )
+    //     ->orderBy('fecha_registro', 'desc')
+    //     ->orderBy('id_persona', 'desc')
+    //     ->paginate(100);
+    //     return view('listados.listado_personas')->with("personas",$personas);
+    // }
+
+    public function buscar_persona(){
+        return Datatables::of(Persona::join('recintos', 'personas.id_recinto', 'recintos.id_recinto')
         ->join('origen', 'personas.id_origen', 'origen.id_origen')
         ->leftjoin('sub_origen', 'personas.id_sub_origen', 'sub_origen.id_sub_origen')
         ->leftjoin('roles', 'personas.id_rol', 'roles.id')
-        ->where("personas.nombre","like","%".$dato."%")
-        ->orwhere("paterno","like","%".$dato."%")
-        ->orwhere("materno","like","%".$dato."%")
-        ->orwhere("cedula_identidad","like","%".$dato."%")
         ->select('personas.*', 'recintos.id_recinto', 'recintos.nombre as nombre_recinto', 'recintos.circunscripcion', 'recintos.distrito',
         'recintos.zona', 'recintos.direccion as direccion_recinto',
         'origen.origen', 'sub_origen.nombre as sub_origen',
         'roles.name as nombre_rol'
         )
-        ->orderBy('fecha_registro', 'desc')
-        ->orderBy('id_persona', 'desc')
-        ->paginate(100);
-        return view('listados.listado_personas')->with("personas",$personas);
+        ->get())->make(true);
     }
 
     public function ConsultaSubOrigen($id_origen){

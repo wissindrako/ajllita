@@ -231,37 +231,6 @@ class AsistenciasController extends Controller
     }
   }
 
-
-  public function listas_de_asistencia_transporte(){
-      //Tomamos la fecha actual
-      $date = new Carbon();
-      $hoy = Carbon::now();
-      $fecha = $hoy->format('Y-m-d');
-
-      $transportes = \DB::table('transportes')
-      ->leftjoin('origen', 'origen.id_origen', '=', 'transportes.id_origen')
-      ->leftjoin('sub_origen', 'sub_origen.id_sub_origen', '=', 'transportes.id_suborigen')
-      ->leftjoin('rel_usuario_transporte', 'rel_usuario_transporte.id_transporte', '=', 'transportes.id_transporte')
-      ->leftjoin('asistencia', 'asistencia.id_usuario', '=', 'rel_usuario_transporte.id_usuario')
-      ->leftjoin('users', 'users.id', '=', 'rel_usuario_transporte.id_usuario')
-      ->leftjoin('personas', 'personas.id_persona', '=', 'users.id_persona')
-      ->select('transportes.*', 'asistencia.asistencia', 'users.name', 'users.email as email_usuario', 'personas.nombre as nombre_persona', 'personas.*', 'origen.origen', 'sub_origen.nombre as nombre_sub_origen' )
-      //->where('asistencia.fecha', $fecha)
-      //->where('personas.id_rol', 16)
-      ->orderBy('transportes.distrito', 'ASC')
-      ->orderBy('transportes.id_origen', 'ASC')
-      ->orderBy('transportes.id_suborigen', 'ASC')
-      ->orderBy('transportes.conductor', 'ASC')
-      ->orderBy('transportes.propietario', 'ASC')
-      ->orderBy('asistencia.asistencia', 'DESC')
-      ->get();
-
-      return view("listados.lista_de_asistencia_transporte")
-            ->with("transportes",$transportes)
-            ->with("fecha",$fecha);
-  }
-
-
   public function revisar_asistencia_transportes(){
       //Tomamos la fecha actual
       $date = new Carbon();

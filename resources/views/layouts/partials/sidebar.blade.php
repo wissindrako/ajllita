@@ -35,6 +35,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ url('form_agregar_persona') }}">Personas</a></li>
                     {{-- <li><a href="{{ url('listado_empresas') }}">Usuarios</a></li> --}}
+                    
                     <li><a href="{{ url('form_agregar_transporte') }}">Transporte</a></li>
                     <!--li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
                     <li><a href="{{ url('listado_personas') }}">Candidatos</a></li-->
@@ -63,7 +64,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ url('form_agregar_lista_de_asistencia') }}">Crear lista de asistencia</a></li>
                     <li><a href="{{ url('form_listas_de_asistencia') }}">Ver listas de asistencia</a></li>
-                    <li><a href="{{ url('listas_de_asistencia_transporte') }}">Asistencia Conductores (Hoy)</a></li>
+                    <li><a href="{{ url('revisar_transportes_asistencia') }}">Asistencia Conductores (Hoy)</a></li>
                 </ul>
             </li>
 

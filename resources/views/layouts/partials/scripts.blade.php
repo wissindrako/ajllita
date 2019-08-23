@@ -21,6 +21,18 @@
 <script src="{{ asset('/js/reporte_plato_genero.js') }}" type="text/javascript"></script>
 
 <script src="{{ asset('/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>
+{{-- <script src="{{ asset('plugins/datatables/extensions/Responsive/js/responsive.bootstrap.min.js') }}"></script> --}}
+<script src="{{ asset('https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js') }}"></script>
+<script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js') }}"></script>
+<script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js') }}"></script>
+<script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js') }}"></script>
+<script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js') }}"></script>
+<script src="{{ asset('https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('//cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js') }}"></script>
 
 <script src="{{ asset('/bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('/bower_components/moment/moment.js') }}"></script>

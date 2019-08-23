@@ -124,21 +124,25 @@
                         {{-- <div class="col-md-12">
                             <br>
                         </div> --}}
-                        <div class="col-md-12">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="text-black" >Usuario</label>
-                                    <input type="input" name="username" id="username" placeholder="" class="form-control" value=""  required/>
-                                    <button type="button" class="btn btn-xs btn-info" id="generar_usuario">Generar Usuario</button>  
+                        {{-- quitando usuario y pass --}}
+                        {{-- <div class="col-md-12">
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="text-black">Usuario</label>
+                                        <input type="input" name="username" id="username" placeholder="" class="form-control" value=""  required/>
+                                        <button type="button" class="btn btn-xs btn-info" id="generar_usuario">Generar Usuario</button>  
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="text-black">Password</label>
+                                        <input type="password" name="password" id="password" placeholder="" class="form-control" value="" required/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="text-black">Password</label>
-                                    <input type="password" name="password" id="password" placeholder="" class="form-control" value="" required/>
-                                </div>
-                            </div>
-                        </div>
+                        </div> --}}
+
                         <div class="col-md-12">
                             <br>
                         </div>
@@ -157,18 +161,17 @@
 <script>
   $(document).ready(function() {
 
-    var id_persona = $("#id_persona").val();
-    $.ajax({
-        type:'get',
-        // url:"ObtieneUsuarioMd5/"+id_circunscripcion+"/"+id_distrito+"/"+id_recinto+"",
-        url:"ObtieneUsuario/"+id_persona+"",
-        data:{},
-        success: function(result){
-            // alertify.success("Nombre de usuario y Contraseña:"+result);
-            $("#username").val(result);
-            $("#password").val(result);
-        }
-    });
+    // var id_persona = $("#id_persona").val();
+    // $.ajax({
+    //     type:'get',
+    //     url:"ObtieneUsuario/"+id_persona+"",
+    //     data:{},
+    //     success: function(result){
+    //         // alertify.success("Nombre de usuario y Contraseña:"+result);
+    //         $("#username").val(result);
+    //         $("#password").val(result);
+    //     }
+    // });
 
     // Ocultando Divs al iniciar
     $("#div_circ").hide();
@@ -177,28 +180,26 @@
     $("#div_mesas").hide();
     $("#div_casa_campana").hide();
     $("#div_vehiculo").hide();
-    // $("#btn_registrar").prop('disabled', true);
-    document.getElementById('generar_usuario').onclick = function(){
-        
-        var id_persona = $("#id_persona").val();
-        var id_recinto = $("#id_recinto").val();
-        if (id_recinto != null) {
-        $.ajax({
-            type:'get',
-            // url:"ObtieneUsuarioMd5/"+id_circunscripcion+"/"+id_distrito+"/"+id_recinto+"",
-            url:"ObtieneUsuario/"+id_persona+"",
-            data:{},
-            success: function(result){
-                // alertify.success("Nombre de usuario y Contraseña:"+result);
-                $("#username").val(result);
-                $("#password").val(result);
-            }
-        });
 
-        }else {
-            alertify.success("Seleccione el recinto y las mesas");
-        }
-    };
+    // document.getElementById('generar_usuario').onclick = function(){
+        
+    //     var id_persona = $("#id_persona").val();
+    //     var id_recinto = $("#id_recinto").val();
+    //     if (id_recinto != null) {
+    //     $.ajax({
+    //         type:'get',
+    //         url:"ObtieneUsuario/"+id_persona+"",
+    //         data:{},
+    //         success: function(result){
+    //             $("#username").val(result);
+    //             $("#password").val(result);
+    //         }
+    //     });
+
+    //     }else {
+    //         alertify.success("Seleccione el recinto y las mesas");
+    //     }
+    // };
 
     $("#rol_slug").change(function(){
         
@@ -282,12 +283,15 @@
         var id_recinto = $("#id_recinto").val();
     
         // console.log($("#anio").val());
-        $.getJSON("consultaMesasRecinto/"+id_recinto+"",{},function(objetosretorna){
+        $.getJSON("consultaMesasRecinto/"+id_recinto+"/"+id_persona+"",{},function(objetosretorna){
             $("#error").html("");
             var TamanoArray = objetosretorna.length;
             // $(".mesas_json select").append('<input type="checkbox" disabled="">');
             $.each(objetosretorna, function(i,value){
-                $(".mesas_json select").append('<option selected value="'+value.id_mesa+'">'+value.id_mesa+'-'+value.codigo_mesas_oep+'</option>');
+                // if (value.activo == '0') {
+                // } else {
+                    $(".mesas_json select").append('<option selected value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+'</option>');                    
+                // }
             });
         });
     };

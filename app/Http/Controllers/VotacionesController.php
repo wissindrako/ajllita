@@ -12,7 +12,7 @@ class VotacionesController extends Controller
   public function form_votar_seleccionar_mesa(){
     //Tomamos el id del usuario
     $id_usuario = Auth::user()->id;
-    $id_usuario = 45;
+    // $id_usuario = 45;
 
     //Tomamos las mesas y los registros intorducidos
     $mesas = \DB::table('rel_usuario_mesa')

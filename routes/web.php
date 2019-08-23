@@ -45,12 +45,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('form_baja_persona/{id_persona}', 'PersonasController@form_baja_persona');
 
     Route::get('listado_personas', 'PersonasController@listado_personas');
-    Route::post('buscar_persona', 'PersonasController@buscar_persona');
+    Route::resource('buscar_persona', 'PersonasController@buscar_persona');
 
     Route::post('baja_persona', 'PersonasController@baja_persona');
 
     Route::get('listado_personas_asignacion', 'PersonasController@listado_personas_asignacion');
     Route::post('buscar_persona_asignacion', 'PersonasController@buscar_persona_asignacion');
+    Route::get('form_mesas_recinto', 'MesasController@form_mesas_recinto');
+    Route::post('asignar_mesas_recinto', 'MesasController@asignar_mesas_recinto');
 
 
     Route::get('form_asignar_usuario_mesa/{id_persona}', 'MesasController@form_asignar_usuario_mesa');
@@ -64,11 +66,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('agregar_usuario', 'UsuariosController@agregar_usuario');
     
-
     Route::get('consultaDistritos/{id_circunscripcion}', 'RecintosController@consultaDistritos');
     Route::get('consultaRecintos/{id_distrito}/{id_circunscripcion}', 'RecintosController@consultaRecintos');
     Route::get('consultaSubOrigen/{id_origen}', 'PersonasController@consultaSubOrigen');
-    Route::get('consultaMesasRecinto/{id_recinto}', 'MesasController@consultaMesasRecinto');
+    Route::get('consultaMesasRecinto/{id_recinto}/{id_persona}', 'MesasController@consultaMesasRecinto');
 
 
     Route::post('registrar_falta', 'AsistenciasController@registrar_falta');
@@ -77,8 +78,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('form_listas_de_asistencia', 'AsistenciasController@form_listas_de_asistencia');
     Route::post('lista_de_asistencia', 'AsistenciasController@lista_de_asistencia');
     Route::post('lista_de_asistencia_buscar', 'AsistenciasController@lista_de_asistencia_buscar');
-    Route::get('listas_de_asistencia_transporte', 'AsistenciasController@listas_de_asistencia_transporte');
-    Route::post('listas_de_asistencia_transporte_buscar', 'AsistenciasController@listas_de_asistencia_transporte_buscar');
     Route::get('form_registrar_asistencia', 'AsistenciasController@form_registrar_asistencia');
     Route::post('registrar_asistencia', 'AsistenciasController@registrar_asistencia');
     Route::post('registrar_falta', 'AsistenciasController@registrar_falta');

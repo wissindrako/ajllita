@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('baja_persona', 'PersonasController@baja_persona');
 
     Route::get('listado_personas_asignacion', 'PersonasController@listado_personas_asignacion');
-    Route::post('buscar_persona_asignacion', 'PersonasController@buscar_persona_asignacion');
+    Route::resource('buscar_persona_asignacion', 'PersonasController@buscar_persona_asignacion');
     Route::get('form_mesas_recinto', 'MesasController@form_mesas_recinto');
     Route::post('asignar_mesas_recinto', 'MesasController@asignar_mesas_recinto');
 

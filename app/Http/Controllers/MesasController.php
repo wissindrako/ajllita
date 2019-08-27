@@ -118,6 +118,7 @@ class MesasController extends Controller
                 $user = false;
                 if ($usuario != null) {
                     $user = true;
+                    $usuario=User::find($usuario->id);
                 }else {
                     $usuario=new User;
                     $usuario->id_persona=$request->input("id_persona");
@@ -173,6 +174,7 @@ class MesasController extends Controller
                 $user = false;
                 if ($usuario != null) {
                     $user = true;
+                    $usuario=User::find($usuario->id);
                 }else {
                     $usuario=new User;
                     $usuario->id_persona=$request->input("id_persona");
@@ -230,8 +232,9 @@ class MesasController extends Controller
             if ($request->has("mesas")) {
 
                 $user = false;
-                if ($usuario != null) {
+                if ($usuario != null) { //El usuario existe
                     $user = true;
+                    $usuario=User::find($usuario->id);
                 }else {
                     $usuario=new User;
                     $usuario->id_persona=$request->input("id_persona");
@@ -287,6 +290,7 @@ class MesasController extends Controller
                 $user = false;
                 if ($usuario != null) {
                     $user = true;
+                    $usuario=User::find($usuario->id);
                 }else {
                     $usuario=new User;
                     $usuario->id_persona=$request->input("id_persona");
@@ -343,6 +347,7 @@ class MesasController extends Controller
                 $user = false;
                 if ($usuario != null) {
                     $user = true;
+                    $usuario=User::find($usuario->id);
                 }else {
                     $usuario=new User;
                     $usuario->id_persona=$request->input("id_persona");
@@ -399,6 +404,7 @@ class MesasController extends Controller
                 $user = false;
                 if ($usuario != null) {
                     $user = true;
+                    $usuario=User::find($usuario->id);
                 }else {
                     $usuario=new User;
                     $usuario->id_persona=$request->input("id_persona");
@@ -464,9 +470,14 @@ class MesasController extends Controller
         ->where('id_persona', $request->input('id_persona'))
         ->first();
         
+        $usuario=User::find($usuario->id);
+
         $rol = \DB::table('roles')
         ->where('roles.id', $persona->id_rol)
         ->first();
+
+        $usuario->revokeRole($rol->id);
+        $usuario->assignRole(15); //Delegado del Mas
 
         if ($rol->slug == 'delegado_mas') {
             # code...

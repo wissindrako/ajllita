@@ -64,19 +64,19 @@
                                 <input type="input" name="materno" placeholder="" class="form-control" value="{{ old('materno') }}" />
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-5">
                             <div class="form-group">
                                 <label >Carnet</label>
                                 <input type="input" name="cedula" placeholder="" class="form-control" value="{{ old('cedula') }}" required/>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label >Comp.</label>
                                 <input type="input" name="complemento" placeholder="" class="form-control" value="{{ old('complemento') }}" />
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label >Exp.</label>
                                 <select class="form-control" name="expedido">
@@ -92,7 +92,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label class=" ">Fecha de nacimiento</label>
                                 <input type="date" name="nacimiento" placeholder="" class="form-control" value="{{ old('nacimiento') }}" required />
@@ -100,7 +100,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label >Telefono</label>
+                                <label >Telefono - Celular</label>
                                 <input type="input" name="telefono" placeholder="" class="form-control" value="{{ old('telefono') }}" required/>
                             </div>
                         </div>
@@ -112,25 +112,25 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label >Direccion</label>
+                                <label >Dirección</label>
                                 <input type="input" name="direccion" placeholder="" class="form-control" value="{{ old('direccion') }}" required/>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label >Email</label>
                                 <input type="email" name="email" placeholder="Correo electrónico" class="form-control" value="{{ old('email') }}" />
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label >Grado de compromiso</label>
                                 <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="1" />
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label class="text-black ">Circuns.</label>
+                                <label class="text-black ">Circunscripción</label>
                                 <select class="form-control" name="id_circunscripcion" id="id_circunscripcion">
                                     <option value="0" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
                                     @foreach ($circunscripciones as $circ)
@@ -139,14 +139,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <div class="form-group distrito_json">
                                 <label class="">Distrito</label>
                                 <select class="form-control" name="id_distrito" id="id_distrito">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="form-group recinto_json">
                                 <label class="text-black">Recinto</label>
                                 <select class="form-control" name="recinto">

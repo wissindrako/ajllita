@@ -22,7 +22,7 @@
 			<div style="text-align:center">
 				<h2><b>Elecciones 2019</b></h2>
 				{{-- <h3><b>Administración </b></h3> --}}
-				<img src="{{asset('img/logochacana.jpg')}}" style="width:460px;height:100px;" class="centered"/>
+				<img src="{{asset('img/logopersona.png')}}" style="width:350x;height:250px;" class="centered"/>
 			</div>
 		</div>
 	</div>

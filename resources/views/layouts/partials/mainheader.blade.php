@@ -4,8 +4,9 @@
     <!-- Logo -->
     <a href="{{ url('/home') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>Ajllita</b></span>
-        <div class="row centered  logo-lg">
+        <span class="logo-mini"><b><i class='fa fa-square'></i></b></span>
+        <div class="row centered logo-lg">
+            <span><b>Ajllita</b></span>
             {{-- <img src="{{asset('/img/encuestas_logo_blanco_final.png')}}" style="width:160px;height:40px;" class="centered" alt="User Image"/> --}}
         </div>
         <!-- logo for regular state and mobile devices -->
@@ -157,14 +158,14 @@
                             </li> --}}
                             <!-- Menu Footer-->
                             <li class="user-footer">
-                                <div class="pull-left">
+                                {{-- <div class="pull-left">
                                     <a href="#" class="btn btn-default btn-flat">{{ trans('adminlte_lang::message.profile') }}</a>
-                                </div>
-                                <div class="pull-right">
+                                </div> --}}
+                                <div class="">
 
                                    <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"  class="btn btn-default btn-flat"  >
+                                                     document.getElementById('logout-form').submit();"  class="btn btn-primary btn-flat btn-block"  >
                                             Salir
                                         </a>
 

@@ -403,7 +403,6 @@ public function quitar_rol($idusu,$idrol){
     $rolesasignados=$usuario->getRoles();
     return json_encode ($rolesasignados);
 
-
 }
 
 

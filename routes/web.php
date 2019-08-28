@@ -54,6 +54,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('form_mesas_recinto', 'MesasController@form_mesas_recinto');
     Route::post('asignar_mesas_recinto', 'MesasController@asignar_mesas_recinto');
 
+    Route::get('listado_recintos_mesas', 'MesasController@listado_recintos_mesas');
+    Route::resource('buscar_recintos_mesas', 'MesasController@buscar_recintos_mesas');
 
     Route::get('form_asignar_usuario_mesa/{id_persona}', 'MesasController@form_asignar_usuario_mesa');
     Route::post('asignar_usuario_mesa', 'MesasController@asignar_usuario_mesa');
@@ -76,6 +78,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('form_agregar_lista_de_asistencia', 'AsistenciasController@form_agregar_lista_de_asistencia');
     Route::post('agregar_lista_de_asistencia', 'AsistenciasController@agregar_lista_de_asistencia');
     Route::get('form_listas_de_asistencia', 'AsistenciasController@form_listas_de_asistencia');
+    Route::post('lista_de_asistencia_recinto', 'AsistenciasController@lista_de_asistencia_recinto');
+    Route::post('lista_de_asistencia_recinto_buscar', 'AsistenciasController@lista_de_asistencia_recinto_buscar');
     Route::post('lista_de_asistencia', 'AsistenciasController@lista_de_asistencia');
     Route::post('lista_de_asistencia_buscar', 'AsistenciasController@lista_de_asistencia_buscar');
     Route::get('form_registrar_asistencia', 'AsistenciasController@form_registrar_asistencia');

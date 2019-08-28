@@ -33,6 +33,8 @@
 				<th>Compromiso</th>
 				<th>Fecha de Registro</th>
 				<th>Activo</th>
+				<th>Circ.</th>
+				<th>Distrito</th>
 				<th>Recinto</th>
 				<th>Origen</th>
 				<th>Sub Origen</th>
@@ -114,12 +116,13 @@
 <script>
  function activar_tabla_empresas() {
     var t = $('#tabla_personas').DataTable({
-
+		
 		scrollY:"600px",
+		scrollX: true,
 		dom: 'Bfrtip',
         processing: true,
         serverSide: true,
-		pageLength: 20,
+		pageLength: 100,
 		buttons: [
 			'excel', 'pdf', 'print'
 		],
@@ -147,6 +150,8 @@
             { data: 'grado_compromiso', name: 'grado_compromiso' },
             { data: 'fecha_registro', name: 'fecha_registro' },
             { data: 'activo', name: 'activo' },
+            { data: 'circunscripcion', name: 'circunscripcion' },
+            { data: 'distrito', name: 'distrito' },
             { data: 'nombre_recinto', name: 'nombre_recinto' },
             { data: 'origen', name: 'origen' },
             { data: 'sub_origen', name: 'sub_origen' },

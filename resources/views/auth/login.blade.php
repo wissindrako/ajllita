@@ -22,7 +22,7 @@
               <div class="col-sm-6 col-sm-offset-3 myform-cont" >
                     <div class="myform-top">
                         <div class="myform-top-left">
-                         <img  src="{{ url('img/minculturas_logo.png') }} " class="img-responsive logo" />
+                         <img  src="{{ url('img/logopersona.png') }} " class="img-responsive logo" />
                           <h3>Ingresa a nuestro sitio.</h3>
                             <p>Digita tu email y contraseña:</p>
                         </div>

@@ -29,6 +29,7 @@
 			<tr>
 				<th>Lista</th>
 				<th>Fecha de la lista</th>
+				<th>Detalle</th>
 				<th>Revisar</th>
 				<!--th>Eliminar</th-->
 			</tr>
@@ -42,12 +43,23 @@
 					@endphp
 					<td>{{$count}}</td>
 					<td>{{$lista->fecha}}</td>
+					<td>{{$lista->detalle}}</td>
+					@role('responsable_recinto')
+					<td>
+						<form action="{{ url('lista_de_asistencia_recinto') }}" method="post">
+							<input type="hidden" name="fecha" value="{{ $lista->fecha }}">
+							<button type="submit" class="btn btn-default btn-xs"><i class="fa fa-fw fa-eye"></i> Revisar</button>
+						</form>
+					</td>
+					@endrole
+					@role('admin')
 					<td>
 						<form action="{{ url('lista_de_asistencia') }}" method="post">
 							<input type="hidden" name="fecha" value="{{ $lista->fecha }}">
 							<button type="submit" class="btn btn-default btn-xs"><i class="fa fa-fw fa-eye"></i> Revisar</button>
 						</form>
 					</td>
+					@endrole
 					<!--td>
 						<form action="{{ url('lista_de_asistencia') }}" method="post">
 							<input type="hidden" name="fecha" value="{{ $lista->fecha }}">

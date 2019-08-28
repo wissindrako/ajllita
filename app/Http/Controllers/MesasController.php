@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Caffeinated\Shinobi\Models\Role;
 use Caffeinated\Shinobi\Models\Permission;
 use Auth;
+use Datatables;
 use App\User;
 use App\Persona;
 use App\Recinto;
@@ -65,35 +66,78 @@ class MesasController extends Controller
         ->with('persona', $persona);
     }
 
+    public function listado_recintos_mesas(){
+
+        return view("listados.listado_recintos_mesas");
+    }
+    
+    public function buscar_recintos_mesas(){
+
+        $mesas =\DB::table('mesas')       
+        ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
+        ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
+        ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
+        ->leftjoin('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        // ->where('rel_usuario_mesa.id_usuario', 'users.id')
+        // ->whereNotIn('mesas.id_mesa', $mesas_recinto)
+        ->select('users.id as id_usuario',
+            'rel_usuario_mesa.id_mesa as rel_idmesa', 'rel_usuario_mesa.activo as mesa_activa', 
+                 'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'mesas.codigo_ajllita',
+                 'personas.direccion as direccion_persona',
+                 \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
+                 \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
+                 'recintos.circunscripcion', 'recintos.distrito', 'recintos.nombre as nombre_recinto', 'recintos.zona', 'recintos.direccion as direccion_recinto',
+                )
+        // ->orderBy('rel_usuario_mesa.activo', 'asc')
+        ->orderBy('mesas.id_mesa', 'asc')
+        // ->orderBy('recintos.circunscripcion', 'asc')
+        // ->orderBy('recintos.distrito', 'asc')
+        ->distinct()
+        ->get();
+        // dd($mesas);
+        return Datatables::of($mesas)->make(true); 
+    }
+
     public function consultaMesasRecinto($id_recinto, $id_persona){
 
         //Mesas Asignadas
 
-        // $mesas_recinto =\DB::table('mesas')
-        // ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
-        // ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
+        // $mesas_recinto =\DB::table('rel_usuario_mesa')
+        // ->where('rel_usuario_mesa.activo', 0)
+        // ->pluck('rel_usuario_mesa.id_mesa')
+        // ->toArray();
+
+        $mesas =\DB::table('mesas')
+        ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
+        ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
+        ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
         // ->where(function($query){
         //     $query
         //     ->where('rel_usuario_mesa.activo', null)
-        //     ->orwhere('rel_usuario_mesa.activo', 0);
+        //     ->orwhere('rel_usuario_mesa.activo', 1);
         // })
-        // ->where('mesas.id_recinto', $id_recinto)
-        // ->select('users.id as id_usuario',
-        //     'rel_usuario_mesa.id_mesa as rel_idmesa', 'rel_usuario_mesa.activo', 
-        //          'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_ajllita')
-        // ->orderBy('mesas.id_mesa')
-        // ->get();
-
-        $mesas_recinto =\DB::table('rel_usuario_mesa')
-        ->where('rel_usuario_mesa.activo', 1)
-        ->pluck('rel_usuario_mesa.id_mesa')
-        ->toArray();
-
-        $mesas =\DB::table('mesas')
         ->where('mesas.id_recinto', $id_recinto)
-        ->whereNotIn('id_mesa', $mesas_recinto)
-        ->select('id_mesa', 'codigo_mesas_oep', 'codigo_ajllita',  'id_recinto')
+        // ->whereNotIn('mesas.id_mesa', $mesas_recinto)
+        ->select('users.id as id_usuario',
+            'rel_usuario_mesa.id_mesa as rel_idmesa', 'rel_usuario_mesa.activo as mesa_activa', 
+                 'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_ajllita',
+                 'personas.telefono_celular',
+                 \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
+                )
+        ->orderBy('mesas.id_mesa')
+        ->distinct()
         ->get();
+
+        // $mesas_recinto =\DB::table('rel_usuario_mesa')
+        // ->where('rel_usuario_mesa.activo', 1)
+        // ->pluck('rel_usuario_mesa.id_mesa')
+        // ->toArray();
+
+        // $mesas =\DB::table('mesas')
+        // ->where('mesas.id_recinto', $id_recinto)
+        // ->whereNotIn('id_mesa', $mesas_recinto)
+        // ->select('id_mesa', 'codigo_mesas_oep', 'codigo_ajllita',  'id_recinto')
+        // ->get();
         
         return $mesas;
     }
@@ -477,7 +521,7 @@ class MesasController extends Controller
         ->first();
 
         $usuario->revokeRole($rol->id);
-        $usuario->assignRole(15); //Delegado del Mas
+        //$usuario->assignRole(15); //Delegado del Mas
 
         if ($rol->slug == 'delegado_mas') {
             # code...

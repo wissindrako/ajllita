@@ -70,6 +70,45 @@ class MesasController extends Controller
 
         return view("listados.listado_recintos_mesas");
     }
+
+    public function listado_distritos_responsables(){
+
+        return view("listados.listado_distritos_responsables");
+    }
+
+    public function buscar_distritos_responsables(){
+        $id_persona = Auth::user()->id_persona;
+        $usuario_recinto = \DB::table('users')
+                      ->join('personas', 'personas.id_persona', '=', 'users.id_persona')
+                      ->join('recintos', 'personas.id_recinto', '=', 'recintos.id_recinto')
+                      ->select('recintos.circunscripcion')
+                      ->where('personas.id_persona', $id_persona)
+                      ->first();
+
+        $distritos =\DB::table('recintos')       
+        // ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
+        
+        ->leftjoin('personas', 'recintos.id_recinto', 'personas.id_recinto')
+        ->leftjoin('users', 'personas.id_persona', 'users.id_persona')
+        // ->leftjoin('recintos', 'rel_usuario_distrito.id_distrito', 'recintos.distrito')
+        // ->where('rel_usuario_mesa.id_usuario', 'users.id')
+        // ->whereNotIn('mesas.id_mesa', $mesas_recinto)
+        ->where('recintos.circunscripcion', $usuario_recinto->circunscripcion)
+        ->select('users.id as id_usuario',
+                 'personas.direccion as direccion_persona',
+                 \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
+                 \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
+                 'recintos.circunscripcion', 'recintos.distrito', 'recintos.nombre as nombre_recinto', 'recintos.zona', 'recintos.direccion as direccion_recinto',
+                )
+        // ->orderBy('rel_usuario_mesa.activo', 'asc')
+        // ->orderBy('mesas.id_mesa', 'asc')
+        // ->orderBy('recintos.circunscripcion', 'asc')
+        // ->orderBy('recintos.distrito', 'asc')
+        ->distinct()
+        ->get();
+        // dd($distritos);
+        return Datatables::of($distritos)->make(true); 
+    }
     
     public function buscar_recintos_mesas(){
 

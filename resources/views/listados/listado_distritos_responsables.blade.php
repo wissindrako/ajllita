@@ -10,7 +10,7 @@
 
 <div class="box box-primary">
 		<div class="box-header">
-				<h3 class="box-title">Listado de Recintos - Mesas</h3>	
+				<h3 class="box-title">Listado de Responsables de Distrito</h3>	
 
 		</div>
 		<!-- /.box-header -->
@@ -21,14 +21,10 @@
 
 				<th>Circ.</th>
 				<th>Distrito</th>
-				<th>Zona</th>
-				<th>Dirección</th>
-				<th>Recinto</th>
-				<th>Mesa</th>
 				<th>Responsable</th>
 				<th>Contacto</th>
-				<th>Estado</th>
-				<th></th>
+				{{-- <th>Estado</th>
+				<th></th> --}}
 
 			</thead></table>
 
@@ -77,14 +73,10 @@ function activar_tabla_recintos_mesas() {
         language: {
                  "url": '{!! asset('/plugins/datatables/latino.json') !!}'
                   } ,
-        ajax: '{!! url('buscar_recintos_mesas') !!}',
+        ajax: '{!! url('buscar_distritos_responsables') !!}',
         columns: [
             { data: 'circunscripcion', name: 'circunscripcion' },
             { data: 'distrito', name: 'distrito' },
-            { data: 'zona', name: 'zona' },
-            { data: 'direccion_recinto', name: 'zona' },
-            { data: 'nombre_recinto', name: 'nombre_recinto' },
-            { data: 'codigo_mesas_oep', name: 'codigo_mesas_oep' },
 			{ data: 'nombre_completo', name: 'nombre_completo' },
 			// { data: null,  render: function ( data, type, row ) {
 			// 		if  ( row.mesa_activa === null || row.mesa_activa === 1) {
@@ -95,16 +87,16 @@ function activar_tabla_recintos_mesas() {
 			// 	}
 			// },
             { data: 'contacto', name: 'contacto' },
-            { data: 'mesa_activa', name: 'mesa_activa' },
+            // { data: 'mesa_activa', name: 'mesa_activa' },
 
-            { data: null,  render: function ( data, type, row ) {
-					if  ( row.mesa_activa === null || row.mesa_activa === 0) {
-						return "<i class='fa fa-circle-o text-red'></i><p class='text-red'>No Asignado</p>"
-					} else {
-						return "<i class='fa fa-circle-o text-green'></i><p class='text-green'>Asignado</p>"
-					}
-				}  
-			},
+            // { data: null,  render: function ( data, type, row ) {
+			// 		if  ( row.mesa_activa === null || row.mesa_activa === 0) {
+			// 			return "<i class='fa fa-circle-o text-red'></i><p class='text-red'>No Asignado</p>"
+			// 		} else {
+			// 			return "<i class='fa fa-circle-o text-green'></i><p class='text-green'>Asignado</p>"
+			// 		}
+			// 	}  
+			// },
         ]
     });
 

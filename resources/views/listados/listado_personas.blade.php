@@ -114,7 +114,7 @@
 @parent
 
 <script>
- function activar_tabla_empresas() {
+ function activar_tabla_personas() {
     var t = $('#tabla_personas').DataTable({
 		
 		scrollY:"600px",
@@ -169,7 +169,82 @@
     });
 
 }	
-activar_tabla_empresas();
+activar_tabla_personas();
+function activar_tabla_prueba() {
+    // Setup - add a text input to each footer cell
+    $('#tabla_personas tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    });
+ 
+    // DataTable
+	var table = $('#tabla_personas').DataTable({
+		
+		scrollY:"600px",
+		scrollX: true,
+		dom: 'Bfrtip',
+        processing: true,
+        serverSide: true,
+		pageLength: 100,
+		buttons: [
+			'excel', 'pdf', 'print'
+		],
+		// buttons: [
+        //           {
+        //               extend: 'pdfHtml5',
+        //               orientation: 'landscape',
+        //               pageSize: 'LEGAL'
+        //           }
+        //         ],
+        language: {
+                 "url": '{!! asset('/plugins/datatables/latino.json') !!}'
+                  } ,
+        ajax: '{!! url('buscar_persona') !!}',
+        columns: [
+            { data: 'nombre', name: 'nombre' },
+            { data: 'paterno', name: 'paterno' },
+            { data: 'materno', name: 'materno' },
+            { data: 'cedula_identidad', name: 'cedula_identidad' },
+            { data: 'complemento_cedula', name: 'complemento_cedula' },
+            { data: 'fecha_nacimiento', name: 'fecha_nacimiento' },
+            { data: 'telefono_celular', name: 'telefono_celular' },
+            { data: 'telefono_referencia', name: 'telefono_referencia' },
+            { data: 'direccion', name: 'direccion' },
+            { data: 'grado_compromiso', name: 'grado_compromiso' },
+            { data: 'fecha_registro', name: 'fecha_registro' },
+            { data: 'activo', name: 'activo' },
+            { data: 'circunscripcion', name: 'circunscripcion' },
+            { data: 'distrito', name: 'distrito' },
+            { data: 'nombre_recinto', name: 'nombre_recinto' },
+            { data: 'origen', name: 'origen' },
+            { data: 'sub_origen', name: 'sub_origen' },
+            { data: 'nombre_rol', name: 'nombre_rol' },
+            { data: null,  render: function ( data, type, row ) {
+				if ( row.activo === 1) {
+						// return "<a href='{{ url('form_editar_contacto/') }}/"+ data.id +"' class='btn btn-xs btn-primary' >Editar</button>"
+						return "<td><button type='button' class='btn btn-success btn-xs' onclick='verinfo_persona("+data.id_persona+","+1+")' ><i class='fa fa-pencil-square-o'></i></button></td><td><button type='button' class='btn btn-danger btn-xs' onclick='verinfo_persona("+data.id_persona+","+2+")' ><i class='fa fa-fw fa-user-times'></i></button></td>"
+					} else {
+						return "<td><button disabled type='button' class='btn btn-success btn-xs'><i class='fa fa-pencil-square-o'></i></button></td><td><button disabled type='button' class='btn btn-danger btn-xs'><i class='fa fa-fw fa-user-times'></i></button></td>"
+					}
+				}  
+			},
+        ]
+    });
+ 
+    // Apply the search
+    table.columns().every( function(){
+        var that = this;
+ 
+        $('input', this.footer()).on( 'keyup change clear', function(){
+            if ( that.search() !== this.value ) {
+                that
+                    .search(this.value)
+                    .draw();
+            }
+        } );
+    });
+}	
+// activar_tabla_prueba();
 
 
 </script>

@@ -57,6 +57,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('listado_recintos_mesas', 'MesasController@listado_recintos_mesas');
     Route::resource('buscar_recintos_mesas', 'MesasController@buscar_recintos_mesas');
 
+    Route::get('listado_distritos_responsables', 'MesasController@listado_distritos_responsables');
+    Route::resource('buscar_distritos_responsables', 'MesasController@buscar_distritos_responsables');
+
     Route::get('form_asignar_usuario_mesa/{id_persona}', 'MesasController@form_asignar_usuario_mesa');
     Route::post('asignar_usuario_mesa', 'MesasController@asignar_usuario_mesa');
     Route::post('liberar_responsabilidad', 'MesasController@liberar_responsabilidad');

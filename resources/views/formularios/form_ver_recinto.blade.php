@@ -3,9 +3,9 @@
 @section('htmlheader_title')
 	Home
 @endsection
-@php
+{{-- @php
     header('Access-Control-Allow-Origin: *');
-@endphp
+@endphp --}}
 
 @section('main-content')
 <section  id="contenido_principal">
@@ -15,6 +15,9 @@
         <div class="container">
             <div class="row">
                 <div class="box box-primary">
+                    <div>
+                            {{-- <iframe src="https://goo.gl/maps/huir9fbedLs&output=embed" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe> --}}
+                    </div>
                     <div class="box-header with-border">
                         <h3 class="box-title">Ubicación de mi Recinto</h3>
         

@@ -105,6 +105,9 @@
                     @can('listar_transporte')
                     <li><a href="{{ url('listado_transportes') }}">Transporte</a></li>
                     @endcan
+                    @can('listar_distritos')
+                    <li><a href="{{ url('listado_distritos_responsables') }}">Responsables de Distrito</a></li>
+                    @endcan
                     <!--<li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
                     <li><a href="{{ url('listado_personas') }}">Candidatos</a></li>-->
                 </ul>

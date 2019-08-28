@@ -47,8 +47,12 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label class=" ">Detalle de Asistencia</label>
+                                <input type="input" name="detalle" placeholder="" class="form-control" value="" required/>
+                            </div>
+                            <div class="form-group">
                                 <label class=" ">Fecha de la asistencia</label>
-                                <input type="date" name="fecha" placeholder="" class="form-control" value="" />
+                                <input type="date" name="fecha" placeholder="" class="form-control" value="" required/>
                             </div>
                         </div>
                         <button type="submit" class="mybtn">Registrar</button>

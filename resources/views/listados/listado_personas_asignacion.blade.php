@@ -32,6 +32,8 @@
 				<th>Persona Activo</th>
 				<th>Usuario Activo</th>
 				<th>Asignado</th>
+				<th>Circ.</th>
+				<th>Distrito</th>
 				<th>Recinto</th>
 				<th>Origen</th>
 				<th>Sub Origen</th>
@@ -100,10 +102,11 @@ function activar_tabla_personas_asignacion() {
     var t = $('#tabla_personas_asigancion').DataTable({
 
 		scrollY:"600px",
+		scrollX: true,
 		dom: 'Bfrtip',
         processing: true,
         serverSide: true,
-		pageLength: 20,
+		pageLength: 100,
 		buttons: [
 			'excel', 'pdf', 'print'
 		],
@@ -135,6 +138,8 @@ function activar_tabla_personas_asignacion() {
             { data: 'activo', name: 'activo' },
             { data: 'usuario_activo', name: 'usuario_activo' },
             { data: 'asignado', name: 'asignado' },
+            { data: 'circunscripcion', name: 'circunscripcion' },
+            { data: 'distrito', name: 'distrito' },
             { data: 'nombre_recinto', name: 'nombre_recinto' },
             { data: 'origen', name: 'origen' },
             { data: 'sub_origen', name: 'sub_origen' },

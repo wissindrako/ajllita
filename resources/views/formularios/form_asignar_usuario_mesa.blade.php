@@ -58,9 +58,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2" id="div_circ">
+                        <div class="col-md-12" id="div_circ">
                             <div class="form-group">
-                                <label class="text-black ">Circuns.</label>
+                                <label class="text-black ">Circunscripción</label>
                                 <select class="form-control" name="circunscripcion" id="id_circunscripcion">
                                     <option value="0" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
                                     @foreach ($circunscripciones as $circ)
@@ -69,14 +69,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2" id="div_distrito">
+                        <div class="col-md-12" id="div_distrito">
                             <div class="form-group distrito_json">
                                 <label class="text-black ">Distrito</label>
                                 <select class="form-control" name="distrito" id="id_distrito">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-8" id="div_recinto">
+                        <div class="col-md-12" id="div_recinto">
                             <div class="form-group recinto_json">
                                 <label class="text-black">Recinto</label>
                                 <select class="form-control" name="recinto" id="id_recinto">
@@ -87,10 +87,28 @@
                             </div>
                         </div>
                         <div class="col-md-12" id="div_mesas">
+                                <div class="" id="div_mesas_detalle">
+                                        <h5 class="box-title"><b>Detalle de Mesas: </b></h5>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                            <b>Asignadas:</b> <b><span id="mesas_asignadas"></span></b>
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                            <b>Sin Asignar:</b> <b><span id="mesas_sin_asignar"></span></b>
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                            <b>Total:</b> <b><span id="mesas_total"></span></b>
+                                        </h3>
+                                    </div>
+                                </div>
                             <div class="form-group">
                                 <label class="text-black">Mesas - Recinto</label>
                                 <div class="form-group bg-gray mesas_json">
-                                    <select  multiple="" class="form-control" name="mesas[]" id="id_mesa">
+                                    <select size="7" multiple="" class="form-control" name="mesas[]" id="id_mesa" style="font-family:'FontAwesome', \'Helvetica Neue\', Helvetica, sans-serif; ">
                                     </select>
                                 </div>
                             </div>
@@ -238,6 +256,7 @@
             $("#div_vehiculo").hide();
             $("#btn_registrar").prop('disabled', false);
         }else if(rol_slug == 'informatico'){
+            $("#div_mesas_detalle").hide();
             $("#div_circ").show();
             $("#div_distrito").show();
             $("#div_recinto").show();
@@ -280,19 +299,36 @@
 
     function cargaMesasRecinto(){
         $(".mesas_json select").html("");
+        $("#div_mesas_detalle").show();
+        $("#mesas_asignadas").text("");
+        $("#mesas_sin_asignar").text("");
+        $("#mesas_total").text("");
         var id_recinto = $("#id_recinto").val();
-    
+        var mesas_asignadas = 0;
+        var mesas_sin_asignar = 0;
+        var mesas_total = 0;
         // console.log($("#anio").val());
         $.getJSON("consultaMesasRecinto/"+id_recinto+"/"+id_persona+"",{},function(objetosretorna){
             $("#error").html("");
+            
             var TamanoArray = objetosretorna.length;
             // $(".mesas_json select").append('<input type="checkbox" disabled="">');
             $.each(objetosretorna, function(i,value){
-                // if (value.activo == '0') {
-                // } else {
+                
+                if (value.mesa_activa === 0 || value.mesa_activa === null) {
+                    mesas_sin_asignar++;
                     $(".mesas_json select").append('<option selected value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+'</option>');                    
-                // }
+                } else {
+                    mesas_asignadas++;
+                    $(".mesas_json select").append('<option selected disabled value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
+                    
+                }
+                mesas_total++;
+
             });
+            $("#mesas_asignadas").text(mesas_asignadas);
+            $("#mesas_sin_asignar").text(mesas_sin_asignar);
+            $("#mesas_total").text(mesas_total);
         });
     };
     

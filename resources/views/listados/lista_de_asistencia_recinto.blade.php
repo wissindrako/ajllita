@@ -25,16 +25,16 @@
 
 
 			<div class="box-header">
-				<h4 class="box-title">Buscar</h4>
+				{{-- <h4 class="box-title">Buscar</h4> --}}
 				<form   action="{{ url('lista_de_asistencia_buscar') }}"  method="post"  >
 					<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 					<input type="hidden" name="fecha" value="{{$fecha}}">
-					<div class="input-group input-group-sm">
+					{{-- <div class="input-group input-group-sm">
 						<input type="text" class="form-control" name="dato_buscado" required>
 						<span class="input-group-btn">
 						<input type="submit" class="btn btn-primary" value="Buscar" >
 						</span>
-					</div>
+					</div> --}}
 				</form>
 			</div>
 		</div>
@@ -70,7 +70,7 @@
 					<td>{{$lista->circunscripcion}}</td>
 					<td>{{$lista->distrito}}</td>
 					<td>{{$lista->zona}}</td>
-					<td>{{$lista->recinto}}</td>
+					<td>{{$lista->id_recinto}} - {{$lista->recinto}}</td>
 					<td>{{$lista->direccion_recinto}}</td>
 					<td>
 						@if($lista->asistencia==0)

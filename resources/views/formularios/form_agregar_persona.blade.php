@@ -124,7 +124,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label >Grado de compromiso</label>
+                                <label >Grado de compromiso - (1 al 5)</label>
                                 <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="1" />
                             </div>
                         </div>
@@ -157,7 +157,7 @@
                             <div class="form-group">
                                 <label class="text-black ">Organización de Origen</label>
                                 <select class="form-control" name="id_origen" id="id_origen" required>
-                                        <option value="" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
+                                        <option value="" selected> --- SELECCIONE UNA ORGANIZACION --- </option>
                                     @foreach ($origenes as $origen)
                                 <option value="{{$origen->id_origen}}">{{$origen->id_origen}} - {{$origen->origen}}</option>
                                     @endforeach
@@ -168,7 +168,7 @@
                             <div class="form-group sub_origen_json">
                                 <label class="text-black">Sub Origen</label>
                                 <select class="form-control" name="id_sub_origen">
-                                    <option value="0" selected> --- SELECCIONE UN ORIGEN--- </option>
+                                    <option value="0" selected> --- SELECCIONE UNA SUB ORGANIZACION--- </option>
                                 </select>
                             </div>
                         </div>

@@ -102,7 +102,7 @@
                     @can('listar_personas')
                     <li><a href="{{ url('listado_personas') }}">Personas</a></li>
                     @endcan
-                    @can('listar_transportes')
+                    @can('listar_transporte')
                     <li><a href="{{ url('listado_transportes') }}">Transporte</a></li>
                     @endcan
                     <!--<li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
@@ -115,7 +115,9 @@
             <li class="treeview">
                 <a href="#"><i class='fa fa-legal'></i> <span>Asignación</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
+                        <li><a href="{{ url('listado_recintos_mesas') }}">Ver Recintos</a></li>
                     <li><a href="{{ url('listado_personas_asignacion') }}">Rol - Usuario</a></li>
+                    
                 </ul>
             </li>
             @endrole

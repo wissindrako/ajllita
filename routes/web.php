@@ -60,6 +60,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('listado_distritos_responsables', 'MesasController@listado_distritos_responsables');
     Route::resource('buscar_distritos_responsables', 'MesasController@buscar_distritos_responsables');
 
+    Route::get('listado_votacion_general', 'MesasController@listado_votacion_general');
+    Route::resource('buscar_votacion_general', 'MesasController@buscar_votacion_general');
+
     Route::get('form_asignar_usuario_mesa/{id_persona}', 'MesasController@form_asignar_usuario_mesa');
     Route::post('asignar_usuario_mesa', 'MesasController@asignar_usuario_mesa');
     Route::post('liberar_responsabilidad', 'MesasController@liberar_responsabilidad');
@@ -74,7 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('consultaDistritos/{id_circunscripcion}', 'RecintosController@consultaDistritos');
     Route::get('consultaRecintos/{id_distrito}/{id_circunscripcion}', 'RecintosController@consultaRecintos');
     Route::get('consultaSubOrigen/{id_origen}', 'PersonasController@consultaSubOrigen');
-    Route::get('consultaMesasRecinto/{id_recinto}/{id_persona}', 'MesasController@consultaMesasRecinto');
+    Route::get('consultaMesasRecinto/{id_recinto}', 'MesasController@consultaMesasRecinto');
 
 
     Route::post('registrar_falta', 'AsistenciasController@registrar_falta');

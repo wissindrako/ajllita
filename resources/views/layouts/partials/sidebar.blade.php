@@ -26,7 +26,7 @@
                     @endrole --}}
 
 
-                    @role('delegado_mas')
+                    @role('militante')
                     <p><i class="fa fa-caret-right text-yellow"></i> Delegado del MAS</p>
                     @endrole
                     @role('conductor')
@@ -40,7 +40,7 @@
                     <p><i class="fa fa-caret-right text-yellow"></i> Supervisor Call Center</p>
                     @endrole
 
-                    @role('informatico')
+                    @role('responsable_mesa')
                     <p><i class="fa fa-caret-right text-yellow"></i> Delegado Informático</p>
                     @endrole
 
@@ -108,6 +108,7 @@
                     @can('listar_distritos')
                     <li><a href="{{ url('listado_distritos_responsables') }}">Responsables de Distrito</a></li>
                     @endcan
+                    <li><a href="{{ url('listado_votacion_general') }}">Votación General</a></li>
                     <!--<li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
                     <li><a href="{{ url('listado_personas') }}">Candidatos</a></li>-->
                 </ul>

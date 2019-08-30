@@ -52,7 +52,7 @@
                                 <div class="form-group bg-gray">
                                     <select  class="form-control" name="rol_slug" id="rol_slug">
                                         @foreach ($roles as $rol)
-                                    <option value={{$rol->slug}} {{$rol->slug == 'delegado_mas' ? 'selected' : ''}}>{{$rol->description}}</option>
+                                    <option value={{$rol->slug}} {{$rol->slug == 'militante' ? 'selected' : ''}}>{{$rol->description}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -93,7 +93,7 @@
                                         <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
                                             <b>Asignadas:</b> <b><span id="mesas_asignadas"></span></b>
                                         </h3>
-                                    </div>
+                                    </di
                                     <div class="col-md-4 col-sm-4 col-xs-12">
                                         <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
                                             <b>Sin Asignar:</b> <b><span id="mesas_sin_asignar"></span></b>
@@ -223,7 +223,7 @@
         
         //id obtenido de la base de datos "campo : slug"
         var rol_slug = $("#rol_slug").val();
-        if (rol_slug == 'delegado_mas') {
+        if (rol_slug == 'militante') {
             $("#div_circ").hide();
             $("#div_distrito").hide();
             $("#div_recinto").hide();
@@ -255,7 +255,7 @@
             $("#div_casa_campana").hide();
             $("#div_vehiculo").hide();
             $("#btn_registrar").prop('disabled', false);
-        }else if(rol_slug == 'informatico'){
+        }else if(rol_slug == 'responsable_mesa'){
             $("#div_mesas_detalle").hide();
             $("#div_circ").show();
             $("#div_distrito").show();
@@ -308,7 +308,7 @@
         var mesas_sin_asignar = 0;
         var mesas_total = 0;
         // console.log($("#anio").val());
-        $.getJSON("consultaMesasRecinto/"+id_recinto+"/"+id_persona+"",{},function(objetosretorna){
+        $.getJSON("consultaMesasRecinto/"+id_recinto+"",{},function(objetosretorna){
             $("#error").html("");
             
             var TamanoArray = objetosretorna.length;
@@ -317,10 +317,10 @@
                 
                 if (value.mesa_activa === 0 || value.mesa_activa === null) {
                     mesas_sin_asignar++;
-                    $(".mesas_json select").append('<option selected value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+'</option>');                    
+                    $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+'</option>');                    
                 } else {
                     mesas_asignadas++;
-                    $(".mesas_json select").append('<option selected disabled value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
+                    $(".mesas_json select").append('<option disabled value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
                     
                 }
                 mesas_total++;

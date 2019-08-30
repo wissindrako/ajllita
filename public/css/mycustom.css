@@ -4,7 +4,7 @@ body.mybody {
     font-weight: 300;
     color: rgb(0, 0, 0);
     line-height: 30px;
-    text-align: center;
+    /* text-align: center; */
     background-color: #3797d0ba;
 
 }

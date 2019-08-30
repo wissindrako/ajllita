@@ -36,7 +36,6 @@ function cargaDistritos(){
   $(".distrito_json select").html("");
   var id_circunscripcion = $("#id_circunscripcion").val();
 
-  // console.log($("#anio").val());
   $.getJSON("consultaDistritos/"+id_circunscripcion+"",{},function(objetosretorna){
       $("#error").html("");
       var TamanoArray = objetosretorna.length;
@@ -52,7 +51,6 @@ function cargaRecintos(){
   var id_circunscripcion = $("#id_circunscripcion").val();
   var id_distrito = $("#id_distrito").val();
 
-  // console.log($("#anio").val());
   $.getJSON("consultaRecintos/"+id_distrito+"/"+id_circunscripcion+"",{},function(objetosretorna){
       $("#error").html("");
       var TamanoArray = objetosretorna.length;

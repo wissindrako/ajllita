@@ -70,7 +70,7 @@ class AsistenciasController extends Controller
              'origen.origen', 'sub_origen.nombre as nombre_sub_origen', 'roles.description as rol')
     ->where('asistencia.fecha', $request->fecha)
     ->where('recintos.id_recinto', $usuario_recinto->id_recinto)
-    ->whereBetween('role_user.role_id', [20, 21]) //Roles [Informatico, ResponsableRecinto]
+    ->whereBetween('role_user.role_id', [20, 21]) //Roles [responsable_mesa, ResponsableRecinto]
     ->orderBy('recintos.circunscripcion', 'ASC')
     ->orderBy('recintos.distrito', 'ASC')
     ->orderBy('recintos.zona', 'ASC')

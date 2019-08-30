@@ -71,6 +71,74 @@ class MesasController extends Controller
         return view("listados.listado_recintos_mesas");
     }
 
+    public function listado_votacion_general(){
+
+        return view("listados.listado_votacion_general");
+    }
+
+    public function buscar_votacion_general(){
+        // $id_persona = Auth::user()->id_persona;
+        // $usuario_recinto = \DB::table('users')
+        //               ->join('personas', 'personas.id_persona', '=', 'users.id_persona')
+        //               ->join('recintos', 'personas.id_recinto', '=', 'recintos.id_recinto')
+        //               ->select('recintos.circunscripcion')
+        //               ->where('personas.id_persona', $id_persona)
+        //               ->first();
+
+        $votos_presidenciales = \DB::table('mesas')
+        ->join('votos_presidenciales', 'mesas.id_mesa', 'votos_presidenciales.id_mesa')
+        ->select('mesas.id_mesa',
+        \DB::raw('count(*) as votos_presidenciales')
+        )
+        ->groupBy('mesas.id_mesa')
+        ->get();
+        
+        $votos_presidenciales_r = \DB::table('mesas')
+        ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
+        ->select('mesas.id_mesa',
+        \DB::raw('count(*) as votos_presidenciales_r')
+        )
+        ->groupBy('mesas.id_mesa')
+        ->get();
+
+
+        $votacion =\DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        // ->where('mesas.id_mesa', 624)
+        ->get();
+
+        foreach ($votacion as $key => $value) {
+            // foreach ($votos_presidenciales as $p) {
+            //     if ($value->id_mesa == $p->id_mesa) {
+            //         // $votacion[$key] = array_add(get_object_vars($value), 'presidenciales', $p->votos_presidenciales);
+            //         $votacion[$key] = array_add(get_object_vars($value), 'presidenciales', [
+            //             array(
+            //                 'partidos' => '2',
+            //                 'nulos_blancos' => '0',)
+            //             ]
+            //         );
+            //     }
+            // }
+            // foreach ($votos_presidenciales_r as $p_r) {
+            //     if ($value[$key]['id_mesa'] == $p_r->id_mesa) {
+            //         $votacion[$key] = array_add($value, 'presidenciales_restantes', $p_r->votos_presidenciales_r);
+            //     }
+            // }
+        }
+        // foreach ($votacion as $key => $value) {
+        //     foreach ($votos_presidenciales_r as $p_r) {
+        //         if ($value[$key]['id_mesa'] == $p_r->id_mesa) {
+        //             $votacion[$key] = array_add($value, 'presidenciales_restantes', $p_r->votos_presidenciales_r);
+        //         }
+        //     }
+        // }
+
+        // echo "<pre>";
+        // print_r($votacion);
+        // dd($votacion);
+        return Datatables::of($votacion)->make(true); 
+    }
+
     public function listado_distritos_responsables(){
 
         return view("listados.listado_distritos_responsables");
@@ -137,7 +205,7 @@ class MesasController extends Controller
         return Datatables::of($mesas)->make(true); 
     }
 
-    public function consultaMesasRecinto($id_recinto, $id_persona){
+    public function consultaMesasRecinto($id_recinto){
 
         //Mesas Asignadas
 
@@ -191,9 +259,9 @@ class MesasController extends Controller
         ->where('id_persona', $request->input("id_persona"))
         ->first();
 
-        if($request->input("rol_slug") == 'delegado_mas'){
+        if($request->input("rol_slug") == 'militante'){
             //rol delegado del MAS
-            return 'delegado_mas';
+            return 'militante';
         }elseif ($request->input("rol_slug") == 'conductor') {
             // rol Conductor
             if ($request->input("id_vehiculo") != "") {
@@ -310,8 +378,8 @@ class MesasController extends Controller
         }elseif ($request->input("rol_slug") == 'call_center') {
             //rol 
             return 'call_center';
-        }elseif ($request->input("rol_slug") == 'informatico') {
-            //rol informatico
+        }elseif ($request->input("rol_slug") == 'responsable_mesa') {
+            //rol responsable_mesa
             if ($request->has("mesas")) {
 
                 $user = false;
@@ -562,7 +630,7 @@ class MesasController extends Controller
         $usuario->revokeRole($rol->id);
         //$usuario->assignRole(15); //Delegado del Mas
 
-        if ($rol->slug == 'delegado_mas') {
+        if ($rol->slug == 'militante') {
             # code...
         }elseif ($rol->slug == 'conductor') {
             // Rol Conductor
@@ -589,8 +657,8 @@ class MesasController extends Controller
             } else {
                 return 'failed_persona';
             }
-        }elseif ($rol->slug == 'informatico') {
-            // Rol informatico
+        }elseif ($rol->slug == 'responsable_mesa') {
+            // Rol responsable_mesa
             if (UsuarioMesa::where('id_usuario', $usuario->id)
             ->update(array('activo' => 0))) {
                 // $user = User::find($usuario->id);
@@ -609,7 +677,7 @@ class MesasController extends Controller
             } else {
                 return 'failed_usuario_mesas';
             }
-            //Fin informatico
+            //Fin responsable_mesa
         }elseif ($rol->slug == 'responsable_recinto') {
             # code...
             $persona->asignado = 0;

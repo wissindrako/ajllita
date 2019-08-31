@@ -13,7 +13,7 @@
     <div class="" >
         <div class="container"> 
             <div class="row">
-              <div class="col-sm-6 col-sm-offset-2 myform-cont" >
+              <div class="col-sm-8 col-sm-offset-2 myform-cont" >
                 
                      <div class="myform-top">
                         <div class="myform-top-left">
@@ -22,7 +22,7 @@
                             <p>Por favor llene los siguientes campos</p>
                         </div>
                         <div class="myform-top-right">
-                          <i class="fa fa-child"></i>
+                          <i class="fa fa-user-plus"></i>
                         </div>
                       </div>
 
@@ -67,7 +67,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label >Carnet</label>
-                                <input type="input" name="cedula" placeholder="" class="form-control" value="{{ old('cedula') }}" required/>
+                                <input type="input" name="cedula" placeholder="" class="form-control" value="{{ old('cedula') }}" pattern="[0-9]{6,9}" required/>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -95,25 +95,25 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class=" ">Fecha de nacimiento</label>
-                                <input type="date" name="nacimiento" placeholder="" class="form-control" value="{{ old('nacimiento') }}" required />
+                                <input type="date" name="nacimiento" placeholder="" min="1939-01-01" max="2002-01-01" class="form-control" value="{{ old('nacimiento') }}" required />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label >Telefono - Celular</label>
-                                <input type="input" name="telefono" placeholder="" class="form-control" value="{{ old('telefono') }}" required/>
+                                <label >Celular</label>
+                                <input type="text" name="telefono" placeholder="" class="form-control" value="{{ old('telefono') }}" pattern="[0-9]{8}" data-inputmask="&quot;mask&quot;: &quot;99999999&quot;" data-mask="" title="Introduzca un número valido" required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label >Telefono de Referencia</label>
-                                <input type="input" name="telefono_ref" placeholder="" class="form-control" value="{{ old('telefono_ref') }}" />
+                                <label >Contacto de Referencia</label>
+                                <input type="text" name="telefono_ref" placeholder="" class="form-control" value="{{ old('telefono_ref') }}" pattern="[0-9]{8}" data-inputmask="&quot;mask&quot;: &quot;99999999&quot;" data-mask="" title="Introduzca un número valido" required/>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label >Dirección</label>
-                                <input type="input" name="direccion" placeholder="" class="form-control" value="{{ old('direccion') }}" required/>
+                                <input type="input" name="direccion" placeholder="Domicilio" class="form-control" value="{{ old('direccion') }}" required/>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -124,15 +124,23 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label >Grado de compromiso - (1 al 5)</label>
-                                <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="1" />
+                                <label >Grado de apoyo y compromiso en las Elecciones - (1 al 5)</label>
+                                {{-- <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="0" required/> --}}
+                                <select class="form-control" name="grado_compromiso" required>
+                                        <option value="" selected> --- SELECCIONE UN NIVEL --- </option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="text-black ">Organización de Origen</label>
                                 <select class="form-control" name="id_origen" id="id_origen" required>
-                                        <option value="" selected> --- SELECCIONE UNA ORGANIZACION --- </option>
+                                        <option value="" selected> --- SELECCIONE UNA ORGANIZACIÓN --- </option>
                                     @foreach ($origenes as $origen)
                                 <option value="{{$origen->id_origen}}">{{$origen->id_origen}} - {{$origen->origen}}</option>
                                     @endforeach
@@ -143,15 +151,15 @@
                             <div class="form-group sub_origen_json">
                                 <label class="text-black">Sub Origen</label>
                                 <select class="form-control" name="id_sub_origen">
-                                    <option value="0" selected> --- SELECCIONE UNA SUB ORGANIZACION--- </option>
+                                    <option value="0" selected> --- SELECCIONE UNA SUB ORGANIZACIÓN --- </option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="text-black ">Circunscripción</label>
-                                <select class="form-control" name="id_circunscripcion" id="id_circunscripcion">
-                                    <option value="0" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
+                                <select class="form-control" name="id_circunscripcion" id="id_circunscripcion" required>
+                                    <option value="" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
                                     @foreach ($circunscripciones as $circ)
                                 <option value="{{$circ->circunscripcion}}">{{$circ->circunscripcion}}</option>
                                     @endforeach
@@ -161,14 +169,14 @@
                         <div class="col-md-6">
                             <div class="form-group distrito_json_select">
                                 <label class="">Distrito</label>
-                                <select class="form-control" name="id_distrito" id="id_distrito">
+                                <select class="form-control" name="id_distrito" id="id_distrito" required>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group recinto_json_select">
                                 <label class="text-black">Recinto</label>
-                                <select class="form-control" name="recinto" id="id_recinto">
+                                <select class="form-control" name="recinto" id="id_recinto" required>
                                   </select>
                             </div>
                         </div>
@@ -177,9 +185,11 @@
                             <div class="form-group">
                                 <label class="text-black">Rol</label>
                                 <div class="form-group bg-gray">
-                                    <select  class="form-control" name="rol_slug" id="rol_slug">
+                                    <select  class="form-control" name="rol_slug" id="rol_slug"  required>
+                                        <option value="" selected> --- SELECCIONE UNA TAREA --- </option>
                                         @foreach ($roles as $rol)
-                                    <option value={{$rol->slug}} {{$rol->slug == 'militante' ? 'selected' : ''}}>{{$rol->description}}</option>
+                                    {{-- <option value={{$rol->slug}} {{$rol->slug == 'militante' ? 'selected' : ''}}>{{$rol->description}}</option> --}}
+                                    <option value={{$rol->slug}}>{{$rol->description}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -410,7 +420,7 @@
         $.getJSON("consultaDistritos/"+id_circunscripcion+"",{},function(objetosretorna){
             $("#error").html("");
             var TamanoArray = objetosretorna.length;
-            $(".distrito_json_select select").append('<option value="0"> --- SELECCIONE EL DISTRITO --- </option>');
+            $(".distrito_json_select select").append('<option value=""> --- SELECCIONE EL DISTRITO --- </option>');
             $.each(objetosretorna, function(i,value){
                 $(".distrito_json_select select").append('<option value="'+value.distrito+'">'+value.distrito+'</option>');
             });
@@ -426,7 +436,7 @@
         $.getJSON("consultaRecintos/"+id_distrito+"/"+id_circunscripcion+"",{},function(objetosretorna){
                 $("#error").html("");
                 var TamanoArray = objetosretorna.length;
-                $(".recinto_json_select select").append('<option value="0"> --- SELECCIONE EL RECINTO --- </option>');
+                $(".recinto_json_select select").append('<option value=""> --- SELECCIONE EL RECINTO --- </option>');
                 $.each(objetosretorna, function(i,value){
                     $(".recinto_json_select select").append('<option value="'+value.id_recinto+'"> R:'+value.id_recinto+' - '+value.nombre+'</option>');
                 });

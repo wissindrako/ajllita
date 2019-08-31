@@ -4,7 +4,7 @@
     <div class="" >
         <div class="container"> 
             <div class="row">
-              <div class="col-sm-6 col-sm-offset-3 myform-cont" >
+              <div class="col-sm-8 col-sm-offset-2 myform-cont" >
                 
                      <div class="myform-top">
                         <div class="myform-top-left">
@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label >Comp.</label>
+                                    <label >Comp. SEGIP</label>
                                 <input type="input" name="complemento" placeholder="" class="form-control" value="{{ $persona->complemento_cedula }}" />
                             </div>
                         </div>
@@ -87,28 +87,28 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class=" ">Fecha de nacimiento</label>
-                                <input type="date" name="nacimiento" placeholder="" class="form-control" value="{{ $persona->fecha_nacimiento }}" required />
+                                <input type="date" name="nacimiento" placeholder=""  min="1939-01-01" max="2002-01-01" class="form-control" value="{{ $persona->fecha_nacimiento }}" required />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label >Telefono</label>
-                                <input type="input" name="telefono" placeholder="" class="form-control" value="{{ $persona->telefono_celular }}" required/>
+                                <input type="input" name="telefono" placeholder="" class="form-control" value="{{ $persona->telefono_celular }}" pattern="[0-9]{8}" data-inputmask="&quot;mask&quot;: &quot;99999999&quot;" data-mask="" title="Introduzca un número valido" required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label >Telefono de Referencia</label>
-                                <input type="input" name="telefono_ref" placeholder="" class="form-control" value="{{ $persona->telefono_referencia }}" />
+                                <input type="input" name="telefono_ref" placeholder="" class="form-control" value="{{ $persona->telefono_referencia }}" pattern="[0-9]{8}" data-inputmask="&quot;mask&quot;: &quot;99999999&quot;" data-mask="" title="Introduzca un número valido" required/>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label >Direccion</label>
-                                <input type="input" name="direccion" placeholder="" class="form-control" value="{{ $persona->direccion }}" required/>
+                                <input type="input" name="direccion" placeholder="Domicilio" class="form-control" value="{{ $persona->direccion }}" required/>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label >Email</label>
                                 <input type="email" name="email" placeholder="Correo electrónico" class="form-control" value="{{ $persona->email }}" />
@@ -116,8 +116,37 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label >Grado de compromiso</label>
-                                <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="{{ $persona->grado_compromiso}}" />
+                                <label >Grado de apoyo y compromiso en las Elecciones - (1 al 5)</label>
+                                {{-- <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="0" required/> --}}
+                                <select class="form-control" name="grado_compromiso" required>
+                                        <option value="" selected> --- SELECCIONE UN NIVEL --- </option>
+                                        <option value="1" {{ $persona->grado_compromiso == '1' ? 'selected' : '' }}>1</option>
+                                        <option value="2" {{ $persona->grado_compromiso == '2' ? 'selected' : '' }}>2</option>
+                                        <option value="3" {{ $persona->grado_compromiso == '3' ? 'selected' : '' }}>3</option>
+                                        <option value="4" {{ $persona->grado_compromiso == '4' ? 'selected' : '' }}>4</option>
+                                        <option value="5" {{ $persona->grado_compromiso == '5' ? 'selected' : '' }}>5</option>
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="text-black ">Organización de Origen</label>
+                                <select class="form-control" name="id_origen" id="id_origen">
+                                    @foreach ($origenes as $origen)
+                                <option value={{$origen->id_origen}} {{ $persona->id_origen == $origen->id_origen ? 'selected' : '' }}>{{$origen->origen}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group sub_origen_json">
+                                <label class="text-black">Sub Origen</label>
+                                <select class="form-control" name="id_sub_origen">
+                                    <option value="0" selected> --- SELECCIONE UN ORIGEN--- </option>
+                                    @foreach ($sub_origenes as $sub_origen)
+                                    <option value={{$sub_origen->id_sub_origen}} {{ $persona->id_sub_origen == $sub_origen->id_sub_origen ? 'selected' : '' }}>{{$sub_origen->nombre}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -145,32 +174,90 @@
                         <div class="col-md-12">
                             <div class="form-group recinto_json">
                                 <label class="text-black">Recinto</label>
-                                <select class="form-control" name="recinto">
+                                <select class="form-control" name="recinto" id="id_recinto">
                                     @foreach ($recintos as $recinto)
                                     <option value={{$recinto->id_recinto}} {{ $persona->id_recinto == $recinto->id_recinto ? 'selected' : '' }}>{{$recinto->id_recinto}} - {{$recinto->nombre_recinto}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label class="text-black ">Organización de Origen</label>
-                                <select class="form-control" name="id_origen" id="id_origen">
-                                    @foreach ($origenes as $origen)
-                                <option value={{$origen->id_origen}} {{ $persona->id_origen == $origen->id_origen ? 'selected' : '' }}>{{$origen->origen}}</option>
-                                    @endforeach
-                                </select>
+                                <label class="text-black">Rol</label>
+                                <div class="form-group bg-gray">
+                                    <select  class="form-control" name="rol_slug" id="rol_slug"  required>
+                                        <option value="" selected> --- SELECCIONE UNA TAREA --- </option>
+                                        @foreach ($roles as $rol)
+                                    {{-- <option value={{$rol->slug}} {{$rol->slug == 'militante' ? 'selected' : ''}}>{{$rol->description}}</option> --}}
+                                    <option value={{$rol->slug}} {{ $persona->id_rol == $rol->id ? 'selected' : '' }}>{{$rol->description}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group sub_origen_json">
-                                <label class="text-black">Sub Origen</label>
-                                <select class="form-control" name="id_sub_origen">
-                                    <option value="0" selected> --- SELECCIONE UN ORIGEN--- </option>
-                                    @foreach ($sub_origenes as $sub_origen)
-                                    <option value={{$sub_origen->id_sub_origen}} {{ $persona->id_sub_origen == $sub_origen->id_sub_origen ? 'selected' : '' }}>{{$sub_origen->nombre}}</option>
-                                    @endforeach
-                                </select>
+                        <div class="col-md-12" id="div_mesas">
+                            <div class="" id="div_mesas_detalle">
+                                    <h5 class="box-title"><b>Detalle de Mesas: </b></h5>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                        <b>Asignadas:</b> <b><span id="mesas_asignadas"></span></b>
+                                    </h3>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                        <b>Sin Asignar:</b> <b><span id="mesas_sin_asignar"></span></b>
+                                    </h3>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                        <b>Total:</b> <b><span id="mesas_total"></span></b>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="text-black">Mesas - Recinto</label>
+                                <div class="form-group bg-gray mesas_json">
+                                    <select size="7" multiple="" class="form-control" name="mesas[]" id="id_mesa" style="font-family:'FontAwesome', \'Helvetica Neue\', Helvetica, sans-serif; ">
+                                        @foreach ($mesas_usuario as $mesa)
+                                        <option value="{{$mesa->id_mesa}}" disabled> {{$mesa->id_mesa}} C:{{$mesa->circunscripcion}} - D:{{$mesa->distrito}} - R:{{$mesa->nombre_recinto}} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" id="div_casa_campana">
+                            <div class="form-group">
+                                <label class="text-black">Casa de Campaña</label>
+                                <div class="form-group bg-gray">
+                                    <select  class="form-control" name="id_casa_campana" id="id_casa_campana">
+                                        <option value=""> --- SELECCIONE UNA CASA DE CAMPAÑA --- </option>
+                                        @foreach ($casas as $casa)
+                                            @if ($casa_campana != null)
+                                            <option value={{$casa->id_casa_campana}} {{$casa_campana->id_casa_campana == $casa->id_casa_campana ? 'selected' : '' }}>C:{{$casa->circunscripcion}} - D:{{$casa->distrito}} - {{$casa->nombre_casa_campana}} {{$casa->direccion}}</option>
+                                            @else
+                                            <option value="{{$casa->id_casa_campana}}">C:{{$casa->circunscripcion}} - D:{{$casa->distrito}} - {{$casa->nombre_casa_campana}} {{$casa->direccion}}</option>
+                                            @endif
+
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" id="div_vehiculo">
+                            <div class="form-group">
+                                <label class="text-black">Vehiculo</label>
+                                <div class="form-group bg-gray">
+                                    <select  class="form-control" name="id_vehiculo" id="id_vehiculo">
+                                        <option value="" selected> --- SELECCIONE UN VEHICULO --- </option>
+                                        @foreach ($vehiculos as $vehiculo)
+                                        @if ($usuario_vehiculo != null)
+                                        <option value={{$vehiculo->id_transporte}} {{$vehiculo->id_transporte == $usuario_vehiculo->id_transporte ? 'selected' : '' }}>{{$vehiculo->id_transporte}} - {{$vehiculo->marca}} {{$vehiculo->modelo}}</option>
+                                        @else
+                                        <option value="{{$vehiculo->id_transporte}}">{{$vehiculo->id_transporte}} - {{$vehiculo->marca}} {{$vehiculo->modelo}}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">

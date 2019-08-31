@@ -18,13 +18,13 @@
         @endif
 
         @if ($msj == 'enviado_editar_persona')
-        <a href="{{ url('/listado_personas') }}" class="btn btn-success"    value=" "  > Regresar</a>
+        <a href="{{ url('/listado_personas') }}" class="btn btn-info"    value=" "  > Regresar</a>
         @endif
       
     </div>
     <div class="btn-group" style="margin-left:50px; " >
       @if ($msj == 'enviado_crear_persona')
-      <a href="{{ url('/listado_personas') }}" class="btn btn-success"    value=" "  > Regresar</a>
+      <a href="{{ url('/listado_personas') }}" class="btn btn-info"    value=" "  > Listado</a>
       @endif
       {{-- <a href="{{ url('/') }}" class="btn btn-info"    value=" "  > Salir </a> --}}
     </div>

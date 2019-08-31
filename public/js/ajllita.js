@@ -806,7 +806,6 @@ $(document).on("submit",".formentrada",function(e){
   if(quien=="f_asignar_mesas_recinto"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_asignar_usuario_mesa"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_agregar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
-  if(quien=="f_enviar_agregar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_enviar_editar_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
   if(quien=="f_baja_persona"){  var varurl=$(this).attr("action");  var div_resul="div_notificacion_sol";}
 
@@ -860,8 +859,20 @@ $(document).on("submit",".formentrada",function(e){
           alertify.error('Debe ingresar al menos un apellido');
         }else if(resul == 'cedula_repetida'){
           alertify.error('El número de Carnet ya se encuentra registrado!');
+        }else if(resul == 'rol'){
+        alertify.error('Seleccione una Tarea');
         }else if(resul == 'recinto'){
-        alertify.error('Seleccione un recinto');
+          alertify.error('Seleccione Circ. Distrito y Recinto');
+        }else if(resul == 'id_vehiculo'){
+          alertify.error('Seleccione un vehículo');
+        }else if(resul == 'id_casa_campana'){
+          alertify.error('Seleccione su Casa de Campaña');
+        }else if(resul == 'mesas'){
+          alertify.error('Seleccione las Mesas');
+        }else if(resul == 'distrito'){
+          alertify.error('Seleccione un Distrito');
+        }else if(resul == 'circunscripcion'){
+          alertify.error('Seleccione la Circunscripcion');
         }else{
           $("#"+div_resul+"").html(resul);
         }

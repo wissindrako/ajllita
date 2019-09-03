@@ -71,6 +71,85 @@ class MesasController extends Controller
         return view("listados.listado_recintos_mesas");
     }
 
+    public function listado_votacion_recinto(){
+        $id_persona = Auth::user()->id_persona;
+        $id_recinto = \DB::table('personas')
+            ->where('personas.id_persona', $id_persona)
+            ->pluck('id_recinto')
+            ->toArray();
+        $recinto = Recinto::find($id_recinto);
+
+        $mesas =\DB::table('mesas')
+        ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
+        ->leftjoin('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
+        ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
+        ->where('mesas.id_recinto', $id_recinto)
+        ->select('recintos.nombre as nombre_recinto', 'mesas.id_mesa', 
+        \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
+        \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
+        )
+        ->get();
+
+        $votos_presidenciales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales', 'mesas.id_mesa', 'votos_presidenciales.id_mesa')
+        ->where('mesas.id_recinto', $id_recinto)
+        ->select('mesas.id_mesa',
+        \DB::raw('count(*) as votos_presidenciales')
+        )
+        ->groupBy('votos_presidenciales.id_mesa')
+        ->get();
+
+        $votos_presidenciales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
+        ->where('mesas.id_recinto', $id_recinto)
+        ->select('mesas.id_mesa',
+        \DB::raw('count(*) as votos_presidenciales_r')
+        )
+        ->groupBy('votos_presidenciales_r.id_mesa')
+        ->get();
+
+        return view("listados.listado_votacion_recinto")
+        ->with('recinto', $recinto)
+        ->with('mesas', $mesas)
+        ->with('votos_presidenciales', $votos_presidenciales)
+        ->with('votos_presidenciales_r', $votos_presidenciales_r)
+        ;
+    }
+
+    public function buscar_votacion_recinto(){
+
+        $id_persona = Auth::user()->id_persona;
+        $id_recinto = \DB::table('personas')
+            ->where('personas.id_persona', $id_persona)
+            ->pluck('id_recinto')
+            ->toArray();
+
+        $votos_presidenciales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales', 'mesas.id_mesa', 'votos_presidenciales.id_mesa')
+        ->where('mesas.id_recinto', $id_recinto)
+        ->select('mesas.id_mesa',
+        \DB::raw('count(*) as votos_presidenciales')
+        )
+        ->groupBy('votos_presidenciales.id_mesa')
+        ->get();
+
+        dd($votos_presidenciales);
+        
+        $votos_presidenciales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
+        ->where('mesas.id_recinto', $id_recinto)
+        ->select('mesas.id_mesa',
+        \DB::raw('count(*) as votos_presidenciales_r')
+        )
+        ->groupBy('mesas.id_mesa')
+        ->get();
+    }
+
     public function listado_votacion_general(){
 
         return view("listados.listado_votacion_general");
@@ -166,7 +245,7 @@ class MesasController extends Controller
                  'personas.direccion as direccion_persona',
                  \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
                  \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
-                 'recintos.circunscripcion', 'recintos.distrito', 'recintos.nombre as nombre_recinto', 'recintos.zona', 'recintos.direccion as direccion_recinto',
+                 'recintos.circunscripcion', 'recintos.distrito', 'recintos.nombre as nombre_recinto', 'recintos.zona', 'recintos.direccion as direccion_recinto'
                 )
         // ->orderBy('rel_usuario_mesa.activo', 'asc')
         // ->orderBy('mesas.id_mesa', 'asc')
@@ -193,7 +272,7 @@ class MesasController extends Controller
                  'personas.direccion as direccion_persona',
                  \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
                  \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
-                 'recintos.circunscripcion', 'recintos.distrito', 'recintos.nombre as nombre_recinto', 'recintos.zona', 'recintos.direccion as direccion_recinto',
+                 'recintos.circunscripcion', 'recintos.distrito', 'recintos.nombre as nombre_recinto', 'recintos.zona', 'recintos.direccion as direccion_recinto'
                 )
         // ->orderBy('rel_usuario_mesa.activo', 'asc')
         ->orderBy('mesas.id_mesa', 'asc')

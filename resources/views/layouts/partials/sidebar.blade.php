@@ -41,7 +41,7 @@
                     @endrole
 
                     @role('responsable_mesa')
-                    <p><i class="fa fa-caret-right text-yellow"></i> Delegado Informático</p>
+                    <p><i class="fa fa-caret-right text-yellow"></i> Responsable de Mesa</p>
                     @endrole
 
                     @role('responsable_recinto')

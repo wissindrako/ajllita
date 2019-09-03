@@ -11,7 +11,7 @@
 <div class="box box-primary">
 		<div class="box-header">
 				<h3 class="box-title">Listado de Personas</h3>
-
+				<input type="hidden" id="rol_usuario" value="{{ $rol->slug }}">
 
 			
 		</div>
@@ -39,6 +39,7 @@
 				<th>Origen</th>
 				<th>Sub Origen</th>
 				<th>Rol</th>
+				
 				<th>Acción</th>
 				
 			</thead>
@@ -156,14 +157,25 @@
             { data: 'origen', name: 'origen' },
             { data: 'sub_origen', name: 'sub_origen' },
             { data: 'nombre_rol', name: 'nombre_rol' },
-            { data: null,  render: function ( data, type, row ) {
-				if ( row.activo === 1) {
+			{ data: null,  render: function ( data, type, row ) {
+					if ($("#rol_usuario").val() === 'admin' || $("#rol_usuario").val() === 'super_admin') {
+						if ( row.activo === 1) {
 						// return "<a href='{{ url('form_editar_contacto/') }}/"+ data.id +"' class='btn btn-xs btn-primary' >Editar</button>"
-						return "<td><button type='button' class='btn btn-success btn-xs' onclick='verinfo_persona("+data.id_persona+","+1+")' ><i class='fa fa-pencil-square-o'></i></button></td><td><button type='button' class='btn btn-danger btn-xs' onclick='verinfo_persona("+data.id_persona+","+2+")' ><i class='fa fa-fw fa-user-times'></i></button></td>"
+							return "<td><button type='button' class='btn btn-success btn-xs' onclick='verinfo_persona("+data.id_persona+","+1+")' ><i class='fa fa-pencil-square-o'></i></button></td><td><button type='button' class='btn btn-danger btn-xs' onclick='verinfo_persona("+data.id_persona+","+2+")' ><i class='fa fa-fw fa-user-times'></i></button></td>"
+						} else {
+							return "<td><button disabled type='button' class='btn btn-success btn-xs'><i class='fa fa-pencil-square-o'></i></button></td><td><button disabled type='button' class='btn btn-danger btn-xs'><i class='fa fa-fw fa-user-times'></i></button></td>"
+						}
 					} else {
-						return "<td><button disabled type='button' class='btn btn-success btn-xs'><i class='fa fa-pencil-square-o'></i></button></td><td><button disabled type='button' class='btn btn-danger btn-xs'><i class='fa fa-fw fa-user-times'></i></button></td>"
+						if ($("#rol_usuario").val() === 'registrador') {
+							if ( row.activo === 1) {
+							// return "<a href='{{ url('form_editar_contacto/') }}/"+ data.id +"' class='btn btn-xs btn-primary' >Editar</button>"
+								return "<td><button type='button' class='btn btn-success btn-xs' onclick='verinfo_persona("+data.id_persona+","+1+")' ><i class='fa fa-pencil-square-o'></i></button></td>"
+							} else {
+								return "<td><button disabled type='button' class='btn btn-success btn-xs'><i class='fa fa-pencil-square-o'></i></button></td>"
+							}
+						}
 					}
-				}  
+				}
 			},
         ]
     });

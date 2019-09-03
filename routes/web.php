@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('form_editar_persona/{id_persona}', 'PersonasController@form_editar_persona');
     Route::post('editar_persona', 'PersonasController@editar_persona');
+    Route::post('editar_asignacion_persona', 'PersonasController@editar_asignacion_persona');
 
     Route::get('form_baja_persona/{id_persona}', 'PersonasController@form_baja_persona');
 
@@ -62,6 +63,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('listado_votacion_general', 'MesasController@listado_votacion_general');
     Route::resource('buscar_votacion_general', 'MesasController@buscar_votacion_general');
+
+    Route::get('listado_votacion_recinto', 'MesasController@listado_votacion_recinto');
+    Route::resource('buscar_votacion_recinto', 'MesasController@buscar_votacion_recinto');
 
     Route::get('form_asignar_usuario_mesa/{id_persona}', 'MesasController@form_asignar_usuario_mesa');
     Route::post('asignar_usuario_mesa', 'MesasController@asignar_usuario_mesa');

@@ -67,6 +67,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('listado_votacion_recinto', 'MesasController@listado_votacion_recinto');
     Route::resource('buscar_votacion_recinto', 'MesasController@buscar_votacion_recinto');
 
+    Route::get('listado_votacion_distrito', 'MesasController@listado_votacion_distrito');
+    Route::resource('buscar_votacion_distrito', 'MesasController@buscar_votacion_distrito');
+
+    Route::get('listado_votacion_circunscripcion', 'MesasController@listado_votacion_circunscripcion');
+    Route::resource('buscar_votacion_circunscripcion', 'MesasController@buscar_votacion_circunscripcion');
+
     Route::get('form_asignar_usuario_mesa/{id_persona}', 'MesasController@form_asignar_usuario_mesa');
     Route::post('asignar_usuario_mesa', 'MesasController@asignar_usuario_mesa');
     Route::post('liberar_responsabilidad', 'MesasController@liberar_responsabilidad');

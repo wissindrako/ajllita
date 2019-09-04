@@ -10,12 +10,12 @@
 
 <div class="box box-primary">
 		<div class="box-header">
-				<h3 class="box-title">Listado de Votacion por Recinto</h3>	
+				<h3 class="box-title">Listado de Votacion por Distrito</h3>	
 				{{-- <h4 class="text-black" >NOMBRE: <b>{{$persona->nombre}} {{$persona->paterno}} {{$persona->materno}}</b></h4 class="text-black" >
 				<h4 class="text-black" >CEDULA: <b>{{$persona->cedula_identidad}} {{$persona->complemento_cedula}} {{$persona->expedido}}</b></h4 class="text-black" > --}}
-				<h4 class="text-black" >CIRCUNSCRIPCION: <b>{{$recinto[0]->circunscripcion}}</b></h4 class="text-black" >
-				<h4 class="text-black" >DISTRITO: <b>{{$recinto[0]->distrito}}</b></h4 class="text-black" >
-				<h4 class="text-black" >RECINTO: <b>{{$recinto[0]->nombre}}</b></h4 class="text-black" >
+				<h4 class="text-black" >CIRCUNSCRIPCION: <b>{{$recinto->circunscripcion}}</b></h4 class="text-black" >
+				<h4 class="text-black" >DISTRITO: <b>{{$recinto->distrito}}</b></h4 class="text-black" >
+				{{-- <h4 class="text-black" >RECINTO: <b>{{$recinto[0]->nombre}}</b></h4 class="text-black" > --}}
 		</div>
 		<!-- /.box-header -->
 		{{-- {{dd($personas)}} --}}
@@ -25,20 +25,20 @@
 				<th>Reponsable</th>
 				<th>Contacto</th>
 				<th>Recinto</th>
-				<th>Mesa</th>
+				<th>Mesas</th>
 				<th>Presidenciales</th>
 				<th>Uninominales</th>
 				{{-- <th>Estado</th>
 				<th></th> --}}
 			</thead>
 		<tbody>
-			{{-- {{dd($mesas)}} --}}
-			@foreach ($mesas as $mesa)
+			{{-- {{dd($recintos)}} --}}
+			@foreach ($recintos as $recinto)
 				<tr>
-				<td>{{$mesa->nombre_completo}}</td>
-				<td>{{$mesa->contacto}}</td>
-				<td>{{$mesa->nombre_recinto}}</td>
-				<td>{{$mesa->id_mesa}}</td>
+				<td>{{$recinto->nombre_completo}}</td>
+				<td>{{$recinto->contacto}}</td>
+				<td>{{ $recinto->id_recinto }} - {{$recinto->nombre_recinto}}</td>
+				<td>{{ $recinto->numero_mesas }}</td>
 				{{-- {{dd($votos_presidenciales)}} --}}
 				@php
 					$votos_pre = 0;
@@ -48,7 +48,7 @@
 				@endphp
 				@foreach ($votos_presidenciales as $vp)
 
-					@if ($mesa->id_mesa == $vp->id_mesa)
+					@if ($recinto->id_recinto == $vp->id_recinto)
 					@php
 						$votos_pre = $vp->votos_presidenciales;
 					@endphp
@@ -56,7 +56,7 @@
 				@endforeach
 				@foreach ($votos_presidenciales_r as $vp)
 
-					@if ($mesa->id_mesa == $vp->id_mesa)
+					@if ($recinto->id_recinto == $vp->id_recinto)
 					@php
 						$b_n = $vp->votos_presidenciales_r;
 					@endphp
@@ -64,7 +64,7 @@
 				@endforeach
 				@foreach ($votos_uninominales as $v_uni)
 
-					@if ($mesa->id_mesa == $v_uni->id_mesa)
+					@if ($recinto->id_recinto == $v_uni->id_recinto)
 					@php
 						$votos_uni = $v_uni->votos_uninominales;
 					@endphp
@@ -72,39 +72,31 @@
 				@endforeach
 				@foreach ($votos_uni_r as $v_uni_r)
 
-					@if ($mesa->id_mesa == $v_uni_r->id_mesa)
+					@if ($recinto->id_recinto == $v_uni_r->id_recinto)
 					@php
 						$uni_b_n = $v_uni_r->votos_uninominales_r;
 					@endphp
 					@endif
 				@endforeach
-				@if ($votos_pre + $b_n < 1)
+				@if ($votos_pre + $b_n < $recinto->numero_mesas)
 				<td><span class="badge bg-red">Incompleto</span></td>	
 				@else
-					@if ($votos_pre + $b_n == $cantidad_partidos+1)
-					<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span></td>	
+					@if ($votos_pre + $b_n == $recinto->numero_mesas*$cantidad_partidos+$recinto->numero_mesas)
+					<td><span class="badge bg-green">&nbsp;Completo {{$votos_pre + $b_n}} &nbsp;&nbsp;</span></td>	
 					@else
 					<td><span class="badge bg-yellow">&nbsp;Pendiente&nbsp;</span></td>	
 					@endif
 				@endif
 				@if ($votos_uni + $uni_b_n < 1)
-				<td><span class="badge bg-red">Incompleto</span></td>	
+				<td><span class="badge bg-red">Incompleto {{$votos_uni + $uni_b_n}}</span></td>	
 				@else
-					@if ($votos_uni + $uni_b_n == $cantidad_partidos+1)
+					@if ($votos_uni + $uni_b_n == $cantidad_partidos+$recinto->numero_mesas)
 					<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span></td>	
 					@else
 					<td><span class="badge bg-yellow">&nbsp;Pendiente&nbsp;</span></td>	
 					@endif
 				@endif
-				{{-- @if ($b_n < 1)
-				<td><span class="badge bg-red">Incompleto</span></td>	
-				@else
-					@if ($b_n == 9)
-					<td><span class="badge bg-green">Completo</span></td>	
-					@else
-					<td><span class="badge bg-yellow">Pendiente</span></td>	
-					@endif
-				@endif --}}
+
 				</tr>
 			@endforeach
 		</tbody>

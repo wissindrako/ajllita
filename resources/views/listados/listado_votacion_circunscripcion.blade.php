@@ -22,13 +22,28 @@
 		<div class="box-body table-responsive no-padding">
 		  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 			<thead>
-				<th>#</th>
-				<th>Reponsable del Distrito</th>
-				<th>Contacto</th>
-				<th>Distrito</th>
-				<th>Mesas</th>
-				<th>Presidenciales</th>
-				<th>Uninominales</th>
+				<tr>
+					<th></th>
+					<th colspan="2">Datos del Responsable</th>
+					<th colspan="2">Datos del Recinto</th>
+					<th colspan="4">Votos Presidenciales</th>
+					<th colspan="4">Votos Uninominales</th>
+				</tr>
+				<tr>
+					<th>#</th>
+					<th>Nombre</th>
+					<th>Contacto</th>
+					<th>Distrito</th>
+					<th>Mesas</th>
+					<th>Registrados</th>
+					<th>Restantes</th>
+					<th>Total</th>
+					<th>Estado</th>
+					<th>Registrados</th>
+					<th>Restantes</th>
+					<th>Total</th>
+					<th>Estado</th>
+				</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}
 			</thead>
@@ -65,6 +80,14 @@
 					@endphp
 					@endif
 				@endforeach
+				<td>{{$votos_pre + $b_n}}</td> {{-- Registrados --}}
+				<td>{{$recinto->numero_mesas*($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Restantes --}}
+				<td>{{$recinto->numero_mesas*($cantidad_partidos+1)}}</td> {{-- Total --}}
+				@if ($votos_pre + $b_n < $recinto->numero_mesas*($cantidad_partidos+1))
+				<td><span class="badge bg-red">Incompleto</span></td>	
+				@else
+				<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;&nbsp;</span></td>
+				@endif
 				@foreach ($votos_uninominales as $v_uni)
 
 					@if ($recinto->id_recinto == $v_uni->id_recinto)
@@ -81,33 +104,14 @@
 					@endphp
 					@endif
 				@endforeach
-				@if ($votos_pre + $b_n < $recinto->numero_mesas)
+				<td>{{$votos_uni + $uni_b_n}}</td> {{-- Registrados --}}
+				<td>{{$recinto->numero_mesas*($cantidad_partidos+1) - ($votos_uni + $uni_b_n)}}</td> {{-- Restantes --}}
+				<td>{{$recinto->numero_mesas*($cantidad_partidos+1)}}</td> {{-- Total --}}
+				@if ($votos_uni + $uni_b_n < $recinto->numero_mesas*($cantidad_partidos+1))
 				<td><span class="badge bg-red">Incompleto</span></td>	
 				@else
-					@if ($votos_pre + $b_n == $recinto->numero_mesas*$cantidad_partidos+$recinto->numero_mesas)
-					<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span></td>	
-					@else
-					<td><span class="badge bg-yellow">&nbsp;Pendiente&nbsp;</span></td>	
-					@endif
+				<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;&nbsp;</span></td>
 				@endif
-				@if ($votos_uni + $uni_b_n < 1)
-				<td><span class="badge bg-red">Incompleto</span></td>	
-				@else
-					@if ($votos_uni + $uni_b_n == $cantidad_partidos+1)
-					<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span></td>	
-					@else
-					<td><span class="badge bg-yellow">&nbsp;Pendiente&nbsp;</span></td>	
-					@endif
-				@endif
-				{{-- @if ($b_n < 1)
-				<td><span class="badge bg-red">Incompleto</span></td>	
-				@else
-					@if ($b_n == 9)
-					<td><span class="badge bg-green">Completo</span></td>	
-					@else
-					<td><span class="badge bg-yellow">Pendiente</span></td>	
-					@endif
-				@endif --}}
 				</tr>
 			@endforeach
 		</tbody>

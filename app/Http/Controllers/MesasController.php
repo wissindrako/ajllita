@@ -238,7 +238,7 @@ class MesasController extends Controller
         ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
         ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
         ->where('mesas.id_recinto', $id_recinto)
-        ->select('recintos.nombre as nombre_recinto', 'mesas.id_mesa', 
+        ->select('recintos.nombre as nombre_recinto', 'mesas.id_mesa',
         \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
         \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
         )
@@ -330,7 +330,51 @@ class MesasController extends Controller
 
     public function listado_votacion_general(){
 
-        return view("listados.listado_votacion_general");
+        $votos_presidenciales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales', 'mesas.id_mesa', 'votos_presidenciales.id_mesa')
+        ->select('votos_presidenciales.id_partido',
+        \DB::raw('SUM(validos) as validos')
+        )
+        ->groupBy('votos_presidenciales.id_partido')
+        ->get();
+
+        $votos_presidenciales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
+        ->select('mesas.id_mesa',
+        \DB::raw('SUM(nulos) as nulos'),
+        \DB::raw('SUM(blancos) as blancos')
+        )
+        ->first();
+
+        $votos_uninominales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales', 'mesas.id_mesa', 'votos_uninominales.id_mesa')
+        ->select('votos_uninominales.id_partido',
+        \DB::raw('SUM(validos) as validos')
+        )
+        ->groupBy('votos_uninominales.id_partido')
+        ->get();
+
+        $votos_uninominales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
+        ->select('mesas.id_mesa',
+        \DB::raw('SUM(nulos) as nulos'),
+        \DB::raw('SUM(blancos) as blancos')
+        )
+        ->first();
+
+        $partidos = \DB::table('partidos')->get();
+
+        return view("listados.listado_votacion_general")
+        ->with('votos_presidenciales', $votos_presidenciales)
+        ->with('votos_presidenciales_r', $votos_presidenciales_r)
+        ->with('votos_uninominales', $votos_uninominales)
+        ->with('votos_uninominales_r', $votos_uninominales_r)
+        ->with('partidos', $partidos)
+        ;
     }
 
     public function buscar_votacion_general(){

@@ -169,7 +169,9 @@
                 <a href="{{ url('form_ver_recinto') }}"><i class='fa fa-map-o'></i> <span>Como llegar a mi Recinto</span> </a>
             </li>
             @endcan
-
+            <li class="treeview">
+                <a href="{{ url('listado_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Estado votación</span> </a>
+            </li>
             @role('ejecutivo')
             <li class="treeview">
                 <a href="#"><i class='fa fa-file-pdf-o'></i> <span>Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -179,6 +181,7 @@
                 </ul>
             </li>
             @endrole
+
 {{-- 
             <li class="treeview">
                 <a href="{{ url('home') }}"><i class='fa fa-file-video-o'></i> <span>Tutorial</span> </a>

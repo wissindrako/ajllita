@@ -59,9 +59,12 @@
 														<h3 style="font-size: 35px;" class="widget-user-username"><b>{{ $partido->sigla }}</b></h3>
 														<h5  class=""><b>{{ $partido->nombre }}</b></h5>
 														<h3 class="widget-user-desc">Votos: <b>{{ $voto_introducido->validos }}</b></h3>
+														<?php $entro = 1?>
 														@endif
 													@endforeach
 													@if($entro == 0)
+														<h3  style="font-size: 35px;" class="widget-user-username"><b>{{ $partido->sigla }}</b></h3>
+														<h5 class=""><b>{{ $partido->nombre }}</b></h5>
 														<p style="width: 2rem; height: 2rem; border-radius: 50%; background: red;	justify-content: center; margin:0px auto;">
 															<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSin&nbspRegistro</span>
 														</p>

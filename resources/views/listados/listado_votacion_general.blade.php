@@ -17,15 +17,133 @@
 		<div class="box-body table-responsive no-padding">
 		  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 			<thead>
-				<th>Circ.</th>
-				<th>Distrito</th>
-				<th>Recinto</th>
-				<th>Mesa</th>
 				<th>Presidenciales</th>
-				<th>P - N/B</th>
-				{{-- <th>Estado</th>
-				<th></th> --}}
-			</thead></table>
+				<th>Uninominales</th>
+				{{-- <th>Recinto</th> --}}
+				{{-- <th>Mesa</th>
+				<th>Presidenciales</th>
+				<th>P - N/B</th> --}}
+			</thead>
+			{{-- {{dd($votos_presidenciales_r)}} --}}
+		<tbody>
+			<tr>
+				{{-- Presidenciales --}}
+				<td>
+			@foreach ($partidos as $p)
+				
+				@foreach ($votos_presidenciales as $v_p)
+					
+					@if ($v_p->id_partido == $p->id_partido)
+					<div class="col-md-6">
+						<div class="box box-widget widget-user-2">
+							<!-- Add the bg color to the header using any of the bg-* classes -->
+							<div class="widget-user-header bg-white">
+								<div class="widget-user-image">
+									<img class="img-circle" src={{url($p->logo)}} style="width:65px;height:65px;" alt="User Avatar">
+								</div>
+								<!-- /.widget-user-image -->
+								<h3 class="widget-user-username"><b>{{$p->sigla}}</b></h3>
+								<h3 class="widget-user-desc">Votos: <b>{{$v_p->validos}}</b></h3>
+							</div>
+						</div>
+					</div>
+
+					@endif
+					
+				@endforeach
+				
+				{{-- <td>{{$votos_presidenciales_r->validos}}</td> --}}
+
+			@endforeach
+			<div class="col-md-3">
+					<div class="box box-widget widget-user-2">
+						<!-- Add the bg color to the header using any of the bg-* classes -->
+						<div class="widget-user-header bg-navy">
+							<div class="widget-user-image">
+								<img class="img-circle" src={{url('/img/nulo.png')}} style="width:65px;height:65px;" alt="User Avatar">
+							</div>
+							<!-- /.widget-user-image -->
+							<h2 class="widget-user-username"><b>Nulos</b></h2>
+							<h3 class="widget-user-desc"><b>{{$votos_presidenciales_r->nulos}}</b></h3>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+
+					<div class="box box-widget widget-user-2">
+						<!-- Add the bg color to the header using any of the bg-* classes -->
+						<div class="widget-user-header bg-gray">
+							<div class="widget-user-image">
+								<img class="img-circle" src={{url('/img/blanco.png')}} style="width:65px;height:65px;" alt="User Avatar">
+							</div>
+							<!-- /.widget-user-image -->
+							<h2 class="widget-user-username"><b>Blancos</b></h2>
+							<h3 class="widget-user-desc"><b>{{$votos_presidenciales_r->blancos}}</b></h3>
+						</div>
+					</div>
+				</div>
+
+				</td>
+
+				{{-- Uninominales --}}
+				<td>
+				@foreach ($partidos as $p)
+					
+					@foreach ($votos_uninominales as $v_p)
+						
+						@if ($v_p->id_partido == $p->id_partido)
+						<div class="col-md-6">
+							<div class="box box-widget widget-user-2">
+								<!-- Add the bg color to the header using any of the bg-* classes -->
+								<div class="widget-user-header bg-white">
+									<div class="widget-user-image">
+										<img class="img-circle" src={{url($p->logo)}} style="width:65px;height:65px;" alt="User Avatar">
+									</div>
+									<!-- /.widget-user-image -->
+									<h3 class="widget-user-username"><b>{{$p->sigla}}</b></h3>
+									<h3 class="widget-user-desc">Votos: <b>{{$v_p->validos}}</b></h3>
+								</div>
+							</div>
+						</div>
+						@endif
+						
+					@endforeach
+					
+					{{-- <td>{{$votos_presidenciales_r->validos}}</td> --}}
+	
+				@endforeach
+					<div class="col-md-3">
+						<div class="box box-widget widget-user-2">
+							<!-- Add the bg color to the header using any of the bg-* classes -->
+							<div class="widget-user-header bg-navy">
+								<div class="widget-user-image">
+									<img class="img-circle" src={{url('/img/nulo.png')}} style="width:55px;height:65px;" alt="User Avatar">
+								</div>
+								<!-- /.widget-user-image -->
+								<h2 class="widget-user-username"><b>Nulos</b></h2>
+								<h3 class="widget-user-desc"><b>{{$votos_uninominales_r->nulos}}</b></h3>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+
+						<div class="box box-widget widget-user-2">
+							<!-- Add the bg color to the header using any of the bg-* classes -->
+							<div class="widget-user-header bg-gray">
+								<div class="widget-user-image">
+									<img class="img-circle" src={{url('/img/blanco.png')}} style="width:55px;height:65px;" alt="User Avatar">
+								</div>
+								<!-- /.widget-user-image -->
+								<h2 class="widget-user-username"><b>Blancos</b></h2>
+								<h3 class="widget-user-desc"><b>{{$votos_uninominales_r->blancos}}</b></h3>
+							</div>
+						</div>
+					</div>
+	
+					</td>
+				</tr>
+		</tbody>
+		</table>
 		</div>
 		<!-- /.box-body -->
 	  </div>
@@ -110,7 +228,7 @@ function activar_tabla_votacion_general() {
     });
 
 }	
-activar_tabla_votacion_general();
+// activar_tabla_votacion_general();
 
 
 </script>

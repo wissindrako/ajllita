@@ -122,9 +122,10 @@
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            {{-- <img src="{{asset('/img/avatar.jpg')}}" class="user-image" alt="User Image"/> --}}
+                            <img src="{{asset('/img/on_off.png')}}" class="user-image" alt="User Image"/>
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                            {{-- <span class="hidden-xs">{{ Auth::user()->name }}</span> --}}
+                            <label class="text-black "> Salir</label>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
@@ -165,8 +166,8 @@
 
                                    <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"  class="btn btn-primary btn-flat btn-block"  >
-                                            Salir
+                                                document.getElementById('logout-form').submit();"  class="btn btn-primary btn-flat btn-block"  >
+                                            <label class="text-black "><i class="fa fa-power-off text-black"></i> Salir</label>
                                         </a>
 
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">

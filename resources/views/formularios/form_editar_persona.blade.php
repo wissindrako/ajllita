@@ -1,298 +1,302 @@
 
 <section>
 
+    <div  id="div_notificacion_sol">
+
         <div class="" >
-                <div class="container"> 
-                    <div class="row">
-                      <div class="col-sm-12 myform-cont" >
-                        
-                             <div class="myform-top">
-                                <div class="myform-top-left">
-                                   {{-- <img  src="" class="img-responsive logo" /> --}}
-                                  <h3>Datos Personales <i class="fa fa-pencil-square-o"></i></h3>
-                                    {{-- <p>Por favor llene los siguientes campos</p> --}}
-                                </div>
-                                <div class="">
-                                  
-                                </div>
-                              </div>
-        
-                            <div id="div_notificacion_sol" class="myform-bottom">
-                              
-                            <form action="{{ url('editar_persona') }}"  method="post" id="f_enviar_editar_persona" class="formentrada" >
-                              <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                              <input type="hidden" name="id_persona" value="{{ $persona->id_persona }}">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label >Nombres</label>
-                                        <input type="input" name="nombres" placeholder="" class="form-control" value="{{ $persona->nombre }}"  required/>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label >Paterno</label>
-                                        <input type="input" name="paterno" placeholder="" class="form-control" value="{{ $persona->paterno }}" />
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label >Materno</label>
-                                        <input type="input" name="materno" placeholder="" class="form-control" value="{{ $persona->materno }}" />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label >Carnet</label>
-                                        <input type="input" name="cedula" placeholder="" class="form-control" value="{{ $persona->cedula_identidad }}" pattern="[0-9]{6,9}" required/>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                            <label >Comp. SEGIP</label>
-                                        <input type="input" name="complemento" placeholder="" class="form-control" value="{{ $persona->complemento_cedula }}" />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label >Exp.</label>
-                                        <select class="form-control" name="expedido">
-                                            <option value="LP" {{ $persona->expedido == 'LP' ? 'selected' : '' }}>LP</option>
-                                            <option value="OR" {{ $persona->expedido == 'OR' ? 'selected' : '' }}>OR</option>
-                                            <option value="PT" {{ $persona->expedido == 'PT' ? 'selected' : '' }}>PT</option>
-                                            <option value="CB" {{ $persona->expedido == 'CB' ? 'selected' : '' }}>CB</option>
-                                            <option value="SC" {{ $persona->expedido == 'SC' ? 'selected' : '' }}>SC</option>
-                                            <option value="BN" {{ $persona->expedido == 'BN' ? 'selected' : '' }}>BN</option>
-                                            <option value="PA" {{ $persona->expedido == 'PA' ? 'selected' : '' }}>PA</option>
-                                            <option value="TJ" {{ $persona->expedido == 'TJ' ? 'selected' : '' }}>TJ</option>
-                                            <option value="CH" {{ $persona->expedido == 'CH' ? 'selected' : '' }}>CH</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class=" ">Fecha de nacimiento</label>
-                                        <input type="date" name="nacimiento" placeholder=""  min="1939-01-01" max="2002-01-01" class="form-control" value="{{ $persona->fecha_nacimiento }}" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label >Telefono</label>
-                                        <input type="input" name="telefono" placeholder="" class="form-control" value="{{ $persona->telefono_celular }}" pattern="[0-9]{8}" data-inputmask="&quot;mask&quot;: &quot;99999999&quot;" data-mask="" title="Introduzca un número valido" required/>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label >Telefono de Referencia</label>
-                                        <input type="input" name="telefono_ref" placeholder="" class="form-control" value="{{ $persona->telefono_referencia }}" pattern="[0-9]{8}" data-inputmask="&quot;mask&quot;: &quot;99999999&quot;" data-mask="" title="Introduzca un número valido" required/>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label >Direccion</label>
-                                        <input type="input" name="direccion" placeholder="Domicilio" class="form-control" value="{{ $persona->direccion }}" required/>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label >Email</label>
-                                        <input type="email" name="email" placeholder="Correo electrónico" class="form-control" value="{{ $persona->email }}" />
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12">
-                                    <br>
-                                </div>
-                                <button type="submit" class="mybtn">Guardar</button>
-                              </form>
-                            
-                            </div>
-                      </div>
-                    </div>
-        
-                </div>
-              </div>
-
-    <div class="" >
-        <div class="container"> 
-            <div class="row">
-              <div class="col-sm-12 myform-cont" >
-                
-                    <div class="myform-top ">
-                        <div class="myform-top-left">
-                            {{-- <img  src="" class="img-responsive logo" /> --}}
-                            <h3>Tareas Asignadas <i class="fa fa-pencil-square-o"></i></h3>
-                            {{-- <p>Por favor llene los siguientes campos</p> --}}
-                        </div>
-                        <div class="">
-                            
-                        </div>
-                    </div>
-
-
-                    <div id="div_notificacion_sol" class="myform-bottom">
-                      
-                    <form action="{{ url('editar_asignacion_persona') }}"  method="post" id="f_enviar_editar_persona" class="formentrada" >
-                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                      <input type="hidden" name="id_persona" value="{{ $persona->id_persona }}">
-
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label class="text-black" >Grado de apoyo y compromiso - (1 al 5)</label>
-                                {{-- <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="0" required/> --}}
-                                <select class="form-control" name="grado_compromiso" required>
-                                        <option value="" selected> --- SELECCIONE UN NIVEL --- </option>
-                                        <option value="1" {{ $persona->grado_compromiso == '1' ? 'selected' : '' }}>1</option>
-                                        <option value="2" {{ $persona->grado_compromiso == '2' ? 'selected' : '' }}>2</option>
-                                        <option value="3" {{ $persona->grado_compromiso == '3' ? 'selected' : '' }}>3</option>
-                                        <option value="4" {{ $persona->grado_compromiso == '4' ? 'selected' : '' }}>4</option>
-                                        <option value="5" {{ $persona->grado_compromiso == '5' ? 'selected' : '' }}>5</option>
-                                    </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="text-black">Organización de Origen</label>
-                                <select class="form-control" name="id_origen" id="id_origen">
-                                    @foreach ($origenes as $origen)
-                                <option value={{$origen->id_origen}} {{ $persona->id_origen == $origen->id_origen ? 'selected' : '' }}>{{$origen->origen}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group sub_origen_json">
-                                <label class="text-black">Sub Origen</label>
-                                <select class="form-control" name="id_sub_origen">
-                                    <option value="" selected> --- SELECCIONE UN ORIGEN--- </option>
-                                    @foreach ($sub_origenes as $sub_origen)
-                                    <option value={{$sub_origen->id_sub_origen}} {{ $persona->id_sub_origen == $sub_origen->id_sub_origen ? 'selected' : '' }}>{{$sub_origen->nombre}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="text-black ">Circunscripción</label>
-                                <select class="form-control" name="id_circunscripcion" id="id_circunscripcion" required>
-                                    <option value="" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
-                                    @foreach ($circunscripciones as $circ)
-                                    <option value={{$circ->circunscripcion}} {{ $persona->circunscripcion == $circ->circunscripcion ? 'selected' : '' }}>{{$circ->circunscripcion}}</option>
-                                {{-- <option value="{{$circ->circunscripcion}}">{{$circ->circunscripcion}}</option> --}}
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group distrito_json">
-                                <label class="text-black" class="">Distrito</label>
-                                <select class="form-control" name="id_distrito" id="id_distrito" required>
-                                    @foreach ($distritos as $dist)
-                                    <option value={{$dist->distrito}} {{ $persona->distrito == $dist->distrito ? 'selected' : '' }}>{{$dist->distrito}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group recinto_json">
-                                <label class="text-black">Recinto</label>
-                                <select class="form-control" name="recinto" id="id_recinto" required>
-                                    @foreach ($recintos as $recinto)
-                                    <option value={{$recinto->id_recinto}} {{ $persona->id_recinto == $recinto->id_recinto ? 'selected' : '' }}>{{$recinto->id_recinto}} - {{$recinto->nombre_recinto}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="text-black">Rol</label>
-                                <div class="form-group bg-gray">
-                                    <select  class="form-control" name="rol_slug" id="rol_slug"  required>
-                                        <option value="" selected> --- SELECCIONE UNA TAREA --- </option>
-                                        @foreach ($roles as $rol)
-                                    {{-- <option value={{$rol->slug}} {{$rol->slug == 'militante' ? 'selected' : ''}}>{{$rol->description}}</option> --}}
-                                    <option value={{$rol->slug}} {{ $persona->id_rol == $rol->id ? 'selected' : '' }}>{{$rol->description}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12" id="div_mesas">
-                            <div class="" id="div_mesas_detalle">
-                                    <h5 class="box-title"><b>Detalle de Mesas: </b></h5>
-                                <div class="col-md-4 col-sm-4 col-xs-12">
-                                    <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
-                                        <b>Asignadas:</b> <b><span id="mesas_asignadas"></span></b>
-                                    </h3>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-12">
-                                    <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
-                                        <b>Sin Asignar:</b> <b><span id="mesas_sin_asignar"></span></b>
-                                    </h3>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-12">
-                                    <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
-                                        <b>Total:</b> <b><span id="mesas_total"></span></b>
-                                    </h3>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="text-black">Mesas - Recinto</label>
-                                <div class="form-group bg-gray mesas_json">
-                                    <select size="7" multiple="" class="form-control" name="mesas[]" id="id_mesa" style="font-family:'FontAwesome', \'Helvetica Neue\', Helvetica, sans-serif; ">
-                                        @foreach ($mesas_usuario as $mesa)
-                                        <option value="{{$mesa->id_mesa}}"> {{$mesa->id_mesa}} C:{{$mesa->circunscripcion}} - D:{{$mesa->distrito}} - R:{{$mesa->nombre_recinto}} </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12" id="div_casa_campana">
-                            <div class="form-group">
-                                <label class="text-black">Casa de Campaña</label>
-                                <div class="form-group bg-gray">
-                                    <select  class="form-control" name="id_casa_campana" id="id_casa_campana">
-                                        <option value=""> --- SELECCIONE UNA CASA DE CAMPAÑA --- </option>
-                                        @foreach ($casas as $casa)
-                                            @if ($casa_campana != null)
-                                            <option value={{$casa->id_casa_campana}} {{$casa_campana->id_casa_campana == $casa->id_casa_campana ? 'selected' : '' }}>C:{{$casa->circunscripcion}} - D:{{$casa->distrito}} - {{$casa->nombre_casa_campana}} {{$casa->direccion}}</option>
-                                            @else
-                                            <option value="{{$casa->id_casa_campana}}">C:{{$casa->circunscripcion}} - D:{{$casa->distrito}} - {{$casa->nombre_casa_campana}} {{$casa->direccion}}</option>
-                                            @endif
-
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12" id="div_vehiculo">
-                            <div class="form-group">
-                                <label class="text-black">Vehiculo</label>
-                                <div class="form-group bg-gray">
-                                    <select  class="form-control" name="id_vehiculo" id="id_vehiculo">
-                                        <option value="" selected> --- SELECCIONE UN VEHICULO --- </option>
-                                        @foreach ($vehiculos as $vehiculo)
-                                        @if ($usuario_vehiculo != null)
-                                        <option value={{$vehiculo->id_transporte}} {{$vehiculo->id_transporte == $usuario_vehiculo->id_transporte ? 'selected' : '' }}>{{$vehiculo->id_transporte}} - {{$vehiculo->marca}} {{$vehiculo->modelo}}</option>
-                                        @else
-                                        <option value="{{$vehiculo->id_transporte}}">{{$vehiculo->id_transporte}} - {{$vehiculo->marca}} {{$vehiculo->modelo}}</option>
-                                        @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <br>
-                        </div>
-                        <button type="submit" class="mybtn">Registrar</button>
-                      </form>
+            <div class="container"> 
+                <div class="row">
+                  <div class="col-sm-12 myform-cont" >
                     
-                    </div>
-              </div>
-            </div>
+                         <div class="myform-top">
+                            <div class="myform-top-left">
+                               {{-- <img  src="" class="img-responsive logo" /> --}}
+                              <h3>Datos Personales <i class="fa fa-pencil-square-o"></i></h3>
+                                {{-- <p>Por favor llene los siguientes campos</p> --}}
+                            </div>
+                            <div class="">
+                              
+                            </div>
+                          </div>
+    
+                        <div class="myform-bottom">
+                          
+                        <form action="{{ url('editar_persona') }}"  method="post" id="f_enviar_editar_persona" class="formentrada" >
+                          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                          <input type="hidden" name="id_persona" value="{{ $persona->id_persona }}">
+                          <input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario->id }}">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label >Nombres</label>
+                                    <input type="input" name="nombres" placeholder="" class="form-control" value="{{ $persona->nombre }}"  required/>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label >Paterno</label>
+                                    <input type="input" name="paterno" placeholder="" class="form-control" value="{{ $persona->paterno }}" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label >Materno</label>
+                                    <input type="input" name="materno" placeholder="" class="form-control" value="{{ $persona->materno }}" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label >Carnet</label>
+                                    <input type="input" name="cedula" placeholder="" class="form-control" value="{{ $persona->cedula_identidad }}" pattern="[0-9]{6,9}" required/>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                        <label >Comp. SEGIP</label>
+                                    <input type="input" name="complemento" placeholder="" class="form-control" value="{{ $persona->complemento_cedula }}" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label >Exp.</label>
+                                    <select class="form-control" name="expedido">
+                                        <option value="LP" {{ $persona->expedido == 'LP' ? 'selected' : '' }}>LP</option>
+                                        <option value="OR" {{ $persona->expedido == 'OR' ? 'selected' : '' }}>OR</option>
+                                        <option value="PT" {{ $persona->expedido == 'PT' ? 'selected' : '' }}>PT</option>
+                                        <option value="CB" {{ $persona->expedido == 'CB' ? 'selected' : '' }}>CB</option>
+                                        <option value="SC" {{ $persona->expedido == 'SC' ? 'selected' : '' }}>SC</option>
+                                        <option value="BN" {{ $persona->expedido == 'BN' ? 'selected' : '' }}>BN</option>
+                                        <option value="PA" {{ $persona->expedido == 'PA' ? 'selected' : '' }}>PA</option>
+                                        <option value="TJ" {{ $persona->expedido == 'TJ' ? 'selected' : '' }}>TJ</option>
+                                        <option value="CH" {{ $persona->expedido == 'CH' ? 'selected' : '' }}>CH</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class=" ">Fecha de nacimiento</label>
+                                    <input type="date" name="nacimiento" placeholder=""  min="1939-01-01" max="2002-01-01" class="form-control" value="{{ $persona->fecha_nacimiento }}" required />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label >Telefono</label>
+                                    <input type="input" name="telefono" placeholder="" class="form-control" value="{{ $persona->telefono_celular }}" pattern="[0-9]{8}" data-inputmask="&quot;mask&quot;: &quot;99999999&quot;" data-mask="" title="Introduzca un número valido" required/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label >Telefono de Referencia</label>
+                                    <input type="input" name="telefono_ref" placeholder="" class="form-control" value="{{ $persona->telefono_referencia }}" pattern="[0-9]{8}" data-inputmask="&quot;mask&quot;: &quot;99999999&quot;" data-mask="" title="Introduzca un número valido" required/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label >Direccion</label>
+                                    <input type="input" name="direccion" placeholder="Domicilio" class="form-control" value="{{ $persona->direccion }}" required/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label >Email</label>
+                                    <input type="email" name="email" placeholder="Correo electrónico" class="form-control" value="{{ $persona->email }}" />
+                                </div>
+                            </div>
 
+                            <div class="col-md-12">
+                                <br>
+                            </div>
+                            <button type="submit" class="mybtn">Guardar</button>
+                          </form>
+                        
+                        </div>
+                  </div>
+                </div>
+    
+            </div>
+          </div>
+
+<div class="" >
+    <div class="container"> 
+        <div class="row">
+          <div class="col-sm-12 myform-cont" >
+            
+                <div class="myform-top ">
+                    <div class="myform-top-left">
+                        {{-- <img  src="" class="img-responsive logo" /> --}}
+                        <h3>Tareas Asignadas <i class="fa fa-pencil-square-o"></i></h3>
+                        {{-- <p>Por favor llene los siguientes campos</p> --}}
+                    </div>
+                    <div class="">
+                        
+                    </div>
+                </div>
+
+
+                <div class="myform-bottom">
+                  
+                <form action="{{ url('editar_asignacion_persona') }}"  method="post" id="f_enviar_editar_persona" class="formentrada" >
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                  <input type="hidden" name="id_persona" value="{{ $persona->id_persona }}">
+
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="text-black" >Grado de apoyo y compromiso - (1 al 5)</label>
+                            {{-- <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="0" required/> --}}
+                            <select class="form-control" name="grado_compromiso" required>
+                                    <option value="" selected> --- SELECCIONE UN NIVEL --- </option>
+                                    <option value="1" {{ $persona->grado_compromiso == '1' ? 'selected' : '' }}>1</option>
+                                    <option value="2" {{ $persona->grado_compromiso == '2' ? 'selected' : '' }}>2</option>
+                                    <option value="3" {{ $persona->grado_compromiso == '3' ? 'selected' : '' }}>3</option>
+                                    <option value="4" {{ $persona->grado_compromiso == '4' ? 'selected' : '' }}>4</option>
+                                    <option value="5" {{ $persona->grado_compromiso == '5' ? 'selected' : '' }}>5</option>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-black">Organización de Origen</label>
+                            <select class="form-control" name="id_origen" id="id_origen">
+                                @foreach ($origenes as $origen)
+                            <option value={{$origen->id_origen}} {{ $persona->id_origen == $origen->id_origen ? 'selected' : '' }}>{{$origen->origen}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group sub_origen_json">
+                            <label class="text-black">Sub Origen</label>
+                            <select class="form-control" name="id_sub_origen">
+                                <option value="" selected> --- SELECCIONE UN ORIGEN--- </option>
+                                @foreach ($sub_origenes as $sub_origen)
+                                <option value={{$sub_origen->id_sub_origen}} {{ $persona->id_sub_origen == $sub_origen->id_sub_origen ? 'selected' : '' }}>{{$sub_origen->nombre}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="text-black ">Circunscripción</label>
+                            <select class="form-control" name="id_circunscripcion" id="id_circunscripcion" required>
+                                <option value="" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
+                                @foreach ($circunscripciones as $circ)
+                                <option value={{$circ->circunscripcion}} {{ $persona->circunscripcion == $circ->circunscripcion ? 'selected' : '' }}>{{$circ->circunscripcion}}</option>
+                            {{-- <option value="{{$circ->circunscripcion}}">{{$circ->circunscripcion}}</option> --}}
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group distrito_json">
+                            <label class="text-black" class="">Distrito</label>
+                            <select class="form-control" name="id_distrito" id="id_distrito" required>
+                                @foreach ($distritos as $dist)
+                                <option value={{$dist->distrito}} {{ $persona->distrito == $dist->distrito ? 'selected' : '' }}>{{$dist->distrito}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group recinto_json">
+                            <label class="text-black">Recinto</label>
+                            <select class="form-control" name="recinto" id="id_recinto" required>
+                                @foreach ($recintos as $recinto)
+                                <option value={{$recinto->id_recinto}} {{ $persona->id_recinto == $recinto->id_recinto ? 'selected' : '' }}>{{$recinto->id_recinto}} - {{$recinto->nombre_recinto}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="text-black">Rol</label>
+                            <div class="form-group bg-gray">
+                                <select  class="form-control" name="rol_slug" id="rol_slug"  required>
+                                    <option value="" selected> --- SELECCIONE UNA TAREA --- </option>
+                                    @foreach ($roles as $rol)
+                                {{-- <option value={{$rol->slug}} {{$rol->slug == 'militante' ? 'selected' : ''}}>{{$rol->description}}</option> --}}
+                                <option value={{$rol->slug}} {{ $persona->id_rol == $rol->id ? 'selected' : '' }}>{{$rol->description}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" id="div_mesas">
+                        <div class="" id="div_mesas_detalle">
+                                <h5 class="box-title"><b>Detalle de Mesas: </b></h5>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                    <b>Asignadas:</b> <b><span id="mesas_asignadas"></span></b>
+                                </h3>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                    <b>Sin Asignar:</b> <b><span id="mesas_sin_asignar"></span></b>
+                                </h3>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                    <b>Total:</b> <b><span id="mesas_total"></span></b>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-black">Mesas - Recinto</label>
+                            <div class="form-group bg-gray mesas_json">
+                                <select size="7" multiple="" class="form-control" name="mesas[]" id="id_mesa" style="font-family:'FontAwesome', \'Helvetica Neue\', Helvetica, sans-serif; ">
+                                    @foreach ($mesas_usuario as $mesa)
+                                    <option value="{{$mesa->id_mesa}}"> {{$mesa->id_mesa}} C:{{$mesa->circunscripcion}} - D:{{$mesa->distrito}} - R:{{$mesa->nombre_recinto}} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" id="div_casa_campana">
+                        <div class="form-group">
+                            <label class="text-black">Casa de Campaña</label>
+                            <div class="form-group bg-gray">
+                                <select  class="form-control" name="id_casa_campana" id="id_casa_campana">
+                                    <option value=""> --- SELECCIONE UNA CASA DE CAMPAÑA --- </option>
+                                    @foreach ($casas as $casa)
+                                        @if ($casa_campana != null)
+                                        <option value={{$casa->id_casa_campana}} {{$casa_campana->id_casa_campana == $casa->id_casa_campana ? 'selected' : '' }}>C:{{$casa->circunscripcion}} - D:{{$casa->distrito}} - {{$casa->nombre_casa_campana}} {{$casa->direccion}}</option>
+                                        @else
+                                        <option value="{{$casa->id_casa_campana}}">C:{{$casa->circunscripcion}} - D:{{$casa->distrito}} - {{$casa->nombre_casa_campana}} {{$casa->direccion}}</option>
+                                        @endif
+
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" id="div_vehiculo">
+                        <div class="form-group">
+                            <label class="text-black">Vehiculo</label>
+                            <div class="form-group bg-gray">
+                                <select  class="form-control" name="id_vehiculo" id="id_vehiculo">
+                                    <option value="" selected> --- SELECCIONE UN VEHICULO --- </option>
+                                    @foreach ($vehiculos as $vehiculo)
+                                    @if ($usuario_vehiculo != null)
+                                    <option value={{$vehiculo->id_transporte}} {{$vehiculo->id_transporte == $usuario_vehiculo->id_transporte ? 'selected' : '' }}>{{$vehiculo->id_transporte}} - {{$vehiculo->marca}} {{$vehiculo->modelo}}</option>
+                                    @else
+                                    <option value="{{$vehiculo->id_transporte}}">{{$vehiculo->id_transporte}} - {{$vehiculo->marca}} {{$vehiculo->modelo}}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <br>
+                    </div>
+                    <button type="submit" class="mybtn">Guardar</button>
+                  </form>
+                
+                </div>
+          </div>
         </div>
-      </div>
+
+    </div>
+  </div>
+    </div>
  
 </section>
 
@@ -382,6 +386,8 @@
         $("#mesas_asignadas").text("");
         $("#mesas_sin_asignar").text("");
         $("#mesas_total").text("");
+        var id_usuario = $("#id_usuario").val();
+        // alertify.warning(id_usuario);
         var id_recinto = $("#id_recinto").val();
         var mesas_asignadas = 0;
         var mesas_sin_asignar = 0;
@@ -399,7 +405,12 @@
                     $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+'</option>');                    
                 } else {
                     mesas_asignadas++;
-                    $(".mesas_json select").append('<option selected value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
+                    if (value.id_usuario == id_usuario) {
+                        $(".mesas_json select").append('<option selected value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
+                    }else{
+                        $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
+                    }
+                    
                     
                 }
                 mesas_total++;
@@ -412,7 +423,7 @@
     };
 
   function activar_roles(){
-      
+
     //id obtenido de la base de datos "campo : slug"
     var rol_slug = $("#rol_slug").val();
         if (rol_slug == 'militante') {

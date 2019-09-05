@@ -24,6 +24,10 @@ class PersonasController extends Controller
     public function form_agregar_persona(){
         //carga el formulario para agregar un nueva persona
 
+        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false){
+            return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
+        }
+
         $circunscripciones = \DB::table('recintos')
         ->select('circunscripcion')
         ->distinct()
@@ -60,47 +64,9 @@ class PersonasController extends Controller
     }
 
     public function agregar_persona(Request $request){
-
-    // $reglas=[  'nombres' => 'required',
-    //     'paterno' => 'required_without:materno',
-    //     'materno' => 'required_without:paterno',
-    //     'cedula' => 'required|unique:personas,cedula_identidad',
-    //     'nacimiento' => 'required',
-    //     'telefono' => 'required|numeric',
-    //     'telefono_ref' => 'required|numeric',
-    //     'direccion' => 'required',
-    //     'recinto' => 'required',
-
-    //  ];
-
-    //     $mensajes=['nombre.required' => 'El nombre es obligatorio',
-    //         'paterno.required' => 'El apellido es obligatorio',
-    //         'materno.required' => 'El apellido es obligatorio',
-    //         'ci.required' => 'El C.I. es obligatorio',
-    //         'ci.unique' => 'El C.I. ya se encuentra registrado',
-    //         'telefono.numeric' => 'El telefono debe contener solo numeros',
-    //         'telefono_ref.numeric' => 'El telefono debe contener solo numeros',
-    //         'password.min' => 'El password debe tener al menos 4 caracteres',
-    //         'email.unique' => 'El email ya se encuentra registrado en la base de datos',
-    //         ];
-
-    //     $validator = Validator::make( $request->all(),$reglas,$mensajes );
-    //     if( $validator->fails() ){ 
-
-    //         $circunscripciones = \DB::table('recintos')
-    //         ->select('circunscripcion')
-    //         ->distinct()
-    //         ->get();
-    
-    //         $origenes = \DB::table('origen')
-    //         ->where('activo', 1)
-    //         ->get();
-    //         return view("formularios.form_agregar_persona")
-    //         ->with('circunscripciones', $circunscripciones)
-    //         ->with('origenes', $origenes)
-    //         ->withErrors($validator)
-    //         ->withInput($request->flash());         
-    //     }
+        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false){
+            return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
+        }
 
         if($request->input("nombres") == ''){
             return 'nombres';
@@ -192,7 +158,27 @@ class PersonasController extends Controller
                             return 'rol';
                         }elseif($request->input("rol_slug") == 'militante'){
                             //rol delegado del MAS
-                            return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                            if ($usuario->save()) {
+
+                                $rol = \DB::table('roles')
+                                ->where('roles.slug', $request->input("rol_slug"))
+                                ->first();
+
+                                // Cambiando el rol de persona
+                                $persona->id_rol = $rol->id;
+                                //Asignando rol
+                                $usuario->assignRole($rol->id);
+            
+                                if ($persona->save()) {
+                                    return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                } else {
+                                    // si no se guarda el update
+                                }
+                                
+                            } else {
+                                //si el usuario no se guarda
+                                return "failed usuario;";
+                            }
                         }elseif ($request->input("rol_slug") == 'conductor') {
                             // rol Conductor
                             if ($request->input("id_vehiculo") != "") {
@@ -472,6 +458,9 @@ class PersonasController extends Controller
 
     public function form_editar_persona($id_persona){
         //carga el formulario para agregar un nueva persona
+        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false){
+            return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
+        }
 
         // $persona = Persona::find($id_persona);
         $persona = \DB::table('personas')
@@ -589,6 +578,7 @@ class PersonasController extends Controller
 
         return view("formularios.form_editar_persona")
         ->with('persona', $persona)
+        ->with('usuario', $usuario)
         ->with('circunscripciones', $circunscripciones)
         ->with('distritos', $distritos)
         ->with('recintos', $recintos)
@@ -604,6 +594,9 @@ class PersonasController extends Controller
     }
 
     public function editar_persona(Request $request){
+        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false){
+            return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
+        }
 
         if($request->input("nombres") == ''){
             return 'nombres';
@@ -636,16 +629,16 @@ class PersonasController extends Controller
         if (count($cedulas) > 0) {
             return "cedula_repetida";
         }else{
-            $persona->nombre=strtoupper($request->input("nombres"));
-            $persona->paterno=strtoupper($request->input("paterno"));
-            $persona->materno=strtoupper($request->input("materno"));
+            $persona->nombre=ucwords(strtolower($request->input("nombres")));
+            $persona->paterno=ucwords(strtolower($request->input("paterno")));
+            $persona->materno=ucwords(strtolower($request->input("materno")));
             $persona->cedula_identidad=$request->input("cedula");
             $persona->complemento_cedula=strtoupper($request->input("complemento"));
             $persona->expedido=$request->input("expedido");
             $persona->fecha_nacimiento=$request->input("nacimiento");
             $persona->telefono_celular=$request->input("telefono");
             $persona->telefono_referencia=$request->input("telefono_ref");
-            $persona->direccion=$request->input("direccion");
+            $persona->direccion=ucwords(strtolower($request->input("direccion")));
             $persona->email=$request->input("email");
 
             if($persona->save())
@@ -658,6 +651,9 @@ class PersonasController extends Controller
     }
 
     public function editar_asignacion_persona(Request $request){
+        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false){
+            return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
+        }
 
         $id_persona = $request->input("id_persona");
         $persona = Persona::find($id_persona);
@@ -766,7 +762,7 @@ class PersonasController extends Controller
                     //rol delegado del MAS
                     $persona->id_rol = $rol->id;
                     if ($persona->save()) {
-                        return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                        return view("mensajes.msj_enviado")->with("msj","enviado_editar_persona");
                     }
                 }elseif ($request->input("rol_slug") == 'conductor') {
                     // rol Conductor
@@ -789,7 +785,7 @@ class PersonasController extends Controller
                                 $usuario_transporte->id_transporte = $request->input("id_vehiculo");
                                 $usuario_transporte->activo = 1;
                                 if ($usuario_transporte->save()) {
-                                    return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                    return view("mensajes.msj_enviado")->with("msj","enviado_editar_persona");
                                 } else {
                                     # code...
                                 }
@@ -830,7 +826,7 @@ class PersonasController extends Controller
                                 $usuario_casa_campana->id_casa_campana = $request->input("id_casa_campana");
                                 $usuario_casa_campana->activo = 1;
                                 if ($usuario_casa_campana->save()) {
-                                    return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                    return view("mensajes.msj_enviado")->with("msj","enviado_editar_persona");
                                 } else {
                                     return "failed usuario;";
                                 }
@@ -862,7 +858,7 @@ class PersonasController extends Controller
                         $usuario->assignRole($rol->id);
     
                         if ($persona->save()) {
-                            return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                            return view("mensajes.msj_enviado")->with("msj","enviado_editar_persona");
                         } else {
                             // si no se guarda el update
                         }
@@ -895,7 +891,7 @@ class PersonasController extends Controller
                                     $usuario_mesa->activo = 1;
                                     $usuario_mesa->save();
                                 }
-                                return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                return view("mensajes.msj_enviado")->with("msj","enviado_editar_persona");
                             } else {
                                 // si no se guarda el update
                             }
@@ -933,7 +929,7 @@ class PersonasController extends Controller
                                 $usuario_recinto->id_recinto = $request->input("recinto");
                                 $usuario_recinto->activo = 1;
                                 if ($usuario_recinto->save()) {
-                                    return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                    return view("mensajes.msj_enviado")->with("msj","enviado_editar_persona");
                                 } else {
                                     # code...
                                 }
@@ -972,7 +968,7 @@ class PersonasController extends Controller
                                 $usuario_distrito->id_distrito = $request->input("id_distrito");
                                 $usuario_distrito->activo = 1;
                                 if ($usuario_distrito->save()) {
-                                    return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                    return view("mensajes.msj_enviado")->with("msj","enviado_editar_persona");
                                 } else {
                                     # code...
                                 }
@@ -1011,7 +1007,7 @@ class PersonasController extends Controller
                                 $usuario_circunscripcion->id_circunscripcion = $request->input("id_circunscripcion");
                                 $usuario_circunscripcion->activo = 1;
                                 if ($usuario_circunscripcion->save()) {
-                                    return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                    return view("mensajes.msj_enviado")->with("msj","enviado_editar_persona");
                                 } else {
                                     # code...
                                 }
@@ -1159,7 +1155,7 @@ class PersonasController extends Controller
                         $usuario_transporte->id_transporte = $request->input("id_vehiculo");
                         $usuario_transporte->activo = 1;
                         if ($usuario_transporte->save()) {
-                            return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                            return view("mensajes.msj_enviado")->with("msj","enviado_editar_persona");
                         }
     
                     }elseif ($request->input("rol_slug") == 'responsable_mesa') {
@@ -1194,6 +1190,9 @@ class PersonasController extends Controller
     }
 
     public function form_baja_persona($id_persona){
+        if(\Auth::user()->isRole('admin')==false){
+            return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
+        }
         //carga el formulario para agregar un nueva persona
 
         $persona = Persona::find($id_persona);
@@ -1203,6 +1202,9 @@ class PersonasController extends Controller
     }
 
     public function baja_persona(Request $request){
+        if(\Auth::user()->isRole('admin')==false){
+            return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
+        }
         $id_persona = $request->input("id_persona");
         $persona = Persona::find($id_persona);
         $persona->activo = 0;
@@ -1215,6 +1217,9 @@ class PersonasController extends Controller
     }
 
     public function listado_personas_asignacion(){
+        if(\Auth::user()->isRole('admin')==false){
+            return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
+        }
         $personas = [];
         return view("listados.listado_personas_asignacion")
         ->with('personas', $personas);
@@ -1246,6 +1251,9 @@ class PersonasController extends Controller
     // }
 
     public function buscar_persona_asignacion(){
+        if(\Auth::user()->isRole('admin')==false){
+            return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
+        }
         return Datatables::of(Persona::join('recintos', 'personas.id_recinto', 'recintos.id_recinto')
         ->leftjoin('users', 'personas.id_persona', 'users.id_persona')
         ->join('origen', 'personas.id_origen', 'origen.id_origen')
@@ -1261,6 +1269,9 @@ class PersonasController extends Controller
     }
 
     public function listado_personas(){
+        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false){
+            return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
+        }
         $personas = \DB::table('personas')
         ->join('recintos', 'personas.id_recinto', 'recintos.id_recinto')
         ->join('origen', 'personas.id_origen', 'origen.id_origen')
@@ -1325,6 +1336,7 @@ class PersonasController extends Controller
         ->where('id_origen', $id_origen)
         ->where('activo', 1)
         // ->distinct()
+        ->orderBy('nombre')
         ->get();
         return $sub_origenes;
     }

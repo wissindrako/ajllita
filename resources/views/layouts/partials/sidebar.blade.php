@@ -105,17 +105,26 @@
                     @can('listar_transporte')
                     <li><a href="{{ url('listado_transportes') }}">Transporte</a></li>
                     @endcan
-                    @can('listar_distritos')
+                    {{-- @can('listar_distritos')
                     <li><a href="{{ url('listado_distritos_responsables') }}">Responsables de Distrito</a></li>
+                    @endcan --}}
+                    @can('listado_votacion_recinto')
+                    <li><a href="{{ url('listado_votacion_recinto') }}">Responsables de Recinto</a></li>
                     @endcan
-                    <li><a href="{{ url('listado_votacion_general') }}">Votación General</a></li>
+                    @can('listado_votacion_distrito')
+                    <li><a href="{{ url('listado_votacion_distrito') }}">Responsables de Distrito</a></li>
+                    @endcan
+                    @can('listado_votacion_circunscripcion')
+                    <li><a href="{{ url('listado_votacion_circunscripcion') }}">Responsables de Circunscripción</a></li>
+                    @endcan
+                    {{-- <li><a href="{{ url('listado_votacion_general') }}">Votación General</a></li> --}}
                     <!--<li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
                     <li><a href="{{ url('listado_personas') }}">Candidatos</a></li>-->
                 </ul>
             </li>
             @endcan
 
-            @role('admin')
+            {{-- @role('admin')
             <li class="treeview">
                 <a href="#"><i class='fa fa-legal'></i> <span>Asignación</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
@@ -124,7 +133,7 @@
                     
                 </ul>
             </li>
-            @endrole
+            @endrole --}}
 
             @can('ver_lista_asistencia')
             <li class="treeview">
@@ -160,7 +169,9 @@
                 <a href="{{ url('form_ver_recinto') }}"><i class='fa fa-map-o'></i> <span>Como llegar a mi Recinto</span> </a>
             </li>
             @endcan
-
+            <li class="treeview">
+                <a href="{{ url('listado_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Estado votación</span> </a>
+            </li>
             @role('ejecutivo')
             <li class="treeview">
                 <a href="#"><i class='fa fa-file-pdf-o'></i> <span>Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -171,9 +182,10 @@
             </li>
             @endrole
 
+{{-- 
             <li class="treeview">
                 <a href="{{ url('home') }}"><i class='fa fa-file-video-o'></i> <span>Tutorial</span> </a>
-            </li>
+            </li> --}}
 
         </ul><!-- /.sidebar-menu -->
     </section>

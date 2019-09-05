@@ -71,6 +71,159 @@ class MesasController extends Controller
         return view("listados.listado_recintos_mesas");
     }
 
+    public function listado_votacion_circunscripcion(){
+        $id_persona = Auth::user()->id_persona;
+        $id_recinto = \DB::table('personas')
+            ->where('personas.id_persona', $id_persona)
+            ->pluck('id_recinto')
+            ->toArray();
+        $recinto = Recinto::find($id_recinto)->first();
+
+        $recintos =\DB::table('recintos')
+        ->leftjoin('rel_usuario_distrito', 'recintos.distrito', 'rel_usuario_distrito.id_distrito')
+        ->leftjoin('users', 'rel_usuario_distrito.id_usuario', 'users.id')
+        ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
+        ->where('recintos.circunscripcion', $recinto->circunscripcion)
+        // ->where('recintos.distrito', $recinto->distrito)
+        ->select('recintos.nombre as nombre_recinto', 'recintos.id_recinto', 'recintos.circunscripcion', 'numero_mesas',
+                 'recintos.distrito', 
+        \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
+        \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
+        // \DB::raw('SUM(recintos.numero_mesas) as numero_mesas')
+        )
+        // ->groupBy('recintos.distrito')
+        ->orderBy('recintos.distrito')
+        ->orderBy('recintos.numero_mesas')
+        ->get();
+
+        $votos_presidenciales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales', 'mesas.id_mesa', 'votos_presidenciales.id_mesa')
+        ->where('recintos.distrito', $recinto->distrito)
+        ->select('recintos.id_recinto',
+            \DB::raw('count(*) as votos_presidenciales')
+        )
+        ->groupBy('recintos.id_recinto')
+        ->get();
+
+    
+        $votos_presidenciales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
+        ->where('recintos.distrito', $recinto->distrito)
+        ->select('recintos.id_recinto',
+        \DB::raw('count(*) as votos_presidenciales_r')
+        )
+        ->groupBy('recintos.id_recinto')
+        ->get();
+
+        $votos_uninominales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales', 'mesas.id_mesa', 'votos_uninominales.id_mesa')
+        ->where('recintos.distrito', $recinto->distrito)
+        ->select('recintos.id_recinto',
+        \DB::raw('count(*) as votos_uninominales')
+        )
+        ->groupBy('recintos.id_recinto')
+        ->get();
+
+        $votos_uni_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
+        ->where('recintos.distrito', $recinto->distrito)
+        ->select('recintos.id_recinto',
+        \DB::raw('count(*) as votos_uninominales_r')
+        )
+        ->groupBy('recintos.id_recinto')
+        ->get();
+
+        $cantidad_partidos = \DB::table('partidos')
+        ->count('id_partido');
+
+        return view("listados.listado_votacion_circunscripcion")
+        ->with('recinto', $recinto)
+        ->with('recintos', $recintos)
+        ->with('votos_presidenciales', $votos_presidenciales)
+        ->with('votos_presidenciales_r', $votos_presidenciales_r)
+        ->with('votos_uninominales', $votos_uninominales)
+        ->with('votos_uni_r', $votos_uni_r)
+        ->with('cantidad_partidos', $cantidad_partidos);
+    }
+
+    public function listado_votacion_distrito(){
+        $id_persona = Auth::user()->id_persona;
+        $id_recinto = \DB::table('personas')
+            ->where('personas.id_persona', $id_persona)
+            ->pluck('id_recinto')
+            ->toArray();
+        $recinto = Recinto::find($id_recinto)->first();
+
+        $recintos =\DB::table('recintos')
+        ->leftjoin('rel_usuario_recinto', 'recintos.id_recinto', 'rel_usuario_recinto.id_recinto')
+        ->leftjoin('users', 'rel_usuario_recinto.id_usuario', 'users.id')
+        ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
+        ->where('recintos.distrito', $recinto->distrito)
+        ->select('recintos.nombre as nombre_recinto', 'recintos.id_recinto', 'recintos.numero_mesas',
+        \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
+        \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
+        )
+        ->get();
+
+        $votos_presidenciales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales', 'mesas.id_mesa', 'votos_presidenciales.id_mesa')
+        ->where('recintos.distrito', $recinto->distrito)
+        ->select('recintos.id_recinto',
+        \DB::raw('count(*) as votos_presidenciales')
+        )
+        ->groupBy('recintos.id_recinto')
+        ->get();
+
+    
+        $votos_presidenciales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
+        ->where('recintos.distrito', $recinto->distrito)
+        ->select('recintos.id_recinto',
+        \DB::raw('count(*) as votos_presidenciales_r')
+        )
+        ->groupBy('recintos.id_recinto')
+        ->get();
+
+        $votos_uninominales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales', 'mesas.id_mesa', 'votos_uninominales.id_mesa')
+        ->where('recintos.distrito', $recinto->distrito)
+        ->select('recintos.id_recinto',
+        \DB::raw('count(*) as votos_uninominales')
+        )
+        ->groupBy('recintos.id_recinto')
+        ->get();
+
+        $votos_uni_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
+        ->where('recintos.distrito', $recinto->distrito)
+        ->select('recintos.id_recinto',
+        \DB::raw('count(*) as votos_uninominales_r')
+        )
+        ->groupBy('recintos.id_recinto')
+        ->get();
+
+        $cantidad_partidos = \DB::table('partidos')
+        ->count('id_partido');
+
+        return view("listados.listado_votacion_distrito")
+        ->with('recinto', $recinto)
+        ->with('recintos', $recintos)
+        ->with('votos_presidenciales', $votos_presidenciales)
+        ->with('votos_presidenciales_r', $votos_presidenciales_r)
+        ->with('votos_uninominales', $votos_uninominales)
+        ->with('votos_uni_r', $votos_uni_r)
+        ->with('cantidad_partidos', $cantidad_partidos);
+    }
+
+
     public function listado_votacion_recinto(){
         $id_persona = Auth::user()->id_persona;
         $id_recinto = \DB::table('personas')
@@ -85,7 +238,7 @@ class MesasController extends Controller
         ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
         ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
         ->where('mesas.id_recinto', $id_recinto)
-        ->select('recintos.nombre as nombre_recinto', 'mesas.id_mesa', 
+        ->select('recintos.nombre as nombre_recinto', 'mesas.id_mesa',
         \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
         \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
         )
@@ -111,12 +264,37 @@ class MesasController extends Controller
         ->groupBy('votos_presidenciales_r.id_mesa')
         ->get();
 
+        $votos_uninominales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales', 'mesas.id_mesa', 'votos_uninominales.id_mesa')
+        ->where('mesas.id_recinto', $id_recinto)
+        ->select('mesas.id_mesa',
+        \DB::raw('count(*) as votos_uninominales')
+        )
+        ->groupBy('votos_uninominales.id_mesa')
+        ->get();
+
+        $votos_uni_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
+        ->where('mesas.id_recinto', $id_recinto)
+        ->select('mesas.id_mesa',
+        \DB::raw('count(*) as votos_uninominales_r')
+        )
+        ->groupBy('votos_uninominales_r.id_mesa')
+        ->get();
+
+        $cantidad_partidos = \DB::table('partidos')
+        ->count('id_partido');
+
         return view("listados.listado_votacion_recinto")
         ->with('recinto', $recinto)
         ->with('mesas', $mesas)
         ->with('votos_presidenciales', $votos_presidenciales)
         ->with('votos_presidenciales_r', $votos_presidenciales_r)
-        ;
+        ->with('votos_uninominales', $votos_uninominales)
+        ->with('votos_uni_r', $votos_uni_r)
+        ->with('cantidad_partidos', $cantidad_partidos);
     }
 
     public function buscar_votacion_recinto(){
@@ -152,7 +330,51 @@ class MesasController extends Controller
 
     public function listado_votacion_general(){
 
-        return view("listados.listado_votacion_general");
+        $votos_presidenciales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales', 'mesas.id_mesa', 'votos_presidenciales.id_mesa')
+        ->select('votos_presidenciales.id_partido',
+        \DB::raw('SUM(validos) as validos')
+        )
+        ->groupBy('votos_presidenciales.id_partido')
+        ->get();
+
+        $votos_presidenciales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
+        ->select('mesas.id_mesa',
+        \DB::raw('SUM(nulos) as nulos'),
+        \DB::raw('SUM(blancos) as blancos')
+        )
+        ->first();
+
+        $votos_uninominales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales', 'mesas.id_mesa', 'votos_uninominales.id_mesa')
+        ->select('votos_uninominales.id_partido',
+        \DB::raw('SUM(validos) as validos')
+        )
+        ->groupBy('votos_uninominales.id_partido')
+        ->get();
+
+        $votos_uninominales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
+        ->select('mesas.id_mesa',
+        \DB::raw('SUM(nulos) as nulos'),
+        \DB::raw('SUM(blancos) as blancos')
+        )
+        ->first();
+
+        $partidos = \DB::table('partidos')->get();
+
+        return view("listados.listado_votacion_general")
+        ->with('votos_presidenciales', $votos_presidenciales)
+        ->with('votos_presidenciales_r', $votos_presidenciales_r)
+        ->with('votos_uninominales', $votos_uninominales)
+        ->with('votos_uninominales_r', $votos_uninominales_r)
+        ->with('partidos', $partidos)
+        ;
     }
 
     public function buscar_votacion_general(){
@@ -287,12 +509,6 @@ class MesasController extends Controller
     public function consultaMesasRecinto($id_recinto){
 
         //Mesas Asignadas
-
-        // $mesas_recinto =\DB::table('rel_usuario_mesa')
-        // ->where('rel_usuario_mesa.activo', 0)
-        // ->pluck('rel_usuario_mesa.id_mesa')
-        // ->toArray();
-
         $mesas =\DB::table('mesas')
         ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
         ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')

@@ -5,7 +5,13 @@
  * Date: 29/1/2017
  * Time: 02:42
  */
+use Auth;
 
+if(! function_exists('id_logueado')){
+    function id_logueado(){
+        return Auth::user()->id;
+    }
+}
 
 if(! function_exists('limpiar')){
     function limpiar($string){

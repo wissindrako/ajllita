@@ -165,6 +165,14 @@ h6,
 .h6 {
   font-family: 'Source Sans Pro', sans-serif;
 }
+
+.widget-user-username-h2 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 18px;
+  font-weight: 300;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
 /* General Links */
 a {
   color: #3c8dbc;

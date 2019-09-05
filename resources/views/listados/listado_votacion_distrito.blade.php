@@ -10,48 +10,52 @@
 
 <div class="box box-primary">
 		<div class="box-header">
-				<h3 class="box-title">Listado de Votacion por Recinto</h3>	
+				<h3 class="box-title">Listado de Votacion por Distrito</h3>	
 				{{-- <h4 class="text-black" >NOMBRE: <b>{{$persona->nombre}} {{$persona->paterno}} {{$persona->materno}}</b></h4 class="text-black" >
 				<h4 class="text-black" >CEDULA: <b>{{$persona->cedula_identidad}} {{$persona->complemento_cedula}} {{$persona->expedido}}</b></h4 class="text-black" > --}}
-				<h4 class="text-black" >CIRCUNSCRIPCION: <b>{{$recinto[0]->circunscripcion}}</b></h4 class="text-black" >
-				<h4 class="text-black" >DISTRITO: <b>{{$recinto[0]->distrito}}</b></h4 class="text-black" >
-				<h4 class="text-black" >RECINTO: <b>{{$recinto[0]->nombre}}</b></h4 class="text-black" >
+				<h4 class="text-black" >CIRCUNSCRIPCION: <b>{{$recinto->circunscripcion}}</b></h4 class="text-black" >
+				<h4 class="text-black" >DISTRITO: <b>{{$recinto->distrito}}</b></h4 class="text-black" >
+				{{-- <h4 class="text-black" >RECINTO: <b>{{$recinto[0]->nombre}}</b></h4 class="text-black" > --}}
 		</div>
 		<!-- /.box-header -->
 		{{-- {{dd($personas)}} --}}
 		<div class="box-body table-responsive no-padding">
 		  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 			<thead>
-					<tr>
-						<th colspan="2">Datos del Responsable</th>
-						<th colspan="2">Datos del Recinto</th>
-						<th colspan="4">Votos Presidenciales</th>
-						<th colspan="4">Votos Uninominales</th>
-					</tr>
-					<tr>				<th>Reponsable</th>
-						<th>Contacto</th>
-						<th>Recinto</th>
-						<th>Mesa</th>
-						<th>Registrados</th>
-						<th>Restantes</th>
-						<th>Total</th>
-						<th>Estado</th>
-						<th>Registrados</th>
-						<th>Restantes</th>
-						<th>Total</th>
-						<th>Estado</th>
-					</tr>
+				<tr>
+					<th></th>
+					<th colspan="2">Datos del Responsable</th>
+					<th colspan="2">Datos del Recinto</th>
+					<th colspan="4">Votos Presidenciales</th>
+					<th colspan="4">Votos Uninominales</th>
+				</tr>
+				<tr>
+					<th>#</th>
+					<th>Nombre</th>
+					<th>Contacto</th>
+					<th>Nombre</th>
+					<th># Mesas</th>
+					<th>Registrados</th>
+					<th>Restantes</th>
+					<th>Total</th>
+					<th>Estado</th>
+					<th>Registrados</th>
+					<th>Restantes</th>
+					<th>Total</th>
+					<th>Estado</th>
+				</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}
 			</thead>
 		<tbody>
-			{{-- {{dd($mesas)}} --}}
-			@foreach ($mesas as $mesa)
+			{{-- {{dd($recintos)}} --}}
+			@foreach ($recintos as $key => $recinto)
 				<tr>
-				<td>{{$mesa->nombre_completo}}</td>
-				<td>{{$mesa->contacto}}</td>
-				<td>{{$mesa->nombre_recinto}}</td>
-				<td>{{$mesa->id_mesa}}</td>
+				<td>{{$key + 1}}</td>
+				<td>{{$recinto->nombre_completo}}</td>
+				<td>{{$recinto->contacto}}</td>
+				<td>{{ $recinto->id_recinto }} - {{$recinto->nombre_recinto}}</td>
+				<td>{{ $recinto->numero_mesas }}</td>
 				{{-- {{dd($votos_presidenciales)}} --}}
 				@php
 					$votos_pre = 0;
@@ -61,7 +65,7 @@
 				@endphp
 				@foreach ($votos_presidenciales as $vp)
 
-					@if ($mesa->id_mesa == $vp->id_mesa)
+					@if ($recinto->id_recinto == $vp->id_recinto)
 					@php
 						$votos_pre = $vp->votos_presidenciales;
 					@endphp
@@ -69,23 +73,23 @@
 				@endforeach
 				@foreach ($votos_presidenciales_r as $vp)
 
-					@if ($mesa->id_mesa == $vp->id_mesa)
+					@if ($recinto->id_recinto == $vp->id_recinto)
 					@php
 						$b_n = $vp->votos_presidenciales_r;
 					@endphp
 					@endif
 				@endforeach
 				<td>{{$votos_pre + $b_n}}</td> {{-- Registrados --}}
-				<td>{{($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Restantes --}}
-				<td>{{($cantidad_partidos+1)}}</td> {{-- Total --}}
-				@if ($votos_pre + $b_n < $cantidad_partidos)
+				<td>{{$recinto->numero_mesas*($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Restantes --}}
+				<td>{{$recinto->numero_mesas*($cantidad_partidos+1)}}</td> {{-- Total --}}
+				@if ($votos_pre + $b_n < $recinto->numero_mesas*($cantidad_partidos+1))
 				<td><span class="badge bg-red">Incompleto</span></td>	
 				@else
-				<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span></td>	
+				<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;&nbsp;</span></td>
 				@endif
 				@foreach ($votos_uninominales as $v_uni)
 
-					@if ($mesa->id_mesa == $v_uni->id_mesa)
+					@if ($recinto->id_recinto == $v_uni->id_recinto)
 					@php
 						$votos_uni = $v_uni->votos_uninominales;
 					@endphp
@@ -93,22 +97,19 @@
 				@endforeach
 				@foreach ($votos_uni_r as $v_uni_r)
 
-					@if ($mesa->id_mesa == $v_uni_r->id_mesa)
+					@if ($recinto->id_recinto == $v_uni_r->id_recinto)
 					@php
 						$uni_b_n = $v_uni_r->votos_uninominales_r;
 					@endphp
 					@endif
 				@endforeach
-				{{-- {{$cantidad_partidos}} --}}
 				<td>{{$votos_uni + $uni_b_n}}</td> {{-- Registrados --}}
-				<td>{{($cantidad_partidos+1) - ($votos_uni + $uni_b_n)}}</td> {{-- Restantes --}}
-				<td>{{($cantidad_partidos+1)}}</td> {{-- Total --}}
-
-				@if ($votos_uni + $uni_b_n < $cantidad_partidos)
+				<td>{{$recinto->numero_mesas*($cantidad_partidos+1) - ($votos_uni + $uni_b_n)}}</td> {{-- Restantes --}}
+				<td>{{$recinto->numero_mesas*($cantidad_partidos+1)}}</td> {{-- Total --}}
+				@if ($votos_uni + $uni_b_n < $recinto->numero_mesas*($cantidad_partidos+1))
 				<td><span class="badge bg-red">Incompleto</span></td>	
 				@else
-				<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span></td>
-
+				<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;&nbsp;</span></td>
 				@endif
 
 				</tr>

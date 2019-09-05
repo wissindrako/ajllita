@@ -48,16 +48,17 @@
 											<form action="{{ url('form_votar_uninominal_partido') }}"  method="post">
 												<input type="hidden" name="id_mesa" value="{{ $id_mesa }}">
 												<input type="hidden" name="id_partido" value="{{ $partido->id_partido }}">
-												<button type="submit" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
-													<span style="font-size: 25px;">{{ $partido->sigla }}</span><br>
-													{{ "(".$partido->nombre.")" }}
+												<button type="submit" class="box box-widget widget-user-2" style="background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+														<div class="widget-user-header bg-white">
+																<div class="widget-user-image">
+																	<img class="img-circle" src="{{ url($partido->logo) }}" style="width:65px;height:65px;" alt="User Avatar">
+																</div>
 													<?php $entro = 0?>
 													@foreach ($votos_introducidos as $voto_introducido)
 														@if($voto_introducido->id_partido == $partido->id_partido)
-															<p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
-																<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspVotos:&nbsp{{ $voto_introducido->validos }}</span>
-																<?php $entro = 1?>
-															</p>
+														<h3 class="widget-user-username"><b>{{ $partido->sigla }}</b></h3>
+														<h5 class=""><b>{{ $partido->nombre }}</b></h5>
+														<h3 class="widget-user-desc">Votos: <b>{{ $voto_introducido->validos }}</b></h3>
 														@endif
 													@endforeach
 													@if($entro == 0)

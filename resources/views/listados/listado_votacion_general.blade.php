@@ -17,8 +17,9 @@
 		<div class="box-body table-responsive no-padding">
 		  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 			<thead>
-				<th>Presidenciales</th>
-				<th>Uninominales</th>
+				<th style="font-size: 20px; background-color:#3c8dbc; text-align:center; color: #fff;">Presidenciales</th>
+				{{-- <th style="font-size: 14px;">Presidenciales</th> --}}
+				<th style="font-size: 20px;background-color:#3c8dbc; text-align:center; color: #fff;">Uninominales</th>
 				{{-- <th>Recinto</th> --}}
 				{{-- <th>Mesa</th>
 				<th>Presidenciales</th>
@@ -72,7 +73,7 @@
 
 					<div class="box box-widget widget-user-2">
 						<!-- Add the bg color to the header using any of the bg-* classes -->
-						<div class="widget-user-header bg-gray">
+						<div class="widget-user-header bg-navy">
 							<div class="widget-user-image">
 								<img class="img-circle" src={{url('/img/blanco.png')}} style="width:65px;height:65px;" alt="User Avatar">
 							</div>
@@ -129,7 +130,7 @@
 
 						<div class="box box-widget widget-user-2">
 							<!-- Add the bg color to the header using any of the bg-* classes -->
-							<div class="widget-user-header bg-gray">
+							<div class="widget-user-header bg-navy">
 								<div class="widget-user-image">
 									<img class="img-circle" src={{url('/img/blanco.png')}} style="width:55px;height:65px;" alt="User Avatar">
 								</div>

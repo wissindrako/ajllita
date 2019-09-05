@@ -88,7 +88,7 @@ class MesasController extends Controller
         ->select('recintos.nombre as nombre_recinto', 'recintos.id_recinto', 'recintos.circunscripcion', 'numero_mesas',
                  'recintos.distrito', 
         \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
-        \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
+        \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
         // \DB::raw('SUM(recintos.numero_mesas) as numero_mesas')
         )
         // ->groupBy('recintos.distrito')

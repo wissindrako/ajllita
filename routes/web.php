@@ -73,6 +73,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('listado_votacion_circunscripcion', 'MesasController@listado_votacion_circunscripcion');
     Route::resource('buscar_votacion_circunscripcion', 'MesasController@buscar_votacion_circunscripcion');
 
+    Route::get('votacion_general', 'GraficosController@votacion_general');
+    Route::get('presidenciales', 'GraficosController@presidenciales');
+
+    Route::get('votacion_general_uninominales', 'GraficosController@votacion_general_uninominales');
+    Route::get('uninominales_c10', 'GraficosController@uninominales_c10');
+    Route::get('uninominales_c11', 'GraficosController@uninominales_c11');
+    Route::get('uninominales_c12', 'GraficosController@uninominales_c12');
+    Route::get('uninominales_c13', 'GraficosController@uninominales_c13');
+
+
     Route::get('form_asignar_usuario_mesa/{id_persona}', 'MesasController@form_asignar_usuario_mesa');
     Route::post('asignar_usuario_mesa', 'MesasController@asignar_usuario_mesa');
     Route::post('liberar_responsabilidad', 'MesasController@liberar_responsabilidad');

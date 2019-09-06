@@ -169,8 +169,16 @@
                 <a href="{{ url('form_ver_recinto') }}"><i class='fa fa-map-o'></i> <span>Como llegar a mi Recinto</span> </a>
             </li>
             @endcan
+            {{-- <li class="treeview">
+                <a href="{{ url('listado_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Estado votación</span></a>
+            </li> --}}
             <li class="treeview">
-                <a href="{{ url('listado_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Estado votación</span> </a>
+                <a href="#"><i class='fa fa-edit'></i> <span>Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('listado_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Estado votación</span></a></li>
+                    <li><a href="{{ url('votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Votación Presidenciales</span></a></li> 
+                    <li><a href="{{ url('votacion_general_uninominales') }}"><i class='fa fa-bar-chart'></i> <span>Votación Uninominales</span></a></li> 
+                </ul>
             </li>
             @role('ejecutivo')
             <li class="treeview">

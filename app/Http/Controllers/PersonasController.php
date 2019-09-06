@@ -143,6 +143,8 @@ class PersonasController extends Controller
     
                     if($persona->save())
                     {
+                        $persona = Persona::find($persona->id_persona);
+
                         $username = $this->ObtieneUsuario($persona->id_persona);
                         // $persona->id_rol =$request->input("id_rol");
                 

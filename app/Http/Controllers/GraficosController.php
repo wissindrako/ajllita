@@ -22,47 +22,51 @@ class GraficosController extends Controller
     }
 
     public function votacion_general_uninominales(){
-        $circ_1 = \DB::table('mesas')
+        $circ_10 = \DB::table('mesas')
         ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
         ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
         ->select('mesas.id_mesa',
         \DB::raw('SUM(nulos) as nulos'),
         \DB::raw('SUM(blancos) as blancos')
         )
+        ->where('recintos.circunscripcion', 10)
         ->first();
         
-        $circ_2 = \DB::table('mesas')
+        $circ_11 = \DB::table('mesas')
         ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
         ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
         ->select('mesas.id_mesa',
         \DB::raw('SUM(nulos) as nulos'),
         \DB::raw('SUM(blancos) as blancos')
         )
+        ->where('recintos.circunscripcion', 11)
         ->first();
         
-        $circ_3 = \DB::table('mesas')
+        $circ_12 = \DB::table('mesas')
         ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
         ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
         ->select('mesas.id_mesa',
         \DB::raw('SUM(nulos) as nulos'),
         \DB::raw('SUM(blancos) as blancos')
         )
+        ->where('recintos.circunscripcion', 12)
         ->first();
         
-        $circ_4 = \DB::table('mesas')
+        $circ_13 = \DB::table('mesas')
         ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
         ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
         ->select('mesas.id_mesa',
         \DB::raw('SUM(nulos) as nulos'),
         \DB::raw('SUM(blancos) as blancos')
         )
+        ->where('recintos.circunscripcion', 13)
         ->first();
 
         return view("graficos.votacion_general_uninominales")
-        ->with('circ_1', $circ_1)
-        ->with('circ_2', $circ_2)
-        ->with('circ_3', $circ_3)
-        ->with('circ_4', $circ_4);
+        ->with('circ_10', $circ_10)
+        ->with('circ_11', $circ_11)
+        ->with('circ_12', $circ_12)
+        ->with('circ_13', $circ_13);
     }
 
     public function presidenciales(){
@@ -86,7 +90,7 @@ class GraficosController extends Controller
         ->select('votos_uninominales.id_partido', 'partidos.sigla', 'partidos.fill', 'partidos.borderColor',
         \DB::raw('SUM(validos) as validos')
         )
-        ->where('recintos.circunscripcion', 11)
+        ->where('recintos.circunscripcion', 10)
         ->groupBy('votos_uninominales.id_partido')
         ->get();
         return response()->json($votos_uninominales);
@@ -100,7 +104,7 @@ class GraficosController extends Controller
         ->select('votos_uninominales.id_partido', 'partidos.sigla', 'partidos.fill', 'partidos.borderColor',
         \DB::raw('SUM(validos) as validos')
         )
-        ->where('recintos.circunscripcion', 12)
+        ->where('recintos.circunscripcion', 11)
         ->groupBy('votos_uninominales.id_partido')
         ->get();
         return response()->json($votos_uninominales);
@@ -114,7 +118,7 @@ class GraficosController extends Controller
         ->select('votos_uninominales.id_partido', 'partidos.sigla', 'partidos.fill', 'partidos.borderColor',
         \DB::raw('SUM(validos) as validos')
         )
-        ->where('recintos.circunscripcion', 13)
+        ->where('recintos.circunscripcion', 12)
         ->groupBy('votos_uninominales.id_partido')
         ->get();
         return response()->json($votos_uninominales);
@@ -128,7 +132,7 @@ class GraficosController extends Controller
         ->select('votos_uninominales.id_partido', 'partidos.sigla', 'partidos.fill', 'partidos.borderColor',
         \DB::raw('SUM(validos) as validos')
         )
-        ->where('recintos.circunscripcion', 14)
+        ->where('recintos.circunscripcion', 13)
         ->groupBy('votos_uninominales.id_partido')
         ->get();
         return response()->json($votos_uninominales);

@@ -21,15 +21,18 @@
 		</div>
 	</div> --}}
 	<div class="box box-primary">
-		<div class="box-header with-border" style="background-color:#3c8dbc">
-		  <h3 class="box-title" style="color:white">Conteo General de Votos</h3>
+		<a href="javascript:void(0);" onclick="refrescar_votos();">
+			<div class="box-header with-border" style="background-color:#3c8dbc; text-align:center">
+				<h3 class="box-title" style="color:white">Conteo General de Votos</h3>
+		
+				<div class="box-tools pull-right">
+					{{-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					</button> --}}
+					<button type="button" class="btn btn-box-tool bg-black"><i class="fa fa-refresh text-aqua" id="btn_refresh"></i></button>
+				</div>
+			</div>
+		</a>
 
-		  <div class="box-tools pull-right">
-			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-			</button>
-			{{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button> --}}
-		  </div>
-		</div>
 		<div class="box-body" style="">
 		  <div class="chart">
 			<canvas id="canvas"  height="230" width="754"></canvas>
@@ -142,7 +145,7 @@ function activar_tabla_recintos_mesas() {
 
 		// events: true,
 		// tooltips: {
-		// 	enabled: true
+		// 	enabled: truedefault
 		// },
 		hover: {
 			animationDuration: 0
@@ -178,10 +181,14 @@ function activar_tabla_recintos_mesas() {
 }	
 activar_tabla_recintos_mesas();
 
-
 // window.setInterval(function(){
 // 	location.reload();
 // }, 5000);
+
+function refrescar_votos(){
+	location.reload();
+}
+
 
 </script>
 

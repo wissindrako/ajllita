@@ -23,15 +23,17 @@
 
 	{{-- INICIO CIRCUNSCRIPCION 10 --}}
 	<div class="box box-primary">
-		<div class="box-header with-border" style="background-color:#3c8dbc">
-		  <h3 class="box-title" style="color:white">Votos Uninominales por Circunscripción</h3>
+		<a href="javascript:void(0);" onclick="refrescar_votos();">
+			<div class="box-header with-border" style="background-color:#3c8dbc; text-align:center">
+			<h3 class="box-title" style="color:white">Votos Uninominales Circunscripción 10</h3>
 
-		  <div class="box-tools pull-right">
-			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-			</button>
-			{{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button> --}}
-		  </div>
-		</div>
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+				</button>
+				{{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button> --}}
+			</div>
+			</div>
+		</a>
 		<div class="box-body" style="">
 		  <div class="chart">
 			<canvas id="canvas_c10"  height="230" width="754"></canvas>
@@ -46,7 +48,7 @@
 			  <!-- small box -->
 			  <div class="small-box bg-gray">
 				<div class="inner">
-				  <h4><b>{{$circ_1->blancos}}</b></h4>
+				  <h4><b>{{$circ_10->blancos}}</b></h4>
 	
 				  <p><b>Blancos</b></p>
 				</div>
@@ -61,7 +63,7 @@
 			  <!-- small box -->
 			  <div class="small-box bg-gray">
 				<div class="inner">
-				  <h4><b>{{$circ_1->nulos}}</b></h4>
+				  <h4><b>{{$circ_10->nulos}}</b></h4>
 	
 				  <p><b>Nulos</b></p>
 				</div>
@@ -79,15 +81,17 @@
 
 	{{-- INICIO CIRCUNSCIPCION 11 --}}
 	<div class="box box-primary">
-		<div class="box-header with-border" style="background-color:#3c8dbc">
-			<h3 class="box-title" style="color:white">Votos Uninominales por Circunscripción</h3>
+		<a href="javascript:void(0);" onclick="refrescar_votos();">
+			<div class="box-header with-border" style="background-color:#3c8dbc; text-align:center">
+				<h3 class="box-title" style="color:white">Votos Uninominales Circunscripción 11</h3>
 
-			<div class="box-tools pull-right">
-			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-			</button>
-			{{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button> --}}
+				<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+				</button>
+				{{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button> --}}
+				</div>
 			</div>
-		</div>
+		</a>
 		<div class="box-body" style="">
 			<div class="chart">
 			<canvas id="canvas_c11"  height="230" width="754"></canvas>
@@ -102,7 +106,7 @@
 				<!-- small box -->
 				<div class="small-box bg-gray">
 				<div class="inner">
-					<h4><b>{{$circ_1->blancos}}</b></h4>
+					<h4><b>{{$circ_11->blancos}}</b></h4>
 	
 					<p><b>Blancos</b></p>
 				</div>
@@ -117,7 +121,7 @@
 				<!-- small box -->
 				<div class="small-box bg-gray">
 				<div class="inner">
-					<h4><b>{{$circ_1->nulos}}</b></h4>
+					<h4><b>{{$circ_11->nulos}}</b></h4>
 	
 					<p><b>Nulos</b></p>
 				</div>
@@ -135,15 +139,17 @@
 
 	{{-- INICIO CIRCUNSCIPCION 12 --}}
 	<div class="box box-primary">
-		<div class="box-header with-border" style="background-color:#3c8dbc">
-			<h3 class="box-title" style="color:white">Votos Uninominales por Circunscripción</h3>
+		<a href="javascript:void(0);" onclick="refrescar_votos();">
+			<div class="box-header with-border" style="background-color:#3c8dbc; text-align:center">
+				<h3 class="box-title" style="color:white">Votos Uninominales Circunscripción 12</h3>
 
-			<div class="box-tools pull-right">
-			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-			</button>
-			{{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button> --}}
+				<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+				</button>
+				{{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button> --}}
+				</div>
 			</div>
-		</div>
+		</a>
 		<div class="box-body" style="">
 			<div class="chart">
 			<canvas id="canvas_c12"  height="230" width="754"></canvas>
@@ -158,7 +164,7 @@
 				<!-- small box -->
 				<div class="small-box bg-gray">
 				<div class="inner">
-					<h4><b>{{$circ_1->blancos}}</b></h4>
+					<h4><b>{{$circ_12->blancos}}</b></h4>
 	
 					<p><b>Blancos</b></p>
 				</div>
@@ -173,7 +179,7 @@
 				<!-- small box -->
 				<div class="small-box bg-gray">
 				<div class="inner">
-					<h4><b>{{$circ_1->nulos}}</b></h4>
+					<h4><b>{{$circ_12->nulos}}</b></h4>
 	
 					<p><b>Nulos</b></p>
 				</div>
@@ -191,15 +197,17 @@
 	
 	{{-- INICIO CIRCUNSCIPCION 13 --}}
 	<div class="box box-primary">
-		<div class="box-header with-border" style="background-color:#3c8dbc">
-			<h3 class="box-title" style="color:white">Votos Uninominales por Circunscripción</h3>
+		<a href="javascript:void(0);" onclick="refrescar_votos();">
+			<div class="box-header with-border" style="background-color:#3c8dbc; text-align:center">
+				<h3 class="box-title" style="color:white">Votos Uninominales Circunscripción 13</h3>
 
-			<div class="box-tools pull-right">
-			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-			</button>
-			{{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button> --}}
+				<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+				</button>
+				{{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button> --}}
+				</div>
 			</div>
-		</div>
+		</a>
 		<div class="box-body" style="">
 			<div class="chart">
 			<canvas id="canvas_c13"  height="230" width="754"></canvas>
@@ -214,7 +222,7 @@
 				<!-- small box -->
 				<div class="small-box bg-gray">
 				<div class="inner">
-					<h4><b>{{$circ_1->blancos}}</b></h4>
+					<h4><b>{{$circ_13->blancos}}</b></h4>
 	
 					<p><b>Blancos</b></p>
 				</div>
@@ -229,7 +237,7 @@
 				<!-- small box -->
 				<div class="small-box bg-gray">
 				<div class="inner">
-					<h4><b>{{$circ_1->nulos}}</b></h4>
+					<h4><b>{{$circ_13->nulos}}</b></h4>
 	
 					<p><b>Nulos</b></p>
 				</div>
@@ -627,6 +635,10 @@ activar_uninominales_c13();
 // window.setInterval(function(){
 // 	location.reload();
 // }, 5000);
+
+function refrescar_votos(){
+	location.reload();
+}
 
 </script>
 

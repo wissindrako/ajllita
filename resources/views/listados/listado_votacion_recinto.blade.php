@@ -15,7 +15,7 @@
 				<h4 class="text-black" >CEDULA: <b>{{$persona->cedula_identidad}} {{$persona->complemento_cedula}} {{$persona->expedido}}</b></h4 class="text-black" > --}}
 				<h4 class="text-black" >CIRCUNSCRIPCION: <b>{{$recinto[0]->circunscripcion}}</b></h4 class="text-black" >
 				<h4 class="text-black" >DISTRITO: <b>{{$recinto[0]->distrito}}</b></h4 class="text-black" >
-				<h4 class="text-black" >RECINTO: <b>{{$recinto[0]->nombre}}</b></h4 class="text-black" >
+				<h4 class="text-black" >RECINTO: <b>#{{$recinto[0]->id_recinto}} - {{$recinto[0]->nombre}}</b></h4 class="text-black" >
 		</div>
 		<!-- /.box-header -->
 		{{-- {{dd($personas)}} --}}
@@ -23,23 +23,24 @@
 		  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 			<thead>
 					<tr>
-						<th colspan="2">Datos del Responsable</th>
-						<th colspan="2">Datos del Recinto</th>
-						<th colspan="4">Votos Presidenciales</th>
-						<th colspan="4">Votos Uninominales</th>
+						<th style="background-color:#3c8dbc; text-align:center" colspan="2">Datos del Responsable de Mesa</th>
+						<th style="background-color:#3c8dbc; text-align:center" colspan="1">Código</th>
+						<th style="background-color:#3c8dbc; text-align:center" colspan="4">Votos Presidenciales</th>
+						<th style="background-color:#3c8dbc; text-align:center" colspan="4">Votos Uninominales</th>
 					</tr>
-					<tr>				<th>Reponsable</th>
-						<th>Contacto</th>
-						<th>Recinto</th>
-						<th>Mesa</th>
-						<th>Registrados</th>
-						<th>Restantes</th>
-						<th>Total</th>
-						<th>Estado</th>
-						<th>Registrados</th>
-						<th>Restantes</th>
-						<th>Total</th>
-						<th>Estado</th>
+					<tr>				
+						<th style="background-color:#3c8dbc; text-align:center">Nombre</th>
+						<th style="background-color:#3c8dbc; text-align:center">Contacto</th>
+						{{-- <th># Recinto</th> --}}
+						<th style="background-color:#3c8dbc; text-align:center">Mesa</th>
+						<th style="background-color:#3c8dbc; text-align:center">Registrados</th>
+						<th style="background-color:#3c8dbc; text-align:center">Esperados</th>
+						<th style="background-color:#3c8dbc; text-align:center">Total</th>
+						<th style="background-color:#3c8dbc; text-align:center">Estado</th>
+						<th style="background-color:#3c8dbc; text-align:center">Registrados</th>
+						<th style="background-color:#3c8dbc; text-align:center">Esperados</th>
+						<th style="background-color:#3c8dbc; text-align:center">Total</th>
+						<th style="background-color:#3c8dbc; text-align:center">Estado</th>
 					</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}
@@ -50,7 +51,7 @@
 				<tr>
 				<td>{{$mesa->nombre_completo}}</td>
 				<td>{{$mesa->contacto}}</td>
-				<td>{{$mesa->nombre_recinto}}</td>
+				{{-- <td>{{$mesa->id_recinto}}</td> --}}
 				<td>{{$mesa->id_mesa}}</td>
 				{{-- {{dd($votos_presidenciales)}} --}}
 				@php
@@ -76,7 +77,7 @@
 					@endif
 				@endforeach
 				<td>{{$votos_pre + $b_n}}</td> {{-- Registrados --}}
-				<td>{{($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Restantes --}}
+				<td>{{($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Esperados --}}
 				<td>{{($cantidad_partidos+1)}}</td> {{-- Total --}}
 				@if ($votos_pre + $b_n < $cantidad_partidos)
 				<td><span class="badge bg-red">Incompleto</span></td>	
@@ -101,7 +102,7 @@
 				@endforeach
 				{{-- {{$cantidad_partidos}} --}}
 				<td>{{$votos_uni + $uni_b_n}}</td> {{-- Registrados --}}
-				<td>{{($cantidad_partidos+1) - ($votos_uni + $uni_b_n)}}</td> {{-- Restantes --}}
+				<td>{{($cantidad_partidos+1) - ($votos_uni + $uni_b_n)}}</td> {{-- Esperados --}}
 				<td>{{($cantidad_partidos+1)}}</td> {{-- Total --}}
 
 				@if ($votos_uni + $uni_b_n < $cantidad_partidos)

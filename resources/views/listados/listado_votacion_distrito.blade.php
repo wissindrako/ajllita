@@ -23,26 +23,26 @@
 		  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 			<thead>
 				<tr>
-					<th></th>
-					<th colspan="2">Datos del Responsable</th>
-					<th colspan="2">Datos del Recinto</th>
-					<th colspan="4">Votos Presidenciales</th>
-					<th colspan="4">Votos Uninominales</th>
+					<th style="background-color:#3c8dbc; text-align:center"></th>
+					<th style="background-color:#3c8dbc; text-align:center" colspan="2">Datos del Responsable de Recinto</th>
+					<th style="background-color:#3c8dbc; text-align:center" colspan="2">Datos del Recinto</th>
+					<th style="background-color:#3c8dbc; text-align:center" colspan="4">Votos Presidenciales</th>
+					<th style="background-color:#3c8dbc; text-align:center" colspan="4">Votos Uninominales</th>
 				</tr>
 				<tr>
-					<th>#</th>
-					<th>Nombre</th>
-					<th>Contacto</th>
-					<th>Nombre</th>
-					<th># Mesas</th>
-					<th>Registrados</th>
-					<th>Restantes</th>
-					<th>Total</th>
-					<th>Estado</th>
-					<th>Registrados</th>
-					<th>Restantes</th>
-					<th>Total</th>
-					<th>Estado</th>
+					<th style="background-color:#3c8dbc; text-align:center">#</th>
+					<th style="background-color:#3c8dbc; text-align:center">Nombre</th>
+					<th style="background-color:#3c8dbc; text-align:center">Contacto</th>
+					<th style="background-color:#3c8dbc; text-align:center">Nombre</th>
+					<th style="background-color:#3c8dbc; text-align:center"># Mesas</th>
+					<th style="background-color:#3c8dbc; text-align:center">Registrados</th>
+					<th style="background-color:#3c8dbc; text-align:center">Esperados</th>
+					<th style="background-color:#3c8dbc; text-align:center">Total</th>
+					<th style="background-color:#3c8dbc; text-align:center">Estado</th>
+					<th style="background-color:#3c8dbc; text-align:center">Registrados</th>
+					<th style="background-color:#3c8dbc; text-align:center">Esperados</th>
+					<th style="background-color:#3c8dbc; text-align:center">Total</th>
+					<th style="background-color:#3c8dbc; text-align:center">Estado</th>
 				</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}
@@ -80,7 +80,7 @@
 					@endif
 				@endforeach
 				<td>{{$votos_pre + $b_n}}</td> {{-- Registrados --}}
-				<td>{{$recinto->numero_mesas*($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Restantes --}}
+				<td>{{$recinto->numero_mesas*($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Esperados --}}
 				<td>{{$recinto->numero_mesas*($cantidad_partidos+1)}}</td> {{-- Total --}}
 				@if ($votos_pre + $b_n < $recinto->numero_mesas*($cantidad_partidos+1))
 				<td><span class="badge bg-red">Incompleto</span></td>	
@@ -104,7 +104,7 @@
 					@endif
 				@endforeach
 				<td>{{$votos_uni + $uni_b_n}}</td> {{-- Registrados --}}
-				<td>{{$recinto->numero_mesas*($cantidad_partidos+1) - ($votos_uni + $uni_b_n)}}</td> {{-- Restantes --}}
+				<td>{{$recinto->numero_mesas*($cantidad_partidos+1) - ($votos_uni + $uni_b_n)}}</td> {{-- Esperados --}}
 				<td>{{$recinto->numero_mesas*($cantidad_partidos+1)}}</td> {{-- Total --}}
 				@if ($votos_uni + $uni_b_n < $recinto->numero_mesas*($cantidad_partidos+1))
 				<td><span class="badge bg-red">Incompleto</span></td>	

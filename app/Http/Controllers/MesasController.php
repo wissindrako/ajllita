@@ -524,9 +524,11 @@ class MesasController extends Controller
             'rel_usuario_mesa.id_mesa as rel_idmesa', 'rel_usuario_mesa.activo as mesa_activa', 
                  'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_ajllita',
                  'personas.telefono_celular',
-                 \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
+                 \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
+                 \DB::raw('count(*) as responsables')
                 )
         ->orderBy('mesas.id_mesa')
+        ->groupBy('mesas.id_mesa')
         ->distinct()
         ->get();
 
@@ -541,6 +543,27 @@ class MesasController extends Controller
         // ->select('id_mesa', 'codigo_mesas_oep', 'codigo_ajllita',  'id_recinto')
         // ->get();
         
+        return $mesas;
+    }
+
+    public function consultaMesasUsuario($id_mesa){
+
+        //Mesas Asignadas al usuario
+        $mesas =\DB::table('mesas')
+        ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
+        ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
+        ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
+        ->where('mesas.id_mesa', $id_mesa)
+        ->select('users.id as id_usuario',
+            'rel_usuario_mesa.id_mesa as rel_idmesa', 'rel_usuario_mesa.activo as mesa_activa', 
+                 'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_ajllita',
+                 'personas.telefono_celular',
+                 \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
+                )
+        ->orderBy('mesas.id_mesa')
+        ->distinct()
+        ->get();
+
         return $mesas;
     }
 

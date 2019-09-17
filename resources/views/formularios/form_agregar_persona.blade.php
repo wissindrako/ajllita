@@ -260,6 +260,39 @@
 
         </div>
       </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> 
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mesas - Usuario</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="box-body table-responsive no-padding">
+                            <div class="scrollable">
+                                <table class="table table-bordered table-striped scrollable" id="tabla_mesas_json">
+                                <thead>
+                                <tr  style="background-color:#3c8dbc; text-align:center">
+                                    <th>#</th>
+                                    <th>Código OEP</th>
+                                    <th>Nombre</th>
+                                    <th>Contacto</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+                </div>
+            </div>
+        </div>
  
 </section>
 
@@ -325,7 +358,6 @@
             $("#div_vehiculo").hide();
             $("#btn_registrar").prop('disabled', false);
         }else if(rol_slug == 'responsable_mesa'){
-            cargaMesasRecinto();
             $("#div_mesas_detalle").hide();
             $("#div_circ").show();
             $("#div_distrito").show();
@@ -334,6 +366,7 @@
             $("#div_casa_campana").hide();
             $("#div_vehiculo").hide();
             $("#btn_registrar").prop('disabled', false);
+            cargaMesasRecinto();
         }else if(rol_slug == 'responsable_recinto'){
             $("#div_circ").show();
             $("#div_distrito").show();
@@ -392,8 +425,8 @@
                     $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+'</option>');                    
                 } else {
                     mesas_asignadas++;
-                    $(".mesas_json select").append('<option disabled value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
-                    
+                    // $(".mesas_json select").append('<option disabled value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
+                    $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+' ('+value.responsables+') </option>');
                 }
                 mesas_total++;
 
@@ -426,6 +459,41 @@
             });
         });
     };
+    
+    $('#id_mesa').dblclick(function(){
+        var selectBox = document.getElementById("id_mesa");
+        var id_mesa = selectBox.options[selectBox.selectedIndex].value;
+
+        $("#tabla_mesas_json tbody").html("");
+    $.getJSON("consultaMesasUsuario/"+id_mesa+"",{},function(objetosretorna){
+        // alert(objetosretorna);
+        $("#error").html("");
+        var TamanoArray = objetosretorna.length;
+        var indice = 0;
+        $.each(objetosretorna, function(i,items){
+        indice ++;
+        var nuevaFila =
+        "<tr>"
+        // +"<td>"+indice+"</td>"
+        +"<td>"+items.codigo_ajllita+"</td>"
+        +"<td>"+items.codigo_mesas_oep+"</td>"
+        +"<td>"+items.nombre_completo+"</td>"
+        +"<td>"+items.telefono_celular+"</td>"
+        +"</tr>";
+
+        $(nuevaFila).appendTo("#tabla_mesas_json tbody");
+        });
+
+        if(TamanoArray==0){
+        var nuevaFila =
+        "<tr><td colspan=6>Seleccione un día</td>"
+        +"</tr>";
+        $(nuevaFila).appendTo("#tabla_mesas_json tbody");
+        }
+    });
+        
+        $('#ModalAdd').modal('show');
+    });
 
     function cargaRecintos(){
         $(".recinto_json_select select").html("");

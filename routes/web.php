@@ -98,6 +98,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('consultaRecintos/{id_distrito}/{id_circunscripcion}', 'RecintosController@consultaRecintos');
     Route::get('consultaSubOrigen/{id_origen}', 'PersonasController@consultaSubOrigen');
     Route::get('consultaMesasRecinto/{id_recinto}', 'MesasController@consultaMesasRecinto');
+    Route::get('consultaMesasUsuario/{id_mesa}', 'MesasController@consultaMesasUsuario');
 
 
     Route::post('registrar_falta', 'AsistenciasController@registrar_falta');

@@ -297,6 +297,39 @@
     </div>
   </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> 
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mesas - Usuario</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="box-body table-responsive no-padding">
+                            <div class="scrollable">
+                                <table class="table table-bordered table-striped scrollable" id="tabla_mesas_json">
+                                <thead>
+                                <tr  style="background-color:#3c8dbc; text-align:center">
+                                    <th>#</th>
+                                    <th>Código OEP</th>
+                                    <th>Nombre</th>
+                                    <th>Contacto</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+                </div>
+            </div>
+        </div>
  
 </section>
 
@@ -357,6 +390,41 @@
         if (rol_slug == 'responsable_mesa') {
             cargaMesasRecinto();
         }
+    });
+
+    $('#id_mesa').dblclick(function(){
+        var selectBox = document.getElementById("id_mesa");
+        var id_mesa = selectBox.options[selectBox.selectedIndex].value;
+
+        $("#tabla_mesas_json tbody").html("");
+    $.getJSON("consultaMesasUsuario/"+id_mesa+"",{},function(objetosretorna){
+        // alert(objetosretorna);
+        $("#error").html("");
+        var TamanoArray = objetosretorna.length;
+        var indice = 0;
+        $.each(objetosretorna, function(i,items){
+        indice ++;
+        var nuevaFila =
+        "<tr>"
+        // +"<td>"+indice+"</td>"
+        +"<td>"+items.codigo_ajllita+"</td>"
+        +"<td>"+items.codigo_mesas_oep+"</td>"
+        +"<td>"+items.nombre_completo+"</td>"
+        +"<td>"+items.telefono_celular+"</td>"
+        +"</tr>";
+
+        $(nuevaFila).appendTo("#tabla_mesas_json tbody");
+        });
+
+        if(TamanoArray==0){
+        var nuevaFila =
+        "<tr><td colspan=6>Seleccione un día</td>"
+        +"</tr>";
+        $(nuevaFila).appendTo("#tabla_mesas_json tbody");
+        }
+    });
+        
+        $('#ModalAdd').modal('show');
     });
 
     function cargaRecintos(){

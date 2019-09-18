@@ -558,7 +558,7 @@ class MesasController extends Controller
             'rel_usuario_mesa.id_mesa as rel_idmesa', 'rel_usuario_mesa.activo as mesa_activa', 
                  'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_ajllita',
                  'personas.telefono_celular',
-                 \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
+                 \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
                 )
         ->orderBy('mesas.id_mesa')
         ->distinct()

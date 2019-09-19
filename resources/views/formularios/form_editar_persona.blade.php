@@ -173,14 +173,19 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label >Buscar Recinto</label>
+                            <input type="text" id="input_recinto" placeholder="Ingrese el Recinto a Buscar" class="form-control" value=""/>
+                        </div>
+                    </div>
+                    {{-- <div class="col-md-3">
                         <div class="form-group">
                             <label class="text-black ">Circunscripción</label>
                             <select class="form-control" name="id_circunscripcion" id="id_circunscripcion" required>
                                 <option value="" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
                                 @foreach ($circunscripciones as $circ)
                                 <option value={{$circ->circunscripcion}} {{ $persona->circunscripcion == $circ->circunscripcion ? 'selected' : '' }}>{{$circ->circunscripcion}}</option>
-                            {{-- <option value="{{$circ->circunscripcion}}">{{$circ->circunscripcion}}</option> --}}
                                 @endforeach
                             </select>
                         </div>
@@ -194,9 +199,9 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-6">
-                        <div class="form-group recinto_json">
+                        <div class="form-group recinto_json_select">
                             <label class="text-black">Recinto</label>
                             <select class="form-control" name="recinto" id="id_recinto" required>
                                 @foreach ($recintos as $recinto)
@@ -391,6 +396,25 @@
             cargaMesasRecinto();
         }
     });
+
+    $( "#input_recinto" ).keyup(function() {
+        $(".recinto_json_select select").html("");
+        var recinto = $("#input_recinto").val();
+        var recinto_sin_espacios = recinto.trim();
+        if (recinto_sin_espacios == "") {
+            
+        } else {
+            $.getJSON("consultaRecintosPorRecinto/"+recinto+"",{},function(objetosretorna){
+                $("#error").html("");
+                var TamanoArray = objetosretorna.length;
+                $(".recinto_json_select select").append('<option value=""> --- SELECCIONE EL RECINTO --- </option>');
+                $.each(objetosretorna, function(i,value){
+                    $(".recinto_json_select select").append('<option value="'+value.id_recinto+'"> C: '+value.circunscripcion+' - D: '+value.distrito+' - # '+value.id_recinto+' - Recinto: '+value.nombre+' - Zona: '+value.zona+'</option>');
+                });
+            });
+        }
+    });
+
 
     $('#id_mesa').dblclick(function(){
         var selectBox = document.getElementById("id_mesa");

@@ -18,6 +18,7 @@ class RecintosController extends Controller
         
         return $distritos;
     }
+
     public function consultaRecintos($id_distrito, $id_circunscripcion){
         $recintos = \DB::table('recintos')
         ->select('id_recinto', 'nombre')
@@ -25,6 +26,22 @@ class RecintosController extends Controller
         ->where('distrito', $id_distrito)
         ->orderBy('id_recinto', 'asc')
         ->get();
+        return $recintos;
+    }
+    
+    public function consultaRecintosPorRecinto($recinto){
+        $recintos = \DB::table('recintos')
+        ->select('id_recinto', 'circunscripcion', 'distrito', 'nombre', 'zona')
+        
+        ->where("nombre","like","%".$recinto."%")
+        ->orWhere('circunscripcion', 'LIKE', '%'.$recinto.'%')
+        ->orWhere('distrito', 'LIKE', '%'.$recinto.'%')
+        // ->orderBy('id_recinto', 'asc')
+        ->orderBy('circunscripcion', 'asc')
+        ->orderBy('distrito', 'asc')
+        ->orderBy('nombre', 'asc')
+        ->get();
+
         return $recintos;
     }
 }

@@ -24,15 +24,13 @@
 			<thead>
 				<tr>
 					<th style="background-color:#3c8dbc; text-align:center"></th>
-					<th style="background-color:#3c8dbc; text-align:center" colspan="2">Datos del Responsable de Recinto</th>
 					<th style="background-color:#3c8dbc; text-align:center" colspan="2">Datos del Recinto</th>
 					<th style="background-color:#3c8dbc; text-align:center" colspan="4">Votos Presidenciales</th>
 					<th style="background-color:#3c8dbc; text-align:center" colspan="4">Votos Uninominales</th>
+					<th style="background-color:#3c8dbc; text-align:center" colspan="2">Datos del Responsable de Recinto</th>
 				</tr>
 				<tr>
 					<th style="background-color:#3c8dbc; text-align:center">#</th>
-					<th style="background-color:#3c8dbc; text-align:center">Nombre</th>
-					<th style="background-color:#3c8dbc; text-align:center">Contacto</th>
 					<th style="background-color:#3c8dbc; text-align:center">Nombre</th>
 					<th style="background-color:#3c8dbc; text-align:center"># Mesas</th>
 					<th style="background-color:#3c8dbc; text-align:center">Registrados</th>
@@ -43,6 +41,8 @@
 					<th style="background-color:#3c8dbc; text-align:center">Esperados</th>
 					<th style="background-color:#3c8dbc; text-align:center">Total</th>
 					<th style="background-color:#3c8dbc; text-align:center">Estado</th>
+					<th style="background-color:#3c8dbc; text-align:center">Nombre</th>
+					<th style="background-color:#3c8dbc; text-align:center">Contacto</th>
 				</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}
@@ -52,8 +52,6 @@
 			@foreach ($recintos as $key => $recinto)
 				<tr>
 				<td>{{$key + 1}}</td>
-				<td>{{$recinto->nombre_completo}}</td>
-				<td>{{$recinto->contacto}}</td>
 				<td>{{ $recinto->id_recinto }} - {{$recinto->nombre_recinto}}</td>
 				<td>{{ $recinto->numero_mesas }}</td>
 				{{-- {{dd($votos_presidenciales)}} --}}
@@ -111,7 +109,8 @@
 				@else
 				<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;&nbsp;</span></td>
 				@endif
-
+				<td>{{$recinto->nombre_completo}}</td>
+				<td>{{$recinto->contacto}}</td>
 				</tr>
 			@endforeach
 		</tbody>

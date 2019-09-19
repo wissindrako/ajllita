@@ -78,6 +78,7 @@ class GraficosController extends Controller
         \DB::raw('SUM(validos) as validos')
         )
         ->groupBy('votos_presidenciales.id_partido')
+        ->orderby('partidos.nivel')
         ->get();
         return response()->json($votos_presidenciales);
     }
@@ -92,6 +93,7 @@ class GraficosController extends Controller
         )
         ->where('recintos.circunscripcion', 10)
         ->groupBy('votos_uninominales.id_partido')
+        ->orderby('partidos.nivel')
         ->get();
         return response()->json($votos_uninominales);
     }
@@ -106,6 +108,7 @@ class GraficosController extends Controller
         )
         ->where('recintos.circunscripcion', 11)
         ->groupBy('votos_uninominales.id_partido')
+        ->orderby('partidos.nivel')
         ->get();
         return response()->json($votos_uninominales);
     }
@@ -120,6 +123,7 @@ class GraficosController extends Controller
         )
         ->where('recintos.circunscripcion', 12)
         ->groupBy('votos_uninominales.id_partido')
+        ->orderby('partidos.nivel')
         ->get();
         return response()->json($votos_uninominales);
     }
@@ -134,6 +138,7 @@ class GraficosController extends Controller
         )
         ->where('recintos.circunscripcion', 13)
         ->groupBy('votos_uninominales.id_partido')
+        ->orderby('partidos.nivel')
         ->get();
         return response()->json($votos_uninominales);
     }

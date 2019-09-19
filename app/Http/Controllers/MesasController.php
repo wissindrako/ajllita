@@ -366,7 +366,7 @@ class MesasController extends Controller
         )
         ->first();
 
-        $partidos = \DB::table('partidos')->get();
+        $partidos = \DB::table('partidos')->orderBy('nivel')->get();
 
         return view("listados.listado_votacion_general")
         ->with('votos_presidenciales', $votos_presidenciales)

@@ -80,10 +80,10 @@ class PersonasController extends Controller
             return 'grado_compromiso';
         }elseif ($request->input("id_origen") == '') {
             return 'origen';
-        }elseif ($request->input("id_circunscripcion") == '') {
-            return 'recinto';
-        }elseif ($request->input("id_distrito") == '') {
-            return 'recinto';
+        // }elseif ($request->input("id_circunscripcion") == '') {
+        //     return 'recinto';
+        // }elseif ($request->input("id_distrito") == '') {
+        //     return 'recinto';
         }elseif ($request->input("recinto") == '') {
             return 'recinto';
         }elseif ($request->input("rol_slug") == '') {
@@ -144,6 +144,7 @@ class PersonasController extends Controller
                     if($persona->save())
                     {
                         $persona = Persona::find($persona->id_persona);
+                        $recinto = Recinto::find($request->input("recinto"));
 
                         $username = $this->ObtieneUsuario($persona->id_persona);
                         // $persona->id_rol =$request->input("id_rol");
@@ -338,7 +339,6 @@ class PersonasController extends Controller
                                     $persona->id_rol =$rol->id;
                                     //Asignando rol
                                     $usuario->assignRole($rol->id);
-                
                                     if ($persona->save()) {
                                         // creamos las relaciones usuario - recinto
                                         $usuario_recinto = new UsuarioRecinto;
@@ -365,7 +365,8 @@ class PersonasController extends Controller
                             // finresponsable recinto
                         }elseif ($request->input("rol_slug") == 'responsable_distrito') {
                             //rol Responsable de Distrito
-                            if ($request->input("id_distrito") != "") {
+                            
+                            if ($request->input("recinto") != "") {
                 
                                 //Si el usuario es creado correctamente modificamos su rol
                                 if ($usuario->save()) {
@@ -382,7 +383,7 @@ class PersonasController extends Controller
                                         // creamos las relaciones usuario - recinto
                                         $usuario_distrito = new UsuarioDistrito;
                                         $usuario_distrito->id_usuario = $usuario->id;
-                                        $usuario_distrito->id_distrito = $request->input("id_distrito");
+                                        $usuario_distrito->id_distrito = $recinto->distrito;
                                         $usuario_distrito->activo = 1;
                                         if ($usuario_distrito->save()) {
                                             return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
@@ -404,7 +405,7 @@ class PersonasController extends Controller
                             //fin Responsable de Distrito
                         }elseif ($request->input("rol_slug") == 'responsable_circunscripcion') {
                             //rol Responsable Circunscripcion
-                            if ($request->input("id_circunscripcion") != "") {
+                            if ($request->input("recinto") != "") {
                     
                                 //Si el usuario es creado correctamente modificamos su rol
                                 if ($usuario->save()) {
@@ -421,7 +422,7 @@ class PersonasController extends Controller
                                         // creamos las relaciones usuario - recinto
                                         $usuario_circunscripcion = new UsuarioCircunscripcion;
                                         $usuario_circunscripcion->id_usuario = $usuario->id;
-                                        $usuario_circunscripcion->id_circunscripcion = $request->input("id_circunscripcion");
+                                        $usuario_circunscripcion->id_circunscripcion = $recinto->circunscripcion;
                                         $usuario_circunscripcion->activo = 1;
                                         if ($usuario_circunscripcion->save()) {
                                             return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
@@ -664,10 +665,10 @@ class PersonasController extends Controller
             return 'rol';
         }elseif ($request->input("grado_compromiso") == "") {
             return "grado_compromiso";
-        }elseif ($request->input("id_circunscripcion") == "") {
-            return "recinto";
-        }elseif ($request->input("id_distrito") == "") {
-            return "recinto";
+        // }elseif ($request->input("id_circunscripcion") == "") {
+        //     return "recinto";
+        // }elseif ($request->input("id_distrito") == "") {
+        //     return "recinto";
         }elseif ($request->input("recinto") == "") {
             return "recinto";
         }elseif($request->input("rol_slug") == 'conductor' && $request->input("id_vehiculo") == ""){
@@ -693,7 +694,7 @@ class PersonasController extends Controller
             $persona->id_origen=$request->input("id_origen");
             $persona->id_sub_origen=$request->input("id_sub_origen");
             $persona->id_responsable_registro=Auth::user()->id;
-
+            $recinto = Recinto::find($request->input("recinto"));
                         
             // Obteniendo los datos del Usuario segun el id_persona
             $usuario = \DB::table('users')
@@ -950,7 +951,7 @@ class PersonasController extends Controller
                     // finresponsable recinto
                 }elseif ($request->input("rol_slug") == 'responsable_distrito') {
                     //rol Responsable de Distrito
-                    if ($request->input("id_distrito") != "") {
+                    if ($request->input("recinto") != "") {
         
                         //Si el usuario es creado correctamente modificamos su rol
                         if ($usuario->save()) {
@@ -967,7 +968,7 @@ class PersonasController extends Controller
                                 // creamos las relaciones usuario - recinto
                                 $usuario_distrito = new UsuarioDistrito;
                                 $usuario_distrito->id_usuario = $usuario->id;
-                                $usuario_distrito->id_distrito = $request->input("id_distrito");
+                                $usuario_distrito->id_distrito = $recinto->distrito;
                                 $usuario_distrito->activo = 1;
                                 if ($usuario_distrito->save()) {
                                     return view("mensajes.msj_enviado")->with("msj","enviado_editar_persona");
@@ -989,7 +990,7 @@ class PersonasController extends Controller
                     //fin Responsable de Distrito
                 }elseif ($request->input("rol_slug") == 'responsable_circunscripcion') {
                     //rol Responsable Circunscripcion
-                    if ($request->input("id_circunscripcion") != "") {
+                    if ($request->input("recinto") != "") {
             
                         //Si el usuario es creado correctamente modificamos su rol
                         if ($usuario->save()) {
@@ -1006,7 +1007,7 @@ class PersonasController extends Controller
                                 // creamos las relaciones usuario - circ
                                 $usuario_circunscripcion = new UsuarioCircunscripcion;
                                 $usuario_circunscripcion->id_usuario = $usuario->id;
-                                $usuario_circunscripcion->id_circunscripcion = $request->input("id_circunscripcion");
+                                $usuario_circunscripcion->id_circunscripcion = $recinto->circunscripcion;
                                 $usuario_circunscripcion->activo = 1;
                                 if ($usuario_circunscripcion->save()) {
                                     return view("mensajes.msj_enviado")->with("msj","enviado_editar_persona");
@@ -1094,7 +1095,7 @@ class PersonasController extends Controller
 
                     $usuario_distrito = new UsuarioDistrito;
                     $usuario_distrito->id_usuario = $usuario->id;
-                    $usuario_distrito->id_distrito = $request->input("id_distrito");
+                    $usuario_distrito->id_distrito = $recinto->distrito;
                     $usuario_distrito->activo = 1;
                     if ($usuario_distrito->save()) {
                         $persona->id_recinto = $request->input("recinto");
@@ -1108,7 +1109,7 @@ class PersonasController extends Controller
                     // creamos las relaciones usuario - circ
                     $usuario_circunscripcion = new UsuarioCircunscripcion;
                     $usuario_circunscripcion->id_usuario = $usuario->id;
-                    $usuario_circunscripcion->id_circunscripcion = $request->input("id_circunscripcion");
+                    $usuario_circunscripcion->id_circunscripcion = $recinto->circunscripcion;
                     $usuario_circunscripcion->activo = 1;
                     if ($usuario_circunscripcion->save()) {
                         $persona->id_recinto = $request->input("recinto");

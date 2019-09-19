@@ -23,14 +23,14 @@
 		  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 			<thead>
 					<tr>
-						<th style="background-color:#3c8dbc; text-align:center" colspan="2">Datos del Responsable de Mesa</th>
+						
 						<th style="background-color:#3c8dbc; text-align:center" colspan="1">Código</th>
 						<th style="background-color:#3c8dbc; text-align:center" colspan="4">Votos Presidenciales</th>
 						<th style="background-color:#3c8dbc; text-align:center" colspan="4">Votos Uninominales</th>
+						<th style="background-color:#3c8dbc; text-align:center" colspan="2">Datos del Responsable de Mesa</th>
 					</tr>
 					<tr>				
-						<th style="background-color:#3c8dbc; text-align:center">Nombre</th>
-						<th style="background-color:#3c8dbc; text-align:center">Contacto</th>
+
 						{{-- <th># Recinto</th> --}}
 						<th style="background-color:#3c8dbc; text-align:center">Mesa</th>
 						<th style="background-color:#3c8dbc; text-align:center">Registrados</th>
@@ -41,6 +41,8 @@
 						<th style="background-color:#3c8dbc; text-align:center">Esperados</th>
 						<th style="background-color:#3c8dbc; text-align:center">Total</th>
 						<th style="background-color:#3c8dbc; text-align:center">Estado</th>
+						<th style="background-color:#3c8dbc; text-align:center">Nombre</th>
+						<th style="background-color:#3c8dbc; text-align:center">Contacto</th>
 					</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}
@@ -49,8 +51,7 @@
 			{{-- {{dd($mesas)}} --}}
 			@foreach ($mesas as $mesa)
 				<tr>
-				<td>{{$mesa->nombre_completo}}</td>
-				<td>{{$mesa->contacto}}</td>
+
 				{{-- <td>{{$mesa->id_recinto}}</td> --}}
 				<td>{{$mesa->id_mesa}}</td>
 				{{-- {{dd($votos_presidenciales)}} --}}
@@ -111,6 +112,8 @@
 				<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span></td>
 
 				@endif
+				<td>{{$mesa->nombre_completo}}</td>
+				<td>{{$mesa->contacto}}</td>
 
 				</tr>
 			@endforeach

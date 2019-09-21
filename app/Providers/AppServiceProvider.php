@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,16 +14,23 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
         view()->composer('*', function($view) {
+        if (Auth::guest()) {
+            $personas_logueadas = [];
+        } else {
+
             $personas_logueadas = \DB::table('users')
-            /*->join('users', 'personal.cedula', '=', 'users.ci')
-            ->join('areas', 'personal.idarea', '=', 'areas.idarea')
-            ->join('unidades', 'areas.idunidad', '=', 'unidades.id')*/
-            ->select('users.id as id_usuario')
-//                    'areas.*', 'unidades.nombre as unidad', 'unidades.id as idunidad')
-            ->get();
-            $view->with('personas_logueadas', $personas_logueadas);
+            ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
+            ->leftjoin('recintos', 'personas.id_recinto', 'recintos.id_recinto')
+            ->where('users.id', Auth::user()->id)
+            ->select('users.id as id_usuario', 'users.name',
+            'personas.telefono_celular', 'personas.nombre', 'personas.paterno', 'personas.materno',
+            \DB::raw('CONCAT(personas.cedula_identidad,personas.complemento_cedula) as ci'),
+            \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
+            )
+            ->first();
+        }
+        $view->with('personas_logueadas', $personas_logueadas);
         });
     }
 

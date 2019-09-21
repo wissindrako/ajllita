@@ -11,7 +11,14 @@
                     <img src="{{asset('/img/avatar.png')}}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>{{ Auth::user()->name }}</p>
+                    {{-- <p>{{ Auth::user()->name }}</p> --}}
+
+                    @if ($personas_logueadas->paterno == '')
+                    <p>{{ $personas_logueadas->nombre }} {{ $personas_logueadas->materno }} </p>
+                    @else
+                    <p>{{ $personas_logueadas->nombre }} {{ $personas_logueadas->paterno }}</p>
+                    @endif
+
                     {{-- @foreach ($personas as $persona)
                         @if ( $persona->ci == Auth::user()->ci)
                             <!-- Status -->
@@ -53,7 +60,7 @@
                     @endrole
 
                     @role('responsable_circunscripcion')
-                    <p><i class="fa fa-caret-right text-yellow"></i> Responsable de Circunscripción</p>
+                    <p><i class="fa fa-caret-right text-yellow"></i> Resp. Circunscripción</p>
                     @endrole
 
                     {{-- <p><i class="fa fa-caret-right text-yellow"></i> </p> --}}
@@ -108,15 +115,8 @@
                     {{-- @can('listar_distritos')
                     <li><a href="{{ url('listado_distritos_responsables') }}">Responsables de Distrito</a></li>
                     @endcan --}}
-                    @can('listado_votacion_recinto')
-                    <li><a href="{{ url('listado_votacion_recinto') }}">Responsables de Recinto</a></li>
-                    @endcan
-                    @can('listado_votacion_distrito')
-                    <li><a href="{{ url('listado_votacion_distrito') }}">Responsables de Distrito</a></li>
-                    @endcan
-                    @can('listado_votacion_circunscripcion')
-                    <li><a href="{{ url('listado_votacion_circunscripcion') }}">Responsables de Circunscripción</a></li>
-                    @endcan
+
+
                     {{-- <li><a href="{{ url('listado_votacion_general') }}">Votación General</a></li> --}}
                     <!--<li><a href="{{ url('listado_personas') }}">Casas de Campaña</a></li>
                     <li><a href="{{ url('listado_personas') }}">Candidatos</a></li>-->
@@ -135,16 +135,29 @@
             </li>
             @endrole --}}
 
+
+            @can('listado_votacion_recinto')
+            <li class="treeview"><a href="{{ url('listado_votacion_recinto') }}"><i class='fa fa-check-square-o'></i> Control de Mesas</a></li>
+            @endcan
+            @can('listado_votacion_distrito')
+            <li class="treeview"><a href="{{ url('listado_votacion_distrito') }}"><i class='fa fa-check-square-o'></i> Control de Recintos</a></li>
+            @endcan
+            @can('listado_votacion_circunscripcion')
+            <li class="treeview"><a href="{{ url('listado_votacion_circunscripcion') }}"><i class='fa fa-check-square-o'></i> Control de Distritos</a></li>
+            @endcan
+
             @can('ver_lista_asistencia')
+            <li class="treeview"><a href="{{ url('form_listas_de_asistencia') }}"><i class='fa fa-check-square-o'></i> Control de Asistencia</a></li>
+            @endcan
+
+            @can('crear_lista_asistencia')
             <li class="treeview">
                 <a href="#"><i class='fa fa-edit'></i> <span>Asistencia</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     @can('crear_lista_asistencia')
                     <li><a href="{{ url('form_agregar_lista_de_asistencia') }}">Crear lista de asistencia</a></li>
                     @endcan
-                    @can('ver_lista_asistencia')
-                    <li><a href="{{ url('form_listas_de_asistencia') }}">Ver listas de asistencia</a></li>
-                    @endcan
+
                     @can('crear_lista_asistencia')
                     <li><a href="{{ url('revisar_transportes_asistencia') }}">Asistencia Conductores (Hoy)</a></li>
                     @endcan
@@ -154,7 +167,7 @@
 
             @can('registrar_asistencia')
             <li class="treeview">
-                <a href="{{ url('form_registrar_asistencia') }}"><i class='fa fa-calendar-check-o'></i> <span>Registrar asistencia</span> </a>
+                <a href="{{ url('form_registrar_asistencia') }}"><i class='fa fa-calendar-check-o'></i> <span>Registrar mi asistencia</span> </a>
             </li>
             @endcan
 
@@ -172,6 +185,7 @@
             {{-- <li class="treeview">
                 <a href="{{ url('listado_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Estado votación</span></a>
             </li> --}}
+            @role('admin')
             <li class="treeview">
                 <a href="#"><i class='fa fa-edit'></i> <span>Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
@@ -180,6 +194,17 @@
                     <li><a href="{{ url('votacion_general_uninominales') }}"><i class='fa fa-bar-chart'></i> <span>Votación Uninominales</span></a></li> 
                 </ul>
             </li>
+            @endrole
+            @role('responsable_circunscripcion')
+            <li class="treeview">
+                <a href="#"><i class='fa fa-edit'></i> <span>Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('listado_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Estado votación</span></a></li>
+                    <li><a href="{{ url('votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Votación Presidenciales</span></a></li> 
+                    <li><a href="{{ url('votacion_general_uninominales') }}"><i class='fa fa-bar-chart'></i> <span>Votación Uninominales</span></a></li> 
+                </ul>
+            </li>
+            @endrole
             @role('ejecutivo')
             <li class="treeview">
                 <a href="#"><i class='fa fa-file-pdf-o'></i> <span>Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>

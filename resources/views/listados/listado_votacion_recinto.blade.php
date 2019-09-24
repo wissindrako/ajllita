@@ -80,9 +80,13 @@
 				<td style="text-align:right;">{{($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Esperados --}}
 				<td style="text-align:right;">{{($cantidad_partidos+1)}}</td> {{-- Total --}}
 				@if ($votos_pre + $b_n < $cantidad_partidos)
-				<td style="text-align:center;"><span class="badge bg-red">Incompleto</span></td>	
+				<td style="text-align:center;"><a href="javascript:void(0);" onclick="verinfo_mesas({{ $mesa->id_mesa }}, 1)">
+					<span class="badge bg-red">Incompleto</span></a>
+				</td>	
 				@else
-				<td style="text-align:center;"><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span></td>	
+				<td style="text-align:center;"><a href="javascript:void(0);" onclick="verinfo_mesas({{ $mesa->id_mesa }}, 1)">
+					<span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span>
+				</td>	
 				@endif
 				@foreach ($votos_uninominales as $v_uni)
 
@@ -106,10 +110,13 @@
 				<td style="text-align:right;">{{($cantidad_partidos+1)}}</td> {{-- Total --}}
 
 				@if ($votos_uni + $uni_b_n < $cantidad_partidos)
-				<td style="text-align:center;"><span class="badge bg-red">Incompleto</span></td>	
+				<td style="text-align:center;"><a href="javascript:void(0);" onclick="verinfo_mesas({{ $mesa->id_mesa }}, 2)">
+						<span class="badge bg-red">Incompleto</span></a>
+					</td>
 				@else
-				<td style="text-align:center;"><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span></td>
-
+				<td style="text-align:center;"><a href="javascript:void(0);" onclick="verinfo_mesas({{ $mesa->id_mesa }}, 2)">
+					<span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span>
+				</td>
 				@endif
 				<td>{{$mesa->nombre_completo}}</td>
 				<td>{{$mesa->contacto}}</td>

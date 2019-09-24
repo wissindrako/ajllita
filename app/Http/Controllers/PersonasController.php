@@ -24,7 +24,7 @@ class PersonasController extends Controller
     public function form_agregar_persona(){
         //carga el formulario para agregar un nueva persona
 
-        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false){
+        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false && \Auth::user()->isRole('responsable_circunscripcion')==false){
             return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
         }
 
@@ -64,7 +64,7 @@ class PersonasController extends Controller
     }
 
     public function agregar_persona(Request $request){
-        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false){
+        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false && \Auth::user()->isRole('responsable_circunscripcion')==false){
             return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
         }
 
@@ -461,7 +461,7 @@ class PersonasController extends Controller
 
     public function form_editar_persona($id_persona){
         //carga el formulario para agregar un nueva persona
-        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false){
+        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false && \Auth::user()->isRole('responsable_circunscripcion')==false){
             return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
         }
 
@@ -597,7 +597,7 @@ class PersonasController extends Controller
     }
 
     public function editar_persona(Request $request){
-        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false){
+        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false && \Auth::user()->isRole('responsable_circunscripcion')==false){
             return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
         }
 
@@ -654,7 +654,7 @@ class PersonasController extends Controller
     }
 
     public function editar_asignacion_persona(Request $request){
-        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false){
+        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false && \Auth::user()->isRole('responsable_circunscripcion')==false){
             return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
         }
 
@@ -1272,7 +1272,7 @@ class PersonasController extends Controller
     }
 
     public function listado_personas(){
-        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false){
+        if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false && \Auth::user()->isRole('responsable_circunscripcion')==false){
             return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
         }
         $personas = \DB::table('personas')

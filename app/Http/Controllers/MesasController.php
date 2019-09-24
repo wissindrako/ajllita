@@ -71,6 +71,168 @@ class MesasController extends Controller
         return view("listados.listado_recintos_mesas");
     }
 
+    public function detalle_presidenciales_mesa($id_mesa){
+
+        $mesa =\DB::table('mesas')
+        ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
+        ->leftjoin('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
+        ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
+        ->where('mesas.id_mesa', $id_mesa)
+        ->select('recintos.nombre as nombre_recinto', 'mesas.id_mesa', 'recintos.id_recinto',
+        'recintos.circunscripcion', 'recintos.distrito',
+        \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
+        \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
+        'mesas.foto_presidenciales'
+        )
+        ->first();
+        
+        $partidos = \DB::table('partidos')
+        ->orderBy('nivel')
+        ->get();
+
+        $votos_presidenciales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales', 'mesas.id_mesa', 'votos_presidenciales.id_mesa')
+        ->join('partidos', 'votos_presidenciales.id_partido', 'partidos.id_partido')
+        ->where('mesas.id_mesa', $id_mesa)
+        // ->where('partidos.id_partido', 'votos_presidenciales.id_partido')
+        ->select('mesas.id_mesa', 'partidos.sigla', 'validos', 'votos_presidenciales.id_partido', 'partidos.sigla'
+        )
+        ->orderBy('nivel')
+        ->get();
+
+        $detalle_mesas = array();
+
+        foreach ($partidos as $partido) {
+            if (count($votos_presidenciales) > 0) {
+                foreach ($votos_presidenciales as $vp) {
+                    // $e['id_mesa'] = $votos_presidenciales->id_mesa;
+                    if (in_array($partido->id_partido, $votos_presidenciales->pluck('id_partido')->toArray())) {
+                        if($partido->id_partido == $vp->id_partido) {
+                            $e = array();
+                            $e['sigla'] = $vp->sigla;
+                            $e['logo'] = $partido->logo;
+                            $e['nombre_partido'] = $partido->nombre;
+                            $e['validos'] = $vp->validos;
+                            array_push($detalle_mesas, $e);
+                        }
+                    } else {
+                        $e = array();
+                        $e['sigla'] = $partido->sigla;
+                        $e['logo'] = $partido->logo;
+                        $e['nombre_partido'] = $partido->nombre;
+                        $e['validos'] = "";
+                        array_push($detalle_mesas, $e);
+                        break;
+                    }
+                }
+            }else{
+                $e = array();
+                $e['sigla'] = $partido->sigla;
+                $e['logo'] = $partido->logo;
+                $e['nombre_partido'] = $partido->nombre;
+                $e['validos'] = "";
+                array_push($detalle_mesas, $e);
+            }
+        }
+
+        $votos_presidenciales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
+        ->where('mesas.id_mesa', $id_mesa)
+        ->select('mesas.id_mesa', 'votos_presidenciales_r.nulos', 'votos_presidenciales_r.blancos'
+        )
+        ->first();
+
+        return view("listados.detalle_presidenciales_mesa")
+        ->with('mesa', $mesa)
+        ->with('detalle_mesas', $detalle_mesas)
+        ->with('votos_presidenciales_r', $votos_presidenciales_r)
+        ->with('partidos', $partidos);
+    }
+
+    public function detalle_uninominales_mesa($id_mesa){
+
+        $mesa =\DB::table('mesas')
+        ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
+        ->leftjoin('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
+        ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
+        ->where('mesas.id_mesa', $id_mesa)
+        ->select('recintos.nombre as nombre_recinto', 'mesas.id_mesa', 'recintos.id_recinto',
+        'recintos.circunscripcion', 'recintos.distrito',
+        \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
+        \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
+        'mesas.foto_uninominales'
+        )
+        ->first();
+        
+        $partidos = \DB::table('partidos')
+        ->orderBy('nivel')
+        ->get();
+
+        $votos_uninominales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales', 'mesas.id_mesa', 'votos_uninominales.id_mesa')
+        ->join('partidos', 'votos_uninominales.id_partido', 'partidos.id_partido')
+        ->where('mesas.id_mesa', $id_mesa)
+        // ->where('partidos.id_partido', 'votos_uninominales.id_partido')
+        ->select('mesas.id_mesa', 'partidos.sigla', 'validos', 'votos_uninominales.id_partido', 'partidos.sigla'
+        )
+        ->orderBy('nivel')
+        ->get();
+
+        $detalle_mesas = array();
+
+        foreach ($partidos as $partido) {
+            if (count($votos_uninominales) > 0) {
+                foreach ($votos_uninominales as $vp) {
+                    // $e['id_mesa'] = $votos_uninominales->id_mesa;
+                    if (in_array($partido->id_partido, $votos_uninominales->pluck('id_partido')->toArray())) {
+                        if($partido->id_partido == $vp->id_partido) {
+                            $e = array();
+                            $e['sigla'] = $vp->sigla;
+                            $e['logo'] = $partido->logo;
+                            $e['nombre_partido'] = $partido->nombre;
+                            $e['validos'] = $vp->validos;
+                            array_push($detalle_mesas, $e);
+                        }
+                    } else {
+                        $e = array();
+                        $e['sigla'] = $partido->sigla;
+                        $e['logo'] = $partido->logo;
+                        $e['nombre_partido'] = $partido->nombre;
+                        $e['validos'] = "";
+                        array_push($detalle_mesas, $e);
+                        break;
+                    }
+                }
+            }else{
+                $e = array();
+                $e['sigla'] = $partido->sigla;
+                $e['logo'] = $partido->logo;
+                $e['nombre_partido'] = $partido->nombre;
+                $e['validos'] = "";
+                array_push($detalle_mesas, $e);
+            }
+        }
+
+        $votos_uninominales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
+        ->where('mesas.id_mesa', $id_mesa)
+        ->select('mesas.id_mesa', 'votos_uninominales_r.nulos', 'votos_uninominales_r.blancos'
+        )
+        ->first();
+
+        return view("listados.detalle_uninominales_mesa")
+        ->with('mesa', $mesa)
+        ->with('detalle_mesas', $detalle_mesas)
+        ->with('votos_uninominales_r', $votos_uninominales_r)
+        ->with('partidos', $partidos);
+    }
+
     public function listado_votacion_circunscripcion(){
         $id_persona = Auth::user()->id_persona;
         $id_recinto = \DB::table('personas')

@@ -55,6 +55,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('form_mesas_recinto', 'MesasController@form_mesas_recinto');
     Route::post('asignar_mesas_recinto', 'MesasController@asignar_mesas_recinto');
 
+    Route::get('detalle_presidenciales_mesa/{id_mesa}', 'MesasController@detalle_presidenciales_mesa');
+    Route::get('detalle_uninominales_mesa/{id_mesa}', 'MesasController@detalle_uninominales_mesa');
+
     Route::get('listado_recintos_mesas', 'MesasController@listado_recintos_mesas');
     Route::resource('buscar_recintos_mesas', 'MesasController@buscar_recintos_mesas');
 

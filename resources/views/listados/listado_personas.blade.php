@@ -44,7 +44,7 @@
 				
 			</thead>
 			{{-- <tbody> --}}
-
+				Completo   
 			{{-- <tr>
 				<th>ID</th> --}}
 				{{-- <th>Nombre Completo</th>
@@ -166,7 +166,7 @@
 							return "<td><button disabled type='button' class='btn btn-success btn-xs'><i class='fa fa-pencil-square-o'></i></button></td><td><button disabled type='button' class='btn btn-danger btn-xs'><i class='fa fa-fw fa-user-times'></i></button></td>"
 						}
 					} else {
-						if ($("#rol_usuario").val() === 'registrador') {
+						if ($("#rol_usuario").val() === 'registrador' || $("#rol_usuario").val() === 'responsable_circunscripcion') {
 							if ( row.activo === 1) {
 							// return "<a href='{{ url('form_editar_contacto/') }}/"+ data.id +"' class='btn btn-xs btn-primary' >Editar</button>"
 								return "<td><button type='button' class='btn btn-success btn-xs' onclick='verinfo_persona("+data.id_persona+","+1+")' ><i class='fa fa-pencil-square-o'></i></button></td>"

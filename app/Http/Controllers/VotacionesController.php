@@ -66,7 +66,7 @@ class VotacionesController extends Controller
     }
 
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
-    $partidos = \DB::table('partidos')->get();
+    $partidos = \DB::table('partidos')->orderBy('nivel')->get();
 
     $votos_introducidos = \DB::table('votos_presidenciales')
                               ->where('id_mesa', $request->id_mesa)
@@ -162,7 +162,7 @@ class VotacionesController extends Controller
     }
 
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
-    $partidos = \DB::table('partidos')->get();
+    $partidos = \DB::table('partidos')->orderBy('nivel')->get();
 
     $votos_introducidos = \DB::table('votos_presidenciales')
                               ->where('id_mesa', $request->id_mesa)
@@ -254,7 +254,7 @@ class VotacionesController extends Controller
     }
 
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
-    $partidos = \DB::table('partidos')->get();
+    $partidos = \DB::table('partidos')->orderBy('nivel')->get();
 
     $votos_introducidos = \DB::table('votos_presidenciales')
                               ->where('id_mesa', $request->id_mesa)
@@ -317,7 +317,7 @@ class VotacionesController extends Controller
           }
 
           //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
-          $partidos = \DB::table('partidos')->get();
+          $partidos = \DB::table('partidos')->orderBy('nivel')->get();
 
           $votos_introducidos = \DB::table('votos_presidenciales')
                                     ->where('id_mesa', $request->id_mesa)
@@ -358,7 +358,7 @@ class VotacionesController extends Controller
     }
 
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
-    $partidos = \DB::table('partidos')->get();
+    $partidos = \DB::table('partidos')->orderBy('nivel')->get();
 
     $votos_introducidos = \DB::table('votos_uninominales')
                               ->where('id_mesa', $request->id_mesa)
@@ -448,7 +448,7 @@ class VotacionesController extends Controller
     }
 
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
-    $partidos = \DB::table('partidos')->get();
+    $partidos = \DB::table('partidos')->orderBy('nivel')->get();
 
     $votos_introducidos = \DB::table('votos_uninominales')
                               ->where('id_mesa', $request->id_mesa)
@@ -539,7 +539,7 @@ class VotacionesController extends Controller
     }
 
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
-    $partidos = \DB::table('partidos')->get();
+    $partidos = \DB::table('partidos')->orderBy('nivel')->get();
 
     $votos_introducidos = \DB::table('votos_uninominales')
                               ->where('id_mesa', $request->id_mesa)
@@ -602,7 +602,7 @@ class VotacionesController extends Controller
           }
 
           //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
-          $partidos = \DB::table('partidos')->get();
+          $partidos = \DB::table('partidos')->orderBy('nivel')->get();
 
           $votos_introducidos = \DB::table('votos_uninominales')
                                     ->where('id_mesa', $request->id_mesa)

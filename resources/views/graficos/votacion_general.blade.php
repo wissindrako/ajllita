@@ -24,10 +24,7 @@
 		<a href="javascript:void(0);" onclick="refrescar_votos();">
 			<div class="box-header with-border" style="background-color:#3c8dbc; text-align:center">
 				<h3 class="box-title" style="color:white">Conteo General de Votos</h3>
-		
 				<div class="box-tools pull-right">
-					{{-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-					</button> --}}
 					<button type="button" class="btn btn-box-tool bg-black"><i class="fa fa-refresh text-aqua" id="btn_refresh"></i></button>
 				</div>
 			</div>

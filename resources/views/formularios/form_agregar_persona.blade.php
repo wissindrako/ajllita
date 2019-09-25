@@ -13,7 +13,7 @@
     <div class="" >
         <div class="container"> 
             <div class="row">
-              <div class="col-sm-8 col-sm-offset-2 myform-cont" >
+              <div class="col-sm-10 col-sm-offset-1 myform-cont" >
                 
                      <div class="myform-top">
                         <div class="myform-top-left">
@@ -24,7 +24,7 @@
                         <div class="myform-top-right">
                           <i class="fa fa-user-plus"></i>
                         </div>
-                      </div>
+                    </div>
 
                   <div class="col-md-12" >
                     @if (count($errors) > 0)
@@ -42,32 +42,36 @@
                    </div>
 
                     <div id="div_notificacion_sol" class="myform-bottom">
+                        <div class="box box-default" id="div_usuarios_encontrados">
+                            <div  style="background-color:#111111; text-align:center; color:white" class="box-header">
+                                <h3 class="box-title"><b>Usuarios Encontrados</b></h3>
+                            </div>
+                            <div class="box-body table-responsive no-padding scrollable">
+                                <table class="table table-bordered" id="tabla_cedula">
+                                    <thead>
+                                    <tr>
+                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Nombre</th>
+                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Carnet</th>
+                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Nacimiento</th>
+                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Contacto</th>
+                                        {{-- <th style="background-color:#3c8dbc; text-align:center; color:white">Circ.</th>
+                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Distrito</th> --}}
+                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Recinto</th>
+                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Rol</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                       
                     <form action="{{ url('agregar_persona') }}"  method="post" id="f_enviar_agregar_persona" class="formentrada" >
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                      
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label >Nombres</label>
-                                <input type="input" name="nombres" placeholder="" class="form-control" value="{{ old('nombres') }}"  required/>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label >Paterno</label>
-                                <input type="input" name="paterno" placeholder="" class="form-control" value="{{ old('paterno') }}" />
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label >Materno</label>
-                                <input type="input" name="materno" placeholder="" class="form-control" value="{{ old('materno') }}" />
-                            </div>
-                        </div>
-                        <div class="col-md-5">
+                      <div class="col-md-5">
                             <div class="form-group">
                                 <label >Carnet</label>
-                                <input type="input" name="cedula" placeholder="" class="form-control" value="{{ old('cedula') }}" pattern="[0-9]{6,9}" required/>
+                                <input type="input" name="cedula" id="input_cedula" placeholder="" class="form-control" value="{{ old('cedula') }}" pattern="[0-9]{6,9}" required/>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -92,6 +96,25 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label >Nombres</label>
+                                <input type="input" name="nombres" placeholder="" class="form-control" value="{{ old('nombres') }}"  required/>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label >Paterno</label>
+                                <input type="input" name="paterno" placeholder="" class="form-control" value="{{ old('paterno') }}" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label >Materno</label>
+                                <input type="input" name="materno" placeholder="" class="form-control" value="{{ old('materno') }}" />
+                            </div>
+                        </div>
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class=" ">Fecha de nacimiento</label>
@@ -155,7 +178,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label >Buscar Recinto</label>
+                                <input type="text" id="input_recinto" placeholder="Ingrese el Recinto a Buscar" class="form-control" value=""/>
+                            </div>
+                        </div>
+                        {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <label class="text-black ">Circunscripción</label>
                                 <select class="form-control" name="id_circunscripcion" id="id_circunscripcion" required>
@@ -172,7 +201,7 @@
                                 <select class="form-control" name="id_distrito" id="id_distrito" required>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-12">
                             <div class="form-group recinto_json_select">
                                 <label class="text-black">Recinto</label>
@@ -260,6 +289,39 @@
 
         </div>
       </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> 
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mesas - Usuario</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="box-body table-responsive no-padding">
+                            <div class="scrollable">
+                                <table class="table table-bordered table-striped scrollable" id="tabla_mesas_json">
+                                <thead>
+                                <tr  style="background-color:#3c8dbc; text-align:center">
+                                    <th>#</th>
+                                    <th>Código OEP</th>
+                                    <th>Nombre</th>
+                                    <th>Contacto</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+                </div>
+            </div>
+        </div>
  
 </section>
 
@@ -275,6 +337,8 @@
 
 
     // Ocultando Divs al iniciar
+
+    $("#div_usuarios_encontrados").hide();
     $("#div_circ").hide();
     $("#div_distrito").hide();
     $("#div_recinto").hide();
@@ -325,7 +389,6 @@
             $("#div_vehiculo").hide();
             $("#btn_registrar").prop('disabled', false);
         }else if(rol_slug == 'responsable_mesa'){
-            cargaMesasRecinto();
             $("#div_mesas_detalle").hide();
             $("#div_circ").show();
             $("#div_distrito").show();
@@ -334,6 +397,7 @@
             $("#div_casa_campana").hide();
             $("#div_vehiculo").hide();
             $("#btn_registrar").prop('disabled', false);
+            cargaMesasRecinto();
         }else if(rol_slug == 'responsable_recinto'){
             $("#div_circ").show();
             $("#div_distrito").show();
@@ -392,8 +456,8 @@
                     $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+'</option>');                    
                 } else {
                     mesas_asignadas++;
-                    $(".mesas_json select").append('<option disabled value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
-                    
+                    // $(".mesas_json select").append('<option disabled value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
+                    $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+' ('+value.responsables+') </option>');
                 }
                 mesas_total++;
 
@@ -427,6 +491,101 @@
         });
     };
 
+
+    $( "#input_recinto" ).keyup(function() {
+        $(".recinto_json_select select").html("");
+        var recinto = $("#input_recinto").val();
+        var recinto_sin_espacios = recinto.trim();
+        if (recinto_sin_espacios == "") {
+            
+        } else {
+            $.getJSON("consultaRecintosPorRecinto/"+recinto+"",{},function(objetosretorna){
+                $("#error").html("");
+                var TamanoArray = objetosretorna.length;
+                $(".recinto_json_select select").append('<option value=""> --- SELECCIONE EL RECINTO --- </option>');
+                $.each(objetosretorna, function(i,value){
+                    $(".recinto_json_select select").append('<option value="'+value.id_recinto+'"> C: '+value.circunscripcion+' - D: '+value.distrito+' - # '+value.id_recinto+' - Recinto: '+value.nombre+' - Zona: '+value.zona+'</option>');
+                });
+            });
+        }
+    });
+
+    $( "#input_cedula" ).keyup(function() {
+        
+        
+        $("#tabla_cedula tbody").html("");
+        var cedula = $("#input_cedula").val();
+        var cedula_sin_espacios = cedula.trim();
+        if (cedula_sin_espacios == "") {
+            
+        } else {
+            // $.getJSON("consultaRecintosPorRecinto/"+recinto+"",{},function(objetosretorna){
+            $.getJSON("consultaUsuarioRegistrado/"+cedula+"",{},function(objetosretorna){
+                $("#div_usuarios_encontrados").show();
+                $("#error").html("");
+                var TamanoArray = objetosretorna.length;
+                $.each(objetosretorna, function(i,datos){
+
+                    var nuevaFila =
+                    "<tr>"
+                    +"<td>"+datos.nombre_completo+"</td>"
+                    +"<td>"+datos.ci+"</td>"
+                    +"<td>"+datos.fecha_nacimiento+"</td>"
+                    +"<td>"+datos.contacto+"</td>"
+                    +"<td>"+datos.recinto+"</td>"
+                    // +"<td>"+datos.circunscripcion+"</td>"
+                    // +"<td>"+datos.distrito+"</td>"
+                    // +"<td>"+datos.nombre_recinto+"</td>"
+                    +"<td>"+datos.nombre_rol+"</td>"
+                    +"</tr>";
+                    $(nuevaFila).appendTo("#tabla_cedula tbody");
+                });
+                if(TamanoArray==0){
+                    var nuevaFila =
+                    "<tr><td colspan=6>No se encontraron parametros para su busqueda</td>"
+                    +"</tr>";
+                    $(nuevaFila).appendTo("#tabla_cedula tbody");
+                }
+            });
+        }
+        
+    });
+    
+    $('#id_mesa').dblclick(function(){
+        var selectBox = document.getElementById("id_mesa");
+        var id_mesa = selectBox.options[selectBox.selectedIndex].value;
+
+        $("#tabla_mesas_json tbody").html("");
+    $.getJSON("consultaMesasUsuario/"+id_mesa+"",{},function(objetosretorna){
+        // alert(objetosretorna);
+        $("#error").html("");
+        var TamanoArray = objetosretorna.length;
+        var indice = 0;
+        $.each(objetosretorna, function(i,items){
+        indice ++;
+        var nuevaFila =
+        "<tr>"
+        // +"<td>"+indice+"</td>"
+        +"<td>"+items.codigo_ajllita+"</td>"
+        +"<td>"+items.codigo_mesas_oep+"</td>"
+        +"<td>"+items.nombre_completo+"</td>"
+        +"<td>"+items.telefono_celular+"</td>"
+        +"</tr>";
+
+        $(nuevaFila).appendTo("#tabla_mesas_json tbody");
+        });
+
+        if(TamanoArray==0){
+        var nuevaFila =
+        "<tr><td colspan=6>Seleccione un día</td>"
+        +"</tr>";
+        $(nuevaFila).appendTo("#tabla_mesas_json tbody");
+        }
+    });
+        
+        $('#ModalAdd').modal('show');
+    });
+
     function cargaRecintos(){
         $(".recinto_json_select select").html("");
         var id_circunscripcion = $("#id_circunscripcion").val();
@@ -434,13 +593,13 @@
 
         // console.log($("#anio").val());
         $.getJSON("consultaRecintos/"+id_distrito+"/"+id_circunscripcion+"",{},function(objetosretorna){
-                $("#error").html("");
-                var TamanoArray = objetosretorna.length;
-                $(".recinto_json_select select").append('<option value=""> --- SELECCIONE EL RECINTO --- </option>');
-                $.each(objetosretorna, function(i,value){
-                    $(".recinto_json_select select").append('<option value="'+value.id_recinto+'"> R:'+value.id_recinto+' - '+value.nombre+'</option>');
-                });
+            $("#error").html("");
+            var TamanoArray = objetosretorna.length;
+            $(".recinto_json_select select").append('<option value=""> --- SELECCIONE EL RECINTO --- </option>');
+            $.each(objetosretorna, function(i,value){
+                $(".recinto_json_select select").append('<option value="'+value.id_recinto+'"> R:'+value.id_recinto+' - '+value.nombre+'</option>');
             });
+        });
     };
 	
 	}	

@@ -27,4 +27,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the Person that owns the Usuario.
+    */
+
+    public function persona()
+    {
+        //return $this->belongsTo('App\Persona', 'foreign_key', 'local_key');
+        return $this->belongsTo('App\Persona', 'id_persona', 'id_persona');
+    }
+
 }

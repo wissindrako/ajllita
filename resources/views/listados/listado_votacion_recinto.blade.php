@@ -15,7 +15,7 @@
 				<h4 class="text-black" >CEDULA: <b>{{$persona->cedula_identidad}} {{$persona->complemento_cedula}} {{$persona->expedido}}</b></h4 class="text-black" > --}}
 				<h4 class="text-black" >CIRCUNSCRIPCION: <b>{{$recinto[0]->circunscripcion}}</b></h4 class="text-black" >
 				<h4 class="text-black" >DISTRITO: <b>{{$recinto[0]->distrito}}</b></h4 class="text-black" >
-				<h4 class="text-black" >RECINTO: <b>{{$recinto[0]->nombre}}</b></h4 class="text-black" >
+				<h4 class="text-black" >RECINTO: <b>#{{$recinto[0]->id_recinto}} - {{$recinto[0]->nombre}}</b></h4 class="text-black" >
 		</div>
 		<!-- /.box-header -->
 		{{-- {{dd($personas)}} --}}
@@ -23,23 +23,25 @@
 		  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 			<thead>
 					<tr>
-						<th colspan="2">Datos del Responsable</th>
-						<th colspan="2">Datos del Recinto</th>
-						<th colspan="4">Votos Presidenciales</th>
-						<th colspan="4">Votos Uninominales</th>
+						<th style="background-color:#111111; text-align:center; color:white" colspan="1"></th>
+						<th style="background-color:#111111; text-align:center; color:white" colspan="4">Votos Presidenciales</th>
+						<th style="background-color:#111111; text-align:center; color:white" colspan="4">Votos Uninominales</th>
+						<th style="background-color:#111111; text-align:center; color:white" colspan="2">Datos del Responsable de Mesa</th>
 					</tr>
-					<tr>				<th>Reponsable</th>
-						<th>Contacto</th>
-						<th>Recinto</th>
-						<th>Mesa</th>
-						<th>Registrados</th>
-						<th>Restantes</th>
-						<th>Total</th>
-						<th>Estado</th>
-						<th>Registrados</th>
-						<th>Restantes</th>
-						<th>Total</th>
-						<th>Estado</th>
+					<tr>				
+
+						{{-- <th># Recinto</th> --}}
+						<th style="background-color:#3c8dbc; text-align:center; color:white">Mesa</th>
+						<th style="background-color:#3c8dbc; text-align:center; color:white">Registrados</th>
+						<th style="background-color:#3c8dbc; text-align:center; color:white">Esperados</th>
+						<th style="background-color:#3c8dbc; text-align:center; color:white">Total</th>
+						<th style="background-color:#3c8dbc; text-align:center; color:white">Estado</th>
+						<th style="background-color:#3c8dbc; text-align:center; color:white">Registrados</th>
+						<th style="background-color:#3c8dbc; text-align:center; color:white">Esperados</th>
+						<th style="background-color:#3c8dbc; text-align:center; color:white">Total</th>
+						<th style="background-color:#3c8dbc; text-align:center; color:white">Estado</th>
+						<th style="background-color:#3c8dbc; text-align:center; color:white">Nombre</th>
+						<th style="background-color:#3c8dbc; text-align:center; color:white">Contacto</th>
 					</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}
@@ -48,10 +50,9 @@
 			{{-- {{dd($mesas)}} --}}
 			@foreach ($mesas as $mesa)
 				<tr>
-				<td>{{$mesa->nombre_completo}}</td>
-				<td>{{$mesa->contacto}}</td>
-				<td>{{$mesa->nombre_recinto}}</td>
-				<td>{{$mesa->id_mesa}}</td>
+
+				{{-- <td>{{$mesa->id_recinto}}</td> --}}
+				<td style="text-align:center;">{{$mesa->id_mesa}}</td>
 				{{-- {{dd($votos_presidenciales)}} --}}
 				@php
 					$votos_pre = 0;
@@ -75,13 +76,17 @@
 					@endphp
 					@endif
 				@endforeach
-				<td>{{$votos_pre + $b_n}}</td> {{-- Registrados --}}
-				<td>{{($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Restantes --}}
-				<td>{{($cantidad_partidos+1)}}</td> {{-- Total --}}
+				<td style="text-align:right;">{{$votos_pre + $b_n}}</td> {{-- Registrados --}}
+				<td style="text-align:right;">{{($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Esperados --}}
+				<td style="text-align:right;">{{($cantidad_partidos+1)}}</td> {{-- Total --}}
 				@if ($votos_pre + $b_n < $cantidad_partidos)
-				<td><span class="badge bg-red">Incompleto</span></td>	
+				<td style="text-align:center;"><a href="javascript:void(0);" onclick="verinfo_mesas({{ $mesa->id_mesa }}, 1)">
+					<span class="badge bg-red">Incompleto</span></a>
+				</td>	
 				@else
-				<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span></td>	
+				<td style="text-align:center;"><a href="javascript:void(0);" onclick="verinfo_mesas({{ $mesa->id_mesa }}, 1)">
+					<span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span>
+				</td>	
 				@endif
 				@foreach ($votos_uninominales as $v_uni)
 
@@ -100,16 +105,21 @@
 					@endif
 				@endforeach
 				{{-- {{$cantidad_partidos}} --}}
-				<td>{{$votos_uni + $uni_b_n}}</td> {{-- Registrados --}}
-				<td>{{($cantidad_partidos+1) - ($votos_uni + $uni_b_n)}}</td> {{-- Restantes --}}
-				<td>{{($cantidad_partidos+1)}}</td> {{-- Total --}}
+				<td style="text-align:right;">{{$votos_uni + $uni_b_n}}</td> {{-- Registrados --}}
+				<td style="text-align:right;">{{($cantidad_partidos+1) - ($votos_uni + $uni_b_n)}}</td> {{-- Esperados --}}
+				<td style="text-align:right;">{{($cantidad_partidos+1)}}</td> {{-- Total --}}
 
 				@if ($votos_uni + $uni_b_n < $cantidad_partidos)
-				<td><span class="badge bg-red">Incompleto</span></td>	
+				<td style="text-align:center;"><a href="javascript:void(0);" onclick="verinfo_mesas({{ $mesa->id_mesa }}, 2)">
+						<span class="badge bg-red">Incompleto</span></a>
+					</td>
 				@else
-				<td><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span></td>
-
+				<td style="text-align:center;"><a href="javascript:void(0);" onclick="verinfo_mesas({{ $mesa->id_mesa }}, 2)">
+					<span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span>
+				</td>
 				@endif
+				<td>{{$mesa->nombre_completo}}</td>
+				<td>{{$mesa->contacto}}</td>
 
 				</tr>
 			@endforeach

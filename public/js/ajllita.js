@@ -675,7 +675,7 @@ function  liberar_responsabilidad(id_persona){
      }) ;
   }
 
-function  verinfo_persona(id, form){
+function verinfo_persona(id, form){
   var urlraiz=$("#url_raiz_proyecto").val();
   if(form == 1){var miurl =urlraiz+"/form_editar_persona/"+id+""; }
   if(form == 2){var miurl =urlraiz+"/form_baja_persona/"+id+""; }
@@ -734,6 +734,29 @@ function  verinfo_usuario(id, form){
   if(form == 13){var miurl =urlraiz+"/form_sol_emergencias_usuario/"+id+""; }
 
  
+
+	$("#capa_modal").show();
+	$("#capa_formularios").show();
+	var screenTop = $(document).scrollTop();
+	$("#capa_formularios").css('top', screenTop);
+  $("#capa_formularios").html($("#cargador_empresa").html());
+
+    $.ajax({
+    url: miurl
+    }).done( function(resul)
+    {
+     $("#capa_formularios").html(resul);
+
+    }).fail( function()
+   {
+    $("#capa_formularios").html('<span>...Ha ocurrido un error, revise su conexión y vuelva a intentarlo...</span>');
+   }) ;
+}
+
+function  verinfo_mesas(id, form){
+  var urlraiz=$("#url_raiz_proyecto").val();
+  if(form == 1){var miurl =urlraiz+"/detalle_presidenciales_mesa/"+id+""; }
+  if(form == 2){var miurl =urlraiz+"/detalle_uninominales_mesa/"+id+""; }
 
 	$("#capa_modal").show();
 	$("#capa_formularios").show();

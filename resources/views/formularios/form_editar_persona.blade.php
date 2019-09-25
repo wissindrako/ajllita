@@ -173,14 +173,19 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label >Buscar Recinto</label>
+                            <input type="text" id="input_recinto" placeholder="Ingrese el Recinto a Buscar" class="form-control" value=""/>
+                        </div>
+                    </div>
+                    {{-- <div class="col-md-3">
                         <div class="form-group">
                             <label class="text-black ">Circunscripción</label>
                             <select class="form-control" name="id_circunscripcion" id="id_circunscripcion" required>
                                 <option value="" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
                                 @foreach ($circunscripciones as $circ)
                                 <option value={{$circ->circunscripcion}} {{ $persona->circunscripcion == $circ->circunscripcion ? 'selected' : '' }}>{{$circ->circunscripcion}}</option>
-                            {{-- <option value="{{$circ->circunscripcion}}">{{$circ->circunscripcion}}</option> --}}
                                 @endforeach
                             </select>
                         </div>
@@ -194,9 +199,9 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-6">
-                        <div class="form-group recinto_json">
+                        <div class="form-group recinto_json_select">
                             <label class="text-black">Recinto</label>
                             <select class="form-control" name="recinto" id="id_recinto" required>
                                 @foreach ($recintos as $recinto)
@@ -297,6 +302,39 @@
     </div>
   </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> 
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mesas - Usuario</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="box-body table-responsive no-padding">
+                            <div class="scrollable">
+                                <table class="table table-bordered table-striped scrollable" id="tabla_mesas_json">
+                                <thead>
+                                <tr  style="background-color:#3c8dbc; text-align:center">
+                                    <th>#</th>
+                                    <th>Código OEP</th>
+                                    <th>Nombre</th>
+                                    <th>Contacto</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+                </div>
+            </div>
+        </div>
  
 </section>
 
@@ -357,6 +395,60 @@
         if (rol_slug == 'responsable_mesa') {
             cargaMesasRecinto();
         }
+    });
+
+    $( "#input_recinto" ).keyup(function() {
+        $(".recinto_json_select select").html("");
+        var recinto = $("#input_recinto").val();
+        var recinto_sin_espacios = recinto.trim();
+        if (recinto_sin_espacios == "") {
+            
+        } else {
+            $.getJSON("consultaRecintosPorRecinto/"+recinto+"",{},function(objetosretorna){
+                $("#error").html("");
+                var TamanoArray = objetosretorna.length;
+                $(".recinto_json_select select").append('<option value=""> --- SELECCIONE EL RECINTO --- </option>');
+                $.each(objetosretorna, function(i,value){
+                    $(".recinto_json_select select").append('<option value="'+value.id_recinto+'"> C: '+value.circunscripcion+' - D: '+value.distrito+' - # '+value.id_recinto+' - Recinto: '+value.nombre+' - Zona: '+value.zona+'</option>');
+                });
+            });
+        }
+    });
+
+
+    $('#id_mesa').dblclick(function(){
+        var selectBox = document.getElementById("id_mesa");
+        var id_mesa = selectBox.options[selectBox.selectedIndex].value;
+
+        $("#tabla_mesas_json tbody").html("");
+    $.getJSON("consultaMesasUsuario/"+id_mesa+"",{},function(objetosretorna){
+        // alert(objetosretorna);
+        $("#error").html("");
+        var TamanoArray = objetosretorna.length;
+        var indice = 0;
+        $.each(objetosretorna, function(i,items){
+        indice ++;
+        var nuevaFila =
+        "<tr>"
+        // +"<td>"+indice+"</td>"
+        +"<td>"+items.codigo_ajllita+"</td>"
+        +"<td>"+items.codigo_mesas_oep+"</td>"
+        +"<td>"+items.nombre_completo+"</td>"
+        +"<td>"+items.telefono_celular+"</td>"
+        +"</tr>";
+
+        $(nuevaFila).appendTo("#tabla_mesas_json tbody");
+        });
+
+        if(TamanoArray==0){
+        var nuevaFila =
+        "<tr><td colspan=6>Seleccione un día</td>"
+        +"</tr>";
+        $(nuevaFila).appendTo("#tabla_mesas_json tbody");
+        }
+    });
+        
+        $('#ModalAdd').modal('show');
     });
 
     function cargaRecintos(){

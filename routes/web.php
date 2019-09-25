@@ -96,6 +96,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('ObtieneUsuario/{id_persona}/', 'UsuariosController@ObtieneUsuario');
 
     Route::get('agregar_usuario', 'UsuariosController@agregar_usuario');
+    Route::get('consultaUsuarioRegistrado/{recinto}', 'PersonasController@consultaUsuarioRegistrado');
     
     Route::get('consultaDistritos/{id_circunscripcion}', 'RecintosController@consultaDistritos');
     Route::get('consultaRecintos/{id_distrito}/{id_circunscripcion}', 'RecintosController@consultaRecintos');
@@ -103,7 +104,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('consultaSubOrigen/{id_origen}', 'PersonasController@consultaSubOrigen');
     Route::get('consultaMesasRecinto/{id_recinto}', 'MesasController@consultaMesasRecinto');
     Route::get('consultaMesasUsuario/{id_mesa}', 'MesasController@consultaMesasUsuario');
-
 
     Route::post('registrar_falta', 'AsistenciasController@registrar_falta');
     Route::get('form_agregar_lista_de_asistencia', 'AsistenciasController@form_agregar_lista_de_asistencia');

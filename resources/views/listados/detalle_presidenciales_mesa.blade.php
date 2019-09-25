@@ -17,8 +17,8 @@
 				<tr>				
 					{{-- <th># Recinto</th> --}}
 					<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-1">Partido</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-2">Votos</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-8">Foto del Acta</th>
+					<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-1">Votos</th>
+					<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-10">Foto del Acta</th>
 				</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}
@@ -37,10 +37,10 @@
 						{{-- <span class="description">{{ $p['nombre_partido'] }}</span> --}}
 					</div>
 				</td>
-				<td style="text-align:right;">{{$p['validos']}}</td>
+				<td style="text-align:center;"><h2><b>{{$p['validos']}}</b></h2></td>
 				@if ($key == 0)
 					@if ($mesa->foto_presidenciales != "")
-					<td rowspan="9"><img class="img-responsive" src={{ url($mesa->foto_presidenciales) }} alt="Foto del Acta"></td>
+					<td rowspan="9"><img class="img-responsive" src="{{ $mesa->foto_presidenciales }}" alt="Foto del Acta"></td>
 					@else
 					<td  style="text-align:center;" rowspan="9">No se cargó la foto aún...!</td>
 					@endif
@@ -60,7 +60,7 @@
 				@if (empty($votos_presidenciales_r))
 				<td style="text-align:right;"></td>
 				@else
-				<td style="text-align:right;">{{$votos_presidenciales_r->blancos}}</td>
+				<td style="text-align:center;"><h2><b>{{$votos_presidenciales_r->blancos}}</b></h2></td>
 				@endif
 			</tr>
 			<tr>
@@ -76,7 +76,7 @@
 			@if (empty($votos_presidenciales_r))
 			<td style="text-align:right;"></td>
 			@else
-			<td style="text-align:right;">{{$votos_presidenciales_r->nulos}}</td>
+			<td style="text-align:center;"><h2><b>{{$votos_presidenciales_r->nulos}}</b></h2></td>
 			@endif
 			
 			</tr>

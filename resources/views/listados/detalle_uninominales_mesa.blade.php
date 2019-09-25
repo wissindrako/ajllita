@@ -36,7 +36,7 @@
 								{{-- <span class="description">{{ $p['nombre_partido'] }}</span> --}}
 							</div>
 						</td>
-						<td style="text-align:right;">{{$p['validos']}}</td>
+						<td style="text-align:center;"><h2><b>{{$p['validos']}}</b></h2></td>
 						@if ($key == 0)
 							@if ($mesa->foto_uninominales != "")
 							<td rowspan="9"><img class="img-responsive" src={{ url($mesa->foto_uninominales) }} alt="Foto del Acta"></td>
@@ -59,7 +59,7 @@
 						@if (empty($votos_uninominales_r))
 						<td style="text-align:right;"></td>
 						@else
-						<td style="text-align:right;">{{$votos_uninominales_r->blancos}}</td>
+						<td style="text-align:right;"><h2><b>{{$votos_uninominales_r->blancos}}</b></h2></td>
 						@endif
 					</tr>
 					<tr>
@@ -75,7 +75,7 @@
 					@if (empty($votos_uninominales_r))
 					<td style="text-align:right;"></td>
 					@else
-					<td style="text-align:right;">{{$votos_uninominales_r->nulos}}</td>
+					<td style="text-align:center;"><h2><b>{{$votos_uninominales_r->nulos}}</b></h2></td>
 					@endif
 					
 					</tr>

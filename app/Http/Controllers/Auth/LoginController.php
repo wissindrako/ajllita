@@ -64,6 +64,29 @@ class LoginController extends Controller
         return $field;
     }
 
+    public function authenticated($request , $user){
+
+        if(\Auth::user()->isRole('responsable_circunscripcion')==true){
+            return redirect()->intended('listado_votacion_circunscripcion');
+        }
+        if(\Auth::user()->isRole('responsable_distrito')==true){
+            return redirect()->intended('listado_votacion_distrito');
+        }
+        if(\Auth::user()->isRole('responsable_recinto')==true){
+            return redirect()->intended('listado_votacion_recinto');
+        }
+        if(\Auth::user()->isRole('responsable_mesa')==true){
+            return redirect()->intended('form_votar_seleccionar_mesa');
+        }
+        if(\Auth::user()->isRole('admin')==true){
+            return redirect()->intended('listado_personas');
+        }
+        if(\Auth::user()->isRole('registrador')==true){
+            return redirect()->intended('form_agregar_persona');
+        }
+
+    }
+
 
 
   

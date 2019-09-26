@@ -200,7 +200,7 @@
                             </select>
                         </div>
                     </div> --}}
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group recinto_json_select">
                             <label class="text-black">Recinto</label>
                             <select class="form-control" name="recinto" id="id_recinto" required>
@@ -210,7 +210,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label class="text-black">Rol</label>
                             <div class="form-group bg-gray">
@@ -220,6 +220,30 @@
                                 {{-- <option value={{$rol->slug}} {{$rol->slug == 'militante' ? 'selected' : ''}}>{{$rol->description}}</option> --}}
                                 <option value={{$rol->slug}} {{ $persona->id_rol == $rol->id ? 'selected' : '' }}>{{$rol->description}}</option>
                                     @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-black">Titularidad</label>
+                            <div class="form-group bg-gray">
+                                <select class="form-control" name="titularidad" required>
+                                    <option value="" selected> --- SELECCIONE SU SITUACIÓN --- </option>
+                                    <option value="TITULAR" {{ $persona->titularidad == 'TITULAR' ? 'selected' : '' }}>TITULAR</option>
+                                    <option value="SUPLENTE" {{ $persona->titularidad == 'SUPLENTE' ? 'selected' : '' }}>SUPLENTE</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-black">Es Informático?</label>
+                            <div class="form-group bg-gray">
+                                <select class="form-control" name="informatico" required>
+                                    <option value="" selected> --- ELIJA UNA OPCIÓN --- </option>
+                                    <option value="SI" {{ $persona->informatico == 'SI' ? 'selected' : '' }}>SI</option>
+                                    <option value="NO" {{ $persona->informatico == 'NO' ? 'selected' : '' }}>NO</option>
                                 </select>
                             </div>
                         </div>

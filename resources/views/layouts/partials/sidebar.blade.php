@@ -135,7 +135,9 @@
             </li>
             @endrole --}}
 
-
+            {{-- @role('responsable_mesa')
+            <li class="treeview"><a href="{{ url('llenado_mesas_emergencia') }}"><i class='fa fa-check-square-o'></i> Llenado Emergencia</a></li>
+            @endrole --}}
             @can('listado_votacion_recinto')
             <li class="treeview"><a href="{{ url('listado_votacion_recinto') }}"><i class='fa fa-check-square-o'></i> Control de Mesas</a></li>
             @endcan

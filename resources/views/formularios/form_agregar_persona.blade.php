@@ -150,13 +150,13 @@
                                 <label >Grado de apoyo y compromiso en las Elecciones - (1 al 5)</label>
                                 {{-- <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="0" required/> --}}
                                 <select class="form-control" name="grado_compromiso" required>
-                                        <option value="" selected> --- SELECCIONE UN NIVEL --- </option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>
+                                    <option value="" selected> --- SELECCIONE UN NIVEL --- </option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -210,7 +210,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="text-black">Rol</label>
                                 <div class="form-group bg-gray">
@@ -220,6 +220,30 @@
                                     {{-- <option value={{$rol->slug}} {{$rol->slug == 'militante' ? 'selected' : ''}}>{{$rol->description}}</option> --}}
                                     <option value={{$rol->slug}}>{{$rol->description}}</option>
                                         @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="text-black">Titularidad</label>
+                                <div class="form-group bg-gray">
+                                    <select class="form-control" name="titularidad" required>
+                                        <option value="" selected> --- SELECCIONE SU SITUACIÓN --- </option>
+                                        <option value="TITULAR">TITULAR</option>
+                                        <option value="SUPLENTE">SUPLENTE</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="text-black">Es Informático?</label>
+                                <div class="form-group bg-gray">
+                                    <select class="form-control" name="informatico" required>
+                                        <option value="" selected> --- ELIJA UNA OPCIÓN --- </option>
+                                        <option value="SI">SI</option>
+                                        <option value="NO">NO</option>
                                     </select>
                                 </div>
                             </div>
@@ -520,7 +544,7 @@
             
         } else {
             // $.getJSON("consultaRecintosPorRecinto/"+recinto+"",{},function(objetosretorna){
-            $.getJSON("consultaUsuarioRegistrado/"+cedula+"",{},function(objetosretorna){
+            $.getJSON("consultaUsuarioRegistrado/"+cedula_sin_espacios+"",{},function(objetosretorna){
                 $("#div_usuarios_encontrados").show();
                 $("#error").html("");
                 var TamanoArray = objetosretorna.length;

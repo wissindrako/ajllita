@@ -22,6 +22,10 @@ Route::group(['middleware' => 'cors'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
 
+    Route::get('/listado_personas', function (){
+        return view('listado.listado_personas');
+    })->name('admin.listado_personas'); // <--- este es el nombre que busca el controlador.
+    
     Route::get('/home', 'HomeController@index');
 
     Route::get('form_agregar_persona', 'PersonasController@form_agregar_persona');

@@ -80,10 +80,10 @@ class PersonasController extends Controller
             return 'grado_compromiso';
         }elseif ($request->input("id_origen") == '') {
             return 'origen';
-        // }elseif ($request->input("id_circunscripcion") == '') {
-        //     return 'recinto';
-        // }elseif ($request->input("id_distrito") == '') {
-        //     return 'recinto';
+        }elseif ($request->input("titularidad") == '') {
+            return 'titularidad';
+        }elseif ($request->input("informatico") == '') {
+            return 'informatico';
         }elseif ($request->input("recinto") == '') {
             return 'recinto';
         }elseif ($request->input("rol_slug") == '') {
@@ -138,6 +138,8 @@ class PersonasController extends Controller
                     $persona->id_origen=$request->input("id_origen");
                     $persona->id_sub_origen=$request->input("id_sub_origen");
                     $persona->id_responsable_registro=Auth::user()->id;
+                    $persona->titularidad=$request->input("titularidad");
+                    $persona->informatico=$request->input("informatico");
 
                     $persona->id_rol=15;
     
@@ -694,6 +696,8 @@ class PersonasController extends Controller
             $persona->id_origen=$request->input("id_origen");
             $persona->id_sub_origen=$request->input("id_sub_origen");
             $persona->id_responsable_registro=Auth::user()->id;
+            $persona->titularidad=$request->input("titularidad");
+            $persona->informatico=$request->input("informatico");
             $recinto = Recinto::find($request->input("recinto"));
                         
             // Obteniendo los datos del Usuario segun el id_persona

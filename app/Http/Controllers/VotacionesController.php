@@ -9,6 +9,100 @@ use Storage;
 
 class VotacionesController extends Controller
 {
+
+  public function form_llenado_emergencia($id_recinto){
+    $mesa =\DB::table('mesas')
+    ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
+    ->leftjoin('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+    ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
+    ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
+    ->where('mesas.id_recinto', $id_recinto)
+    ->select('recintos.nombre as nombre_recinto', 'mesas.id_mesa', 'recintos.id_recinto',
+    'recintos.circunscripcion', 'recintos.distrito',
+    \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
+    \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
+    'mesas.foto_presidenciales'
+    )
+    ->first();
+    
+    $partidos = \DB::table('partidos')
+    ->orderBy('nivel')
+    ->get();
+
+    // $votos_presidenciales = \DB::table('mesas')
+    // ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+    // ->join('votos_presidenciales', 'mesas.id_mesa', 'votos_presidenciales.id_mesa')
+    // ->join('partidos', 'votos_presidenciales.id_partido', 'partidos.id_partido')
+    // ->where('mesas.id_recinto', $id_recinto)
+    // // ->where('partidos.id_partido', 'votos_presidenciales.id_partido')
+    // ->select('mesas.id_mesa', 'partidos.sigla', 'validos', 'votos_presidenciales.id_partido', 'partidos.sigla'
+    // )
+    // ->orderBy('nivel')
+    // ->get();
+
+    $votos_presidenciales = \DB::table('partidos')
+    ->join('votos_presidenciales', 'partidos.id_partido', 'votos_presidenciales.id_partido')
+    ->join('mesas', 'votos_presidenciales.id_mesa', 'mesas.id_mesa')
+    ->where('mesas.id_recinto', $id_recinto)
+    ->select('partidos.id_partido', 'partidos.sigla', 'partidos.nombre as nombre_partido', 'partidos.logo', 
+    'votos_presidenciales.validos', 'votos_presidenciales.id_mesa', 'votos_presidenciales.id_votos_presidenciales',
+    'mesas.id_recinto'
+    )
+    ->orderBy('nivel')
+    ->get();
+
+
+    $detalle_mesas = array();
+
+    foreach ($partidos as $partido) {
+        if (count($votos_presidenciales) > 0) {
+            foreach ($votos_presidenciales as $vp) {
+                // $e['id_mesa'] = $votos_presidenciales->id_mesa;
+                if (in_array($partido->id_partido, $votos_presidenciales->pluck('id_partido')->toArray())) {
+                    if($partido->id_partido == $vp->id_partido) {
+                        $e = array();
+                        $e['sigla'] = $vp->sigla;
+                        $e['logo'] = $partido->logo;
+                        $e['nombre_partido'] = $partido->nombre;
+                        $e['validos'] = $vp->validos;
+                        array_push($detalle_mesas, $e);
+                    }
+                } else {
+                    $e = array();
+                    $e['sigla'] = $partido->sigla;
+                    $e['logo'] = $partido->logo;
+                    $e['nombre_partido'] = $partido->nombre;
+                    $e['validos'] = "";
+                    array_push($detalle_mesas, $e);
+                    break;
+                }
+            }
+        }else{
+            $e = array();
+            $e['sigla'] = $partido->sigla;
+            $e['logo'] = $partido->logo;
+            $e['nombre_partido'] = $partido->nombre;
+            $e['validos'] = "";
+            array_push($detalle_mesas, $e);
+        }
+    }
+
+    $votos_presidenciales_r = \DB::table('mesas')
+    ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+    ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
+    ->where('mesas.id_recinto', $id_recinto)
+    ->select('mesas.id_mesa', 'votos_presidenciales_r.nulos', 'votos_presidenciales_r.blancos'
+    )
+    ->first();
+    return view("formularios.form_llenado_emergencia")
+      ->with('mesa', $mesa)
+      ->with('votos_presidenciales', $votos_presidenciales)
+      ->with('detalle_mesas', $detalle_mesas)
+      ->with('votos_presidenciales_r', $votos_presidenciales_r)
+      ->with('partidos', $partidos);
+  }
+
+
   public function form_votar_seleccionar_mesa(){
     //Tomamos el id del usuario
     $id_usuario = Auth::user()->id;
@@ -296,7 +390,15 @@ class VotacionesController extends Controller
         $mime = $archivo->getMimeType();
         $extension=strtolower($archivo->getClientOriginalExtension());
         $nuevo_nombre="presidencial-id_mesa_".$request->id_mesa;
-        $r1=Storage::disk('media/foto_presidenciales')->put($nuevo_nombre, \File::get($archivo) );
+        // $mi_imagen = public_path().'/storage/media/foto_presidenciales/'.$nuevo_nombre;
+        // if (@getimagesize($mi_imagen)) {
+        //   return $nuevo_nombre;
+        // }
+        // else
+        // {
+        //   echo $mi_imagen." - ";
+        // }
+        $r1=Storage::disk('media/foto_presidenciales')->put($nuevo_nombre, \File::get($archivo));
         $rutadelaimagen="../storage/media/foto_presidenciales/".$nuevo_nombre;
         if ($r1){
           //Introducimos la ruta en la BD

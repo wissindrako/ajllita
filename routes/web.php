@@ -10,9 +10,17 @@
 | to using a Closure or controller method. Build something great!
 |
 */
+// Route::get('/', function () {
+//     return redirect('/login');
+// });
+
 Route::get('/', function () {
-    return redirect('/login');
+    return redirect('form_consulta');
 });
+
+Route::get('form_consulta', 'ConsultasController@form_consulta');
+Route::get('consultaMesaAsignada/{recinto}', 'ConsultasController@consultaMesaAsignada');
+
 Route::get('form_pruebas', 'PruebasController@form_pruebas');
 
 Auth::routes();
@@ -27,6 +35,8 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('admin.listado_personas'); // <--- este es el nombre que busca el controlador.
     
     Route::get('/home', 'HomeController@index');
+
+    
 
     Route::get('form_agregar_persona', 'PersonasController@form_agregar_persona');
 
@@ -138,6 +148,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('votar_uninominal_nyb', 'VotacionesController@votar_uninominal_nyb');
     Route::post('form_votar_uninominal_subir_imagen', 'VotacionesController@form_votar_uninominal_subir_imagen');
     Route::post('votar_uninominal_subir_imagen', 'VotacionesController@votar_uninominal_subir_imagen');
+
+    Route::get('form_llenado_emergencia/{id_recinto}', 'VotacionesController@form_llenado_emergencia');
 
 
 

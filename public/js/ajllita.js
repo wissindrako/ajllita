@@ -757,6 +757,7 @@ function  verinfo_mesas(id, form){
   var urlraiz=$("#url_raiz_proyecto").val();
   if(form == 1){var miurl =urlraiz+"/detalle_presidenciales_mesa/"+id+""; }
   if(form == 2){var miurl =urlraiz+"/detalle_uninominales_mesa/"+id+""; }
+  if(form == 10){var miurl =urlraiz+"/form_llenado_emergencia/"+id+""; }
 
 	$("#capa_modal").show();
 	$("#capa_formularios").show();

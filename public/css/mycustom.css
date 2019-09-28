@@ -65,6 +65,13 @@ width: auto;
     text-align: right;
     opacity: 0.3;
 }
+.myform_top_right_img {
+    float: right;
+    width: 25%;
+    padding-top: 25px;
+    font-size: 66px;
+    text-align: right;
+}
 .myform-bottom {
     padding: 5px 25px 30px 25px;
     background: #3c8dbc;

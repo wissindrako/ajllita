@@ -11,8 +11,8 @@
                        Register
                   </a> --}}
 
-                  <a class="mybtn-social pull-right" href="{{ url('/form_consulta') }}">
-                       Inicio
+                  <a class="mybtn-social pull-right" href="{{ url('/login') }}">
+                       Login
                   </a>
                
                 </div>
@@ -45,10 +45,10 @@
                 @endif
                     <div class="myform-bottom">
                       
-                      <form role="form" action="{{ url('#') }}" method="post" >
+                      <form role="form" action="{{ url('/login') }}" method="post" >
                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-group">
-                            <input type="text" name="email" value="" placeholder="Usuario..." class="form-control" id="form-username">
+                            <input type="text" name="email" value="{{ old('email') }}" placeholder="Usuario..." class="form-control" id="form-username">
                         </div>
                         <div class="form-group">
                             <input type="password" name="password" placeholder="Contraseña..." class="form-control" id="form-password">

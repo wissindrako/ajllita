@@ -10,13 +10,15 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-// Route::get('/', function () {
-//     return redirect('/login');
-// });
-
 Route::get('/', function () {
-    return redirect('form_consulta');
+    return redirect('/login');
 });
+
+//REDIRECCIONA AL FORMULARIO DE CONSULTA DESDE UN INICIO
+
+// Route::get('/', function () {
+//     return redirect('form_consulta');
+// });
 
 Route::get('form_consulta', 'ConsultasController@form_consulta');
 Route::get('consultaMesaAsignada/{recinto}', 'ConsultasController@consultaMesaAsignada');

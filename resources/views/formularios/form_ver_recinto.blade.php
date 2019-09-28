@@ -13,6 +13,7 @@
 
     <div class="" >
         <div class="container">
+            
             <div class="row">
                 <div class="box box-primary">
                     <div>
@@ -29,6 +30,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
+                        
                         <div class="row">
                             <div class="col-md-12">
                                 <!-- Widget: user widget style 1 -->

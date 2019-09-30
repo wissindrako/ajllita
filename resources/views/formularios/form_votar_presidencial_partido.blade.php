@@ -48,7 +48,7 @@
 												<input type="hidden" name="id_mesa" value="{{ $id_mesa }}">
 												<input type="hidden" name="id_partido" value="{{ $id_partido }}">
 												<label style="font-size: 26px">Número de votos</label><br>
-												<input type="number" name="validos" min="0" max="{{ $numero_votantes }}" value="{{ $validos }}" style="width:100%; height:40px; font-size:30px; text-align:center" required>
+												<input type="number" name="validos" min="0" max="{{ $numero_votantes }}" value="{{ $validos }}" style="width:100%; color:black; height: 65px; font-weight:bold; font-size:35px; text-align:center" required>
 												<br><br>
 												<button type="submit" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#A3DD99), color-stop(100%,#87CEEB)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 													Guardar

@@ -24,7 +24,7 @@ class ConsultasController extends Controller
         ->join('sub_origen', 'personas.id_sub_origen', 'sub_origen.id_sub_origen')
         ->join('roles', 'personas.id_rol', 'roles.id')
         ->select('personas.*', 'recintos.id_recinto', 'recintos.nombre as nombre_recinto', 'recintos.circunscripcion', 'recintos.distrito',
-                 'recintos.zona', 'recintos.direccion as direccion_recinto',
+                 'recintos.zona', 'recintos.direccion as direccion_recinto', 'recintos.geolocalizacion',
                  'origen.origen', 'sub_origen.nombre as sub_origen',
                  'roles.name as nombre_rol', 'roles.description',
                  \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),

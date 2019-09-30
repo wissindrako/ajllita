@@ -9,7 +9,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     @include('layouts.partials.htmlheader')
 @show
 
-<body class="" style="background-color: #002640;">
+<body class="" style="background-color: #1b6ba2;">
 
 <div style="display: none;" id="cargador_empresa" align="center">
         <br>

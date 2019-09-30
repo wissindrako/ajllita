@@ -7,39 +7,79 @@
 				{{-- <input type="hidden" id="rol_usuario" value="{{ $rol->slug }}"> --}}
 		</div>
 		<!-- /.box-header -->
-		{{dd($votos_presidenciales)}}
+		@foreach ($users as $item)
+
+            {{-- {{ \App\User::find($item->id)->persona['nombre'] }} --}}
+
+        @endforeach
+        {{-- {{dd($votos_presidenciales_r)}} --}}
+
 		<div class="box-body table-responsive no-padding">
 		  <table id="tabla_personas" class="table table-hover table-striped table-bordered">
             {{-- <table class="table"> --}}
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>id_gestion</th>
-                            <th>Desde</th>
-                            <th>Hasta</th>
-                            <th>Vigencia</th>
-                            <th>Saldo</th>
-                            <th>Acción</th>
-                        </tr>
-                        @foreach ($collection as $item)
-                            
+                        <th>#</th>
+                        <th>Mesa</th>
+                        @foreach ($partidos as $partido)
+                        <th style="text-align:center" width="8%">{{$partido->sigla}}</th>
                         @endforeach
+                        <th style="text-align:center" width="8%">Blancos</th>
+                        <th style="text-align:center" width="8%">Nulos</th>
+                        <th style="text-align:center" width="8%">Guardar</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($gestiones as $gestion)
+
+                        @foreach ($mesas as $key => $mesa)
                         <tr>
-                            <td scope="row">{{$gestion->id_usuario}}</td>
-                            <td>{{ $gestion->id }}</td>
-                            <td>{{$gestion->desde}}</td>
-                            <td>{{$gestion->hasta}}</td>
-                            <td>{{$gestion->vigencia}}</td>
-                            <td><input type="number" name="" id="input_saldo" value="{{$gestion->saldo}}"><input type="hidden" name="" id="id_gestion" value="{{ $gestion->id }}"></td>
+                            <td>{{$key+1}}</td>
+                            <td scope="row">{{$mesa->id_mesa}}</td>
+                            @foreach ($partidos as $partido)
+                            <td>
+
+                                @if ($mesa->votos_presidenciales->where('id_partido',$partido->id_partido)->pluck('id_partido')->first() )
+                                <div class="form-group" style="text-align:center">
+                                    <input type="number" name="" id="input_saldo" value="{{$mesa->votos_presidenciales->where('id_partido',$partido->id_partido)->pluck('validos')->first()}}" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="">
+                                </div>
+                                @else
+                                <div class="form-group" style="text-align:center">
+                                <input type="number" name="" id="input_saldo" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" >
+                                </div>
+                                {{-- @break --}}
+                                @endif
+                            </td>
+                            @endforeach
+                            @if (!is_null($mesa->votos_presidenciales_r ))
+                            <td>
+                                <div class="form-group" style="text-align:center">
+                                    <input type="number" name="" id="input_saldo" value="{{$mesa->votos_presidenciales_r->where('id_mesa',$mesa->id_mesa)->pluck('blancos')->first()}}" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group" style="text-align:center">
+                                    <input type="number" name="" id="input_saldo" value="{{$mesa->votos_presidenciales_r->where('id_mesa',$mesa->id_mesa)->pluck('nulos')->first()}}" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="">
+                                </div>
+                            </td>
+                            @else
+                            <td>
+                                <div class="form-group" style="text-align:center">
+                                    <input type="number" name="" id="input_saldo" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group" style="text-align:center">
+                                    <input type="number" name="" id="input_saldo" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="">
+                                </div>
+                            </td>
+                            @endif
+
                             <td><button type="button" class="btn_gestion btn btn-default btn-xs"><i class="fa fa-fw fa-save"></i></button></td>
                         </tr>
-                        @endforeach --}}
+                        @endforeach
                     </tbody>
                 </table>
-			{{-- @if (count($personas) == 0) --}}
+			@if (count($mesas) == 0)
 			<div class="box box-primary col-xs-12">
 				<div class='aprobado' style="margin-top:70px; text-align: center">
 				<label style='color:#177F6B'>
@@ -47,7 +87,7 @@
 				</label>
 				</div>
 			</div>
-			{{-- @endif --}}
+			@endif
 		</div>
 		<!-- /.box-body -->
 	  </div>

@@ -6,39 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use Storage;
+Use App\User;
+Use App\Recinto;
+Use App\Mesa;
 
 class VotacionesController extends Controller
 {
 
   public function form_llenado_emergencia($id_recinto){
-    $mesa =\DB::table('mesas')
-    ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
-    ->leftjoin('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
-    ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
-    ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
-    ->where('mesas.id_recinto', $id_recinto)
-    ->select('recintos.nombre as nombre_recinto', 'mesas.id_mesa', 'recintos.id_recinto',
-    'recintos.circunscripcion', 'recintos.distrito',
-    \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
-    \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
-    'mesas.foto_presidenciales'
-    )
-    ->first();
     
     $partidos = \DB::table('partidos')
     ->orderBy('nivel')
     ->get();
-
-    // $votos_presidenciales = \DB::table('mesas')
-    // ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
-    // ->join('votos_presidenciales', 'mesas.id_mesa', 'votos_presidenciales.id_mesa')
-    // ->join('partidos', 'votos_presidenciales.id_partido', 'partidos.id_partido')
-    // ->where('mesas.id_recinto', $id_recinto)
-    // // ->where('partidos.id_partido', 'votos_presidenciales.id_partido')
-    // ->select('mesas.id_mesa', 'partidos.sigla', 'validos', 'votos_presidenciales.id_partido', 'partidos.sigla'
-    // )
-    // ->orderBy('nivel')
-    // ->get();
 
     $votos_presidenciales = \DB::table('partidos')
     ->join('votos_presidenciales', 'partidos.id_partido', 'votos_presidenciales.id_partido')
@@ -51,41 +30,58 @@ class VotacionesController extends Controller
     ->orderBy('nivel')
     ->get();
 
-
     $detalle_mesas = array();
 
     foreach ($partidos as $partido) {
-        if (count($votos_presidenciales) > 0) {
-            foreach ($votos_presidenciales as $vp) {
-                // $e['id_mesa'] = $votos_presidenciales->id_mesa;
-                if (in_array($partido->id_partido, $votos_presidenciales->pluck('id_partido')->toArray())) {
-                    if($partido->id_partido == $vp->id_partido) {
-                        $e = array();
-                        $e['sigla'] = $vp->sigla;
-                        $e['logo'] = $partido->logo;
-                        $e['nombre_partido'] = $partido->nombre;
-                        $e['validos'] = $vp->validos;
-                        array_push($detalle_mesas, $e);
-                    }
-                } else {
-                    $e = array();
-                    $e['sigla'] = $partido->sigla;
-                    $e['logo'] = $partido->logo;
-                    $e['nombre_partido'] = $partido->nombre;
-                    $e['validos'] = "";
-                    array_push($detalle_mesas, $e);
-                    break;
-                }
+      if (count($votos_presidenciales) > 0) {
+        foreach ($votos_presidenciales as $vp) {
+          // $e['id_mesa'] = $votos_presidenciales->id_mesa;
+
+          if (in_array($partido->id_partido, $votos_presidenciales->pluck('id_partido')->toArray())  ) {
+            if($partido->id_partido == $vp->id_partido) {
+                $e = array();
+                $e['id_partido'] = $partido->id_partido;
+                $e['sigla'] = $vp->sigla;
+                $e['logo'] = $partido->logo;
+                $e['nombre_partido'] = $partido->nombre;
+                $e['validos'] = $vp->validos;
+                $e['id_mesa'] = $vp->id_mesa;
+                $e['id_votos_presidenciales'] = $vp->id_votos_presidenciales;
+                $e['id_recinto'] = $vp->id_recinto;
+                array_push($detalle_mesas, $e);
             }
-        }else{
+          } else {
             $e = array();
+            $e['id_partido'] = $partido->id_partido;
             $e['sigla'] = $partido->sigla;
             $e['logo'] = $partido->logo;
             $e['nombre_partido'] = $partido->nombre;
             $e['validos'] = "";
+            $e['id_mesa'] = "";
+            $e['id_votos_presidenciales'] = "";
+            $e['id_recinto'] = "";
             array_push($detalle_mesas, $e);
+            break;
+          }
         }
+      }else{
+        $e = array();
+        $e['id_partido'] = $partido->id_partido;
+        $e['sigla'] = $partido->sigla;
+        $e['logo'] = $partido->logo;
+        $e['nombre_partido'] = $partido->nombre;
+        $e['validos'] = "";
+        $e['id_mesa'] = "";
+        $e['id_votos_presidenciales'] = "";
+        $e['id_recinto'] = "";
+        array_push($detalle_mesas, $e);
+      }
     }
+
+    // dd($votos_presidenciales);
+    $users = User::all();
+
+    $mesas = Recinto::find($id_recinto)->mesas;
 
     $votos_presidenciales_r = \DB::table('mesas')
     ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
@@ -93,15 +89,15 @@ class VotacionesController extends Controller
     ->where('mesas.id_recinto', $id_recinto)
     ->select('mesas.id_mesa', 'votos_presidenciales_r.nulos', 'votos_presidenciales_r.blancos'
     )
-    ->first();
+    ->get();
     return view("formularios.form_llenado_emergencia")
-      ->with('mesa', $mesa)
+      ->with('mesas', $mesas)
+      ->with('users', $users)
       ->with('votos_presidenciales', $votos_presidenciales)
       ->with('detalle_mesas', $detalle_mesas)
       ->with('votos_presidenciales_r', $votos_presidenciales_r)
       ->with('partidos', $partidos);
   }
-
 
   public function form_votar_seleccionar_mesa(){
     //Tomamos el id del usuario

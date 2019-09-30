@@ -51,7 +51,7 @@
                             <div class="col-md-12">
                             <div class="form-group" style="text-align:center">
                                 <label style='font-size: 20px; color:white; '>Ingrese su número de Carnet</label>
-                                <input style='font-size: 35px; color:black; height: 55px; ' type="number" name="cedula" id="input_cedula" placeholder="" class="form-control" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
+                                <input style='font-size: 35px; color:black; height: 50px; font-weight:bold;' type="number" name="cedula" id="input_cedula" placeholder="" class="form-control" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
                             </div>
                         </div>
                         </div>

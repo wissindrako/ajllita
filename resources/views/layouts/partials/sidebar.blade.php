@@ -135,9 +135,9 @@
             </li>
             @endrole --}}
 
-            @role('responsable_mesa')
-            {{-- <li class="treeview"><a href="{{ url('llenado_mesas_emergencia') }}"><i class='fa fa-check-square-o'></i> Llenado Emergencia</a></li> --}}
-            <li class="treeview" ><a href="javascript:void(0);" onclick="verinfo_mesas({{$personas_logueadas->id_recinto}},10);"><i class="fa fa-circle-o text-red"></i><span> Llenado Emergencia</span></a> </li>
+            @role('responsable_recinto')
+            {{-- <li class="treeview" ><a href="javascript:void(0);" onclick="verinfo_mesas({{$personas_logueadas->id_recinto}},10);"><i class="fa fa-circle-o text-red"></i><span> Llenado Emergencia</span></a> </li> --}}
+            <li class="treeview"><a href="{{ url('form_llenar_mesas_emergencia_tipo') }}"><i class='fa fa-check-square-o'></i> Llenado Emergencia</a></li>
             @endrole
             @can('listado_votacion_recinto')
             <li class="treeview"><a href="{{ url('listado_votacion_recinto') }}"><i class='fa fa-check-square-o'></i> Control de Mesas</a></li>

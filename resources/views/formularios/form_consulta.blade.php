@@ -29,7 +29,7 @@
             <div class="row">
               <div class="col-sm-8 col-sm-offset-2 myform-cont" >
                 
-                     <div class="myform-top" style="text-align:center">
+                    <div class="myform-top" style="text-align:center">
                         <div style="float:center; text-align:center" class="box-body box-profile">
                            <img style="float:center; text-align:center" src="{{ url('img/futuro.png') }}" class="profile-user-img img-responsive" />
                           <h3 style="float:center; color:gray"><b>Consulte que mesa se le asignó para el Control Electoral</b></h3>
@@ -49,11 +49,11 @@
                       <div class="col-md-12"><br></div>
                       <div class="row">
                             <div class="col-md-12">
-                            <div class="form-group" style="text-align:center">
-                                <label style='font-size: 20px; color:white; '>Ingrese su número de Carnet</label>
-                                <input style='font-size: 35px; color:black; height: 50px; font-weight:bold;' type="number" name="cedula" id="input_cedula" placeholder="" class="form-control" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
+                                <div class="form-group" style="text-align:center">
+                                    <label style='font-size: 20px; color:white; '>Ingrese su número de Carnet</label>
+                                    <input style='font-size: 35px; color:black; height: 50px; font-weight:bold;' type="number" name="cedula" id="input_cedula" placeholder="" class="form-control" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
+                                </div>
                             </div>
-                        </div>
                         </div>
 
 

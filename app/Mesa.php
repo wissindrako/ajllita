@@ -8,16 +8,7 @@ class Mesa extends Model
 {
     public $timestamps = false;
     protected $primaryKey = 'id_mesa';
-    /**
-     * Get the votos for the blog Mesa.
-    */
-
-    public function votos_presidenciales()
-    {
-        // return $this->hasMany('App\Comment', 'foreign_key', 'local_key');
-        return $this->hasMany('App\Votos_Presidenciales', 'id_mesa', 'id_mesa');
-    }
-
+    
     /**
      * Obtener el recinto que tiene una Mesa
     */
@@ -28,13 +19,39 @@ class Mesa extends Model
     }
 
     /**
+     * Get the votos for the blog Mesa.
+    */
+    public function votos_presidenciales()
+    {
+        // return $this->hasMany('App\Comment', 'foreign_key', 'local_key');
+        return $this->hasMany('App\Votos_Presidenciales', 'id_mesa', 'id_mesa');
+    }
+
+    /**
      * Obtener los blancos y nulos pertenecientes a una mesa.
     */
-
     public function votos_presidenciales_r()
     {
         // return $this->hasMany('App\Comment', 'foreign_key', 'local_key');
         return $this->hasOne('App\Votos_Presidenciales_r', 'id_mesa', 'id_mesa');
+    }
+
+    /**
+     * Get the votos for the blog Mesa.
+    */
+    public function votos_uninominales()
+    {
+        // return $this->hasMany('App\Comment', 'foreign_key', 'local_key');
+        return $this->hasMany('App\Votos_Uninominales', 'id_mesa', 'id_mesa');
+    }
+
+    /**
+     * Obtener los blancos y nulos pertenecientes a una mesa.
+    */
+    public function votos_uninominales_r()
+    {
+        // return $this->hasMany('App\Comment', 'foreign_key', 'local_key');
+        return $this->hasOne('App\Votos_Uninominales_r', 'id_mesa', 'id_mesa');
     }
 
 }

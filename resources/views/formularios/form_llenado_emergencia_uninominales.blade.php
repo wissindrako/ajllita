@@ -1,6 +1,5 @@
 <section  id="content" style="background-color: #002640;">
 
-
         <div class="box box-primary">
                 <div class="box-header" style="text-align:center">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cerrar_modal"><span aria-hidden="true">&times;</span></button>

@@ -109,11 +109,11 @@
         
                                         @if ($mesa->votos_uninominales->where('id_partido',$partido->id_partido)->pluck('id_partido')->first() )
                                         <div class="form-group" style="text-align:center">
-                                        <input type="number" name="" id="partido_{{$partido->id_partido}}" min="0" value="{{$mesa->votos_uninominales->where('id_partido',$partido->id_partido)->pluck('validos')->first()}}" style='width: 80px;'>
+                                        <input type="number" name="" id="partido_{{$partido->id_partido}}" min="0" value="{{$mesa->votos_uninominales->where('id_partido',$partido->id_partido)->pluck('validos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
                                         </div>
                                         @else
                                         <div class="form-group" style="text-align:center">
-                                        <input type="number" name="" id="partido_{{$partido->id_partido}}" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" >
+                                        <input type="number" name="" id="partido_{{$partido->id_partido}}" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69">
                                         </div>
                                         {{-- @break --}}
                                         @endif
@@ -122,23 +122,23 @@
                                     @if (!is_null($mesa->votos_uninominales_r ))
                                     <td>
                                         <div class="form-group" style="text-align:center">
-                                            <input type="number" name="" id="blancos" min="0" value="{{$mesa->votos_uninominales_r->where('id_mesa',$mesa->id_mesa)->pluck('blancos')->first()}}" style='width: 80px;'>
+                                            <input type="number" name="" id="blancos" min="0" value="{{$mesa->votos_uninominales_r->where('id_mesa',$mesa->id_mesa)->pluck('blancos')->first()}}" style='width: 80px;' pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group" style="text-align:center">
-                                            <input type="number" name="" id="nulos" min="0" value="{{$mesa->votos_uninominales_r->where('id_mesa',$mesa->id_mesa)->pluck('nulos')->first()}}" style='width: 80px;'>
+                                            <input type="number" name="" id="nulos" min="0" value="{{$mesa->votos_uninominales_r->where('id_mesa',$mesa->id_mesa)->pluck('nulos')->first()}}" style='width: 80px;' pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69">
                                         </div>
                                     </td>
                                     @else
                                     <td>
                                         <div class="form-group" style="text-align:center">
-                                            <input type="number" name="" id="blancos" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="">
+                                            <input type="number" name="" id="blancos" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" >
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group" style="text-align:center">
-                                            <input type="number" name="" id="nulos" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="">
+                                            <input type="number" name="" id="nulos" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" >
                                         </div>
                                     </td>
                                     @endif

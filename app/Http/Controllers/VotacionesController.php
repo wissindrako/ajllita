@@ -12,91 +12,219 @@ Use App\Mesa;
 
 class VotacionesController extends Controller
 {
+  public function form_llenar_mesas_emergencia_tipo(){
 
+    return view("formularios.form_llenar_mesas_emergencia_tipo");
+  }
+
+  //PRESIDENCIALES
   public function form_llenado_emergencia($id_recinto){
     
+    $recinto = Recinto::find($id_recinto);
+
     $partidos = \DB::table('partidos')
     ->orderBy('nivel')
     ->get();
 
-    $votos_presidenciales = \DB::table('partidos')
-    ->join('votos_presidenciales', 'partidos.id_partido', 'votos_presidenciales.id_partido')
-    ->join('mesas', 'votos_presidenciales.id_mesa', 'mesas.id_mesa')
-    ->where('mesas.id_recinto', $id_recinto)
-    ->select('partidos.id_partido', 'partidos.sigla', 'partidos.nombre as nombre_partido', 'partidos.logo', 
-    'votos_presidenciales.validos', 'votos_presidenciales.id_mesa', 'votos_presidenciales.id_votos_presidenciales',
-    'mesas.id_recinto'
-    )
-    ->orderBy('nivel')
-    ->get();
-
-    $detalle_mesas = array();
-
-    foreach ($partidos as $partido) {
-      if (count($votos_presidenciales) > 0) {
-        foreach ($votos_presidenciales as $vp) {
-          // $e['id_mesa'] = $votos_presidenciales->id_mesa;
-
-          if (in_array($partido->id_partido, $votos_presidenciales->pluck('id_partido')->toArray())  ) {
-            if($partido->id_partido == $vp->id_partido) {
-                $e = array();
-                $e['id_partido'] = $partido->id_partido;
-                $e['sigla'] = $vp->sigla;
-                $e['logo'] = $partido->logo;
-                $e['nombre_partido'] = $partido->nombre;
-                $e['validos'] = $vp->validos;
-                $e['id_mesa'] = $vp->id_mesa;
-                $e['id_votos_presidenciales'] = $vp->id_votos_presidenciales;
-                $e['id_recinto'] = $vp->id_recinto;
-                array_push($detalle_mesas, $e);
-            }
-          } else {
-            $e = array();
-            $e['id_partido'] = $partido->id_partido;
-            $e['sigla'] = $partido->sigla;
-            $e['logo'] = $partido->logo;
-            $e['nombre_partido'] = $partido->nombre;
-            $e['validos'] = "";
-            $e['id_mesa'] = "";
-            $e['id_votos_presidenciales'] = "";
-            $e['id_recinto'] = "";
-            array_push($detalle_mesas, $e);
-            break;
-          }
-        }
-      }else{
-        $e = array();
-        $e['id_partido'] = $partido->id_partido;
-        $e['sigla'] = $partido->sigla;
-        $e['logo'] = $partido->logo;
-        $e['nombre_partido'] = $partido->nombre;
-        $e['validos'] = "";
-        $e['id_mesa'] = "";
-        $e['id_votos_presidenciales'] = "";
-        $e['id_recinto'] = "";
-        array_push($detalle_mesas, $e);
-      }
-    }
-
-    // dd($votos_presidenciales);
     $users = User::all();
 
     $mesas = Recinto::find($id_recinto)->mesas;
 
-    $votos_presidenciales_r = \DB::table('mesas')
-    ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
-    ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
-    ->where('mesas.id_recinto', $id_recinto)
-    ->select('mesas.id_mesa', 'votos_presidenciales_r.nulos', 'votos_presidenciales_r.blancos'
-    )
-    ->get();
     return view("formularios.form_llenado_emergencia")
       ->with('mesas', $mesas)
+      ->with('recinto', $recinto)
       ->with('users', $users)
-      ->with('votos_presidenciales', $votos_presidenciales)
-      ->with('detalle_mesas', $detalle_mesas)
-      ->with('votos_presidenciales_r', $votos_presidenciales_r)
       ->with('partidos', $partidos);
+  }
+
+  //UNINOMINALES
+  public function form_llenado_emergencia_uninominales($id_recinto){
+    
+    $recinto = Recinto::find($id_recinto);
+
+    $partidos = \DB::table('partidos')
+    ->orderBy('nivel')
+    ->get();
+
+    $users = User::all();
+
+    $mesas = Recinto::find($id_recinto)->mesas;
+
+    return view("formularios.form_llenado_emergencia_uninominales")
+      ->with('mesas', $mesas)
+      ->with('recinto', $recinto)
+      ->with('users', $users)
+      ->with('partidos', $partidos);
+  }
+
+  public function llenado_emergencia(Request $request){
+    // $a = 0;
+    // while ($a < 10) {
+    //   $a++;
+    // }
+
+    if ($request->partido_1 == "") { # code...
+    } else {
+      // return \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)->get();
+      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)->get()) > 0) {
+        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)
+      ->update(['validos' => $request->partido_1, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_presidenciales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 1,
+          'validos' => $request->partido_1,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_2 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 2)->get()) > 0) {
+        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 2)
+      ->update(['validos' => $request->partido_2, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_presidenciales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 2,
+          'validos' => $request->partido_2,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_3 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 3)->get()) > 0) {
+        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 3)
+      ->update(['validos' => $request->partido_3, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_presidenciales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 3,
+          'validos' => $request->partido_3,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_4 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 4)->get()) > 0) {
+        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 4)
+      ->update(['validos' => $request->partido_4, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_presidenciales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 4,
+          'validos' => $request->partido_4,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_5 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 5)->get()) > 0) {
+        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 5)
+      ->update(['validos' => $request->partido_5, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_presidenciales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 5,
+          'validos' => $request->partido_5,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_6 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 6)->get()) > 0) {
+        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 6)
+      ->update(['validos' => $request->partido_6, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_presidenciales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 6,
+          'validos' => $request->partido_6,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_7 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 7)->get()) > 0) {
+        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 7)
+      ->update(['validos' => $request->partido_7, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_presidenciales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 7,
+          'validos' => $request->partido_7,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_8 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 8)->get()) > 0) {
+        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 8)
+      ->update(['validos' => $request->partido_8, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_presidenciales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 8,
+          'validos' => $request->partido_8,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_9 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 9)->get()) > 0) {
+        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 9)
+      ->update(['validos' => $request->partido_9, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_presidenciales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 9,
+          'validos' => $request->partido_9,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->blancos == "" && $request->nulos == "") { # code...
+    } else {
+      if (count(\DB::table('votos_presidenciales_r')->where('id_mesa', $request->id_mesa)->get()) > 0) {
+        \DB::table('votos_presidenciales_r')->where('id_mesa', $request->id_mesa)
+      ->update(['blancos' => $request->blancos, 'nulos' => $request->nulos, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_presidenciales_r')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'blancos' => $request->blancos,
+          'nulos' => $request->nulos,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+
+    
+
+    // if($a->save())
+    // {
+    //     return 'ok' ;
+    // }
+    // else
+    // {
+    //     return 'failed' ;
+    // }
   }
 
   public function form_votar_seleccionar_mesa(){

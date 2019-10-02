@@ -68,6 +68,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('listado_personas_asignacion', 'PersonasController@listado_personas_asignacion');
     Route::resource('buscar_persona_asignacion', 'PersonasController@buscar_persona_asignacion');
+
+    Route::post('detalle_editar_mesa', 'MesasController@detalle_editar_mesa');
+    Route::post('detalle_editar_mesa_r', 'MesasController@detalle_editar_mesa_r');
+    Route::post('detalle_editar_mesa_uninominal', 'MesasController@detalle_editar_mesa_uninominal');
+    Route::post('detalle_editar_mesa_uninominal_r', 'MesasController@detalle_editar_mesa_uninominal_r');
+
     Route::get('form_mesas_recinto', 'MesasController@form_mesas_recinto');
     Route::post('asignar_mesas_recinto', 'MesasController@asignar_mesas_recinto');
 
@@ -133,6 +139,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('registrar_asistencia', 'AsistenciasController@registrar_asistencia');
     Route::post('registrar_falta', 'AsistenciasController@registrar_falta');
 
+    //Votaciones
+    Route::post('llenado_emergencia', 'VotacionesController@llenado_emergencia');
+    Route::get('form_llenar_mesas_emergencia_tipo', 'VotacionesController@form_llenar_mesas_emergencia_tipo');
+
+    Route::get('form_llenado_emergencia/{id_recinto}', 'VotacionesController@form_llenado_emergencia');
+    Route::get('form_llenado_emergencia_uninominales/{id_recinto}', 'VotacionesController@form_llenado_emergencia_uninominales');
+
 
     Route::get('form_votar_seleccionar_mesa', 'VotacionesController@form_votar_seleccionar_mesa');
     Route::post('form_votar_seleccionar_tipo', 'VotacionesController@form_votar_seleccionar_tipo');
@@ -151,7 +164,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('form_votar_uninominal_subir_imagen', 'VotacionesController@form_votar_uninominal_subir_imagen');
     Route::post('votar_uninominal_subir_imagen', 'VotacionesController@votar_uninominal_subir_imagen');
 
-    Route::get('form_llenado_emergencia/{id_recinto}', 'VotacionesController@form_llenado_emergencia');
 
 
 

@@ -79,7 +79,7 @@
 				<td style="text-align:right;">{{$votos_pre + $b_n}}</td> {{-- Registrados --}}
 				<td style="text-align:right;">{{($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Esperados --}}
 				<td style="text-align:right;">{{($cantidad_partidos+1)}}</td> {{-- Total --}}
-				@if ($votos_pre + $b_n < $cantidad_partidos)
+				@if ($votos_pre + $b_n < $cantidad_partidos+1)
 				<td style="text-align:center;"><a href="javascript:void(0);" onclick="verinfo_mesas({{ $mesa->id_mesa }}, 1)">
 					<span class="badge bg-red">Incompleto</span></a>
 				</td>	
@@ -109,10 +109,10 @@
 				<td style="text-align:right;">{{($cantidad_partidos+1) - ($votos_uni + $uni_b_n)}}</td> {{-- Esperados --}}
 				<td style="text-align:right;">{{($cantidad_partidos+1)}}</td> {{-- Total --}}
 
-				@if ($votos_uni + $uni_b_n < $cantidad_partidos)
+				@if ($votos_uni + $uni_b_n < $cantidad_partidos+1)
 				<td style="text-align:center;"><a href="javascript:void(0);" onclick="verinfo_mesas({{ $mesa->id_mesa }}, 2)">
-						<span class="badge bg-red">Incompleto</span></a>
-					</td>
+					<span class="badge bg-red">Incompleto</span></a>
+				</td>
 				@else
 				<td style="text-align:center;"><a href="javascript:void(0);" onclick="verinfo_mesas({{ $mesa->id_mesa }}, 2)">
 					<span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;</span>

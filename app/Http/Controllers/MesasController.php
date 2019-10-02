@@ -22,6 +22,116 @@ use App\UsuarioCasaCampana;
 
 class MesasController extends Controller
 {
+    public function detalle_editar_mesa(Request $request){
+        if ($request->input_voto == "") { # code...
+            return 'sin_valor';
+        } else {
+          // return \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)->get();
+          if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', $request->id_partido)->get()) > 0) {
+            \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', $request->id_partido)
+          ->update(['validos' => $request->input_voto, 'id_usuario' => Auth::user()->id]);
+          } else {
+            //Realizamos el registro
+            \DB::table('votos_presidenciales')->insert([
+              ['id_mesa' => $request->id_mesa,
+              'id_partido' => $request->id_partido,
+              'validos' => $request->input_voto,
+              'id_usuario' => Auth::user()->id]
+            ]);
+          }
+        }
+    }
+
+    public function detalle_editar_mesa_r(Request $request){
+        if ($request->input_voto_bn == "") { # code...
+            return 'sin_valor';
+        } else {
+          // return \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)->get();
+          if (count(\DB::table('votos_presidenciales_r')->where('id_mesa', $request->id_mesa)->get()) > 0) {
+            if ($request->blanco_nulo == "BLANCO") {
+                \DB::table('votos_presidenciales_r')->where('id_mesa', $request->id_mesa)
+                ->update(['blancos' => $request->input_voto_bn, 'id_usuario' => Auth::user()->id]);
+            } else {
+                \DB::table('votos_presidenciales_r')->where('id_mesa', $request->id_mesa)
+                ->update(['nulos' => $request->input_voto_bn, 'id_usuario' => Auth::user()->id]);
+            }
+          } else {
+            //Realizamos el registro
+            if ($request->blanco_nulo == "BLANCO") {
+                \DB::table('votos_presidenciales_r')->insert([
+                ['id_mesa' => $request->id_mesa,
+                'blancos' => $request->input_voto_bn,
+                'nulos' => "",
+                'id_usuario' => Auth::user()->id]
+                ]);
+            } else {
+                \DB::table('votos_presidenciales_r')->insert([
+                ['id_mesa' => $request->id_mesa,
+                'blancos' => "",
+                'nulos' => $request->input_voto_bn,
+                'id_usuario' => Auth::user()->id]
+                ]);
+            }
+            
+          }
+        }
+    }
+
+    public function detalle_editar_mesa_uninominal(Request $request){
+        if ($request->input_voto == "") { # code...
+            return 'sin_valor';
+        } else {
+          // return \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)->get();
+          if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', $request->id_partido)->get()) > 0) {
+            \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', $request->id_partido)
+          ->update(['validos' => $request->input_voto, 'id_usuario' => Auth::user()->id]);
+          } else {
+            //Realizamos el registro
+            \DB::table('votos_uninominales')->insert([
+              ['id_mesa' => $request->id_mesa,
+              'id_partido' => $request->id_partido,
+              'validos' => $request->input_voto,
+              'id_usuario' => Auth::user()->id]
+            ]);
+          }
+        }
+    }
+
+    public function detalle_editar_mesa_uninominal_r(Request $request){
+        if ($request->input_voto_bn == "") { # code...
+            return 'sin_valor';
+        } else {
+          // return \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)->get();
+          if (count(\DB::table('votos_uninominales_r')->where('id_mesa', $request->id_mesa)->get()) > 0) {
+            if ($request->blanco_nulo == "BLANCO") {
+                \DB::table('votos_uninominales_r')->where('id_mesa', $request->id_mesa)
+                ->update(['blancos' => $request->input_voto_bn, 'id_usuario' => Auth::user()->id]);
+            } else {
+                \DB::table('votos_uninominales_r')->where('id_mesa', $request->id_mesa)
+                ->update(['nulos' => $request->input_voto_bn, 'id_usuario' => Auth::user()->id]);
+            }
+          } else {
+            //Realizamos el registro
+            if ($request->blanco_nulo == "BLANCO") {
+                \DB::table('votos_uninominales_r')->insert([
+                ['id_mesa' => $request->id_mesa,
+                'blancos' => $request->input_voto_bn,
+                'nulos' => "",
+                'id_usuario' => Auth::user()->id]
+                ]);
+            } else {
+                \DB::table('votos_uninominales_r')->insert([
+                ['id_mesa' => $request->id_mesa,
+                'blancos' => "",
+                'nulos' => $request->input_voto_bn,
+                'id_usuario' => Auth::user()->id]
+                ]);
+            }
+            
+          }
+        }
+    }
+
     public function form_asignar_usuario_mesa($id_persona){
         $persona = \DB::table('personas')
         ->join('recintos', 'personas.id_recinto', 'recintos.id_recinto')
@@ -97,7 +207,7 @@ class MesasController extends Controller
         ->join('partidos', 'votos_presidenciales.id_partido', 'partidos.id_partido')
         ->where('mesas.id_mesa', $id_mesa)
         // ->where('partidos.id_partido', 'votos_presidenciales.id_partido')
-        ->select('mesas.id_mesa', 'partidos.sigla', 'validos', 'votos_presidenciales.id_partido', 'partidos.sigla'
+        ->select('mesas.id_mesa', 'partidos.sigla', 'validos', 'votos_presidenciales.id_partido', 'votos_presidenciales.id_votos_presidenciales',  'partidos.sigla'
         )
         ->orderBy('nivel')
         ->get();
@@ -111,6 +221,8 @@ class MesasController extends Controller
                     if (in_array($partido->id_partido, $votos_presidenciales->pluck('id_partido')->toArray())) {
                         if($partido->id_partido == $vp->id_partido) {
                             $e = array();
+                            $e['id_votos_presidenciales'] = $vp->id_votos_presidenciales;
+                            $e['id_partido'] = $vp->id_partido;
                             $e['sigla'] = $vp->sigla;
                             $e['logo'] = $partido->logo;
                             $e['nombre_partido'] = $partido->nombre;
@@ -119,6 +231,8 @@ class MesasController extends Controller
                         }
                     } else {
                         $e = array();
+                        $e['id_votos_presidenciales'] = "";
+                        $e['id_partido'] = $partido->id_partido;
                         $e['sigla'] = $partido->sigla;
                         $e['logo'] = $partido->logo;
                         $e['nombre_partido'] = $partido->nombre;
@@ -129,6 +243,8 @@ class MesasController extends Controller
                 }
             }else{
                 $e = array();
+                $e['id_votos_presidenciales'] = "";
+                $e['id_partido'] = $partido->id_partido;
                 $e['sigla'] = $partido->sigla;
                 $e['logo'] = $partido->logo;
                 $e['nombre_partido'] = $partido->nombre;
@@ -141,7 +257,7 @@ class MesasController extends Controller
         ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
         ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
         ->where('mesas.id_mesa', $id_mesa)
-        ->select('mesas.id_mesa', 'votos_presidenciales_r.nulos', 'votos_presidenciales_r.blancos'
+        ->select('mesas.id_mesa', 'votos_presidenciales_r.nulos', 'votos_presidenciales_r.blancos', 'votos_presidenciales_r.id_votos_presidenciales_r'
         )
         ->first();
 
@@ -178,7 +294,7 @@ class MesasController extends Controller
         ->join('partidos', 'votos_uninominales.id_partido', 'partidos.id_partido')
         ->where('mesas.id_mesa', $id_mesa)
         // ->where('partidos.id_partido', 'votos_uninominales.id_partido')
-        ->select('mesas.id_mesa', 'partidos.sigla', 'validos', 'votos_uninominales.id_partido', 'partidos.sigla'
+        ->select('mesas.id_mesa', 'partidos.sigla', 'validos', 'votos_uninominales.id_partido', 'partidos.sigla', 'votos_uninominales.id_votos_uninominales'
         )
         ->orderBy('nivel')
         ->get();
@@ -192,6 +308,8 @@ class MesasController extends Controller
                     if (in_array($partido->id_partido, $votos_uninominales->pluck('id_partido')->toArray())) {
                         if($partido->id_partido == $vp->id_partido) {
                             $e = array();
+                            $e['id_votos_uninominales'] = $vp->id_votos_uninominales;
+                            $e['id_partido'] = $vp->id_partido;
                             $e['sigla'] = $vp->sigla;
                             $e['logo'] = $partido->logo;
                             $e['nombre_partido'] = $partido->nombre;
@@ -200,6 +318,8 @@ class MesasController extends Controller
                         }
                     } else {
                         $e = array();
+                        $e['id_votos_uninominales'] = "";
+                        $e['id_partido'] = $partido->id_partido;
                         $e['sigla'] = $partido->sigla;
                         $e['logo'] = $partido->logo;
                         $e['nombre_partido'] = $partido->nombre;
@@ -210,6 +330,8 @@ class MesasController extends Controller
                 }
             }else{
                 $e = array();
+                $e['id_votos_uninominales'] = "";
+                $e['id_partido'] = $partido->id_partido;
                 $e['sigla'] = $partido->sigla;
                 $e['logo'] = $partido->logo;
                 $e['nombre_partido'] = $partido->nombre;
@@ -222,7 +344,7 @@ class MesasController extends Controller
         ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
         ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
         ->where('mesas.id_mesa', $id_mesa)
-        ->select('mesas.id_mesa', 'votos_uninominales_r.nulos', 'votos_uninominales_r.blancos'
+        ->select('mesas.id_mesa', 'votos_uninominales_r.nulos', 'votos_uninominales_r.blancos', 'votos_uninominales_r.id_votos_uninominales_r'
         )
         ->first();
 

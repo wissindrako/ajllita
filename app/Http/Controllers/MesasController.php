@@ -526,6 +526,7 @@ class MesasController extends Controller
         \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
         \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
         )
+        ->orderBy('mesas.id_mesa')
         ->get();
 
         $votos_presidenciales = \DB::table('mesas')

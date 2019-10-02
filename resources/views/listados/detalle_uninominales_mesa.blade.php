@@ -44,7 +44,7 @@
 							{{-- <h2><b>{{$p['validos']}}</b></h2> --}}
 							<input type="hidden" name="" id="id_votos_uninominales" value="{{$p['id_votos_uninominales']}}">
 							<input type="hidden" name="" id="id_partido" value="{{$p['id_partido']}}">
-							<input style='font-size: 35px; color:black; height: 50px; font-weight:bold;' type="number" name="input_voto" id="input_voto" placeholder="" class="input_voto form-control" value="{{$p['validos']}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
+							<input style='font-size: 35px; color:black; height: 50px; font-weight:bold; text-align:center' type="number" name="input_voto" id="input_voto" placeholder="" class="input_voto form-control" value="{{$p['validos']}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
 							
 						</td>
 						<td>
@@ -73,7 +73,7 @@
 						<td style="text-align:center;">
 							<input type="hidden" name="" id="blanco_nulo" value="BLANCO">
 							<input type="hidden" name="" id="id_votos_uninominales_r" value="">
-							<input style='font-size: 35px; color:black; height: 50px; font-weight:bold;' type="number" name="input_voto_bn" id="input_voto_bn" placeholder="" class="input_voto form-control" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
+							<input style='font-size: 35px; color:black; height: 50px; font-weight:bold; text-align:center' type="number" name="input_voto_bn" id="input_voto_bn" placeholder="" class="input_voto form-control" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
 						</td>
 						<td>
 							<button type="button" class="btn_blanco_nulo btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i> Guardar</button>
@@ -82,7 +82,7 @@
 						<td style="text-align:center;">
 							<input type="hidden" name="" id="blanco_nulo" value="BLANCO">
 							<input type="hidden" name="" id="id_votos_uninominales_r" value="{{$votos_uninominales_r->id_votos_uninominales_r}}">
-							<input style='font-size: 35px; color:black; height: 50px; font-weight:bold;' type="number" name="input_voto_bn" id="input_voto_bn" placeholder="" class="input_voto form-control" value="{{$votos_uninominales_r->blancos}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
+							<input style='font-size: 35px; color:black; height: 50px; font-weight:bold; text-align:center' type="number" name="input_voto_bn" id="input_voto_bn" placeholder="" class="input_voto form-control" value="{{$votos_uninominales_r->blancos}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
 						</td>
 						<td>
 							<button type="button" class="btn_blanco_nulo btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i> Guardar</button>
@@ -104,7 +104,7 @@
 					<td style="text-align:center;">
 						<input type="hidden" name="" id="blanco_nulo" value="NULO">
 						<input type="hidden" name="" id="id_votos_uninominales_r" value="">
-						<input style='font-size: 35px; color:black; height: 50px; font-weight:bold;' type="number" name="input_voto_bn" id="input_voto_bn" placeholder="" class="input_voto form-control" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
+						<input style='font-size: 35px; color:black; height: 50px; font-weight:bold; text-align:center' type="number" name="input_voto_bn" id="input_voto_bn" placeholder="" class="input_voto form-control" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
 					</td>
 					<td>
 						<button type="button" class="btn_blanco_nulo btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i> Guardar</button>
@@ -113,7 +113,7 @@
 					<td style="text-align:center;">
 						<input type="hidden" name="" id="blanco_nulo" value="NULO">
 						<input type="hidden" name="" id="id_votos_uninominales_r" value="{{$votos_uninominales_r->id_votos_uninominales_r}}">
-						<input style='font-size: 35px; color:black; height: 50px; font-weight:bold;' type="number" name="input_voto_bn" id="input_voto_bn" placeholder="" class="input_voto form-control" value="{{$votos_uninominales_r->nulos}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
+						<input style='font-size: 35px; color:black; height: 50px; font-weight:bold; text-align:center' type="number" name="input_voto_bn" id="input_voto_bn" placeholder="" class="input_voto form-control" value="{{$votos_uninominales_r->nulos}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
 					</td>
 					<td>
 						<button type="button" class="btn_blanco_nulo btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i> Guardar</button>

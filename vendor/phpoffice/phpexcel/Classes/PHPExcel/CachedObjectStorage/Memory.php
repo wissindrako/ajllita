@@ -52,6 +52,8 @@ class PHPExcel_CachedObjectStorage_Memory extends PHPExcel_CachedObjectStorage_C
      * @throws	PHPExcel_Exception
      */
 	public function addCacheData($pCoord, PHPExcel_Cell $cell) {
+		//Memory.php **SOLUCIONA PROBLEMA DE MEMORIA AL GENERAR EXCEL**
+		ini_set('memory_limit', '-1');
 		$this->_cellCache[$pCoord] = $cell;
 
 		//	Set current entry to the new/updated entry

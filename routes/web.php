@@ -23,6 +23,9 @@ Route::get('/', function () {
 Route::get('form_consulta', 'ConsultasController@form_consulta');
 Route::get('consultaMesaAsignada/{recinto}', 'ConsultasController@consultaMesaAsignada');
 
+Route::get('delegados_mesa', 'ExcelController@delegados_mesa');
+Route::get('test_page', 'ExcelController@test_page');
+
 Route::get('form_pruebas', 'PruebasController@form_pruebas');
 
 Auth::routes();

@@ -208,6 +208,12 @@
                 </ul>
             </li>
             @endrole
+
+            @can('exportar_asignacion_delegados_excel')
+            {{-- <li class="treeview"><a href="{{ url('delegados_mesa') }}"><i class='fa fa-file-excel-o text-green'></i> Asignación de Delegados</a></li> --}}
+            <li class="treeview"><a href="{{ url('form_asignacion_delegado_excel') }}"><i class='fa fa-file-excel-o text-green'></i> Asignación de Delegados</a></li>
+            @endcan
+
             @role('ejecutivo')
             <li class="treeview">
                 <a href="#"><i class='fa fa-file-pdf-o'></i> <span>Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -218,7 +224,7 @@
             </li>
             @endrole
 
-{{-- 
+            {{-- 
             <li class="treeview">
                 <a href="{{ url('home') }}"><i class='fa fa-file-video-o'></i> <span>Tutorial</span> </a>
             </li> --}}

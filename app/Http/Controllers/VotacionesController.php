@@ -7,9 +7,11 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Storage;
 use Illuminate\Support\Facades\Validator;
+use Image;
 Use App\User;
 Use App\Recinto;
 Use App\Mesa;
+use FontLib\EOT\File;
 
 class VotacionesController extends Controller
 {
@@ -509,6 +511,7 @@ class VotacionesController extends Controller
 
   public function votar_presidencial_subir_imagen(Request $request){
 
+    //Primero validamos el archivo
     $reglas=[ 
       'archivo'  => 'required | mimes:jpg,jpeg,gif,png,bmp | max:2048000'
     ];
@@ -518,6 +521,12 @@ class VotacionesController extends Controller
       'archivo.mimes' => 'El archivo debe ser un archivo con formato: jpg, jpeg, gif, png, bmp.',
       'archivo.max' => 'El archivo Supera el tamaño máximo permitido',
     ];
+
+    $recinto= \DB::table('mesas')
+    ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+    ->where('mesas.id_mesa', $request->id_mesa)
+    ->select('recintos.circunscripcion', 'recintos.distrito', 'recintos.distrito_referencial', 'mesas.id_mesa')
+    ->first();
 
     $validator = Validator::make( $request->all(),$reglas,$mensajes );
     if( $validator->fails() ){ 
@@ -536,18 +545,24 @@ class VotacionesController extends Controller
         $archivo = $request->file('archivo');
         $mime = $archivo->getMimeType();
         $extension=strtolower($archivo->getClientOriginalExtension());
-        $nuevo_nombre="presidencial-id_mesa_".$request->id_mesa;
-        // $mi_imagen = public_path().'/storage/media/foto_presidenciales/'.$nuevo_nombre;
-        // if (@getimagesize($mi_imagen)) {
-        //   return $nuevo_nombre;
-        // }
-        // else
-        // {
-        //   echo $mi_imagen." - ";
-        // }
-        $r1=Storage::disk('media/foto_presidenciales')->put($nuevo_nombre, \File::get($archivo));
+
+        $nuevo_nombre="presidencial-C".$recinto->circunscripcion."-D".$recinto->distrito."-Mesa-".$recinto->id_mesa;
+
+        $file = $request->file('archivo');
+
+        $image = Image::make($file->getRealPath());
+        
+         //reducimos la calidad y cambiamos la dimensiones de la nueva instancia.
+        $image->resize(1280, null, function ($constraint) {
+          $constraint->aspectRatio();
+          $constraint->upsize();
+        });
+        $image->orientate();
+
         $rutadelaimagen="../storage/media/foto_presidenciales/".$nuevo_nombre;
-        if ($r1){
+        
+        if ($image->save($rutadelaimagen)){
+
           //Introducimos la ruta en la BD
           \DB::table('mesas')
                 ->where('id_mesa', $request->id_mesa)
@@ -661,6 +676,7 @@ class VotacionesController extends Controller
   }
 
   public function votar_uninominal_partido(Request $request){
+
     //Verificamos si se hizo el registro previamente
     $id_votos_uninominales = \DB::table('votos_uninominales')
                 ->where('id_mesa', $request->id_mesa)
@@ -822,6 +838,8 @@ class VotacionesController extends Controller
 
 
   public function votar_uninominal_subir_imagen(Request $request){
+    
+    //Primero validamos el archivo
     $reglas=[ 
       'archivo'  => 'required | mimes:jpg,jpeg,gif,png,bmp | max:2048000'
     ];
@@ -831,6 +849,12 @@ class VotacionesController extends Controller
       'archivo.mimes' => 'El archivo debe ser un archivo con formato: jpg, jpeg, gif, png, bmp.',
       'archivo.max' => 'El archivo Supera el tamaño máximo permitido',
     ];
+
+    $recinto= \DB::table('mesas')
+    ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+    ->where('mesas.id_mesa', $request->id_mesa)
+    ->select('recintos.circunscripcion', 'recintos.distrito', 'recintos.distrito_referencial', 'mesas.id_mesa')
+    ->first();
 
     $validator = Validator::make( $request->all(),$reglas,$mensajes );
     if( $validator->fails() ){ 
@@ -843,15 +867,27 @@ class VotacionesController extends Controller
       ->withErrors($validator)
       ->withInput($request->flash());
     }
+
     //Subimos el archivo
     if($request->file('archivo') != ""){
         $archivo = $request->file('archivo');
         $mime = $archivo->getMimeType();
         $extension=strtolower($archivo->getClientOriginalExtension());
-        $nuevo_nombre="uninominal-id_mesa_".$request->id_mesa;
-        $r1=Storage::disk('media/foto_uninominales')->put($nuevo_nombre, \File::get($archivo) );
+        $nuevo_nombre="uninominal-C".$recinto->circunscripcion."-D".$recinto->distrito."-Mesa-".$recinto->id_mesa;
+        $file = $request->file('archivo');
+
+        $image = Image::make($file->getRealPath());
+        
+         //reducimos la calidad y cambiamos la dimensiones de la nueva instancia.
+        $image->resize(1280, null, function ($constraint) {
+          $constraint->aspectRatio();
+          $constraint->upsize();
+        });
+        $image->orientate();
+
         $rutadelaimagen="../storage/media/foto_uninominales/".$nuevo_nombre;
-        if ($r1){
+
+        if ($image->save($rutadelaimagen)){
           //Introducimos la ruta en la BD
           \DB::table('mesas')
                 ->where('id_mesa', $request->id_mesa)

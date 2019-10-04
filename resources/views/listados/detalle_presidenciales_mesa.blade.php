@@ -19,10 +19,10 @@
 				<tr>			
 						
 					{{-- <th># Recinto</th> --}}
-					<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-1">Partido</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-1">Votos</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-1"></th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-9">Foto del Acta</th>
+					<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-2">Partido</th>
+					<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-2">Votos</th>
+					<th style="background-color:#3c8dbc; text-align:center; color:white" class=""></th>
+					<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-8">Foto del Acta</th>
 				</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}
@@ -48,11 +48,11 @@
 					
 				</td>
 				<td>
-					<button type="button" class="btn_partido btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i> Guardar</button>
+					<button type="button" class="btn_partido btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i></button>
 				</td>
 				@if ($key == 0)
 					@if ($mesa->foto_presidenciales != "")
-					<td rowspan="9"><img class="img-responsive" src="{{ $mesa->foto_presidenciales }}" alt="Foto del Acta"></td>
+					<td rowspan="9"><img class="img-responsive" src="{{ $mesa->foto_presidenciales }}" style="width:100%;height:800px;" alt="Foto del Acta"></td>
 					@else
 					<td  style="text-align:center;" rowspan="9">No se cargó la foto aún...!</td>
 					@endif
@@ -76,7 +76,7 @@
 					<input style='font-size: 35px; color:black; height: 50px; font-weight:bold; text-align:center' type="number" name="input_voto_bn" id="input_voto_bn" placeholder="" class="input_voto form-control" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
 				</td>
 				<td>
-					<button type="button" class="btn_blanco_nulo btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i> Guardar</button>
+					<button type="button" class="btn_blanco_nulo btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i></button>
 				</td>
 				@else
 				<td style="text-align:center;">
@@ -85,7 +85,7 @@
 					<input style='font-size: 35px; color:black; height: 50px; font-weight:bold; text-align:center' type="number" name="input_voto_bn" id="input_voto_bn" placeholder="" class="input_voto form-control" value="{{$votos_presidenciales_r->blancos}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
 				</td>
 				<td>
-					<button type="button" class="btn_blanco_nulo btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i> Guardar</button>
+					<button type="button" class="btn_blanco_nulo btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i></button>
 				</td>
 				
 				@endif
@@ -93,7 +93,7 @@
 			<tr>
 			<td>
 				<div class="user-block">
-					<img class="img-circle img-bordered-sm" src={{ url('/img/nulo.png') }} alt="user image">
+					<img class="img-circle img-bordered-sm img-responsive" src={{ url('/img/nulo.png') }} alt="user image">
 						<span class="username">
 							<a href="#">Nulos</a>
 						</span>
@@ -107,7 +107,7 @@
 				<input style='font-size: 35px; color:black; height: 50px; font-weight:bold; text-align:center' type="number" name="input_voto_bn" id="input_voto_bn" placeholder="" class="input_voto form-control" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
 			</td>
 			<td>
-				<button type="button" class="btn_blanco_nulo btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i> Guardar</button>
+				<button type="button" class="btn_blanco_nulo btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i></button>
 			</td>
 			@else
 			<td style="text-align:center;">
@@ -116,7 +116,7 @@
 				<input style='font-size: 35px; color:black; height: 50px; font-weight:bold; text-align:center' type="number" name="input_voto_bn" id="input_voto_bn" placeholder="" class="input_voto form-control" value="{{$votos_presidenciales_r->nulos}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69"  required/>
 			</td>
 			<td>
-				<button type="button" class="btn_blanco_nulo btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i> Guardar</button>
+				<button type="button" class="btn_blanco_nulo btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i></button>
 			</td>
 			@endif
 			

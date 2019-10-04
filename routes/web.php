@@ -41,7 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::get('/home', 'HomeController@index');
 
-    
+    Route::get('form_asignacion_delegado_excel', 'ExcelController@form_asignacion_delegado_excel');
 
     Route::get('form_agregar_persona', 'PersonasController@form_agregar_persona');
 

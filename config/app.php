@@ -169,6 +169,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -237,6 +238,7 @@ return [
         'Shinobi' => Caffeinated\Shinobi\Facades\Shinobi::class,
         'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
         'Fpdf' => Codedge\Fpdf\Facades\Fpdf::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

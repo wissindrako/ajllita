@@ -10,12 +10,15 @@ use App\User;
 
 class ExcelController extends Controller
 {
+    function form_asignacion_delegado_excel(){
+        return view('formularios.form_asignacion_delegado_excel');
+    }
+
     function delegados_mesa()
     {
         // $mesa_data = DB::table('users')->get()->toArray();
         // $distritos = \DB::table('recintos')->select('distrito_referencial')->distinct()->get()->toArray();
         
-
         $mesas =\DB::table('mesas')
         ->leftjoin('rel_usuario_mesa', 'mesas.id_mesa', 'rel_usuario_mesa.id_mesa')
         ->leftjoin('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
@@ -163,5 +166,4 @@ class ExcelController extends Controller
             });
         })->download('xlsx');
     }
-
 }

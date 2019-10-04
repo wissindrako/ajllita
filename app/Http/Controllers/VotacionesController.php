@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use Storage;
+use Illuminate\Support\Facades\Validator;
 Use App\User;
 Use App\Recinto;
 Use App\Mesa;
@@ -508,6 +509,28 @@ class VotacionesController extends Controller
 
   public function votar_presidencial_subir_imagen(Request $request){
 
+    $reglas=[ 
+      'archivo'  => 'required | mimes:jpg,jpeg,gif,png,bmp | max:2048000'
+    ];
+        
+    $mensajes=[
+      'archivo.required' => 'Deseleccionar un archivo',
+      'archivo.mimes' => 'El archivo debe ser un archivo con formato: jpg, jpeg, gif, png, bmp.',
+      'archivo.max' => 'El archivo Supera el tamaño máximo permitido',
+    ];
+
+    $validator = Validator::make( $request->all(),$reglas,$mensajes );
+    if( $validator->fails() ){ 
+      $codigo_mesas_oep = \DB::table('mesas')
+      ->where('id_mesa', $request->id_mesa)
+      ->value('codigo_mesas_oep');
+      return view("formularios.form_votar_presidencial_subir_imagen")
+      ->with("id_mesa",$request->id_mesa)
+      ->with("codigo_mesas_oep",$codigo_mesas_oep)
+      ->withErrors($validator)
+      ->withInput($request->flash());
+    }
+
     //Subimos el archivo
     if($request->file('archivo') != ""){
         $archivo = $request->file('archivo');
@@ -786,7 +809,6 @@ class VotacionesController extends Controller
           ->with("foto_uninominales",$foto_uninominales);
   }
 
-
   public function form_votar_uninominal_subir_imagen(Request $request){
     //Tomamos los datos de la mesa
     $codigo_mesas_oep = \DB::table('mesas')
@@ -800,7 +822,27 @@ class VotacionesController extends Controller
 
 
   public function votar_uninominal_subir_imagen(Request $request){
+    $reglas=[ 
+      'archivo'  => 'required | mimes:jpg,jpeg,gif,png,bmp | max:2048000'
+    ];
+        
+    $mensajes=[
+      'archivo.required' => 'Deseleccionar un archivo',
+      'archivo.mimes' => 'El archivo debe ser un archivo con formato: jpg, jpeg, gif, png, bmp.',
+      'archivo.max' => 'El archivo Supera el tamaño máximo permitido',
+    ];
 
+    $validator = Validator::make( $request->all(),$reglas,$mensajes );
+    if( $validator->fails() ){ 
+      $codigo_mesas_oep = \DB::table('mesas')
+      ->where('id_mesa', $request->id_mesa)
+      ->value('codigo_mesas_oep');
+      return view("formularios.form_votar_uninominal_subir_imagen")
+      ->with("id_mesa",$request->id_mesa)
+      ->with("codigo_mesas_oep",$codigo_mesas_oep)
+      ->withErrors($validator)
+      ->withInput($request->flash());
+    }
     //Subimos el archivo
     if($request->file('archivo') != ""){
         $archivo = $request->file('archivo');

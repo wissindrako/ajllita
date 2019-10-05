@@ -56,32 +56,32 @@
 																?>
 																@if($registros_presidenciales == 0)
 																	<p style="width: 2rem; height: 2rem; border-radius: 50%; background: white;	justify-content: center; margin:0px auto;">
-																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPendiente</span>
+																		<span>&nbsp&nbsp&nbsp&nbsp&nbspPendiente</span>
 																	</p>
 																@elseif($registros_presidenciales>0 && $registros_presidenciales <= $cantidad_partidos)
 																	{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
-																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncompleto</span>
+																		<span>&nbsp&nbsp&nbsp&nbsp&nbspIncompleto</span>
 																	</p> --}}
 																	@if($mesa->foto_presidenciales == "")
 																		<p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
-																			<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncompleto&nbspSin&nbspFoto</span>
+																			<span>&nbsp&nbsp&nbsp&nbsp&nbspIncompleto&nbspSin&nbspFoto</span>
 																		</p>
 																	@else
 																		<p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
-																			<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncompleto&nbspCon&nbspFoto</span>
+																			<span>&nbsp&nbsp&nbsp&nbsp&nbspIncompleto&nbspCon&nbspFoto</span>
 																		</p>
 																	@endif
 																@elseif($registros_presidenciales == $cantidad_partidos+1)
 																	{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
-																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCompleto</span>
+																		<span>&nbsp&nbsp&nbsp&nbsp&nbspCompleto</span>
 																	</p> --}}
 																	@if($mesa->foto_presidenciales == "")
 																		<p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
-																			<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCompleto&nbspSin&nbspFoto</span>
+																			<span>&nbsp&nbsp&nbsp&nbsp&nbspCompleto&nbspSin&nbspFoto</span>
 																		</p>
 																	@else
 																		<p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
-																			<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCompleto&nbspCon&nbspFoto</span>
+																			<span>&nbsp&nbsp&nbsp&nbsp&nbspCompleto&nbspCon&nbspFoto</span>
 																		</p>
 																	@endif
 																@endif
@@ -96,7 +96,7 @@
 																?>
 																@if($suma_presidenciales > $mesa->numero_votantes)
 																	<p style="width: 2rem; height: 2rem; border-radius: 50%; background: red;	justify-content: center; margin:0px auto;">
-																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRev.&nbspValores</span>
+																		<span>&nbsp&nbsp&nbsp&nbsp&nbspRev.&nbspValores</span>
 																	</p>
 																@endif
 
@@ -108,32 +108,32 @@
 																?>
 																@if($registros_uninominales == 0)
 																	<p style="width: 2rem; height: 2rem; border-radius: 50%; background: white;	justify-content: center; margin:0px auto;">
-																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPendiente</span>
+																		<span>&nbsp&nbsp&nbsp&nbsp&nbspPendiente</span>
 																	</p>
 																@elseif($registros_uninominales>0 && $registros_uninominales <= $cantidad_partidos)
 																	{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
-																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncompleto</span>
+																		<span>&nbsp&nbsp&nbsp&nbsp&nbspIncompleto</span>
 																	</p> --}}
 																	@if($mesa->foto_uninominales == "")
 																		<p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
-																			<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncompleto&nbspSin&nbspFoto</span>
+																			<span>&nbsp&nbsp&nbsp&nbsp&nbspIncompleto&nbspSin&nbspFoto</span>
 																		</p>
 																	@else
 																		<p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
-																			<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncompleto&nbspCon&nbspFoto</span>
+																			<span>&nbsp&nbsp&nbsp&nbsp&nbspIncompleto&nbspCon&nbspFoto</span>
 																		</p>
 																	@endif
 																@elseif($registros_uninominales == $cantidad_partidos+1)
 																	{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
-																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCompleto</span>
+																		<span>&nbsp&nbsp&nbsp&nbsp&nbspCompleto</span>
 																	</p> --}}
 																	@if($mesa->foto_uninominales == "")
 																		<p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
-																			<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCompleto&nbspSin&nbspFoto</span>
+																			<span>&nbsp&nbsp&nbsp&nbsp&nbspCompleto&nbspSin&nbspFoto</span>
 																		</p>
 																	@else
 																		<p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
-																			<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCompleto&nbspCon&nbspFoto</span>
+																			<span>&nbsp&nbsp&nbsp&nbsp&nbspCompleto&nbspCon&nbspFoto</span>
 																		</p>
 																	@endif
 
@@ -146,7 +146,7 @@
 																?>
 																@if($suma_uninominales > $mesa->numero_votantes)
 																	<p style="width: 2rem; height: 2rem; border-radius: 50%; background: red;	justify-content: center; margin:0px auto;">
-																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRev.&nbspValores</span>
+																		<span>&nbsp&nbsp&nbsp&nbsp&nbspRev.&nbspValores</span>
 																	</p>
 																@endif
 													</button>

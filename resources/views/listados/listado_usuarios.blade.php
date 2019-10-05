@@ -39,7 +39,7 @@
 					<th>codigo</th>
 					<th>Rol</th>
 					<th>Nombre</th>
-					<th>Carnet de Identidad</th>
+					<th>Usuario</th>
 					<th>Email</th>
 					<th>Acción</th>
 				</tr>
@@ -57,8 +57,8 @@
            
              -</span>
 			</td>
-			<td class="mailbox-messages mailbox-name"><a href="javascript:void(0);"  style="display:block"><i class="fa fa-user"></i>&nbsp;&nbsp;{{ $usuario->nombre }} {{ $usuario->paterno }} {{ $usuario->materno }}</a></td>
-			<td>{{ $usuario->ci }}</td>
+			<td class="mailbox-messages mailbox-name"><a href="javascript:void(0);"  style="display:block"><i class="fa fa-user"></i>&nbsp;&nbsp;{{ $usuario->persona['nombre'] }} {{ $usuario->persona['paterno'] }} {{ $usuario->persona['materno'] }}</a></td>
+			<td>{{ $usuario->name }}</td>
 			<td>{{ $usuario->email }}</td>
 			<td>
 			<button type="button" class="btn  btn-default btn-xs" onclick="verinfo_usuario({{  $usuario->id }}, 1)" ><i class="fa fa-fw fa-edit"></i></button>

@@ -369,17 +369,25 @@ public function borrar_usuario(Request $request){
 }
 
 public function editar_acceso(Request $request){
-         $idusuario=$request->input("id_usuario");
-         $usuario=User::find($idusuario);
-         $usuario->email=$request->input("email");
-         $usuario->password= bcrypt( $request->input("password") ); 
-          if( $usuario->save()){
+    
+    $idusuario=$request->input("id_usuario");
+    $usuario=User::find($idusuario);
+
+    if ($usuario->name != $request->name) {
+        if( User::where('name', '=', $request->name)->exists()){ 
+            return view("mensajes.mensaje_error")->with("msj","... El nombre de usuario ya se encuentra registrado en la base de datos...") ;       
+        }
+    }
+  
+    $usuario->name=$request->input("name");
+    $usuario->password= bcrypt( $request->input("password") ); 
+    if( $usuario->save()){
         return view("mensajes.msj_usuario_actualizado")->with("msj","Usuario actualizado correctamente")->with("idusuario",$idusuario) ;
-         }
-          else
-          {
+    }
+    else
+    {
         return view("mensajes.mensaje_error")->with("msj","...Hubo un error al agregar ; intentarlo nuevamente ...") ;
-          }
+    }
 }
 
 

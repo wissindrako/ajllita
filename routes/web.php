@@ -27,6 +27,7 @@ Route::get('delegados_mesa', 'ExcelController@delegados_mesa');
 Route::get('test_page', 'ExcelController@test_page');
 
 Route::get('form_pruebas', 'PruebasController@form_pruebas');
+Route::get('log_conexiones', 'PruebasController@log_conexiones');
 
 Auth::routes();
 

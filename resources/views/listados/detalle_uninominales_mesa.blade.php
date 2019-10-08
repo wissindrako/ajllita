@@ -48,7 +48,7 @@
 							
 						</td>
 						<td>
-							<button type="button" class="btn_partido btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i> Guardar</button>
+							<button type="button" class="btn_partido btn btn-default btn-lg"><i class="fa fa-fw fa-save"></i></button>
 						</td>
 						@if ($key == 0)
 							@if ($mesa->foto_uninominales != "")

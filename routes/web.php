@@ -16,9 +16,9 @@ Route::get('/', function () {
 
 //REDIRECCIONA AL FORMULARIO DE CONSULTA DESDE UN INICIO
 
-// Route::get('/', function () {
-//     return redirect('form_consulta');
-// });
+Route::get('/', function () {
+    return redirect('form_consulta');
+});
 
 Route::get('form_consulta', 'ConsultasController@form_consulta');
 Route::get('consultaMesaAsignada/{recinto}', 'ConsultasController@consultaMesaAsignada');

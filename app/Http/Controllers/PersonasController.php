@@ -153,7 +153,8 @@ class PersonasController extends Controller
                 
                         $usuario=new User;
                         $usuario->name=$username;
-                        $usuario->email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$username;
+                        $email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$username;
+                        $usuario->email = str_replace(' ', '', $email);
                         $usuario->password= bcrypt($username);
                         $usuario->id_persona=$persona->id_persona;
                         $usuario->activo=1;
@@ -1287,7 +1288,7 @@ class PersonasController extends Controller
         ->select('personas.*', 'recintos.id_recinto', 'recintos.nombre as nombre_recinto', 'recintos.circunscripcion', 'recintos.distrito',
                  'recintos.zona', 'recintos.direccion as direccion_recinto',
                  'origen.origen', 'sub_origen.nombre as sub_origen',
-                 'roles.name as nombre_rol'
+                 'roles.name as nombre_rol', 'roles.description'
         )
         ->orderBy('fecha_registro', 'desc')
         ->orderBy('id_persona', 'desc')
@@ -1330,10 +1331,11 @@ class PersonasController extends Controller
         ->join('origen', 'personas.id_origen', 'origen.id_origen')
         ->leftjoin('sub_origen', 'personas.id_sub_origen', 'sub_origen.id_sub_origen')
         ->leftjoin('roles', 'personas.id_rol', 'roles.id')
-        ->select('personas.*', 'recintos.id_recinto', 'recintos.nombre as nombre_recinto', 'recintos.circunscripcion', 'recintos.distrito',
+        ->select('personas.*', 'recintos.id_recinto', 'recintos.nombre as nombre_recinto', 'recintos.circunscripcion', 'recintos.distrito', 'recintos.distrito_referencial',
         'recintos.zona', 'recintos.direccion as direccion_recinto',
         'origen.origen', 'sub_origen.nombre as sub_origen',
-        'roles.name as nombre_rol'
+        'roles.name as nombre_rol', 'roles.description',
+        \DB::raw('CONCAT(personas.telefono_celular," - ", personas.telefono_referencia) as contacto')
         )
         ->get())->make(true);
     }
@@ -1360,11 +1362,11 @@ class PersonasController extends Controller
         ->select('personas.*', 'recintos.id_recinto', 'recintos.nombre as nombre_recinto', 'recintos.circunscripcion', 'recintos.distrito',
                  'recintos.zona', 'recintos.direccion as direccion_recinto',
                  'origen.origen', 'sub_origen.nombre as sub_origen',
-                 'roles.name as nombre_rol',
+                 'roles.name as nombre_rol', 'roles.description',
                  \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
                  \DB::raw('CONCAT(personas.telefono_celular," - ", personas.telefono_referencia) as contacto'),
                  \DB::raw('CONCAT(personas.cedula_identidad," - ", personas.complemento_cedula) as ci'),
-                 \DB::raw('CONCAT("C: ", recintos.circunscripcion," - D: ", recintos.distrito," - R: ", recintos.nombre) as recinto')
+                 \DB::raw('CONCAT("C: ", recintos.circunscripcion," - Dist. Municipal: ", recintos.distrito," - Dist. OEP: ", recintos.distrito_referencial," - R: ", recintos.nombre) as recinto')
         )
         ->where('cedula_identidad', $cedula)
         ->orderBy('fecha_registro', 'desc')

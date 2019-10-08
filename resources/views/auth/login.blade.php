@@ -7,12 +7,12 @@
         <div class="container" > 
           
                 <div class="col-sm-12 " style="background-color:rgba(0, 0, 0, 0.35); height: 60px; " >
-                   {{-- <a class="mybtn-social pull-right" href="{{ url('/register') }}">
-                       Register
-                  </a> --}}
+                    <a class="mybtn-social pull-right" href="{{ url('/login') }}">
+                      Registrar Votos
+                 </a>
 
-                  <a class="mybtn-social pull-right" href="{{ url('/login') }}">
-                       Login
+                  <a class="mybtn-social pull-right" href="{{ url('/form_consulta') }}">
+                       Consulta Delegados de Mesa
                   </a>
                
                 </div>

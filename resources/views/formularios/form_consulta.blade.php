@@ -21,9 +21,12 @@
                        </a> --}}
      
                        {{-- <a class="mybtn-social pull-right" href="{{ url('/login') }}"> --}}
-                       <a class="mybtn-social pull-right" href="{{ url('#') }}">
-                            Inicio
+                       <a class="mybtn-social pull-right" href="{{ url('/login') }}">
+                            Registrar Votos
                        </a>
+                       <a class="mybtn-social pull-right" href="{{ url('/form_consulta') }}">
+                        Consulta Delegados de Mesa
+                   </a>
                     
                      </div>
             <div class="row">

@@ -31,7 +31,7 @@ class RecintosController extends Controller
     
     public function consultaRecintosPorRecinto($recinto){
         $recintos = \DB::table('recintos')
-        ->select('id_recinto', 'circunscripcion', 'distrito', 'nombre', 'zona')
+        ->select('id_recinto', 'circunscripcion', 'distrito', 'distrito_referencial', 'nombre', 'zona')
         
         ->where("nombre","like","%".$recinto."%")
         ->orWhere('circunscripcion', 'LIKE', '%'.$recinto.'%')

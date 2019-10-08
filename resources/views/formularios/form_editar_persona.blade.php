@@ -343,7 +343,7 @@
                                 <thead>
                                 <tr  style="background-color:#3c8dbc; text-align:center">
                                     <th>#</th>
-                                    <th>Código OEP</th>
+                                    <th>Código Mesa</th>
                                     <th>Nombre</th>
                                     <th>Contacto</th>
                                 </tr>
@@ -433,7 +433,7 @@
                 var TamanoArray = objetosretorna.length;
                 $(".recinto_json_select select").append('<option value=""> --- SELECCIONE EL RECINTO --- </option>');
                 $.each(objetosretorna, function(i,value){
-                    $(".recinto_json_select select").append('<option value="'+value.id_recinto+'"> C: '+value.circunscripcion+' - D: '+value.distrito+' - # '+value.id_recinto+' - Recinto: '+value.nombre+' - Zona: '+value.zona+'</option>');
+                    $(".recinto_json_select select").append('<option value="'+value.id_recinto+'"> C: '+value.circunscripcion+' - Dist. Municipal: '+value.distrito+' - Dist. OEP: '+value.distrito_referencial+' - # '+value.id_recinto+' - Recinto: '+value.nombre+' - Zona: '+value.zona+'</option>');
                 });
             });
         }
@@ -455,8 +455,8 @@
         var nuevaFila =
         "<tr>"
         // +"<td>"+indice+"</td>"
-        +"<td>"+items.codigo_ajllita+"</td>"
         +"<td>"+items.codigo_mesas_oep+"</td>"
+        +"<td>"+items.codigo_ajllita+"</td>"
         +"<td>"+items.nombre_completo+"</td>"
         +"<td>"+items.telefono_celular+"</td>"
         +"</tr>";
@@ -526,8 +526,6 @@
                     }else{
                         $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.codigo_mesas_oep+'-'+value.codigo_ajllita+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
                     }
-                    
-                    
                 }
                 mesas_total++;
 

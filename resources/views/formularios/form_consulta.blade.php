@@ -22,11 +22,11 @@
      
                        {{-- <a class="mybtn-social pull-right" href="{{ url('/login') }}"> --}}
                        <a class="mybtn-social pull-right" href="{{ url('/login') }}">
-                            Registrar Votos
+                        Ingresar al conteo de votos
                        </a>
-                       <a class="mybtn-social pull-right" href="{{ url('/form_consulta') }}">
-                        Consulta Delegados de Mesa
-                   </a>
+                       {{-- <a class="mybtn-social pull-right" href="{{ url('/form_consulta') }}">
+                        Consultar Mesas
+                   </a> --}}
                     
                      </div>
             <div class="row">

@@ -7,12 +7,12 @@
         <div class="container" > 
           
                 <div class="col-sm-12 " style="background-color:rgba(0, 0, 0, 0.35); height: 60px; " >
-                    <a class="mybtn-social pull-right" href="{{ url('/login') }}">
+                    {{-- <a class="mybtn-social pull-right" href="{{ url('/login') }}">
                       Registrar Votos
-                 </a>
+                 </a> --}}
 
                   <a class="mybtn-social pull-right" href="{{ url('/form_consulta') }}">
-                       Consulta Delegados de Mesa
+                       ¿Eres delegado?
                   </a>
                
                 </div>
@@ -22,9 +22,9 @@
               <div class="col-sm-6 col-sm-offset-3 myform-cont" >
                     <div class="myform-top">
                         <div class="myform-top-left">
-                         <img  src="{{ url('img/logopersona.png') }} " class="img-responsive logo" />
-                          <h3>Ingresa a nuestro sitio.</h3>
-                            <p>Digita tu email y contraseña:</p>
+                         <img  src="{{ url('img/futuro.png') }} " class="img-responsive logo" />
+                          <h3>Control Azul</h3>
+                            <p>Digita tu usuario y contraseña:</p>
                         </div>
                         <div class="myform-top-right">
                           <i class="fa fa-key"></i>

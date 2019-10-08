@@ -29,7 +29,7 @@
                             <div class="col-md-4"></div>
                             <div class="col-md-4" style="text-align: center;">
                                 <br><br>
-                                <a type="button" class="btn btn-app bg-navy" id="btn_plus_tres_v">
+                                <a href="{{ url('delegados_mesa') }}" type="button" class="btn btn-app bg-navy" id="">
                                     {{-- <span class="badge bg-purple">891</span> --}}
                                     <i class="fa fa-file-excel-o"></i> Descargar
                                 </a>

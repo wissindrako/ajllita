@@ -518,13 +518,13 @@
                 
                 if (value.mesa_activa === 0 || value.mesa_activa === null) {
                     mesas_sin_asignar++;
-                    $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+'</option>');                    
+                    $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+' - '+value.codigo_mesas_oep+'-'+value.codigo_ajllita+'</option>');                    
                 } else {
                     mesas_asignadas++;
                     if (value.id_usuario == id_usuario) {
-                        $(".mesas_json select").append('<option selected value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
+                        $(".mesas_json select").append('<option selected value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.codigo_mesas_oep+'-'+value.codigo_ajllita+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
                     }else{
-                        $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
+                        $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.codigo_mesas_oep+'-'+value.codigo_ajllita+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
                     }
                     
                     

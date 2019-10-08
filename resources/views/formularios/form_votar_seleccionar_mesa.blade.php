@@ -108,7 +108,8 @@
 																	{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: red;	justify-content: center; margin:0px auto;">
 																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRev.&nbspValores</span>
 																	</p> --}}
-																	<i style='font-size: 22px; color:red; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Pendiente</span>
+																	<br>
+																	<i style='font-size: 22px; color:red; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Rev.&nbspValores</span>
 																@endif
 
 														<br>

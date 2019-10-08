@@ -31,7 +31,7 @@ class ConsultasController extends Controller
                  \DB::raw('CONCAT(personas.telefono_celular," - ", personas.telefono_referencia) as contacto'),
                  \DB::raw('CONCAT(personas.cedula_identidad, personas.complemento_cedula) as ci'),
                  \DB::raw('CONCAT("C: ", recintos.circunscripcion," - D: ", recintos.distrito," - R: ", recintos.nombre) as recinto'),
-                 \DB::raw("group_concat(rel_usuario_mesa.id_mesa SEPARATOR ', ') as mesas"),
+                 \DB::raw("group_concat(rel_usuario_mesa.id_mesa SEPARATOR ', ') as mesas")
         )
         ->where('cedula_identidad', $cedula)
         ->groupBy('rel_usuario_mesa.id_usuario')

@@ -168,23 +168,23 @@
             </li>
             @endcan
 
+            @can('como_llegar_a_mi_recinto')
+            <li class="treeview">
+                <a href="{{ url('form_ver_recinto') }}"><i class='fa fa-map-o'></i> <span>Como llegar a mi Recinto</span> </a>
+            </li>
+            @endcan
             @can('registrar_asistencia')
             <li class="treeview">
                 <a href="{{ url('form_registrar_asistencia') }}"><i class='fa fa-calendar-check-o'></i> <span>Registrar mi asistencia</span> </a>
             </li>
             @endcan
-
             @can('registrar_votos')
             <li class="treeview">
                 <a href="{{ url('form_votar_seleccionar_mesa') }}"><i class='fa fa-list-ol'></i> <span>Registrar votos</span> </a>
             </li>
             @endcan
 
-            @can('como_llegar_a_mi_recinto')
-            <li class="treeview">
-                <a href="{{ url('form_ver_recinto') }}"><i class='fa fa-map-o'></i> <span>Como llegar a mi Recinto</span> </a>
-            </li>
-            @endcan
+
             {{-- <li class="treeview">
                 <a href="{{ url('listado_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Estado votación</span></a>
             </li> --}}

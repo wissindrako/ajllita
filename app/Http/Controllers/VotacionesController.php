@@ -382,6 +382,7 @@ class VotacionesController extends Controller
       $foto_presidenciales = $mesa->foto_presidenciales;
     }
 
+
     //Tomamos los partidos y los votos intorducidos para la mesa seleccionada
     $partidos = \DB::table('partidos')->orderBy('nivel')->get();
 

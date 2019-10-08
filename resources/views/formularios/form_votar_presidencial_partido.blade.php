@@ -40,7 +40,7 @@
                         </div>
 
                     @endif
-                   </div  >
+                   </div>
 
                   <div id="div_notificacion_sol" class="myform-bottom">
 										<br>

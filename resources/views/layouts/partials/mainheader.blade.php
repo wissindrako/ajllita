@@ -6,7 +6,7 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b><i class='fa fa-square'></i></b></span>
         <div class="row centered logo-lg">
-            <span><b>Ajllita</b></span>
+            <span><b>ControlAzul</b></span>
             {{-- <img src="{{asset('/img/encuestas_logo_blanco_final.png')}}" style="width:160px;height:40px;" class="centered" alt="User Image"/> --}}
         </div>
         <!-- logo for regular state and mobile devices -->
@@ -18,66 +18,101 @@
         <!-- Sidebar toggle button-->
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">{{ trans('adminlte_lang::message.togglenav') }}</span>
+            
         </a>
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <!-- Messages: style can be found in dropdown.less-->
-                {{-- <li class="dropdown messages-menu">
+                <li class="dropdown messages-menu">
                     <!-- Menu toggle button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-envelope-o"></i>
-                        <span class="label label-success">4</span>
+                        <span class="label label-success">1</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">{{ trans('adminlte_lang::message.tabmessages') }}</li>
+                        {{-- <li class="header">{{ trans('adminlte_lang::message.tabmessages') }}</li> --}}
+                        <li class="header">Mensajes</li>
                         <li>
                             <!-- inner menu: contains the messages -->
                             <ul class="menu">
                                 <li><!-- start message -->
-                                    <a href="#">
+                                    {{-- <a href="#"> --}}
                                         <div class="pull-left">
                                             <!-- User Image -->
-                                            <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                                            {{-- <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image"/> --}}
                                         </div>
                                         <!-- Message title and timestamp -->
-                                        <h4>
-                                            {{ trans('adminlte_lang::message.supteam') }}
-                                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                        </h4>
+                                        <h3 style="background-color:#31a65a; text-align:center; color:white" id="clock"></h3>
+                                        {{-- <h4>
+                                            Faltan 
+                                            <H3><i class="fa fa-clock-o"></i> 5 mins</H3>
+                                        </h4> --}}
                                         <!-- The message -->
-                                        <p>{{ trans('adminlte_lang::message.awesometheme') }}</p>
-                                    </a>
+                                        {{-- <p>{{ trans('adminlte_lang::message.awesometheme') }}</p> --}}
+                                    {{-- </a> --}}
                                 </li><!-- end message -->
                             </ul><!-- /.menu -->
                         </li>
-                        <li class="footer"><a href="#">c</a></li>
+                        {{-- <li class="footer"><a href="#">c</a></li> --}}
                     </ul>
-                </li> --}}
+                </li>
                 <!-- /.messages-menu -->
+{{-- {{dd($control_mesas_votacion)}} --}}
+                @php
+                    $inferior = 42.8;
+                    $superior = 79.6;
+                    $numero_mensajes = 0;
+                    foreach ($control_mesas_votacion as $key => $control) {
+                        $porcentaje_votos= (100 * $control->validos) / $control->numero_votantes;
+                        if ($porcentaje_votos < $inferior || $porcentaje_votos > $superior ) {
+                            $numero_mensajes++;
+                        }
+                    }
+                @endphp
 
                 <!-- Notifications Menu -->
-                {{-- <li class="dropdown notifications-menu">
+                <li class="dropdown notifications-menu">
                     <!-- Menu toggle button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning">10</span>
+                    <span class="label label-warning">{{$numero_mensajes}}</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">{{ trans('adminlte_lang::message.notifications') }}</li>
+                        <li class="header">Tiene {{$numero_mensajes}} notificaciones</li>
                         <li>
                             <!-- Inner Menu: contains the notifications -->
                             <ul class="menu">
-                                <li><!-- start notification -->
-                                    <a href="#">
-                                        <i class="fa fa-users text-aqua"></i> {{ trans('adminlte_lang::message.newmembers') }}
-                                    </a>
-                                </li><!-- end notification -->
+                                @php                    
+                                    $inferior = 42.8;
+                                    $superior = 79.6;
+                                @endphp                    
+
+                                @foreach ($control_mesas_votacion as $control)
+                                @php
+                                    $porcentaje_votos= (100 * $control->validos) / $control->numero_votantes;
+                                @endphp
+                                    @if ($porcentaje_votos < $inferior)
+                                    <li><!-- start notification -->
+                                        <a href="#">
+                                            <i class="fa fa-circle-o text-yellow"></i>Mesa {{ $control->id_mesa }} por debajo del límite
+                                        </a>
+                                    </li><!-- end notification -->
+                                    @endif
+                                    @if ($porcentaje_votos > $superior)
+                                    <li><!-- start notification -->
+                                        <a href="#">
+                                            <i class="fa fa-circle-o text-red"></i> Mesa {{ $control->id_mesa }} sobrepasando el límite
+                                        </a>
+                                    </li><!-- end notification -->
+                                    @endif
+                                @endforeach
                             </ul>
+                            
                         </li>
-                        <li class="footer"><a href="#">{{ trans('adminlte_lang::message.viewall') }}</a></li>
+                        {{-- <li class="footer"><a href="#">{{ trans('adminlte_lang::message.viewall') }}</a></li> --}}
                     </ul>
-                </li> --}}
+                </li>
                 <!-- Tasks Menu -->
                 {{-- <li class="dropdown tasks-menu">
                     <!-- Menu Toggle Button -->

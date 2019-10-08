@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function($view) {
         if (Auth::guest()) {
             $personas_logueadas = [];
+            $control_mesas_votacion = [];
         } else {
 
             $personas_logueadas = \DB::table('users')
@@ -29,8 +30,27 @@ class AppServiceProvider extends ServiceProvider
             \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
             )
             ->first();
+
+            // $control_mesas_votacion = \DB::table('votos_presidenciales')
+            // ->select(
+            //     'votos_presidenciales.id_mesa',
+            //     \DB::raw('SUM(votos_presidenciales.validos) as validos')
+            // )
+            // ->groupBy('id_mesa')
+            // ->get();
+            $control_mesas_votacion = \DB::table('votos_presidenciales')
+            ->join('partidos', 'votos_presidenciales.id_partido', 'partidos.id_partido')
+            ->join('mesas', 'votos_presidenciales.id_mesa', 'mesas.id_mesa')
+            ->where('partidos.id_partido', 3)
+            ->select(
+                'votos_presidenciales.id_mesa', 'votos_presidenciales.id_partido', 'partidos.sigla', 'votos_presidenciales.validos',
+                'mesas.numero_votantes'
+            )
+            ->get();
+
         }
-        $view->with('personas_logueadas', $personas_logueadas);
+        $view->with('personas_logueadas', $personas_logueadas)
+        ->with('control_mesas_votacion', $control_mesas_votacion);
         });
     }
 

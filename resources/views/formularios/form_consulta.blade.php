@@ -21,7 +21,7 @@
                        </a> --}}
      
                        {{-- <a class="mybtn-social pull-right" href="{{ url('/login') }}"> --}}
-                       <a class="mybtn-social pull-right" href="{{ url('/') }}">
+                       <a class="mybtn-social pull-right" href="{{ url('#') }}">
                             Inicio
                        </a>
                     
@@ -86,7 +86,7 @@
                         <br><br>
                                
                         <div class="row">
-                        <a href="{{ url('https://youtu.be/tMWkeBIohBs') }}" target="_blank">
+                        <a href="{{ url('https://youtu.be/9kFElXdedCE') }}" target="_blank">
                         <div class="">
                             <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
                                 <div class="widget-user-header bg-white">
@@ -112,6 +112,40 @@
                                         </div>
                                         <h3 class=""><b></b></h3>
                                     <h3  style="font-size: 20px;" class="widget-user-username"><b>Manual de manejo del sistema <br> controlazul.com</b> <br> (Para delegados de mesa)</h3>
+                                    <h7 class=""><br></h7>
+                                    {{-- <h5 class=""><b>asdfadfadf</b></h5>
+                                    <h3 class="widget-user-desc">Votos: <b>asdfadsfadsfs</b></h3> --}}
+    
+                                </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="{{ url('/docs/Manual defensa del voto MESAS resumen.pdf') }}" target="_blank">
+                            <div class="">
+                                <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+                                    <div class="widget-user-header bg-white">
+                                        <div class="widget-user-image">
+                                            <img class="img-circle" src="{{ url('img/pdf.jpg') }}" style="width:65px;height:65px;" alt="User Avatar">
+                                        </div>
+                                        <h3 class=""><b></b></h3>
+                                    <h3  style="font-size: 20px;" class="widget-user-username"><b>Manual de defensa del Voto (Resumen) <br> controlazul.com</b> <br> (Para delegados de mesa)</h3>
+                                    <h7 class=""><br></h7>
+                                    {{-- <h5 class=""><b>asdfadfadf</b></h5>
+                                    <h3 class="widget-user-desc">Votos: <b>asdfadsfadsfs</b></h3> --}}
+    
+                                </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="{{ url('/docs/Manual defensa del voto CARTILLA.pdf') }}" target="_blank">
+                            <div class="">
+                                <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+                                    <div class="widget-user-header bg-white">
+                                        <div class="widget-user-image">
+                                            <img class="img-circle" src="{{ url('img/pdf.jpg') }}" style="width:65px;height:65px;" alt="User Avatar">
+                                        </div>
+                                        <h3 class=""><b></b></h3>
+                                    <h3  style="font-size: 20px;" class="widget-user-username"><b>Manual de defensa del Voto (Completo) <br> controlazul.com</b> <br> (Para delegados de mesa)</h3>
                                     <h7 class=""><br></h7>
                                     {{-- <h5 class=""><b>asdfadfadf</b></h5>
                                     <h3 class="widget-user-desc">Votos: <b>asdfadsfadsfs</b></h3> --}}

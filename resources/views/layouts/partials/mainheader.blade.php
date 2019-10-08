@@ -62,11 +62,20 @@
                 @php
                     $inferior = 42.8;
                     $superior = 79.6;
-                    $numero_mensajes = 0;
+                    // $numero_mensajes = 0;
+                    $mensajes_inferior = 0;
+                    $mensajes_superior = 0;
+
                     foreach ($control_mesas_votacion as $key => $control) {
                         $porcentaje_votos= (100 * $control->validos) / $control->numero_votantes;
-                        if ($porcentaje_votos < $inferior || $porcentaje_votos > $superior ) {
-                            $numero_mensajes++;
+                        // if ($porcentaje_votos < $inferior || $porcentaje_votos > $superior ) {
+                        //     $numero_mensajes++;
+                        // }
+                        if ($porcentaje_votos < $inferior ) {
+                            $mensajes_inferior++;
+                        }
+                        if ($porcentaje_votos > $superior ) {
+                            $mensajes_superior++;
                         }
                     }
                 @endphp
@@ -76,17 +85,14 @@
                     <!-- Menu toggle button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
-                    <span class="label label-warning">{{$numero_mensajes}}</span>
+                    <span class="label label-warning">{{$mensajes_inferior}}</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">Tiene {{$numero_mensajes}} notificaciones</li>
+                        <li class="header">Tiene {{$mensajes_inferior}} notificaciones</li>
                         <li>
                             <!-- Inner Menu: contains the notifications -->
                             <ul class="menu">
-                                @php                    
-                                    $inferior = 42.8;
-                                    $superior = 79.6;
-                                @endphp                    
+            
 
                                 @foreach ($control_mesas_votacion as $control)
                                 @php
@@ -99,13 +105,6 @@
                                         </a>
                                     </li><!-- end notification -->
                                     @endif
-                                    @if ($porcentaje_votos > $superior)
-                                    <li><!-- start notification -->
-                                        <a href="#">
-                                            <i class="fa fa-circle-o text-red"></i> Mesa {{ $control->id_mesa }} sobrepasando el límite
-                                        </a>
-                                    </li><!-- end notification -->
-                                    @endif
                                 @endforeach
                             </ul>
                             
@@ -113,6 +112,38 @@
                         {{-- <li class="footer"><a href="#">{{ trans('adminlte_lang::message.viewall') }}</a></li> --}}
                     </ul>
                 </li>
+                <!-- Notifications Menu -->
+                <li class="dropdown notifications-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                        <span class="label label-danger">{{$mensajes_superior}}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">Tiene {{$mensajes_superior}} notificaciones</li>
+                            <li>
+                                <!-- Inner Menu: contains the notifications -->
+                                <ul class="menu">
+             
+                                    @foreach ($control_mesas_votacion as $control)
+                                    @php
+                                        $porcentaje_votos= (100 * $control->validos) / $control->numero_votantes;
+                                    @endphp
+                                        @if ($porcentaje_votos > $superior)
+                                        <li><!-- start notification -->
+                                            <a href="#">
+                                                <i class="fa fa-circle-o text-red"></i> Mesa {{ $control->id_mesa }} sobrepasando el límite
+                                            </a>
+                                        </li><!-- end notification -->
+                                        @endif
+                                    @endforeach
+                                </ul>
+                                
+                            </li>
+                            {{-- <li class="footer"><a href="#">{{ trans('adminlte_lang::message.viewall') }}</a></li> --}}
+                        </ul>
+                    </li>
+    
                 <!-- Tasks Menu -->
                 {{-- <li class="dropdown tasks-menu">
                     <!-- Menu Toggle Button -->

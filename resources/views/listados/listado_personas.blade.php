@@ -27,14 +27,16 @@
 				<th>Cedula</th>
 				<th>Comp.</th>
 				<th>Nacimiento</th>
-				<th>Telefono - Celular</th>
-				<th>Telefono Ref.</th>
+				<th>Contacto</th>
+				{{-- <th>Telefono - Celular</th>
+				<th>Telefono Ref.</th> --}}
 				<th>Dirección</th>
 				<th>Compromiso</th>
 				<th>Fecha de Registro</th>
 				<th>Activo</th>
 				<th>Circ.</th>
-				<th>Distrito</th>
+				<th>Distrito Municipal</th>
+				<th>Distrito OEP</th>
 				<th>Recinto</th>
 				<th>Origen</th>
 				<th>Sub Origen</th>
@@ -145,18 +147,20 @@
             { data: 'cedula_identidad', name: 'cedula_identidad' },
             { data: 'complemento_cedula', name: 'complemento_cedula' },
             { data: 'fecha_nacimiento', name: 'fecha_nacimiento' },
-            { data: 'telefono_celular', name: 'telefono_celular' },
-            { data: 'telefono_referencia', name: 'telefono_referencia' },
+            { data: 'contacto', name: 'contacto' },
+            // { data: 'telefono_celular', name: 'telefono_celular' },
+            // { data: 'telefono_referencia', name: 'telefono_referencia' },
             { data: 'direccion', name: 'direccion' },
             { data: 'grado_compromiso', name: 'grado_compromiso' },
             { data: 'fecha_registro', name: 'fecha_registro' },
             { data: 'activo', name: 'activo' },
             { data: 'circunscripcion', name: 'circunscripcion' },
             { data: 'distrito', name: 'distrito' },
+            { data: 'distrito_referencial', name: 'distrito_referencial' },
             { data: 'nombre_recinto', name: 'nombre_recinto' },
             { data: 'origen', name: 'origen' },
             { data: 'sub_origen', name: 'sub_origen' },
-            { data: 'nombre_rol', name: 'nombre_rol' },
+            { data: 'description', name: 'description' },
 			{ data: null,  render: function ( data, type, row ) {
 					if ($("#rol_usuario").val() === 'admin' || $("#rol_usuario").val() === 'super_admin') {
 						if ( row.activo === 1) {
@@ -227,6 +231,7 @@ function activar_tabla_prueba() {
             { data: 'activo', name: 'activo' },
             { data: 'circunscripcion', name: 'circunscripcion' },
             { data: 'distrito', name: 'distrito' },
+            { data: 'distrito_referencial', name: 'distrito_referencial' },
             { data: 'nombre_recinto', name: 'nombre_recinto' },
             { data: 'origen', name: 'origen' },
             { data: 'sub_origen', name: 'sub_origen' },

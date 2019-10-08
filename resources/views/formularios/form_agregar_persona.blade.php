@@ -118,7 +118,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class=" ">Fecha de nacimiento</label>
-                                <input type="date" name="nacimiento" placeholder="" min="1939-01-01" max="2002-01-01" class="form-control" value="{{ old('nacimiento') }}" required />
+                                <input style='line-height: initial;' type="date" name="nacimiento" placeholder="" min="1939-01-01" max="2002-01-01" class="form-control" value="{{ old('nacimiento') }}" required />
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -330,7 +330,7 @@
                                 <thead>
                                 <tr  style="background-color:#3c8dbc; text-align:center">
                                     <th>#</th>
-                                    <th>Código OEP</th>
+                                    <th>Código Mesa</th>
                                     <th>Nombre</th>
                                     <th>Contacto</th>
                                 </tr>
@@ -528,7 +528,7 @@
                 var TamanoArray = objetosretorna.length;
                 $(".recinto_json_select select").append('<option value=""> --- SELECCIONE EL RECINTO --- </option>');
                 $.each(objetosretorna, function(i,value){
-                    $(".recinto_json_select select").append('<option value="'+value.id_recinto+'"> C: '+value.circunscripcion+' - D: '+value.distrito+' - # '+value.id_recinto+' - Recinto: '+value.nombre+' - Zona: '+value.zona+'</option>');
+                    $(".recinto_json_select select").append('<option value="'+value.id_recinto+'"> C: '+value.circunscripcion+' - Dist. Municipal: '+value.distrito+' - Dist. OEP: '+value.distrito_referencial+' - # '+value.id_recinto+' - Recinto: '+value.nombre+' - Zona: '+value.zona+'</option>');
                 });
             });
         }
@@ -560,7 +560,7 @@
                     // +"<td>"+datos.circunscripcion+"</td>"
                     // +"<td>"+datos.distrito+"</td>"
                     // +"<td>"+datos.nombre_recinto+"</td>"
-                    +"<td>"+datos.nombre_rol+"</td>"
+                    +"<td>"+datos.description+"</td>"
                     +"</tr>";
                     $(nuevaFila).appendTo("#tabla_cedula tbody");
                 });
@@ -590,8 +590,9 @@
         var nuevaFila =
         "<tr>"
         // +"<td>"+indice+"</td>"
-        +"<td>"+items.codigo_ajllita+"</td>"
+        
         +"<td>"+items.codigo_mesas_oep+"</td>"
+        +"<td>"+items.codigo_ajllita+"</td>"
         +"<td>"+items.nombre_completo+"</td>"
         +"<td>"+items.telefono_celular+"</td>"
         +"</tr>";

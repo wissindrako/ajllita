@@ -15,8 +15,7 @@
                        ¿Eres delegado?
                   </a>
                
-                </div>
-                                
+                </div>           
             
             <div class="row">
               <div class="col-sm-6 col-sm-offset-3 myform-cont" >

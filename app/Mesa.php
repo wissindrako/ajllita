@@ -9,6 +9,13 @@ class Mesa extends Model
     public $timestamps = false;
     protected $primaryKey = 'id_mesa';
     
+
+    public function usuarios()
+    {
+        //return $this->belongsTo('App\Persona', 'foreign_key', 'local_key');
+        return $this->belongsToMany('App\User', 'rel_usuario_mesa', 'id_mesa', 'id_usuario');
+    }
+
     /**
      * Obtener el recinto que tiene una Mesa
     */

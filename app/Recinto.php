@@ -18,4 +18,10 @@ class Recinto extends Model
         return $this->hasMany('App\Mesa', 'id_recinto', 'id_recinto');
     }
 
+    public function personas()
+    {
+        // return $this->hasMany('App\Comment', 'foreign_key', 'local_key');
+        return $this->hasMany('App\Persona', 'id_recinto', 'id_recinto');
+    }
+
 }

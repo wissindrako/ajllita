@@ -55,5 +55,7 @@ class Kernel extends HttpKernel
         'roleshinobi' => \Caffeinated\Shinobi\Middleware\UserHasRole::class,
         'permissionshinobi' => \Caffeinated\Shinobi\Middleware\UserHasPermission::class,
         'cors' => \App\Http\Middleware\Cors::class, 
+        
+        'apikey.validate' => \App\Http\Middleware\ApiKeyValidate::class,
     ];
 }

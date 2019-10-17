@@ -31,6 +31,15 @@ Route::get('log_conexiones', 'PruebasController@log_conexiones');
 
 Auth::routes();
 
+Route::group(["middleware" => "apikey.validate"], function () {
+
+    //Rutas
+    // Route::get("cursos", "Api\CursoController@getCursos");
+    Route::get('indexAPI', 'ServiciosController@indexAPI');
+    Route::get('getResultados', 'ServiciosController@getResultados');
+
+  });
+
 Route::group(['middleware' => 'cors'], function () {
 });
 
@@ -159,6 +168,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('form_votar_presidencial_nyb', 'VotacionesController@form_votar_presidencial_nyb');
     Route::post('votar_presidencial_nyb', 'VotacionesController@votar_presidencial_nyb');
     Route::post('form_votar_presidencial_subir_imagen', 'VotacionesController@form_votar_presidencial_subir_imagen');
+    Route::get('form_votar_presidencial_subir_imagen_popup/{id_mesa}', 'VotacionesController@form_votar_presidencial_subir_imagen_popup');
     Route::post('votar_presidencial_subir_imagen', 'VotacionesController@votar_presidencial_subir_imagen');
     Route::post('form_votar_uninominal', 'VotacionesController@form_votar_uninominal');
     Route::post('form_votar_uninominal_partido', 'VotacionesController@form_votar_uninominal_partido');
@@ -166,7 +176,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('form_votar_uninominal_nyb', 'VotacionesController@form_votar_uninominal_nyb');
     Route::post('votar_uninominal_nyb', 'VotacionesController@votar_uninominal_nyb');
     Route::post('form_votar_uninominal_subir_imagen', 'VotacionesController@form_votar_uninominal_subir_imagen');
+    Route::get('form_votar_uninominal_subir_imagen_popup/{id_mesa}', 'VotacionesController@form_votar_uninominal_subir_imagen_popup');
     Route::post('votar_uninominal_subir_imagen', 'VotacionesController@votar_uninominal_subir_imagen');
+    
 
 
 

@@ -26,12 +26,13 @@ class ConsultasController extends Controller
         ->select('personas.*', 'recintos.id_recinto', 'recintos.nombre as nombre_recinto', 'recintos.circunscripcion', 'recintos.distrito',
                  'recintos.zona', 'recintos.direccion as direccion_recinto', 'recintos.geolocalizacion',
                  'origen.origen', 'sub_origen.nombre as sub_origen',
-                 'roles.name as nombre_rol', 'roles.description',
+                 'roles.name as nombre_rol', 'roles.description', 'roles.slug',
                  \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
                  \DB::raw('CONCAT(personas.telefono_celular," - ", personas.telefono_referencia) as contacto'),
                  \DB::raw('CONCAT(personas.cedula_identidad, personas.complemento_cedula) as ci'),
                  \DB::raw('CONCAT("C: ", recintos.circunscripcion," - D: ", recintos.distrito," - R: ", recintos.nombre) as recinto'),
-                 \DB::raw("group_concat(rel_usuario_mesa.id_mesa SEPARATOR ', ') as mesas")
+                 \DB::raw("group_concat(rel_usuario_mesa.id_mesa SEPARATOR ', ') as mesas"),
+                 \DB::raw("group_concat(mesas.codigo_mesas_oep SEPARATOR ', ') as mesas_oep")
         )
         ->where('cedula_identidad', $cedula)
         ->groupBy('rel_usuario_mesa.id_usuario')

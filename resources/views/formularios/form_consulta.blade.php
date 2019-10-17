@@ -49,6 +49,16 @@
                       
                     <form action="{{ url('') }}"  method="post" id="f_enviar_agregar_persona" class="formentrada" >
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        @if (Auth::guest())
+                        <input type="hidden" id="admin" value="0">
+                        @else
+                            @if (Auth::user()->isRole('admin')==true || Auth::user()->isRole('super_admin')==true)
+                            <input type="hidden" id="admin" value="1">
+                            @else
+                            <input type="hidden" id="admin" value="0">
+                            @endif
+                        @endif
+                      <input type="hidden">
                       <div class="col-md-12"><br></div>
                       <div class="row">
                             <div class="col-md-12">
@@ -58,7 +68,6 @@
                                 </div>
                             </div>
                         </div>
-
 
                         {{-- <button type="submit" class="mybtn">Buscar</button> --}}
 
@@ -231,13 +240,18 @@
                 $("#tabla_cedula tbody").html("");
                 $("#div_usuarios_encontrados").show();
                 $("#error").html("");
+                var admin = $("#admin").val();
                 var TamanoArray = objetosretorna.length;
                 $.each(objetosretorna, function(i,datos){
                     var mesas = "";
                     if (datos.mesas === null) {
                         mesas = "Sin Mesas";
                     }else{
-                        mesas = datos.mesas;
+                        if (admin === '1') { //si es administrador
+                            mesas = datos.mesas;
+                        } else {
+                            mesas = datos.mesas_oep;
+                        }
                     }
 
                     var nuevaFila =

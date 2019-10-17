@@ -1,31 +1,34 @@
 $(document).ready(function(){
 
-  var countDownDate = new Date("Oct 20, 2019 00:00:01").getTime();
+  if (document.getElementById("clock")) {
+    
+    var countDownDate = new Date("Oct 20, 2019 00:00:01").getTime();
 
-  /* Update the count down every 1 second */
-  var x = setInterval(function() {
+    /* Update the count down every 1 second */
+    var x = setInterval(function() {
 
-    // Get today's date and time
-    var now = new Date().getTime();
+      // Get today's date and time
+      var now = new Date().getTime();
 
-    // Find the distance between now and the count down date
-    var distance = countDownDate - now;
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
 
-    // Time calculations for days, hours, minutes and seconds
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    // Display the result in the element with id="clock"
-    document.getElementById("clock").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s Restantes";
+      // Display the result in the element with id="clock"
+      document.getElementById("clock").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s Restantes";
 
-    // If the count down is finished, write some text
-    if (distance < 0) {
-      clearInterval(x);
-      document.getElementById("clock").innerHTML = "Día decisivo";
-    }
-  }, 1000);
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("clock").innerHTML = "Día decisivo";
+      }
+    }, 1000);
+  }
 
   $("#id_origen").change(function(){
     cargaSubOrigen();
@@ -787,6 +790,9 @@ function  verinfo_mesas(id, form){
 
   if(form == 10){var miurl =urlraiz+"/form_llenado_emergencia/"+id+""; }
   if(form == 11){var miurl =urlraiz+"/form_llenado_emergencia_uninominales/"+id+""; }
+
+  if(form == 20){var miurl =urlraiz+"/form_votar_presidencial_subir_imagen_popup/"+id+""; }
+  if(form == 21){var miurl =urlraiz+"/form_votar_uninominal_subir_imagen_popup/"+id+""; }
 
 	$("#capa_modal").show();
 	$("#capa_formularios").show();

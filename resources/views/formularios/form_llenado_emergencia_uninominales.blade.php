@@ -50,7 +50,8 @@
                                     {{-- <span class="description">{{ $p['nombre_partido'] }}</span> --}}
                                 </div>
                             </th>
-                            <th style="text-align:center" width="3%"></th>
+                            <th style="text-align:center" width="1%"></th>
+                            <th style="text-align:center" width="1%"></th>
                             </tr>
                         </thead>
                             <tbody>
@@ -143,6 +144,12 @@
                                     @endif
         
                                     <td><button type="button" class="btn_mesa btn btn-default btn-xs"><i class="fa fa-fw fa-save"></i></button></td>
+                                    <td>
+                                        {{-- <button type="button" class="btn_foto btn btn-default btn-xs"><i class="fa fa-camera"></i>{{ $mesa->id_mesa}}</button> --}}
+                                        <form>
+                                            <button type="button" onclick="verinfo_mesas({{$mesa->id_mesa}}, 21);" class="btn_foto btn btn-default btn-xs"><i class="fa fa-camera"></i></button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

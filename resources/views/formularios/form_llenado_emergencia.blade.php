@@ -54,7 +54,8 @@
                                 {{-- <span class="description">{{ $p['nombre_partido'] }}</span> --}}
                             </div>
                         </th>
-                        <th style="text-align:center" width="3%"></th>
+                        <th style="text-align:center" width="1%"></th>
+                        <th style="text-align:center" width="1%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -106,7 +107,7 @@
                         @endif
                         <tr>
                             <td style='font-size: 15px;'><b>{{$key+1}}</b></td>
-                            <td style='font-size: 15px;' scope="row"><b>{{$mesa->id_mesa}}</b><input type="hidden" name="" id="id_mesa" value="{{$mesa->id_mesa}}"></td>
+                            <td style='font-size: 15px;' scope="row"><b>{{ $mesa->id_mesa }}</b><input type="hidden" name="" id="id_mesa" value="{{$mesa->id_mesa}}"></td>
                             @foreach ($partidos as $partido)
                             <td>
                                 @if ($mesa->votos_presidenciales->where('id_partido',$partido->id_partido)->pluck('id_partido')->first() )
@@ -145,6 +146,12 @@
                             @endif
 
                             <td><button type="button" class="btn_mesa btn btn-default btn-xs"><i class="fa fa-fw fa-save"></i></button></td>
+                        <td>
+                            {{-- <button type="button" class="btn_foto btn btn-default btn-xs"><i class="fa fa-camera"></i>{{ $mesa->id_mesa}}</button> --}}
+                            <form>
+                                <button type="button" onclick="verinfo_mesas({{$mesa->id_mesa}},20);" class="btn_foto btn btn-default btn-xs"><i class="fa fa-camera"></i></button>
+                            </form>
+                        </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -213,6 +220,7 @@
             }
         )
         
-        })
+        });
+
         </script>
 

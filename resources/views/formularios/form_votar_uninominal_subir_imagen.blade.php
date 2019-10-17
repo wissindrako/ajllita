@@ -18,9 +18,9 @@
                         <div class="myform-top-left">
                            {{-- <img  src="" class="img-responsive logo" /> --}}
                           <h3>
-														Mesa de Votación {{$codigo_mesas_oep}} - Uninominal
-													</h3>
-                            <p>Por favor registre el número de votos</p>
+                                Mesa de Votación {{$codigo_mesas_oep}} - Uninominal
+                            </h3>
+                            <p>Suba la foto del acta</p>
                         </div>
                         <div class="myform-top-right">
                           <i class="fa fa-edit"></i>

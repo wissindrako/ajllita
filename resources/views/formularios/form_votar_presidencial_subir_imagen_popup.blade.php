@@ -1,13 +1,4 @@
-@extends('layouts.app')
-
-@section('htmlheader_title')
-	Home
-@endsection
-
-
-@section('main-content')
-<section  id="contenido_principal">
-<section  id="content">
+<section  id="content" style="background-color: #002640;">
 
     <div class="" >
         <div class="container">
@@ -57,8 +48,8 @@
 
                         <br>
                         <form>
-                            <button type="button" onClick="javascript:history.go(-1)" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
-                                <i class="fa fa-mail-reply-all"></i> Volver
+                            <button type="button" id="cerrar_modal" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+                                <i class="fa fa-mail-reply-all"></i> Cancelar
                             </button>
                         </form>
                   </div>
@@ -69,6 +60,3 @@
       </div>
 
 </section>
-
-</section>
-@endsection

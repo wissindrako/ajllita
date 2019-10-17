@@ -52,6 +52,7 @@
 																
 														<span  style='font-size: 20px; color:black; height: 50px; font-weight:bold; text-align:center' class="">MESA {{ $mesa->codigo_mesas_oep }}</span>
 														<br><span class="info-box-number">({{ $mesa->codigo_ajllita }})</span>
+														<span  style='font-size: 15px; color:black; font-weight:bold; text-align:center' class="">[ {{ $mesa->id_mesa }} ]</span>
 														<br>
 														<span class="info-box-number">Votos Presidenciales:</span>
 															

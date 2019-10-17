@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Storage;
 use Illuminate\Support\Facades\Validator;
+use DateTime;
 use Image;
 Use App\User;
 Use App\Recinto;
@@ -256,7 +257,6 @@ class VotacionesController extends Controller
 
     $cantidad_partidos = \DB::table('partidos')
                             ->count('id_partido');
-
     return view("formularios.form_votar_seleccionar_mesa")
           ->with("mesas",$mesas)
           ->with("cantidad_partidos",$cantidad_partidos);
@@ -347,6 +347,7 @@ class VotacionesController extends Controller
   }
 
   public function votar_presidencial_partido(Request $request){
+    $tiempo_actual = new DateTime(date('Y-m-d H:i:s'));
     //Verificamos si se hizo el registro previamente
     $id_votos_presidenciales = \DB::table('votos_presidenciales')
                 ->where('id_mesa', $request->id_mesa)
@@ -360,7 +361,9 @@ class VotacionesController extends Controller
           ['id_mesa' => $request->id_mesa,
            'id_partido' => $request->id_partido,
            'validos' => $request->validos,
-           'id_usuario' => Auth::user()->id]
+           'id_usuario' => Auth::user()->id,
+           'created_at' => $tiempo_actual,
+           'updated_at' => $tiempo_actual]
       ]);
     }
     else {
@@ -368,9 +371,10 @@ class VotacionesController extends Controller
             ->where('id_mesa', $request->id_mesa)
             ->where('id_partido', $request->id_partido)
             ->update(['validos' => $request->validos,
-                      'id_usuario' => Auth::user()->id]);
+                      'id_usuario' => Auth::user()->id,
+                      'updated_at' =>$tiempo_actual]
+                    );
     }
-
     //Tomamos los datos de la mesa
     $mesas = \DB::table('mesas')
     ->select('id_mesa', 'codigo_mesas_oep', 'numero_votantes', 'foto_presidenciales')
@@ -441,6 +445,7 @@ class VotacionesController extends Controller
   }
 
   public function votar_presidencial_nyb(Request $request){
+    $tiempo_actual = new DateTime(date('Y-m-d H:i:s'));
     //Verificamos si se hizo el registro previamente
     $id_votos_presidenciales_nyb = \DB::table('votos_presidenciales_r')
                 ->where('id_mesa', $request->id_mesa)
@@ -453,7 +458,10 @@ class VotacionesController extends Controller
           ['id_mesa' => $request->id_mesa,
            'nulos' => $request->nulos,
            'blancos' => $request->blancos,
-           'id_usuario' => Auth::user()->id]
+           'id_usuario' => Auth::user()->id,
+           'created_at' => $tiempo_actual,
+           'updated_at' => $tiempo_actual
+           ]
       ]);
     }
     else {
@@ -461,7 +469,9 @@ class VotacionesController extends Controller
             ->where('id_mesa', $request->id_mesa)
             ->update(['nulos' => $request->nulos,
                       'blancos' => $request->blancos,
-                      'id_usuario' => Auth::user()->id]);
+                      'id_usuario' => Auth::user()->id,
+                      'updated_at' => $tiempo_actual
+                      ]);
     }
 
     //Tomamos los datos de la mesa
@@ -506,6 +516,17 @@ class VotacionesController extends Controller
 
     return view("formularios.form_votar_presidencial_subir_imagen")
           ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep);
+  }
+
+  public function form_votar_presidencial_subir_imagen_popup($id_mesa){
+    //Tomamos los datos de la mesa
+    $codigo_mesas_oep = \DB::table('mesas')
+                        ->where('id_mesa', $id_mesa)
+                        ->value('codigo_mesas_oep');
+
+    return view("formularios.form_votar_presidencial_subir_imagen_popup")
+          ->with("id_mesa",$id_mesa)
           ->with("codigo_mesas_oep",$codigo_mesas_oep);
   }
 
@@ -677,7 +698,7 @@ class VotacionesController extends Controller
   }
 
   public function votar_uninominal_partido(Request $request){
-
+    $tiempo_actual = new DateTime(date('Y-m-d H:i:s'));
     //Verificamos si se hizo el registro previamente
     $id_votos_uninominales = \DB::table('votos_uninominales')
                 ->where('id_mesa', $request->id_mesa)
@@ -691,7 +712,10 @@ class VotacionesController extends Controller
           ['id_mesa' => $request->id_mesa,
            'id_partido' => $request->id_partido,
            'validos' => $request->validos,
-           'id_usuario' => Auth::user()->id]
+           'id_usuario' => Auth::user()->id,
+            'created_at' => $tiempo_actual,
+            'updated_at' => $tiempo_actual
+           ]
       ]);
     }
     else {
@@ -699,7 +723,9 @@ class VotacionesController extends Controller
             ->where('id_mesa', $request->id_mesa)
             ->where('id_partido', $request->id_partido)
             ->update(['validos' => $request->validos,
-                      'id_usuario' => Auth::user()->id]);
+                      'id_usuario' => Auth::user()->id,
+                      'updated_at' => $tiempo_actual
+                      ]);
     }
 
     //Tomamos los datos de la mesa
@@ -770,6 +796,7 @@ class VotacionesController extends Controller
   }
 
   public function votar_uninominal_nyb(Request $request){
+    $tiempo_actual = new DateTime(date('Y-m-d H:i:s'));
     //Verificamos si se hizo el registro previamente
     $id_votos_uninominales_nyb = \DB::table('votos_uninominales_r')
                 ->where('id_mesa', $request->id_mesa)
@@ -782,15 +809,20 @@ class VotacionesController extends Controller
           ['id_mesa' => $request->id_mesa,
            'nulos' => $request->nulos,
            'blancos' => $request->blancos,
-           'id_usuario' => Auth::user()->id]
+           'id_usuario' => Auth::user()->id,
+            'created_at' => $tiempo_actual,
+            'updated_at' => $tiempo_actual
+           ]
       ]);
     }
     else {
       \DB::table('votos_uninominales_r')
-            ->where('id_mesa', $request->id_mesa)
-            ->update(['nulos' => $request->nulos,
-                      'blancos' => $request->blancos,
-                      'id_usuario' => Auth::user()->id]);
+        ->where('id_mesa', $request->id_mesa)
+        ->update(['nulos' => $request->nulos,
+                  'blancos' => $request->blancos,
+                  'id_usuario' => Auth::user()->id,
+                  'updated_at' => $tiempo_actual
+                  ]);
     }
 
     //Tomamos los datos de la mesa
@@ -837,6 +869,16 @@ class VotacionesController extends Controller
           ->with("codigo_mesas_oep",$codigo_mesas_oep);
   }
 
+  public function form_votar_uninominal_subir_imagen_popup($id_mesa){
+    //Tomamos los datos de la mesa
+    $codigo_mesas_oep = \DB::table('mesas')
+                        ->where('id_mesa', $id_mesa)
+                        ->value('codigo_mesas_oep');
+
+    return view("formularios.form_votar_uninominal_subir_imagen_popup")
+          ->with("id_mesa",$id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep);
+  }
 
   public function votar_uninominal_subir_imagen(Request $request){
     

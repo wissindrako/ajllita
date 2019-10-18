@@ -132,7 +132,7 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="{{ url('/docs/Manual defensa del voto MESAS resumen.pdf') }}" target="_blank">
+                        <a href="{{ url('/docs/Manual defensa del voto RESUMEN.pdf') }}" target="_blank">
                             <div class="">
                                 <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
                                     <div class="widget-user-header bg-white">
@@ -149,7 +149,7 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="{{ url('/docs/Manual defensa del voto CARTILLA.pdf') }}" target="_blank">
+                        <a href="{{ url('/docs/Manual defensa del voto COMPLETO.pdf') }}" target="_blank">
                             <div class="">
                                 <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
                                     <div class="widget-user-header bg-white">

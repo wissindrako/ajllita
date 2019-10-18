@@ -189,11 +189,11 @@ class MesasController extends Controller
         ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
         ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
         ->where('mesas.id_mesa', $id_mesa)
-        ->select('recintos.nombre as nombre_recinto', 'mesas.id_mesa', 'recintos.id_recinto',
+        ->select('recintos.nombre as nombre_recinto', 'mesas.id_mesa', 'recintos.id_recinto', 
         'recintos.circunscripcion', 'recintos.distrito',
         \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
         \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
-        'mesas.foto_presidenciales'
+        'mesas.foto_presidenciales', 'mesas.codigo_ajllita', 'mesas.codigo_mesas_oep'
         )
         ->first();
         
@@ -280,7 +280,7 @@ class MesasController extends Controller
         'recintos.circunscripcion', 'recintos.distrito',
         \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
         \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
-        'mesas.foto_uninominales'
+        'mesas.foto_uninominales', 'mesas.codigo_ajllita', 'mesas.codigo_mesas_oep'
         )
         ->first();
         

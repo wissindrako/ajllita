@@ -9,6 +9,7 @@
 					<h4 class="text-black" >CIRCUNSCRIPCION: <b>{{$mesa->circunscripcion}}</b></h4 class="text-black" >
 					<h4 class="text-black" >DISTRITO: <b>{{$mesa->distrito}}</b></h4 class="text-black" >
 					<h4 class="text-black" >RECINTO: <b>#{{$mesa->id_recinto}} - {{$mesa->nombre_recinto}}</b></h4 class="text-black" >
+					<h4 class="text-black" >MESA: <b>#{{$mesa->id_mesa}} - ({{ $mesa->codigo_ajllita }})</b></h4 class="text-black" >
 						<input type="hidden" name="" id="id_mesa" value="{{$mesa->id_mesa}}">
 				</div>
 				<!-- /.box-header -->
@@ -17,12 +18,10 @@
 				  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 					<thead>
 						<tr>			
-								
-							{{-- <th># Recinto</th> --}}
-							<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-2">Partido</th>
-							<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-2">Votos</th>
-							<th style="background-color:#3c8dbc; text-align:center; color:white" class=""></th>
-							<th style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-8">Foto del Acta</th>
+							<th width="15%" style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-2">Partido</th>
+							<th width="10%" style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-2">Cantidad Votos</th>
+							<th width="5%" style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-1"></th>
+							<th width="70%" style="background-color:#3c8dbc; text-align:center; color:white" class="col-sm-7">Foto del Acta</th>
 						</tr>
 						{{-- <th>Estado</th>
 						<th></th> --}}
@@ -52,7 +51,7 @@
 						</td>
 						@if ($key == 0)
 							@if ($mesa->foto_uninominales != "")
-							<td rowspan="9"><img class="img-responsive" src="{{ $mesa->foto_uninominales }}" style="width:100%;height:800px;" alt="Foto del Acta"></td>
+							<td rowspan="9"><img class="" src="{{ $mesa->foto_uninominales }}" style="width:800px; height:600px;" alt="Foto del Acta"></td>
 							@else
 							<td  style="text-align:center;" rowspan="9">No se cargó la foto aún...!</td>
 							@endif

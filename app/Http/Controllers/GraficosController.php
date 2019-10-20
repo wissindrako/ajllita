@@ -184,6 +184,8 @@ class GraficosController extends Controller
         ->orderby('partidos.nivel')
         ->get();
 
+        $suma_votos = $votos_presidenciales->sum('validos');
+
         $votos_presidenciales_r = \DB::table('mesas')
         ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
         ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
@@ -201,7 +203,8 @@ class GraficosController extends Controller
             $e["sigla"] = $value->sigla;
             $e["fill"] = $value->fill;
             $e["borderColor"] = $value->borderColor;
-            $e["valor"] = round(($value->validos*100)/$total_votos, 2);
+            $e["valor"] = round(($value->validos*100)/$suma_votos, 0);
+            // $e["valor"] = round(($value->validos*100)/$total_votos, 2);
             // $e["blancos"] = (int) $value->blancos;
             // $e["nulos"] = (int) $value->nulos;
             array_push($presidenciales, $e);

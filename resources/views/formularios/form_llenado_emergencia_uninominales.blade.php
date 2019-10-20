@@ -194,7 +194,7 @@
                 $.ajax({
                     // alert('sdaf');
                     type:'POST',
-                    url:"llenado_emergencia", // sending the request to the same page we're on right now
+                    url:"form_llenado_emergencia_uninominales", // sending the request to the same page we're on right now
                     data:{
                         'id_mesa':id_mesa,
                         'partido_1':partido_1,

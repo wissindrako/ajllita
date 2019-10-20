@@ -52,7 +52,7 @@
 				<tr>
 
 				{{-- <td>{{$mesa->id_recinto}}</td> --}}
-				<td style="text-align:center;">{{$mesa->id_mesa}}</td>
+				<td style="text-align:center;">{{$mesa->codigo_mesas_oep}}</td>
 				{{-- {{dd($votos_presidenciales)}} --}}
 				@php
 					$votos_pre = 0;

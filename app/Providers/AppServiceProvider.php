@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Persona;
 use Illuminate\Support\ServiceProvider;
 use Auth;
 
@@ -20,16 +21,18 @@ class AppServiceProvider extends ServiceProvider
             $control_mesas_votacion = [];
         } else {
 
-            $personas_logueadas = \DB::table('users')
-            ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
-            ->leftjoin('recintos', 'personas.id_recinto', 'recintos.id_recinto')
-            ->where('users.id', Auth::user()->id)
-            ->select('users.id as id_usuario', 'users.name', 'recintos.id_recinto',
-            'personas.telefono_celular', 'personas.nombre', 'personas.paterno', 'personas.materno',
-            \DB::raw('CONCAT(personas.cedula_identidad,personas.complemento_cedula) as ci'),
-            \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
-            )
-            ->first();
+            // $personas_logueadas = \DB::table('users')
+            // ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
+            // ->leftjoin('recintos', 'personas.id_recinto', 'recintos.id_recinto')
+            // ->where('users.id', Auth::user()->id)
+            // ->select('users.id as id_usuario', 'users.name', 'recintos.id_recinto',
+            // 'personas.telefono_celular', 'personas.nombre', 'personas.paterno', 'personas.materno',
+            // \DB::raw('CONCAT(personas.cedula_identidad,personas.complemento_cedula) as ci'),
+            // \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
+            // )
+            // ->first();
+
+            $personas_logueadas = Persona::find(Auth::user()->id);
 
             // $control_mesas_votacion = \DB::table('votos_presidenciales')
             // ->select(

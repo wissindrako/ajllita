@@ -522,7 +522,9 @@ class MesasController extends Controller
         ->leftjoin('users', 'rel_usuario_mesa.id_usuario', 'users.id')
         ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
         ->where('mesas.id_recinto', $id_recinto)
-        ->select('recintos.nombre as nombre_recinto', 'mesas.id_mesa', 'recintos.id_recinto',
+        ->select('recintos.nombre as nombre_recinto',
+        'mesas.codigo_mesas_oep',
+        'mesas.id_mesa', 'recintos.id_recinto',
         \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
         \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
         )

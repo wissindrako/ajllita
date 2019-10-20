@@ -13,11 +13,13 @@
                 <div class="pull-left info">
                     {{-- <p>{{ Auth::user()->name }}</p> --}}
 
-                    @if ($personas_logueadas->paterno == '')
-                    <p>{{ $personas_logueadas->nombre }} {{ $personas_logueadas->materno }} </p>
+                    @if ($personas_logueadas['paterno'] == '')
+                    <p>{{ $personas_logueadas['nombre'] }} {{ $personas_logueadas['materno'] }} </p>
                     @else
-                    <p>{{ $personas_logueadas->nombre }} {{ $personas_logueadas->paterno }}</p>
+                    <p>{{ $personas_logueadas['nombre'] }} {{ $personas_logueadas['paterno'] }}</p>
                     @endif
+
+                    
 
                     {{-- @foreach ($personas as $persona)
                         @if ( $persona->ci == Auth::user()->ci)
@@ -72,7 +74,7 @@
         <ul class="sidebar-menu">
             <li class="header">MENU</li>
             <!-- Optionally, you can add icons to the links -->
-
+            
             @role('super_admin')
             <li class="treeview">
                 <a href="#"><i class='fa fa-gear'></i> <span>Configuración</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -195,7 +197,7 @@
                     <li><a href="{{ url('listado_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Estado votación</span></a></li>
                     <li><a href="{{ url('votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Votación Presidenciales</span></a></li> 
                     <li><a href="{{ url('porcentaje_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Porcentaje Presidenciales</span></a></li> 
-                    <li><a href="{{ url('form_resumen_global_por_distrito') }}"><i class='fa fa-bar-chart'></i> <span>Resumen Global </span></a></li> 
+                    {{-- <li><a href="{{ url('form_resumen_global_por_distrito') }}"><i class='fa fa-bar-chart'></i> <span>Resumen Global </span></a></li>  --}}
                     <li><a href="{{ url('votacion_general_uninominales') }}"><i class='fa fa-bar-chart'></i> <span>Votación Uninominales</span></a></li> 
                 </ul>
             </li>
@@ -207,7 +209,7 @@
                     <li><a href="{{ url('listado_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Estado votación</span></a></li>
                     <li><a href="{{ url('votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Votación Presidenciales</span></a></li> 
                     <li><a href="{{ url('porcentaje_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Porcentaje Presidenciales</span></a></li> 
-                    <li><a href="{{ url('form_resumen_global_por_distrito') }}"><i class='fa fa-bar-chart'></i> <span>Resumen Global </span></a></li> 
+                    {{-- <li><a href="{{ url('form_resumen_global_por_distrito') }}"><i class='fa fa-bar-chart'></i> <span>Resumen Global </span></a></li>  --}}
                     <li><a href="{{ url('votacion_general_uninominales') }}"><i class='fa fa-bar-chart'></i> <span>Votación Uninominales</span></a></li> 
                 </ul>
             </li>

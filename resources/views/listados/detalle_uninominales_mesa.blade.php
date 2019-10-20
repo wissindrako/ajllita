@@ -9,7 +9,7 @@
 					<h4 class="text-black" >CIRCUNSCRIPCION: <b>{{$mesa->circunscripcion}}</b></h4 class="text-black" >
 					<h4 class="text-black" >DISTRITO: <b>{{$mesa->distrito}}</b></h4 class="text-black" >
 					<h4 class="text-black" >RECINTO: <b>#{{$mesa->id_recinto}} - {{$mesa->nombre_recinto}}</b></h4 class="text-black" >
-					<h4 class="text-black" >MESA: <b>#{{$mesa->id_mesa}} - ({{ $mesa->codigo_ajllita }})</b></h4 class="text-black" >
+					<h4 class="text-black" ><b>MESA: {{$mesa->id_mesa}}</b> - ({{ $mesa->codigo_ajllita }})</h4 class="text-black" >
 						<input type="hidden" name="" id="id_mesa" value="{{$mesa->id_mesa}}">
 				</div>
 				<!-- /.box-header -->

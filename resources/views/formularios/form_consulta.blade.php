@@ -247,11 +247,11 @@
                     if (datos.mesas === null) {
                         mesas = "";
                     }else{
-                        // if (admin === '1') { //si es administrador
-                            // mesas = datos.mesas;
-                    //     } else {
+                        if (admin === '1') { //si es administrador
+                            mesas = datos.mesas;
+                        } else {
                             mesas = datos.mesas_oep;
-                    //     }
+                        }
                     }
 
                     var nuevaFila =

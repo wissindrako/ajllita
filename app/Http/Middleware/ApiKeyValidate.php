@@ -27,11 +27,10 @@ class ApiKeyValidate
         if ($request->input("api_key") != $api_key) {
           return response()->json([
             'status' => 400,
-            'message' => 'Acceso no autorizado',
+            'message' => 'Token no válido',
           ], 400);
         }
       }
-  
       return $next($request);
     }
 }

@@ -380,7 +380,8 @@ public function editar_acceso(Request $request){
     }
   
     $usuario->name=$request->input("name");
-    $usuario->password= bcrypt( $request->input("password") ); 
+    $usuario->email=$request->input("password");
+    $usuario->password= bcrypt( $request->input("password") );
     if( $usuario->save()){
         return view("mensajes.msj_usuario_actualizado")->with("msj","Usuario actualizado correctamente")->with("idusuario",$idusuario) ;
     }
@@ -389,8 +390,6 @@ public function editar_acceso(Request $request){
         return view("mensajes.mensaje_error")->with("msj","...Hubo un error al agregar ; intentarlo nuevamente ...") ;
     }
 }
-
-
 
 public function asignar_rol($idusu,$idrol){
 
@@ -459,12 +458,11 @@ public function ObtieneUsuarioMd5 ($circ, $distrito, $recinto)
     $numero = 0;
 
     $exp_reg="[^A-Z0-9]";   
-    $longitud = 4; 
+    $longitud = 4;
     $codigo = substr(preg_replace($exp_reg, "", md5($circ)).preg_replace($exp_reg, "", md5($distrito)).preg_replace($exp_reg, "", md5($recinto)),
     0, $longitud);
     
     // $codigo = strtoupper(chr($i));
-
     $username = strtolower($circ."-".$codigo);
     
     while (User::where('name', '=', $username)->exists()) { // user found 
@@ -473,7 +471,5 @@ public function ObtieneUsuarioMd5 ($circ, $distrito, $recinto)
     }
     return $username;
 }
-
-
 
 }

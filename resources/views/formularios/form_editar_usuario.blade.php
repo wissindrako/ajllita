@@ -92,10 +92,8 @@
                     <div class="col-sm-10" >
                     <input type="name" class="form-control" id="name" name="name"  value="{{ $usuario->name  }}"  required >
                     </div>
-
-                    </div><!-- /.form-group -->
-
-                  </div><!-- /.col -->
+                  </div><!-- /.form-group -->
+                </div><!-- /.col -->
 
                   <div class="col-md-6">
                   <div class="form-group">

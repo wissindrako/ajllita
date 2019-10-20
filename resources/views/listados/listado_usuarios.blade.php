@@ -39,6 +39,7 @@
 					<th>codigo</th>
 					<th>Rol</th>
 					<th>Nombre</th>
+					<th>Carnet</th>
 					<th>Usuario</th>
 					<th>Email</th>
 					<th>Acción</th>
@@ -58,6 +59,7 @@
              -</span>
 			</td>
 			<td class="mailbox-messages mailbox-name"><a href="javascript:void(0);"  style="display:block"><i class="fa fa-user"></i>&nbsp;&nbsp;{{ $usuario->persona['nombre'] }} {{ $usuario->persona['paterno'] }} {{ $usuario->persona['materno'] }}</a></td>
+			<td class="mailbox-messages mailbox-name"><a href="javascript:void(0);"  style="display:block"><i class="fa fa-credit-card"></i>&nbsp;&nbsp;{{ $usuario->persona['cedula_identidad'] }}</a></td>
 			<td>{{ $usuario->name }}</td>
 			<td>{{ $usuario->email }}</td>
 			<td>

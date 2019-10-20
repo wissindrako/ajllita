@@ -38,6 +38,10 @@ Route::group(["middleware" => "apikey.validate"], function () {
     Route::get('indexAPI', 'ServiciosController@indexAPI');
     Route::get('getResultados', 'ServiciosController@getResultados');
 
+
+    //Graficas JSON
+    // Route::get('presidenciales', 'GraficosController@presidenciales');
+
   });
 
 Route::group(['middleware' => 'cors'], function () {
@@ -112,7 +116,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('buscar_votacion_circunscripcion', 'MesasController@buscar_votacion_circunscripcion');
 
     Route::get('votacion_general', 'GraficosController@votacion_general');
+    Route::get('porcentaje_votacion_general', 'GraficosController@porcentaje_votacion_general');
+
     Route::get('presidenciales', 'GraficosController@presidenciales');
+    Route::get('porcentaje_presidenciales', 'GraficosController@porcentaje_presidenciales');
+    Route::get('form_resumen_global_por_distrito', 'GraficosController@form_resumen_global_por_distrito');
 
     Route::get('votacion_general_uninominales', 'GraficosController@votacion_general_uninominales');
     Route::get('uninominales_c10', 'GraficosController@uninominales_c10');

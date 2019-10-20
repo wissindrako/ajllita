@@ -154,7 +154,7 @@ class PersonasController extends Controller
                         $usuario=new User;
                         $usuario->name=$username;
                         $email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$username;
-                        $usuario->email = str_replace(' ', '', $email);
+                        $usuario->email = $username;
                         $usuario->password= bcrypt($username);
                         $usuario->id_persona=$persona->id_persona;
                         $usuario->activo=1;

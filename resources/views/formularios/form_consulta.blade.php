@@ -245,13 +245,13 @@
                 $.each(objetosretorna, function(i,datos){
                     var mesas = "";
                     if (datos.mesas === null) {
-                        mesas = "Sin Mesas";
+                        mesas = "";
                     }else{
-                        if (admin === '1') { //si es administrador
-                            mesas = datos.mesas;
-                        } else {
+                        // if (admin === '1') { //si es administrador
+                            // mesas = datos.mesas;
+                    //     } else {
                             mesas = datos.mesas_oep;
-                        }
+                    //     }
                     }
 
                     var nuevaFila =

@@ -40,7 +40,6 @@ class ServiciosController extends Controller
         ->orderBy('nivel')
         ->get();
 
-
         $votos_presidenciales_r = \DB::table('votos_presidenciales_r')
         ->select(
             \DB::raw('SUM(blancos) as blancos'),

@@ -203,7 +203,7 @@ class GraficosController extends Controller
             $e["sigla"] = $value->sigla;
             $e["fill"] = $value->fill;
             $e["borderColor"] = $value->borderColor;
-            $e["valor"] = round(($value->validos*100)/$suma_votos, 0);
+            $e["valor"] = round(($value->validos*100)/$suma_votos, 2);
             // $e["valor"] = round(($value->validos*100)/$total_votos, 2);
             // $e["blancos"] = (int) $value->blancos;
             // $e["nulos"] = (int) $value->nulos;

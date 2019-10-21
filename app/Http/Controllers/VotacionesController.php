@@ -231,6 +231,177 @@ class VotacionesController extends Controller
     // }
   }
 
+  public function llenado_emergencia_uninominales(Request $request){
+    // $a = 0;
+    // while ($a < 10) {
+    //   $a++;
+    // }
+
+    if ($request->partido_1 == "") { # code...
+    } else {
+      // return \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)->get();
+      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)->get()) > 0) {
+        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)
+      ->update(['validos' => $request->partido_1, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_uninominales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 1,
+          'validos' => $request->partido_1,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_2 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 2)->get()) > 0) {
+        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 2)
+      ->update(['validos' => $request->partido_2, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_uninominales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 2,
+          'validos' => $request->partido_2,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_3 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 3)->get()) > 0) {
+        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 3)
+      ->update(['validos' => $request->partido_3, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_uninominales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 3,
+          'validos' => $request->partido_3,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_4 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 4)->get()) > 0) {
+        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 4)
+      ->update(['validos' => $request->partido_4, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_uninominales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 4,
+          'validos' => $request->partido_4,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_5 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 5)->get()) > 0) {
+        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 5)
+      ->update(['validos' => $request->partido_5, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_uninominales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 5,
+          'validos' => $request->partido_5,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_6 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 6)->get()) > 0) {
+        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 6)
+      ->update(['validos' => $request->partido_6, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_uninominales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 6,
+          'validos' => $request->partido_6,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_7 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 7)->get()) > 0) {
+        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 7)
+      ->update(['validos' => $request->partido_7, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_uninominales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 7,
+          'validos' => $request->partido_7,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_8 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 8)->get()) > 0) {
+        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 8)
+      ->update(['validos' => $request->partido_8, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_uninominales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 8,
+          'validos' => $request->partido_8,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->partido_9 == "") { # code...
+    } else {
+      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 9)->get()) > 0) {
+        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 9)
+      ->update(['validos' => $request->partido_9, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_uninominales')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'id_partido' => 9,
+          'validos' => $request->partido_9,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+    if ($request->blancos == "" && $request->nulos == "") { # code...
+    } else {
+      if (count(\DB::table('votos_uninominales_r')->where('id_mesa', $request->id_mesa)->get()) > 0) {
+        \DB::table('votos_uninominales_r')->where('id_mesa', $request->id_mesa)
+      ->update(['blancos' => $request->blancos, 'nulos' => $request->nulos, 'id_usuario' => Auth::user()->id]);
+      } else {
+        //Realizamos el registro
+        \DB::table('votos_uninominales_r')->insert([
+          ['id_mesa' => $request->id_mesa,
+          'blancos' => $request->blancos,
+          'nulos' => $request->nulos,
+          'id_usuario' => Auth::user()->id]
+        ]);
+      }
+    }
+
+    
+
+    // if($a->save())
+    // {
+    //     return 'ok' ;
+    // }
+    // else
+    // {
+    //     return 'failed' ;
+    // }
+  }
+
+
   public function form_votar_seleccionar_mesa(){
     //Tomamos el id del usuario
     $id_usuario = Auth::user()->id;

@@ -162,6 +162,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Votaciones
     Route::post('llenado_emergencia', 'VotacionesController@llenado_emergencia');
+    Route::post('llenado_emergencia_uninominales', 'VotacionesController@llenado_emergencia_uninominales');
     Route::get('form_llenar_mesas_emergencia_tipo', 'VotacionesController@form_llenar_mesas_emergencia_tipo');
 
     Route::get('form_llenado_emergencia/{id_recinto}', 'VotacionesController@form_llenado_emergencia');

@@ -44,11 +44,8 @@ public function reporte_usuarios(){
     $usuarios=User::paginate(100);
     $vac_tomadas =Usada::all();
     // $cas=Calificacion::all();
-    $usuarios = \DB::table('personal')
+    $usuarios = \DB::table('personas')
         ->join('users', 'personal.cedula', '=', 'users.ci')
-        ->join('areas', 'personal.idarea', '=', 'areas.idarea')
-        ->join('unidades', 'areas.idunidad', '=', 'unidades.id')
-        ->join('direcciones', 'areas.iddireccion', '=', 'direcciones.id')
         // ->where('personal.fechabaja', '>', '0000-00-00')
         ->select('users.id as id_usuario', 'personal.fechaingreso', 'personal.item', 
                 'users.nombre', 'users.paterno','users.materno', 'users.ci',

@@ -128,6 +128,7 @@ class PersonasController extends Controller
                     $persona->fecha_nacimiento=$request->input("nacimiento");
                     $persona->telefono_celular=$request->input("telefono");
                     $persona->telefono_referencia=$request->input("telefono_ref");
+                    $persona->telefono_referencia=$request->input("telefono_ref");
                     $persona->direccion=ucwords(strtolower($request->input("direccion")));;
                     $persona->email=$request->input("email");
                     $persona->grado_compromiso=$request->input("grado_compromiso");

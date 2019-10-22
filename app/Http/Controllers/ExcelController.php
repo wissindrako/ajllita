@@ -10,6 +10,10 @@ use App\User;
 
 class ExcelController extends Controller
 {
+    function subirExcel(){
+        
+    }
+
     function form_asignacion_delegado_excel(){
         return view('formularios.form_asignacion_delegado_excel');
     }

@@ -46,12 +46,12 @@
 										<br>
 											<form action="{{ url('votar_presidencial_nyb') }}"  method="post">
 												<input type="hidden" name="id_mesa" value="{{ $id_mesa }}">
-												<label style="font-size: 26px">Votos nulos</label><br>
-												<input type="number" name="nulos" min="0" max="{{ $numero_votantes }}" value="{{ $nulos }}" style="width:100%; height:40px; font-size:30px; text-align:center" required>
-												<br>
 												<label style="font-size: 26px">Votos blancos</label><br>
 												<input type="number" name="blancos" min="0" max="{{ $numero_votantes }}" value="{{ $blancos }}" style="width:100%; height:40px; font-size:30px; text-align:center" required>
-												<br><br>
+                                                <br>
+                                                <label style="font-size: 26px">Votos nulos</label><br>
+                                                <input type="number" name="nulos" min="0" max="{{ $numero_votantes }}" value="{{ $nulos }}" style="width:100%; height:40px; font-size:30px; text-align:center" required>
+                                                <br><br><br>
 												<button type="submit" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#A3DD99), color-stop(100%,#87CEEB)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 													Guardar
 												</button>

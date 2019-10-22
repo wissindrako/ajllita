@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Datatables;
+use DateTime;
+use Image;
 use Auth;
 use App\User;
 use App\Persona;
@@ -54,36 +56,74 @@ class PersonasController extends Controller
         ->orderBy('id_transporte', 'asc')
         ->get();
 
+        $evidencias = \DB::table('tipo_evidencias')
+        ->where('estado', 1)
+        ->orderBy('id')
+        ->get();
+
 
         return view("formularios.form_agregar_persona")
         ->with('circunscripciones', $circunscripciones)
         ->with('origenes', $origenes)
         ->with('roles', $roles)
         ->with('casas', $casas)
-        ->with('vehiculos', $vehiculos);
+        ->with('vehiculos', $vehiculos)
+        ->with('evidencias', $evidencias);
     }
 
     public function agregar_persona(Request $request){
+
         if(\Auth::user()->isRole('registrador')==false && \Auth::user()->isRole('admin')==false && \Auth::user()->isRole('responsable_circunscripcion')==false){
             return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">#!<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Acceso restringido </label>   </div></div> ') ;
         }
+
+        $circunscripciones_listado = \DB::table('recintos')
+        ->select('circunscripcion')
+        ->distinct()
+        ->orderBy('circunscripcion', 'asc')
+        ->get();
+
+        $origenes_listado = \DB::table('origen')
+        ->where('activo', 1)
+        ->get();
+
+        $roles_listado = \DB::table('roles')
+        ->where('id', '>=', 15)
+        ->get();
+
+        $casas_listado =  \DB::table('casas_campana')
+        ->where('casas_campana.activo', 1)
+        ->orderBy('circunscripcion', 'asc')
+        ->orderBy('distrito', 'asc')
+        ->orderBy('id_casa_campana', 'asc')
+        ->get();
+
+        $vehiculos_listado = \DB::table('transportes')
+        ->where('transportes.activo', 1)
+        ->orderBy('id_transporte', 'asc')
+        ->get();
+
+        $evidencias_listado = \DB::table('tipo_evidencias')
+        ->where('estado', 1)
+        ->orderBy('id')
+        ->get();
 
         if($request->input("nombres") == ''){
             return 'nombres';
         }elseif($request->input("nacimiento") == ''){
             return 'nacimiento';
-        }elseif ($request->input("telefono") == '' && $request->input("telefono_ref") == '') {
+        }elseif ($request->input("telefono") == '') {
             return 'telefono';
-        }elseif ($request->input("direccion") == '') {
-            return 'direccion';
-        }elseif ($request->input("grado_compromiso") == '') {
-            return 'grado_compromiso';
+        // }elseif ($request->input("direccion") == '') {
+        //     return 'direccion';
+        // }elseif ($request->input("grado_compromiso") == '') {
+        //     return 'grado_compromiso';
         }elseif ($request->input("id_origen") == '') {
             return 'origen';
         }elseif ($request->input("titularidad") == '') {
             return 'titularidad';
-        }elseif ($request->input("informatico") == '') {
-            return 'informatico';
+        // }elseif ($request->input("informatico") == '') {
+        //     return 'informatico';
         }elseif ($request->input("recinto") == '') {
             return 'recinto';
         }elseif ($request->input("rol_slug") == '') {
@@ -102,6 +142,59 @@ class PersonasController extends Controller
             return "recinto";
         }else{}
             
+        $reglas=[ 
+            'archivo'  => 'mimes:jpg,jpeg,gif,png,bmp | max:2048000'
+            ];
+            
+        $mensajes=[
+        'archivo.mimes' => 'El archivo debe ser un archivo con formato: jpg, jpeg, gif, png, bmp.',
+        'archivo.max' => 'El archivo Supera el tamaño máximo permitido',
+        ];
+
+        $validator = Validator::make( $request->all(),$reglas,$mensajes );
+        if( $validator->fails() ){ 
+            $circunscripciones = \DB::table('recintos')
+            ->select('circunscripcion')
+            ->distinct()
+            ->orderBy('circunscripcion', 'asc')
+            ->get();
+    
+            $origenes = \DB::table('origen')
+            ->where('activo', 1)
+            ->get();
+    
+            $roles = \DB::table('roles')
+            ->where('id', '>=', 15)
+            ->get();
+    
+            $casas =  \DB::table('casas_campana')
+            ->where('casas_campana.activo', 1)
+            ->orderBy('circunscripcion', 'asc')
+            ->orderBy('distrito', 'asc')
+            ->orderBy('id_casa_campana', 'asc')
+            ->get();
+    
+            $vehiculos = \DB::table('transportes')
+            ->where('transportes.activo', 1)
+            ->orderBy('id_transporte', 'asc')
+            ->get();
+    
+            $evidencias = \DB::table('tipo_evidencias')
+            ->where('estado', 1)
+            ->orderBy('id')
+            ->get();
+    
+    
+            return view("formularios.form_agregar_persona")
+            ->with('circunscripciones', $circunscripciones)
+            ->with('origenes', $origenes)
+            ->with('roles', $roles)
+            ->with('casas', $casas)
+            ->with('vehiculos', $vehiculos)
+            ->with('evidencias', $evidencias)
+            ->withErrors($validator)
+            ->withInput($request->flash());
+        }
 
         $cedulas = \DB::table('personas')
         ->select('cedula_identidad')
@@ -118,20 +211,21 @@ class PersonasController extends Controller
             }else{
                 if($request->recinto != ""){
                     $persona=new Persona;
-                    
+                        
                     $persona->nombre=ucwords(strtolower($request->input("nombres")));
                     $persona->paterno=ucwords(strtolower($request->input("paterno")));
                     $persona->materno=ucwords(strtolower($request->input("materno")));
                     $persona->cedula_identidad=$request->input("cedula");
                     $persona->complemento_cedula=strtoupper($request->input("complemento"));
-                    $persona->expedido=$request->input("expedido");
+                    $persona->expedido="LP";
                     $persona->fecha_nacimiento=$request->input("nacimiento");
                     $persona->telefono_celular=$request->input("telefono");
-                    $persona->telefono_referencia=$request->input("telefono_ref");
-                    $persona->telefono_referencia=$request->input("telefono_ref");
-                    $persona->direccion=ucwords(strtolower($request->input("direccion")));;
-                    $persona->email=$request->input("email");
-                    $persona->grado_compromiso=$request->input("grado_compromiso");
+                    // $persona->telefono_referencia=$request->input("telefono_ref");
+                    $persona->telefono_referencia="0";
+                    // $persona->direccion=ucwords(strtolower($request->input("direccion")));
+                    $persona->direccion="";
+                    $persona->email="";
+                    $persona->grado_compromiso=4;
                     $persona->fecha_registro=date('Y-m-d');
                     $persona->activo=1;
                     $persona->asignado=1;
@@ -139,10 +233,50 @@ class PersonasController extends Controller
                     $persona->id_origen=$request->input("id_origen");
                     $persona->id_sub_origen=$request->input("id_sub_origen");
                     $persona->id_responsable_registro=Auth::user()->id;
-                    $persona->titularidad=$request->input("titularidad");
-                    $persona->informatico=$request->input("informatico");
-
+                    // $persona->titularidad=$request->input("titularidad");
+                    // $persona->informatico=$request->input("informatico");
+                    $persona->titularidad="TITULAR";
+                    $persona->informatico="SI";
+                    
                     $persona->id_rol=15;
+                    
+                    //Subimos el archivo
+                    if($request->file('archivo') != ""){
+                        $tiempo_actual = new DateTime(date('Y-m-d H:i:s'));
+                        $archivo = $request->file('archivo');
+                        $mime = $archivo->getMimeType();
+                        $extension=strtolower($archivo->getClientOriginalExtension());
+
+                        $nuevo_nombre="R-".$request->input("recinto")."-CI-".$request->input("cedula")."-".$tiempo_actual->getTimestamp();
+
+                        $file = $request->file('archivo');
+
+                        $image = Image::make($file->getRealPath());
+                        
+                        //reducimos la calidad y cambiamos la dimensiones de la nueva instancia.
+                        $image->resize(1280, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                        });
+                        $image->orientate();
+
+                        $rutadelaimagen="../storage/media/evidencias/".$nuevo_nombre;
+        
+                        if ($image->save($rutadelaimagen)){
+
+
+                        //Redirigimos a la vista form_votar_presidencial
+
+                        $persona->archivo_evidencia=$rutadelaimagen;
+
+                        }
+                        else{
+                            return view("mensajes.msj_error")->with("msj","Ocurrio un error al subir la imagen");
+                        }
+                    }
+                    else{
+                        return $request->file('archivo');
+                    }
     
                     if($persona->save())
                     {
@@ -154,7 +288,7 @@ class PersonasController extends Controller
                 
                         $usuario=new User;
                         $usuario->name=$username;
-                        $email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$username;
+                        // $email=strtolower($persona->nombre.$persona->paterno.$persona->materno).'@'.$username;
                         $usuario->email = $username;
                         $usuario->password= bcrypt($username);
                         $usuario->id_persona=$persona->id_persona;
@@ -177,7 +311,14 @@ class PersonasController extends Controller
                                 $usuario->assignRole($rol->id);
             
                                 if ($persona->save()) {
-                                    return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                    // return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                    return view("formularios.form_agregar_persona")
+                                    ->with('circunscripciones', $circunscripciones_listado)
+                                    ->with('origenes', $origenes_listado)
+                                    ->with('roles', $roles_listado)
+                                    ->with('casas', $casas_listado)
+                                    ->with('vehiculos', $vehiculos_listado)
+                                    ->with('evidencias', $evidencias_listado);
                                 } else {
                                     // si no se guarda el update
                                 }
@@ -207,7 +348,14 @@ class PersonasController extends Controller
                                         $usuario_transporte->id_transporte = $request->input("id_vehiculo");
                                         $usuario_transporte->activo = 1;
                                         if ($usuario_transporte->save()) {
-                                            return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                            // return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                            return view("formularios.form_agregar_persona")
+                                            ->with('circunscripciones', $circunscripciones_listado)
+                                            ->with('origenes', $origenes_listado)
+                                            ->with('roles', $roles_listado)
+                                            ->with('casas', $casas_listado)
+                                            ->with('vehiculos', $vehiculos_listado)
+                                            ->with('evidencias', $evidencias_listado);
                                         } else {
                                             # code...
                                         }
@@ -248,7 +396,14 @@ class PersonasController extends Controller
                                         $usuario_casa_campana->id_casa_campana = $request->input("id_casa_campana");
                                         $usuario_casa_campana->activo = 1;
                                         if ($usuario_casa_campana->save()) {
-                                            return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                            // return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                            return view("formularios.form_agregar_persona")
+                                            ->with('circunscripciones', $circunscripciones_listado)
+                                            ->with('origenes', $origenes_listado)
+                                            ->with('roles', $roles_listado)
+                                            ->with('casas', $casas_listado)
+                                            ->with('vehiculos', $vehiculos_listado)
+                                            ->with('evidencias', $evidencias_listado);
                                         } else {
                                             return "failed usuario;";
                                         }
@@ -280,7 +435,14 @@ class PersonasController extends Controller
                                 $usuario->assignRole($rol->id);
             
                                 if ($persona->save()) {
-                                    return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                    // return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                    return view("formularios.form_agregar_persona")
+                                    ->with('circunscripciones', $circunscripciones_listado)
+                                    ->with('origenes', $origenes_listado)
+                                    ->with('roles', $roles_listado)
+                                    ->with('casas', $casas_listado)
+                                    ->with('vehiculos', $vehiculos_listado)
+                                    ->with('evidencias', $evidencias_listado);
                                 } else {
                                     // si no se guarda el update
                                 }
@@ -313,7 +475,14 @@ class PersonasController extends Controller
                                             $usuario_mesa->activo = 1;
                                             $usuario_mesa->save();
                                         }
-                                        return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                        // return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                        return view("formularios.form_agregar_persona")
+                                        ->with('circunscripciones', $circunscripciones_listado)
+                                        ->with('origenes', $origenes_listado)
+                                        ->with('roles', $roles_listado)
+                                        ->with('casas', $casas_listado)
+                                        ->with('vehiculos', $vehiculos_listado)
+                                        ->with('evidencias', $evidencias_listado);
                                     } else {
                                         // si no se guarda el update
                                     }
@@ -350,7 +519,14 @@ class PersonasController extends Controller
                                         $usuario_recinto->id_recinto = $request->input("recinto");
                                         $usuario_recinto->activo = 1;
                                         if ($usuario_recinto->save()) {
-                                            return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                            // return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                            return view("formularios.form_agregar_persona")
+                                            ->with('circunscripciones', $circunscripciones_listado)
+                                            ->with('origenes', $origenes_listado)
+                                            ->with('roles', $roles_listado)
+                                            ->with('casas', $casas_listado)
+                                            ->with('vehiculos', $vehiculos_listado)
+                                            ->with('evidencias', $evidencias_listado);
                                         } else {
                                             # code...
                                         }
@@ -390,7 +566,14 @@ class PersonasController extends Controller
                                         $usuario_distrito->id_distrito = $recinto->distrito;
                                         $usuario_distrito->activo = 1;
                                         if ($usuario_distrito->save()) {
-                                            return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                            // return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                            return view("formularios.form_agregar_persona")
+                                            ->with('circunscripciones', $circunscripciones_listado)
+                                            ->with('origenes', $origenes_listado)
+                                            ->with('roles', $roles_listado)
+                                            ->with('casas', $casas_listado)
+                                            ->with('vehiculos', $vehiculos_listado)
+                                            ->with('evidencias', $evidencias_listado);
                                         } else {
                                             # code...
                                         }
@@ -429,7 +612,14 @@ class PersonasController extends Controller
                                         $usuario_circunscripcion->id_circunscripcion = $recinto->circunscripcion;
                                         $usuario_circunscripcion->activo = 1;
                                         if ($usuario_circunscripcion->save()) {
-                                            return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                            // return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                                            return view("formularios.form_agregar_persona")
+                                            ->with('circunscripciones', $circunscripciones_listado)
+                                            ->with('origenes', $origenes_listado)
+                                            ->with('roles', $roles_listado)
+                                            ->with('casas', $casas_listado)
+                                            ->with('vehiculos', $vehiculos_listado)
+                                            ->with('evidencias', $evidencias_listado);
                                         } else {
                                             # code...
                                         }
@@ -450,7 +640,14 @@ class PersonasController extends Controller
                 
                         }
 
-                        return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                        // return view("mensajes.msj_enviado")->with("msj","enviado_crear_persona");
+                        return view("formularios.form_agregar_persona")
+                        ->with('circunscripciones', $circunscripciones_listado)
+                        ->with('origenes', $origenes_listado)
+                        ->with('roles', $roles_listado)
+                        ->with('casas', $casas_listado)
+                        ->with('vehiculos', $vehiculos_listado)
+                        ->with('evidencias', $evidencias_listado);
                     }else{
                         return "failed";
                     }
@@ -1197,6 +1394,77 @@ class PersonasController extends Controller
             return "recinto";
         }
     }
+
+    //EDITANDO AQUI
+    public function editar_evidencia_persona(Request $request){
+
+        //Primero validamos el archivo
+        $reglas=[ 
+            'archivo'  => 'mimes:jpg,jpeg,gif,png,bmp | max:2048000'
+            ];
+            
+        $mensajes=[
+        'archivo.mimes' => 'El archivo debe ser un archivo con formato: jpg, jpeg, gif, png, bmp.',
+        'archivo.max' => 'El archivo Supera el tamaño máximo permitido',
+        ];
+    
+        $recinto= \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->where('mesas.id_mesa', $request->id_mesa)
+        ->select('recintos.circunscripcion', 'recintos.distrito', 'recintos.distrito_referencial', 'mesas.id_mesa')
+        ->first();
+    
+        $validator = Validator::make( $request->all(),$reglas,$mensajes );
+        if( $validator->fails() ){ 
+          $codigo_mesas_oep = \DB::table('mesas')
+          ->where('id_mesa', $request->id_mesa)
+          ->value('codigo_mesas_oep');
+          return view("formularios.form_votar_presidencial_subir_imagen")
+          ->with("id_mesa",$request->id_mesa)
+          ->with("codigo_mesas_oep",$codigo_mesas_oep)
+          ->withErrors($validator)
+          ->withInput($request->flash());
+        }
+    
+        
+        //Subimos el archivo
+        if($request->file('archivo') != ""){
+            $tiempo_actual = new DateTime(date('Y-m-d H:i:s'));
+            $archivo = $request->file('archivo');
+            $mime = $archivo->getMimeType();
+            $extension=strtolower($archivo->getClientOriginalExtension());
+
+            $nuevo_nombre="R-".$request->input("recinto")."-CI-".$request->input("cedula")."-".$tiempo_actual->getTimestamp();
+
+            $file = $request->file('archivo');
+
+            $image = Image::make($file->getRealPath());
+            
+            //reducimos la calidad y cambiamos la dimensiones de la nueva instancia.
+            $image->resize(1280, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+            });
+            $image->orientate();
+
+            $rutadelaimagen="../storage/media/evidencias/".$nuevo_nombre;
+
+            if ($image->save($rutadelaimagen)){
+
+
+            //Redirigimos a la vista form_votar_presidencial
+
+            $persona->archivo_evidencia=$rutadelaimagen;
+
+            }
+            else{
+                return view("mensajes.msj_error")->with("msj","Ocurrio un error al subir la imagen");
+            }
+        }
+        else{
+            return $request->file('archivo');
+        }
+      }
 
     public function form_baja_persona($id_persona){
         if(\Auth::user()->isRole('admin')==false){

@@ -325,6 +325,45 @@
 
     </div>
   </div>
+
+  <div class="" >
+    <div class="container"> 
+        <div class="row">
+          <div class="col-sm-12 myform-cont" >
+            
+                <div class="myform-top ">
+                    <div class="myform-top-left">
+                        {{-- <img  src="" class="img-responsive logo" /> --}}
+                        <h3>Evidencias <i class="fa fa-pencil-square-o"></i></h3>
+                        {{-- <p>Por favor llene los siguientes campos</p> --}}
+                    </div>
+                    <div class="">
+                        
+                    </div>
+                </div>
+
+
+                <div class="myform-bottom">
+                  
+                <form action="{{ url('editar_evidencia_persona') }}"  method="post" id="f_enviar_editar_persona" class="formentrada" >
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                  <input type="hidden" name="id_persona" value="{{ $persona->id_persona }}">
+                  <label style="font-size: 20px">Subir imagen</label><br><br>
+                  <input name="archivo" id="archivo" type="file" class="text-white" accept="image/*"/>
+
+                    <div class="col-md-12">
+                        <br>
+                    </div>
+                    <button type="submit" class="mybtn">Guardar</button>
+                  </form>
+                
+                </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+
     </div>
 
     <!-- Modal -->

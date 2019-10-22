@@ -13,7 +13,7 @@
     <div class="" >
         <div class="container"> 
             <div class="row">
-              <div class="col-sm-10 col-sm-offset-1 myform-cont" >
+              <div class="col-sm-10 myform-cont" >
                 
                      <div class="myform-top">
                         <div class="myform-top-left">
@@ -66,21 +66,21 @@
                             </div>
                         </div>
                       
-                    <form action="{{ url('agregar_persona') }}"  method="post" id="f_enviar_agregar_persona" class="formentrada" >
+                    <form action="{{ url('agregar_persona') }}"  method="post" id="f_enviar_agregar_persona" class="" enctype="multipart/form-data">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                      <div class="col-md-5">
+                      <div class="col-md-8">
                             <div class="form-group">
                                 <label >Carnet</label>
                                 <input type="input" name="cedula" id="input_cedula" placeholder="" class="form-control" value="{{ old('cedula') }}" pattern="[0-9]{6,9}" required/>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label >Comp. SEGIP</label>
+                                <label >Complemento SEGIP</label>
                                 <input type="input" name="complemento" placeholder="" class="form-control" value="{{ old('complemento') }}" />
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
                                 <label >Expedido</label>
                                 <select class="form-control" name="expedido">
@@ -95,7 +95,7 @@
                                     <option>CH</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label >Nombres</label>
@@ -115,7 +115,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class=" ">Fecha de nacimiento</label>
                                 <input style='line-height: initial;' type="date" name="nacimiento" placeholder="" min="1939-01-01" max="2002-01-01" class="form-control" value="{{ old('nacimiento') }}" required />
@@ -123,17 +123,17 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label >Celular</label>
-                                <input type="text" name="telefono" placeholder="" class="form-control" value="{{ old('telefono') }}" pattern="[0-9]{8}" data-inputmask="&quot;mask&quot;: &quot;99999999&quot;" data-mask="" title="Introduzca un número valido" required/>
+                                <label >Celular - Contacto de Ref.</label>
+                                <input type="input" name="telefono" placeholder="" class="form-control" value="{{ old('telefono') }}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" title="Introduzca un número valido" required/>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <label >Contacto de Referencia</label>
                                 <input type="text" name="telefono_ref" placeholder="" class="form-control" value="{{ old('telefono_ref') }}" pattern="[0-9]{8}" data-inputmask="&quot;mask&quot;: &quot;99999999&quot;" data-mask="" title="Introduzca un número valido" required/>
                             </div>
-                        </div>
-                        <div class="col-md-12">
+                        </div> --}}
+                        {{-- <div class="col-md-12">
                             <div class="form-group">
                                 <label >Dirección</label>
                                 <input type="input" name="direccion" placeholder="Domicilio" class="form-control" value="{{ old('direccion') }}" required/>
@@ -144,11 +144,10 @@
                                 <label >Email</label>
                                 <input type="email" name="email" placeholder="Correo electrónico" class="form-control" value="{{ old('email') }}" />
                             </div>
-                        </div>
-                        <div class="col-md-12">
+                        </div> --}}
+                        {{-- <div class="col-md-12">
                             <div class="form-group">
                                 <label >Grado de apoyo y compromiso en las Elecciones - (1 al 5)</label>
-                                {{-- <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="0" required/> --}}
                                 <select class="form-control" name="grado_compromiso" required>
                                     <option value="" selected> --- SELECCIONE UN NIVEL --- </option>
                                     <option>1</option>
@@ -158,24 +157,40 @@
                                     <option>5</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="text-black ">Organización de Origen</label>
-                                <select class="form-control" name="id_origen" id="id_origen" required>
-                                        <option value="" selected> --- SELECCIONE UNA ORGANIZACIÓN --- </option>
-                                    @foreach ($origenes as $origen)
-                                <option value="{{$origen->id_origen}}">{{$origen->id_origen}} - {{$origen->origen}}</option>
-                                    @endforeach
-                                </select>
+                                <label class="text-black">Designación</label>
+                                <div class="form-group bg-gray">
+                                    <select  class="form-control" name="rol_slug" id="rol_slug"  required>
+                                        <option value="" selected> --- SELECCIONE UNA TAREA --- </option>
+
+                                        @if (Auth::user()->isRole('admin')==true || Auth::user()->isRole('super_admin')==true)
+                                        @foreach ($roles as $rol)
+                                            {{-- <option value={{$rol->slug}} {{$rol->slug == 'militante' ? 'selected' : ''}}>{{$rol->description}}</option> --}}
+                                            <option value={{$rol->slug}}>{{$rol->description}}</option>
+                                        @endforeach
+                                        @else
+                                        @foreach ($roles as $rol)
+                                            @if ($rol->id >= 20 && $rol->id <= 22)
+                                            <option value={{$rol->slug}}>{{$rol->description}}</option>                                                
+                                            @endif
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group sub_origen_json">
-                                <label class="text-black">Sub Origen</label>
-                                <select class="form-control" name="id_sub_origen">
-                                    <option value="0" selected> --- SELECCIONE UNA SUB ORGANIZACIÓN --- </option>
-                                </select>
+                            <div class="form-group">
+                                <label class="text-black">Titularidad</label>
+                                <div class="form-group bg-gray">
+                                    <select class="form-control" name="titularidad" required>
+                                        <option value="" selected> --- SELECCIONE SU SITUACIÓN --- </option>
+                                        <option value="TITULAR">TITULAR</option>
+                                        <option value="SUPLENTE">SUPLENTE</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -210,33 +225,8 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="text-black">Rol</label>
-                                <div class="form-group bg-gray">
-                                    <select  class="form-control" name="rol_slug" id="rol_slug"  required>
-                                        <option value="" selected> --- SELECCIONE UNA TAREA --- </option>
-                                        @foreach ($roles as $rol)
-                                    {{-- <option value={{$rol->slug}} {{$rol->slug == 'militante' ? 'selected' : ''}}>{{$rol->description}}</option> --}}
-                                    <option value={{$rol->slug}}>{{$rol->description}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="text-black">Titularidad</label>
-                                <div class="form-group bg-gray">
-                                    <select class="form-control" name="titularidad" required>
-                                        <option value="" selected> --- SELECCIONE SU SITUACIÓN --- </option>
-                                        <option value="TITULAR">TITULAR</option>
-                                        <option value="SUPLENTE">SUPLENTE</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
+
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
                                 <label class="text-black">Es Informático?</label>
                                 <div class="form-group bg-gray">
@@ -247,7 +237,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-12" id="div_mesas">
                             <div class="" id="div_mesas_detalle">
                                     <h5 class="box-title"><b>Detalle de Mesas: </b></h5>
@@ -299,6 +289,43 @@
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="text-black ">Organización de Origen</label>
+                                <select class="form-control" name="id_origen" id="id_origen" required>
+                                        <option value="" selected> --- SELECCIONE UNA ORGANIZACIÓN --- </option>
+                                    @foreach ($origenes as $origen)
+                                <option value="{{$origen->id_origen}}">{{$origen->id_origen}} - {{$origen->origen}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group sub_origen_json">
+                                <label class="text-black">Sub Origen</label>
+                                <select class="form-control" name="id_sub_origen">
+                                    <option value="0" selected> --- SELECCIONE UNA SUB ORGANIZACIÓN --- </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="text-black ">Evidencia</label>
+                                <select class="form-control" name="id_origen" id="id_origen" required>
+                                    <option value="" selected> --- SELECCIONE UNA EVIDENCIA --- </option>
+                                @foreach ($evidencias as $evidencia)
+                            <option value="{{$evidencia->id}}">{{$evidencia->nombre}}</option>
+                                @endforeach
+                            </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="text-black ">Subir </label>
+                                <input name="archivo" id="archivo" type="file" class="text-white" accept="image/*"/>
                             </div>
                         </div>
                         <div class="col-md-12">

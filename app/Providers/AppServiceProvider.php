@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Persona;
 use Illuminate\Support\ServiceProvider;
 use Auth;
+use App\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
             // )
             // ->first();
 
-            $personas_logueadas = Persona::find(Auth::user()->id);
+            $personas_logueadas = User::find(Auth::user()->id)->persona()->first();
 
             // $control_mesas_votacion = \DB::table('votos_presidenciales')
             // ->select(

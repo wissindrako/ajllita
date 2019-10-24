@@ -3,7 +3,313 @@
 
     <div  id="div_notificacion_sol">
 
-        <div class="" >
+
+<div class="" >
+    <div class="container"> 
+        <div class="row">
+          <div class="col-sm-12 myform-cont" >
+            
+                <div class="myform-top ">
+                    <div class="myform-top-left">
+                        {{-- <img  src="" class="img-responsive logo" /> --}}
+                        <h3>Tareas Asignadas <i class="fa fa-pencil-square-o"></i></h3>
+                        {{-- <p>Por favor llene los siguientes campos</p> --}}
+                    </div>
+                    <div class="">
+                        
+                    </div>
+                </div>
+
+
+                <div class="myform-bottom">
+                  
+                <form action="{{ url('editar_asignacion_persona') }}"  method="post" id="f_enviar_editar_persona" class="formentrada" >
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                  <input type="hidden" name="id_persona" value="{{ $persona->id_persona }}">
+{{-- 
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="text-black" >Grado de apoyo y compromiso - (1 al 5)</label>
+                            <select class="form-control" name="grado_compromiso" required>
+                                    <option value="" selected> --- SELECCIONE UN NIVEL --- </option>
+                                    <option value="1" {{ $persona->grado_compromiso == '1' ? 'selected' : '' }}>1</option>
+                                    <option value="2" {{ $persona->grado_compromiso == '2' ? 'selected' : '' }}>2</option>
+                                    <option value="3" {{ $persona->grado_compromiso == '3' ? 'selected' : '' }}>3</option>
+                                    <option value="4" {{ $persona->grado_compromiso == '4' ? 'selected' : '' }}>4</option>
+                                    <option value="5" {{ $persona->grado_compromiso == '5' ? 'selected' : '' }}>5</option>
+                                </select>
+                        </div>
+                    </div> --}}
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-black">Designacion</label>
+                            <div class="form-group bg-gray">
+                                <select  class="form-control" name="rol_slug" id="rol_slug"  required>
+                                    <option value="" selected> --- SELECCIONE UNA TAREA --- </option>
+
+                                    @if (Auth::user()->isRole('admin')==true || Auth::user()->isRole('super_admin')==true)
+                                    @foreach ($roles as $rol)
+                                        {{-- <option value={{$rol->slug}} {{$rol->slug == 'militante' ? 'selected' : ''}}>{{$rol->description}}</option> --}}
+                                        <option value={{$rol->slug}} {{ $persona->id_rol == $rol->id ? 'selected' : '' }}>{{$rol->description}}</option>
+                                    @endforeach
+                                    @else
+                                    @foreach ($roles as $rol)
+                                        @if ($rol->id >= 20 && $rol->id <= 22)
+                                        <option value={{$rol->slug}} {{ $persona->id_rol == $rol->id ? 'selected' : '' }}>{{$rol->description}}</option>                                                
+                                        @endif
+                                    @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-black">Titularidad</label>
+                            <div class="form-group bg-gray">
+                                <select class="form-control" name="titularidad" required>
+                                    <option value="" selected> --- SELECCIONE SU SITUACIÓN --- </option>
+                                    <option value="TITULAR" {{ $persona->titularidad == 'TITULAR' ? 'selected' : '' }}>TITULAR</option>
+                                    <option value="SUPLENTE" {{ $persona->titularidad == 'SUPLENTE' ? 'selected' : '' }}>SUPLENTE</option>
+                                    <option value="APOYO-1" {{ $persona->titularidad == 'APOYO-1' ? 'selected' : '' }}>APOYO 1</option>
+                                    <option value="APOYO-2" {{ $persona->titularidad == 'APOYO-2' ? 'selected' : '' }}>APOYO 2</option>
+                                    <option value="APOYO-3" {{ $persona->titularidad == 'APOYO-3' ? 'selected' : '' }}>APOYO 3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-black ">Tipo de Evidencia</label>
+                            <select class="form-control" name="evidencia" id="evidencia" required>
+                                <option value="" selected> --- SELECCIONE UNA EVIDENCIA --- </option>
+                            @foreach ($evidencias as $evidencia)
+                        <option value={{$evidencia->id}} {{ $evidencia->id == $persona->evidencia ? 'selected' : '' }}>{{$evidencia->nombre}}</option>
+                            @endforeach
+                        </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label >Buscar Recinto</label>
+                            <input type="text" id="input_recinto" placeholder="Ingrese el Recinto a Buscar" class="form-control" value=""/>
+                        </div>
+                    </div>
+                    {{-- <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="text-black ">Circunscripción</label>
+                            <select class="form-control" name="id_circunscripcion" id="id_circunscripcion" required>
+                                <option value="" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
+                                @foreach ($circunscripciones as $circ)
+                                <option value={{$circ->circunscripcion}} {{ $persona->circunscripcion == $circ->circunscripcion ? 'selected' : '' }}>{{$circ->circunscripcion}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group distrito_json">
+                            <label class="text-black" class="">Distrito</label>
+                            <select class="form-control" name="id_distrito" id="id_distrito" required>
+                                @foreach ($distritos as $dist)
+                                <option value={{$dist->distrito}} {{ $persona->distrito == $dist->distrito ? 'selected' : '' }}>{{$dist->distrito}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div> --}}
+
+                    <div class="col-md-12">
+                        <div class="form-group recinto_json_select">
+                            <label class="text-black">Recinto</label>
+                            <select class="form-control" name="recinto" id="id_recinto" required>
+                                @foreach ($recintos as $recinto)
+                                <option value={{$recinto->id_recinto}} {{ $persona->id_recinto == $recinto->id_recinto ? 'selected' : '' }}>{{$recinto->id_recinto}} - {{$recinto->nombre_recinto}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-black">Organización de Origen</label>
+                            <select class="form-control" name="id_origen" id="id_origen">
+                                @foreach ($origenes as $origen)
+                            <option value={{$origen->id_origen}} {{ $persona->id_origen == $origen->id_origen ? 'selected' : '' }}>{{$origen->origen}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group sub_origen_json">
+                            <label class="text-black">Sub Origen</label>
+                            <select class="form-control" name="id_sub_origen">
+                                <option value="" selected> --- SELECCIONE UN ORIGEN--- </option>
+                                @foreach ($sub_origenes as $sub_origen)
+                                <option value={{$sub_origen->id_sub_origen}} {{ $persona->id_sub_origen == $sub_origen->id_sub_origen ? 'selected' : '' }}>{{$sub_origen->nombre}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    {{-- <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-black">Es Informático?</label>
+                            <div class="form-group bg-gray">
+                                <select class="form-control" name="informatico" required>
+                                    <option value="" selected> --- ELIJA UNA OPCIÓN --- </option>
+                                    <option value="SI" {{ $persona->informatico == 'SI' ? 'selected' : '' }}>SI</option>
+                                    <option value="NO" {{ $persona->informatico == 'NO' ? 'selected' : '' }}>NO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> --}}
+                    <div class="col-md-12" id="div_mesas">
+                        <div class="" id="div_mesas_detalle">
+                                <h5 class="box-title"><b>Detalle de Mesas: </b></h5>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                    <b>Asignadas:</b> <b><span id="mesas_asignadas"></span></b>
+                                </h3>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                    <b>Sin Asignar:</b> <b><span id="mesas_sin_asignar"></span></b>
+                                </h3>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                    <b>Total:</b> <b><span id="mesas_total"></span></b>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-black">Mesas - Recinto</label>
+                            <div class="form-group bg-gray mesas_json">
+                                <select size="7" multiple="" class="form-control" name="mesas[]" id="id_mesa" style="font-family:'FontAwesome', \'Helvetica Neue\', Helvetica, sans-serif; ">
+                                    @foreach ($mesas_usuario as $mesa)
+                                    <option value="{{$mesa->id_mesa}}"> {{$mesa->id_mesa}} C:{{$mesa->circunscripcion}} - D:{{$mesa->distrito}} - R:{{$mesa->nombre_recinto}} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" id="div_casa_campana">
+                        <div class="form-group">
+                            <label class="text-black">Casa de Campaña</label>
+                            <div class="form-group bg-gray">
+                                <select  class="form-control" name="id_casa_campana" id="id_casa_campana">
+                                    <option value=""> --- SELECCIONE UNA CASA DE CAMPAÑA --- </option>
+                                    @foreach ($casas as $casa)
+                                        @if ($casa_campana != null)
+                                        <option value={{$casa->id_casa_campana}} {{$casa_campana->id_casa_campana == $casa->id_casa_campana ? 'selected' : '' }}>C:{{$casa->circunscripcion}} - D:{{$casa->distrito}} - {{$casa->nombre_casa_campana}} {{$casa->direccion}}</option>
+                                        @else
+                                        <option value="{{$casa->id_casa_campana}}">C:{{$casa->circunscripcion}} - D:{{$casa->distrito}} - {{$casa->nombre_casa_campana}} {{$casa->direccion}}</option>
+                                        @endif
+
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" id="div_vehiculo">
+                        <div class="form-group">
+                            <label class="text-black">Vehiculo</label>
+                            <div class="form-group bg-gray">
+                                <select  class="form-control" name="id_vehiculo" id="id_vehiculo">
+                                    <option value="" selected> --- SELECCIONE UN VEHICULO --- </option>
+                                    @foreach ($vehiculos as $vehiculo)
+                                    @if ($usuario_vehiculo != null)
+                                    <option value={{$vehiculo->id_transporte}} {{$vehiculo->id_transporte == $usuario_vehiculo->id_transporte ? 'selected' : '' }}>{{$vehiculo->id_transporte}} - {{$vehiculo->marca}} {{$vehiculo->modelo}}</option>
+                                    @else
+                                    <option value="{{$vehiculo->id_transporte}}">{{$vehiculo->id_transporte}} - {{$vehiculo->marca}} {{$vehiculo->modelo}}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <br>
+                    </div>
+                    <button type="submit" class="mybtn">Guardar</button>
+                  </form>
+                
+                </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+
+  <div class="" >
+    <div class="container"> 
+        <div class="row">
+          <div class="col-sm-12 myform-cont" >
+            
+                <div class="myform-top ">
+                    <div class="myform-top-left">
+                        {{-- <img  src="" class="img-responsive logo" /> --}}
+                        <h3>Evidencias <i class="fa fa-pencil-square-o"></i></h3>
+                        {{-- <p>Por favor llene los siguientes campos</p> --}}
+                    </div>
+                    <div class="">
+                        
+                    </div>
+                </div>
+
+
+                <div class="myform-bottom">
+
+                        <div class="row margin-bottom">
+                            <!-- /.col -->
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                    @if ($persona->archivo_evidencia != "")
+                                    <img class="img-responsive" src="{{ url($persona->archivo_evidencia) }}" alt="Photo">
+                                    @else
+                                        <h4>No tiene evidencia</h4>
+                                    @endif
+                                    {{-- <img class="img-circle" src="{{ url($partido->logo) }}" style="width:65px;height:65px;" alt="User Avatar"> --}}
+
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-6">
+                                    {{-- <img class="img-responsive" src="../../dist/img/photo4.jpg" alt="Photo">
+                                    <br>
+                                    <img class="img-responsive" src="../../dist/img/photo1.png" alt="Photo"> --}}
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                            <div class="col-sm-6">
+                                <form action="{{ url('editar_evidencia_persona') }}"  method="post" id="f_editar_evidencia_persona" class="formarchivo" enctype="multipart/form-data">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="id_persona" value="{{ $persona->id_persona }}">
+                                    <label style="font-size: 20px">Subir imagen</label><br><br>
+                                    <input name="archivo" id="archivo" type="file" class="text-white" accept="image/*"/>
+                    
+                                        <div class="col-md-12">
+                                            <br>
+                                        </div>
+                                        <button type="submit" class="mybtn">Guardar</button>
+                                </form>
+                            </di<v>
+
+                                <!-- /.col -->
+                              </div>
+                  
+
+                
+                </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+
+    </div>
+
+    <div class="" >
             <div class="container"> 
                 <div class="row">
                   <div class="col-sm-12 myform-cont" >
@@ -114,257 +420,6 @@
     
             </div>
           </div>
-
-<div class="" >
-    <div class="container"> 
-        <div class="row">
-          <div class="col-sm-12 myform-cont" >
-            
-                <div class="myform-top ">
-                    <div class="myform-top-left">
-                        {{-- <img  src="" class="img-responsive logo" /> --}}
-                        <h3>Tareas Asignadas <i class="fa fa-pencil-square-o"></i></h3>
-                        {{-- <p>Por favor llene los siguientes campos</p> --}}
-                    </div>
-                    <div class="">
-                        
-                    </div>
-                </div>
-
-
-                <div class="myform-bottom">
-                  
-                <form action="{{ url('editar_asignacion_persona') }}"  method="post" id="f_enviar_editar_persona" class="formentrada" >
-                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  <input type="hidden" name="id_persona" value="{{ $persona->id_persona }}">
-
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label class="text-black" >Grado de apoyo y compromiso - (1 al 5)</label>
-                            {{-- <input type="number" min="1" max="5" name="grado_compromiso" placeholder="1" class="form-control" value="0" required/> --}}
-                            <select class="form-control" name="grado_compromiso" required>
-                                    <option value="" selected> --- SELECCIONE UN NIVEL --- </option>
-                                    <option value="1" {{ $persona->grado_compromiso == '1' ? 'selected' : '' }}>1</option>
-                                    <option value="2" {{ $persona->grado_compromiso == '2' ? 'selected' : '' }}>2</option>
-                                    <option value="3" {{ $persona->grado_compromiso == '3' ? 'selected' : '' }}>3</option>
-                                    <option value="4" {{ $persona->grado_compromiso == '4' ? 'selected' : '' }}>4</option>
-                                    <option value="5" {{ $persona->grado_compromiso == '5' ? 'selected' : '' }}>5</option>
-                                </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="text-black">Organización de Origen</label>
-                            <select class="form-control" name="id_origen" id="id_origen">
-                                @foreach ($origenes as $origen)
-                            <option value={{$origen->id_origen}} {{ $persona->id_origen == $origen->id_origen ? 'selected' : '' }}>{{$origen->origen}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group sub_origen_json">
-                            <label class="text-black">Sub Origen</label>
-                            <select class="form-control" name="id_sub_origen">
-                                <option value="" selected> --- SELECCIONE UN ORIGEN--- </option>
-                                @foreach ($sub_origenes as $sub_origen)
-                                <option value={{$sub_origen->id_sub_origen}} {{ $persona->id_sub_origen == $sub_origen->id_sub_origen ? 'selected' : '' }}>{{$sub_origen->nombre}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label >Buscar Recinto</label>
-                            <input type="text" id="input_recinto" placeholder="Ingrese el Recinto a Buscar" class="form-control" value=""/>
-                        </div>
-                    </div>
-                    {{-- <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="text-black ">Circunscripción</label>
-                            <select class="form-control" name="id_circunscripcion" id="id_circunscripcion" required>
-                                <option value="" selected> --- SELECCIONE UNA CIRCUNSCRIPCIÓN --- </option>
-                                @foreach ($circunscripciones as $circ)
-                                <option value={{$circ->circunscripcion}} {{ $persona->circunscripcion == $circ->circunscripcion ? 'selected' : '' }}>{{$circ->circunscripcion}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group distrito_json">
-                            <label class="text-black" class="">Distrito</label>
-                            <select class="form-control" name="id_distrito" id="id_distrito" required>
-                                @foreach ($distritos as $dist)
-                                <option value={{$dist->distrito}} {{ $persona->distrito == $dist->distrito ? 'selected' : '' }}>{{$dist->distrito}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
-                    <div class="col-md-12">
-                        <div class="form-group recinto_json_select">
-                            <label class="text-black">Recinto</label>
-                            <select class="form-control" name="recinto" id="id_recinto" required>
-                                @foreach ($recintos as $recinto)
-                                <option value={{$recinto->id_recinto}} {{ $persona->id_recinto == $recinto->id_recinto ? 'selected' : '' }}>{{$recinto->id_recinto}} - {{$recinto->nombre_recinto}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="text-black">Rol</label>
-                            <div class="form-group bg-gray">
-                                <select  class="form-control" name="rol_slug" id="rol_slug"  required>
-                                    <option value="" selected> --- SELECCIONE UNA TAREA --- </option>
-                                    @foreach ($roles as $rol)
-                                {{-- <option value={{$rol->slug}} {{$rol->slug == 'militante' ? 'selected' : ''}}>{{$rol->description}}</option> --}}
-                                <option value={{$rol->slug}} {{ $persona->id_rol == $rol->id ? 'selected' : '' }}>{{$rol->description}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="text-black">Titularidad</label>
-                            <div class="form-group bg-gray">
-                                <select class="form-control" name="titularidad" required>
-                                    <option value="" selected> --- SELECCIONE SU SITUACIÓN --- </option>
-                                    <option value="TITULAR" {{ $persona->titularidad == 'TITULAR' ? 'selected' : '' }}>TITULAR</option>
-                                    <option value="SUPLENTE" {{ $persona->titularidad == 'SUPLENTE' ? 'selected' : '' }}>SUPLENTE</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="text-black">Es Informático?</label>
-                            <div class="form-group bg-gray">
-                                <select class="form-control" name="informatico" required>
-                                    <option value="" selected> --- ELIJA UNA OPCIÓN --- </option>
-                                    <option value="SI" {{ $persona->informatico == 'SI' ? 'selected' : '' }}>SI</option>
-                                    <option value="NO" {{ $persona->informatico == 'NO' ? 'selected' : '' }}>NO</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12" id="div_mesas">
-                        <div class="" id="div_mesas_detalle">
-                                <h5 class="box-title"><b>Detalle de Mesas: </b></h5>
-                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
-                                    <b>Asignadas:</b> <b><span id="mesas_asignadas"></span></b>
-                                </h3>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
-                                    <b>Sin Asignar:</b> <b><span id="mesas_sin_asignar"></span></b>
-                                </h3>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                <h3 style="background-color:#ffffff; font-size: 14px; text-align: center; padding: 7px 10px; margin-top: 0;">
-                                    <b>Total:</b> <b><span id="mesas_total"></span></b>
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="text-black">Mesas - Recinto</label>
-                            <div class="form-group bg-gray mesas_json">
-                                <select size="7" multiple="" class="form-control" name="mesas[]" id="id_mesa" style="font-family:'FontAwesome', \'Helvetica Neue\', Helvetica, sans-serif; ">
-                                    @foreach ($mesas_usuario as $mesa)
-                                    <option value="{{$mesa->id_mesa}}"> {{$mesa->id_mesa}} C:{{$mesa->circunscripcion}} - D:{{$mesa->distrito}} - R:{{$mesa->nombre_recinto}} </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12" id="div_casa_campana">
-                        <div class="form-group">
-                            <label class="text-black">Casa de Campaña</label>
-                            <div class="form-group bg-gray">
-                                <select  class="form-control" name="id_casa_campana" id="id_casa_campana">
-                                    <option value=""> --- SELECCIONE UNA CASA DE CAMPAÑA --- </option>
-                                    @foreach ($casas as $casa)
-                                        @if ($casa_campana != null)
-                                        <option value={{$casa->id_casa_campana}} {{$casa_campana->id_casa_campana == $casa->id_casa_campana ? 'selected' : '' }}>C:{{$casa->circunscripcion}} - D:{{$casa->distrito}} - {{$casa->nombre_casa_campana}} {{$casa->direccion}}</option>
-                                        @else
-                                        <option value="{{$casa->id_casa_campana}}">C:{{$casa->circunscripcion}} - D:{{$casa->distrito}} - {{$casa->nombre_casa_campana}} {{$casa->direccion}}</option>
-                                        @endif
-
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12" id="div_vehiculo">
-                        <div class="form-group">
-                            <label class="text-black">Vehiculo</label>
-                            <div class="form-group bg-gray">
-                                <select  class="form-control" name="id_vehiculo" id="id_vehiculo">
-                                    <option value="" selected> --- SELECCIONE UN VEHICULO --- </option>
-                                    @foreach ($vehiculos as $vehiculo)
-                                    @if ($usuario_vehiculo != null)
-                                    <option value={{$vehiculo->id_transporte}} {{$vehiculo->id_transporte == $usuario_vehiculo->id_transporte ? 'selected' : '' }}>{{$vehiculo->id_transporte}} - {{$vehiculo->marca}} {{$vehiculo->modelo}}</option>
-                                    @else
-                                    <option value="{{$vehiculo->id_transporte}}">{{$vehiculo->id_transporte}} - {{$vehiculo->marca}} {{$vehiculo->modelo}}</option>
-                                    @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <br>
-                    </div>
-                    <button type="submit" class="mybtn">Guardar</button>
-                  </form>
-                
-                </div>
-          </div>
-        </div>
-
-    </div>
-  </div>
-
-  <div class="" >
-    <div class="container"> 
-        <div class="row">
-          <div class="col-sm-12 myform-cont" >
-            
-                <div class="myform-top ">
-                    <div class="myform-top-left">
-                        {{-- <img  src="" class="img-responsive logo" /> --}}
-                        <h3>Evidencias <i class="fa fa-pencil-square-o"></i></h3>
-                        {{-- <p>Por favor llene los siguientes campos</p> --}}
-                    </div>
-                    <div class="">
-                        
-                    </div>
-                </div>
-
-
-                <div class="myform-bottom">
-                  
-                <form action="{{ url('editar_evidencia_persona') }}"  method="post" id="f_enviar_editar_persona" class="formentrada" >
-                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  <input type="hidden" name="id_persona" value="{{ $persona->id_persona }}">
-                  <label style="font-size: 20px">Subir imagen</label><br><br>
-                  <input name="archivo" id="archivo" type="file" class="text-white" accept="image/*"/>
-
-                    <div class="col-md-12">
-                        <br>
-                    </div>
-                    <button type="submit" class="mybtn">Guardar</button>
-                  </form>
-                
-                </div>
-          </div>
-        </div>
-
-    </div>
-  </div>
-
-    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

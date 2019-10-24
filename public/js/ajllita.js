@@ -1135,9 +1135,9 @@ $(document).on("submit",".formarchivo",function(e){
   var formu=$(this);
   var nombreform=$(this).attr("id");
 
-  if(nombreform=="f_subir_imagen" ){ var miurl="subir_imagen_usuario";  var divresul="notificacion_resul_fci"; }
-  if(nombreform=="f_cargar_datos_usuarios" ){ var miurl="cargar_datos_usuarios";  var divresul="notificacion_resul_fcdu"; }
-  if(nombreform=="f_subir_imagen_tipodisp" ){ var miurl="subir_imagen_tipodisp";  var divresul="notificacion_resul_fsitd"; }
+  if(nombreform=="f_editar_evidencia_persona" ){ var miurl="editar_evidencia_persona";  var divresul="div_notificacion_sol"; }
+  // if(nombreform=="f_cargar_datos_usuarios" ){ var miurl="cargar_datos_usuarios";  var divresul="notificacion_resul_fcdu"; }
+  // if(nombreform=="f_subir_imagen_tipodisp" ){ var miurl="subir_imagen_tipodisp";  var divresul="notificacion_resul_fsitd"; }
 
   //información del formulario
   var formData = new FormData($("#"+nombreform+"")[0]);
@@ -1161,7 +1161,7 @@ $(document).on("submit",".formarchivo",function(e){
       //una vez finalizado correctamente
       success: function(data){
           $("#"+divresul+"").html(data);
-          $("#fotografia_usuario").attr('src', $("#fotografia_usuario").attr('src') + '?' + Math.random() );
+          // $("#fotografia_usuario").attr('src', $("#fotografia_usuario").attr('src') + '?' + Math.random() );
       },
       //si ha ocurrido un error
       error: function(data){

@@ -61,7 +61,7 @@ desired effect
         <!-- Main content -->
         <section class="content">
             <!-- Your Page Content Here -->
-
+            {{-- {{dd($personas_logueadas)}} --}}
             @yield('main-content')
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->

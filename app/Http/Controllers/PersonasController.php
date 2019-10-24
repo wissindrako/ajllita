@@ -237,6 +237,7 @@ class PersonasController extends Controller
                     // $persona->informatico=$request->input("informatico");
                     $persona->titularidad="TITULAR";
                     $persona->informatico="SI";
+                    $persona->evidencia=$request->input("evidencia");
                     
                     $persona->id_rol=15;
                     
@@ -780,6 +781,12 @@ class PersonasController extends Controller
         ->orderBy('mesas.id_mesa')
         ->get();
 
+        
+        $evidencias = \DB::table('tipo_evidencias')
+        ->where('estado', 1)
+        ->orderBy('id')
+        ->get();
+
         return view("formularios.form_editar_persona")
         ->with('persona', $persona)
         ->with('usuario', $usuario)
@@ -794,6 +801,7 @@ class PersonasController extends Controller
         ->with('vehiculos', $vehiculos)
         ->with('usuario_vehiculo', $usuario_vehiculo)
         ->with('mesas_usuario', $mesas_usuario)
+        ->with('evidencias', $evidencias)
         ;
     }
 
@@ -864,12 +872,8 @@ class PersonasController extends Controller
         
         if ($request->input("rol_slug") == '') {
             return 'rol';
-        }elseif ($request->input("grado_compromiso") == "") {
-            return "grado_compromiso";
-        // }elseif ($request->input("id_circunscripcion") == "") {
-        //     return "recinto";
-        // }elseif ($request->input("id_distrito") == "") {
-        //     return "recinto";
+        // }elseif ($request->input("grado_compromiso") == "") {
+        //     return "grado_compromiso";
         }elseif ($request->input("recinto") == "") {
             return "recinto";
         }elseif($request->input("rol_slug") == 'conductor' && $request->input("id_vehiculo") == ""){
@@ -895,8 +899,8 @@ class PersonasController extends Controller
             $persona->id_origen=$request->input("id_origen");
             $persona->id_sub_origen=$request->input("id_sub_origen");
             $persona->id_responsable_registro=Auth::user()->id;
+            // $persona->informatico=$request->input("informatico");
             $persona->titularidad=$request->input("titularidad");
-            $persona->informatico=$request->input("informatico");
             $recinto = Recinto::find($request->input("recinto"));
                         
             // Obteniendo los datos del Usuario segun el id_persona
@@ -1395,9 +1399,14 @@ class PersonasController extends Controller
         }
     }
 
-    //EDITANDO AQUI
+    
     public function editar_evidencia_persona(Request $request){
 
+        // return $request->input("id_persona");
+            
+        $id_persona = $request->input("id_persona");
+        $persona = Persona::find($id_persona);
+    
         //Primero validamos el archivo
         $reglas=[ 
             'archivo'  => 'mimes:jpg,jpeg,gif,png,bmp | max:2048000'
@@ -1407,21 +1416,12 @@ class PersonasController extends Controller
         'archivo.mimes' => 'El archivo debe ser un archivo con formato: jpg, jpeg, gif, png, bmp.',
         'archivo.max' => 'El archivo Supera el tamaño máximo permitido',
         ];
-    
-        $recinto= \DB::table('mesas')
-        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
-        ->where('mesas.id_mesa', $request->id_mesa)
-        ->select('recintos.circunscripcion', 'recintos.distrito', 'recintos.distrito_referencial', 'mesas.id_mesa')
-        ->first();
-    
+
         $validator = Validator::make( $request->all(),$reglas,$mensajes );
         if( $validator->fails() ){ 
-          $codigo_mesas_oep = \DB::table('mesas')
-          ->where('id_mesa', $request->id_mesa)
-          ->value('codigo_mesas_oep');
+
           return view("formularios.form_votar_presidencial_subir_imagen")
-          ->with("id_mesa",$request->id_mesa)
-          ->with("codigo_mesas_oep",$codigo_mesas_oep)
+          ->with("persona",$persona)
           ->withErrors($validator)
           ->withInput($request->flash());
         }
@@ -1434,7 +1434,7 @@ class PersonasController extends Controller
             $mime = $archivo->getMimeType();
             $extension=strtolower($archivo->getClientOriginalExtension());
 
-            $nuevo_nombre="R-".$request->input("recinto")."-CI-".$request->input("cedula")."-".$tiempo_actual->getTimestamp();
+            $nuevo_nombre="R-".$persona->id_recinto."-CI-".$persona->cedula_identidad."-".$tiempo_actual->getTimestamp();
 
             $file = $request->file('archivo');
 
@@ -1452,9 +1452,10 @@ class PersonasController extends Controller
             if ($image->save($rutadelaimagen)){
 
 
-            //Redirigimos a la vista form_votar_presidencial
+            //Redirigimos a la vista f
 
             $persona->archivo_evidencia=$rutadelaimagen;
+            $persona->save();
 
             }
             else{
@@ -1604,7 +1605,10 @@ class PersonasController extends Controller
         'recintos.zona', 'recintos.direccion as direccion_recinto',
         'origen.origen', 'sub_origen.nombre as sub_origen',
         'roles.name as nombre_rol', 'roles.description',
-        \DB::raw('CONCAT(personas.telefono_celular," - ", personas.telefono_referencia) as contacto')
+        \DB::raw('CONCAT(personas.telefono_celular," - ", personas.telefono_referencia) as contacto'),
+        \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
+        \DB::raw('CONCAT(personas.telefono_celular," - ", personas.telefono_referencia) as contacto'),
+        \DB::raw('CONCAT(personas.cedula_identidad," - ", personas.complemento_cedula) as ci'),
         )
         ->get())->make(true);
     }

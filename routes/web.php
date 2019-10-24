@@ -75,6 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('form_editar_persona/{id_persona}', 'PersonasController@form_editar_persona');
     Route::post('editar_persona', 'PersonasController@editar_persona');
     Route::post('editar_asignacion_persona', 'PersonasController@editar_asignacion_persona');
+    Route::post('editar_evidencia_persona', 'PersonasController@editar_evidencia_persona');
 
     Route::get('form_baja_persona/{id_persona}', 'PersonasController@form_baja_persona');
 

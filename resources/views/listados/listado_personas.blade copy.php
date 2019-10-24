@@ -16,32 +16,31 @@
 			
 		</div>
 		<!-- /.box-header -->
-		
+		{{-- {{dd($personas)}} --}}
 		<div class="box-body table-responsive no-padding">
 		  <table id="tabla_personas" class="table table-hover table-striped table-bordered">
 			<thead>
-				<th>Circunscripción</th>	
-				<th>Distrito Municipal</th>
-				{{-- <th>Distrito OEP</th> --}}
-				<th>Recinto</th>
+			
 				<th>Nombre</th>
-				{{-- <th>Paterno</th>
-				<th>Materno</th> --}}
+				<th>Paterno</th>
+				<th>Materno</th>
 				<th>Cedula</th>
-				{{-- <th>Comp.</th> --}}
+				<th>Comp.</th>
 				<th>Nacimiento</th>
 				<th>Contacto</th>
 				{{-- <th>Telefono - Celular</th>
 				<th>Telefono Ref.</th> --}}
-				{{-- <th>Dirección</th>
+				<th>Dirección</th>
 				<th>Compromiso</th>
 				<th>Fecha de Registro</th>
-				<th>Activo</th> --}}
-
+				<th>Activo</th>
+				<th>Circ.</th>
+				<th>Distrito Municipal</th>
+				<th>Distrito OEP</th>
+				<th>Recinto</th>
 				<th>Origen</th>
 				<th>Sub Origen</th>
-				<th>Designacion</th>
-				<th>Titularidad</th>
+				<th>Rol</th>
 				
 				<th>Acción</th>
 				
@@ -142,29 +141,26 @@
                   } ,
         ajax: '{!! url('buscar_persona') !!}',
         columns: [
-			{ data: 'circunscripcion', name: 'circunscripcion' },
-            { data: 'distrito', name: 'distrito' },
-            // { data: 'distrito_referencial', name: 'distrito_referencial' },
-            { data: 'nombre_recinto', name: 'nombre_recinto' },
-            // { data: 'nombre', name: 'nombre' },
-            // { data: 'paterno', name: 'paterno' },
-            // { data: 'materno', name: 'materno' },
-            { data: 'nombre_completo', name: 'nombre_completo' },
+            { data: 'nombre', name: 'nombre' },
+            { data: 'paterno', name: 'paterno' },
+            { data: 'materno', name: 'materno' },
             { data: 'cedula_identidad', name: 'cedula_identidad' },
-            // { data: 'complemento_cedula', name: 'complemento_cedula' },
+            { data: 'complemento_cedula', name: 'complemento_cedula' },
             { data: 'fecha_nacimiento', name: 'fecha_nacimiento' },
-            { data: 'telefono_celular', name: 'telefono_celular' },
+            { data: 'contacto', name: 'contacto' },
             // { data: 'telefono_celular', name: 'telefono_celular' },
             // { data: 'telefono_referencia', name: 'telefono_referencia' },
-            // { data: 'direccion', name: 'direccion' },
-            // { data: 'grado_compromiso', name: 'grado_compromiso' },
-            // { data: 'fecha_registro', name: 'fecha_registro' },
-            // { data: 'activo', name: 'activo' },
-
+            { data: 'direccion', name: 'direccion' },
+            { data: 'grado_compromiso', name: 'grado_compromiso' },
+            { data: 'fecha_registro', name: 'fecha_registro' },
+            { data: 'activo', name: 'activo' },
+            { data: 'circunscripcion', name: 'circunscripcion' },
+            { data: 'distrito', name: 'distrito' },
+            { data: 'distrito_referencial', name: 'distrito_referencial' },
+            { data: 'nombre_recinto', name: 'nombre_recinto' },
             { data: 'origen', name: 'origen' },
             { data: 'sub_origen', name: 'sub_origen' },
             { data: 'description', name: 'description' },
-            { data: 'titularidad', name: 'titularidad' },
 			{ data: null,  render: function ( data, type, row ) {
 					if ($("#rol_usuario").val() === 'admin' || $("#rol_usuario").val() === 'super_admin') {
 						if ( row.activo === 1) {

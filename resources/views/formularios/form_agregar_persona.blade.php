@@ -189,6 +189,9 @@
                                         <option value="" selected> --- SELECCIONE SU SITUACIÓN --- </option>
                                         <option value="TITULAR">TITULAR</option>
                                         <option value="SUPLENTE">SUPLENTE</option>
+                                        <option value="APOYO-1">APOYO 1</option>
+                                        <option value="APOYO-2">APOYO 2</option>
+                                        <option value="APOYO-3">APOYO 3</option>
                                     </select>
                                 </div>
                             </div>
@@ -313,8 +316,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="text-black ">Evidencia</label>
-                                <select class="form-control" name="id_origen" id="id_origen" required>
+                                <label class="text-black ">Tipo de Evidencia</label>
+                                <select class="form-control" name="evidencia" id="evidencia" required>
                                     <option value="" selected> --- SELECCIONE UNA EVIDENCIA --- </option>
                                 @foreach ($evidencias as $evidencia)
                             <option value="{{$evidencia->id}}">{{$evidencia->nombre}}</option>

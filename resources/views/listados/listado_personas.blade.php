@@ -20,8 +20,8 @@
 		<div class="box-body table-responsive no-padding">
 		  <table id="tabla_personas" class="table table-hover table-striped table-bordered">
 			<thead>
-				<th>Circunscripción</th>	
-				<th>Distrito Municipal</th>
+				<th>Circ.</th>	
+				<th>Distrito</th>
 				{{-- <th>Distrito OEP</th> --}}
 				<th>Recinto</th>
 				<th>Nombre</th>
@@ -42,6 +42,7 @@
 				<th>Sub Origen</th>
 				<th>Designacion</th>
 				<th>Titularidad</th>
+				<th>Evidencia</th>
 				
 				<th>Acción</th>
 				
@@ -126,6 +127,7 @@
 		dom: 'Bfrtip',
         processing: true,
         serverSide: true,
+		// pageLength: 100,
 		pageLength: 100,
 		buttons: [
 			'excel', 'pdf', 'print'
@@ -165,6 +167,8 @@
             { data: 'sub_origen', name: 'sub_origen' },
             { data: 'description', name: 'description' },
             { data: 'titularidad', name: 'titularidad' },
+            { data: 'nombre_evidencia', name: 'nombre_evidencia' },
+			
 			{ data: null,  render: function ( data, type, row ) {
 					if ($("#rol_usuario").val() === 'admin' || $("#rol_usuario").val() === 'super_admin') {
 						if ( row.activo === 1) {

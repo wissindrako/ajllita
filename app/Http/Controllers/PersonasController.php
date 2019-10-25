@@ -1602,14 +1602,16 @@ class PersonasController extends Controller
         ->join('origen', 'personas.id_origen', 'origen.id_origen')
         ->leftjoin('sub_origen', 'personas.id_sub_origen', 'sub_origen.id_sub_origen')
         ->leftjoin('roles', 'personas.id_rol', 'roles.id')
+        ->leftjoin('tipo_evidencias', 'personas.evidencia', 'tipo_evidencias.id')
         ->select('personas.*', 'recintos.id_recinto', 'recintos.nombre as nombre_recinto', 'recintos.circunscripcion', 'recintos.distrito', 'recintos.distrito_referencial',
         'recintos.zona', 'recintos.direccion as direccion_recinto',
         'origen.origen', 'sub_origen.nombre as sub_origen',
         'roles.name as nombre_rol', 'roles.description',
+        'tipo_evidencias.nombre as nombre_evidencia',
         \DB::raw('CONCAT(personas.telefono_celular," - ", personas.telefono_referencia) as contacto'),
         \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
         \DB::raw('CONCAT(personas.telefono_celular," - ", personas.telefono_referencia) as contacto'),
-        \DB::raw('CONCAT(personas.cedula_identidad," - ", personas.complemento_cedula) as ci'),
+        \DB::raw('CONCAT(personas.cedula_identidad," - ", personas.complemento_cedula) as ci')
         )
         ->get())->make(true);
     }

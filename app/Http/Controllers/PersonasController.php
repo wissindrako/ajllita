@@ -120,6 +120,8 @@ class PersonasController extends Controller
         //     return 'grado_compromiso';
         }elseif ($request->input("id_origen") == '') {
             return 'origen';
+        }elseif ($request->input("id_sub_origen") == '') {
+            return 'Sub Origen';
         }elseif ($request->input("titularidad") == '') {
             return 'titularidad';
         // }elseif ($request->input("informatico") == '') {
@@ -147,13 +149,14 @@ class PersonasController extends Controller
             ];
             
         $mensajes=[
-        'archivo.mimes' => 'El archivo debe ser un archivo con formato: jpg, jpeg, gif, png, bmp.',
+        'archivo.mimes' => 'El archivo debe ser un archivo con formato: jpg, jpeg, gif, png, bmp',
         'archivo.max' => 'El archivo Supera el tamaño máximo permitido',
         ];
 
         $validator = Validator::make( $request->all(),$reglas,$mensajes );
         if( $validator->fails() ){ 
             $circunscripciones = \DB::table('recintos')
+
             ->select('circunscripcion')
             ->distinct()
             ->orderBy('circunscripcion', 'asc')
@@ -274,9 +277,6 @@ class PersonasController extends Controller
                         else{
                             return view("mensajes.msj_error")->with("msj","Ocurrio un error al subir la imagen");
                         }
-                    }
-                    else{
-                        return $request->file('archivo');
                     }
     
                     if($persona->save())
@@ -851,6 +851,7 @@ class PersonasController extends Controller
             $persona->telefono_celular=$request->input("telefono");
             $persona->telefono_referencia=$request->input("telefono_ref");
             $persona->direccion=ucwords(strtolower($request->input("direccion")));
+            
             $persona->email=$request->input("email");
 
             if($persona->save())
@@ -902,7 +903,7 @@ class PersonasController extends Controller
             // $persona->informatico=$request->input("informatico");
             $persona->titularidad=$request->input("titularidad");
             $recinto = Recinto::find($request->input("recinto"));
-                        
+            $persona->evidencia=$request->input("evidencia");
             // Obteniendo los datos del Usuario segun el id_persona
             $usuario = \DB::table('users')
             ->where('id_persona', $request->input('id_persona'))

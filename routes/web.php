@@ -59,6 +59,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('form_agregar_persona', 'PersonasController@form_agregar_persona');
 
+
+    Route::get('form_vista_recintos', 'VistasController@form_vista_recintos');
+    
+
     Route::get('form_agregar_transporte', 'TransportesController@form_agregar_transporte');
     Route::post('agregar_transporte', 'TransportesController@agregar_transporte');
     Route::get('consultaSuborigen/{id_suborigen}', 'TransportesController@consultaSuborigen');
@@ -148,6 +152,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('consultaSubOrigen/{id_origen}', 'PersonasController@consultaSubOrigen');
     Route::get('consultaMesasRecinto/{id_recinto}', 'MesasController@consultaMesasRecinto');
     Route::get('consultaMesasUsuario/{id_mesa}', 'MesasController@consultaMesasUsuario');
+    Route::get('listado_recintos_data/{circ}', 'RecintosController@listado_recintos_data');
 
     Route::post('registrar_falta', 'AsistenciasController@registrar_falta');
     Route::get('form_agregar_lista_de_asistencia', 'AsistenciasController@form_agregar_lista_de_asistencia');

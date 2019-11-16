@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Recinto;
+use Datatables;
 
 class RecintosController extends Controller
 {
+
+    public function listado_recintos_data($id_circunscripcion){
+        return Datatables::of(\DB::table('recintos')
+        // ->select('distrito')
+        ->where('circunscripcion', $id_circunscripcion)
+        // ->orderBy('distrito', 'asc')
+        ->get())->make(true);
+    }
+
     public function consultaDistritos($id_circunscripcion){
         $distritos = \DB::table('recintos')
         ->select('distrito')

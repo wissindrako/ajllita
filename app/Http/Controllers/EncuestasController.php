@@ -51,7 +51,7 @@ class EncuestasController extends Controller
     }
 
     public function limpiar_registros(){
-        if(\Auth::user()->isRole('super_admin')==false){
+        if(\Auth::user()->isRole('super_admin')==true){
             return view("mensajes.mensaje_error")->with("msj",'<div class="box box-danger col-xs-12"><div class="rechazado" style="margin-top:70px; text-align: center">    <span class="label label-success">Alto !<i class="fa fa-check"></i></span><br/>  <label style="color:#177F6B">  Sistema de encuestas cerrado </label>   </div></div> ') ;
         }
         return view('listados.limpiar_registros');

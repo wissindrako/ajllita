@@ -128,7 +128,7 @@
         processing: true,
         serverSide: true,
 		// pageLength: 100,
-		pageLength: 100,
+		pageLength: 6000,
 		buttons: [
 			'excel', 'pdf', 'print'
 		],

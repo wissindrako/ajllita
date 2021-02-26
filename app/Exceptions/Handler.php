@@ -57,6 +57,11 @@ class Handler extends ExceptionHandler
                     // return redirect()->route('home');
                     return \Response::view('errors.404',array(),500);
                     break;
+                // Method not allowed
+                case 405:
+                    return redirect()->route('home');
+                    // return \Response::view('errors.405',array(),500);
+                    break;
                 // internal error
                 case 500:
                     return \Response::view('custom.500',array(),500);

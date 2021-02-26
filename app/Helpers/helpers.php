@@ -6,6 +6,13 @@
  * Time: 02:42
  */
 
+if(! function_exists('isGobernacion')){
+    function isGobernacion(){
+        return false;
+    }
+}
+
+
 if(! function_exists('limpiar')){
     function limpiar($string){
         $clean_output = preg_replace("/[A-Za-z]*:[ ]/", "", $string);

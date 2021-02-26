@@ -18,7 +18,7 @@
                         <div class="myform-top-left">
                            {{-- <img  src="" class="img-responsive logo" /> --}}
                           <h3>
-														Mesa de Votación {{$codigo_mesas_oep}} - Presidencial - Partido "{{$sigla_partido}}"
+														Mesa de Votación {{$codigo_mesas_oep}} - Alcaldía - Partido "{{$sigla_partido}}"
 													</h3>
                             <p>Por favor registre el número de votos</p>
                         </div>
@@ -48,15 +48,15 @@
 												<input type="hidden" name="id_mesa" value="{{ $id_mesa }}">
 												<input type="hidden" name="id_partido" value="{{ $id_partido }}">
 												<label style="font-size: 26px">Número de votos</label><br>
-												<input type="number" name="validos" min="0" max="{{ $numero_votantes }}" value="{{ $validos }}" style="width:100%; color:black; height: 65px; font-weight:bold; font-size:35px; text-align:center" required>
+												<input type="number" name="validos" min="0" max="{{ $numero_votantes }}" value="{{ $validos }}" style="width:100%; color:black; border-color: #0bcaec; height: 65px; font-weight:bold; font-size:35px; text-align:center" required>
 												<br><br>
-												<button type="submit" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#A3DD99), color-stop(100%,#87CEEB)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+												<button type="submit" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 													Guardar
 												</button>
 											</form>
 										<br>
 										<form>
-											<button type="button" onClick="javascript:history.go(-1)" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+											<button type="button" onClick="javascript:history.go(-1)" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#a3a3a3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 												<i class="fa fa-mail-reply-all"></i> Volver
 											</button>
 										</form>

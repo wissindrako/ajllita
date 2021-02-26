@@ -8,7 +8,7 @@
 @section('main-content')
 <section  id="contenido_principal">
 
-<div class="box box-success">
+<div class="box box-white">
 		<div class="box-header">
 		<h3 class="box-title">Lista de Asistencia a: <b>{{$listas[0]->detalle}} </b></h3><br>
 		<h3 class="box-title">Fecha: <b>{{$fecha}}</b> </h3>

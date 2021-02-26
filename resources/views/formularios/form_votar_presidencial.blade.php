@@ -18,7 +18,7 @@
                         <div class="myform-top-left">
                            {{-- <img  src="" class="img-responsive logo" /> --}}
                           <h3>
-														Mesa de Votación {{$codigo_mesas_oep}} - Presidencial
+														Mesa de Votación {{$codigo_mesas_oep}} - Alcaldía
 													</h3>
                             <p>Por favor pulse sobre el partido del cual registrará los votos</p>
                         </div>
@@ -48,8 +48,8 @@
 											<form action="{{ url('form_votar_presidencial_partido') }}"  method="post">
 												<input type="hidden" name="id_mesa" value="{{ $id_mesa }}">
 												<input type="hidden" name="id_partido" value="{{ $partido->id_partido }}">
-												{{-- <button type="submit" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;"> --}}
-												<button type="submit" class="box box-widget widget-user-2" style="background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+												{{-- <button type="submit" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#09de5a), color-stop(100%,#3ACBC7)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;"> --}}
+												<button type="submit" class="box box-widget widget-user-2" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 														<div class="widget-user-header bg-white">
 															<div class="widget-user-image">
 																<img class="img-circle" src="{{ url($partido->logo) }}" style="width:65px;height:65px;" alt="User Avatar">
@@ -81,7 +81,7 @@
 										<form action="{{ url('form_votar_presidencial_nyb') }}"  method="post">
 											<input type="hidden" name="id_mesa" value="{{ $id_mesa }}">
 											<input type="hidden" name="id_partido" value="{{ $partido->id_partido }}">
-											<button type="submit" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+											<button type="submit" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 												<span style="font-size: 25px;"> Nulos&nbspy&nbspBlancos </span><br>
 												<?php $entro=0?>
 												@foreach ($votos_introducidos_nyb as $voto_nyb)
@@ -102,7 +102,7 @@
 										<br>
 										<form action="{{ url('form_votar_presidencial_subir_imagen') }}"  method="post">
 											<input type="hidden" name="id_mesa" value="{{ $id_mesa }}">
-											<button type="submit" style="font-size: 16px; padding: 20px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+											<button type="submit" style="font-size: 16px; padding: 20px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 												<i class="fa fa-camera"></i> Subir Imagen
 												@if($foto_presidenciales == "")
 													<p style="width: 2rem; height: 2rem; border-radius: 50%; background: red;	justify-content: center; margin:0px auto;">
@@ -119,14 +119,14 @@
 										<br>
 										<form action="{{ url('form_votar_seleccionar_tipo') }}"  method="post">
 											<input type="hidden" name="id_mesa" value="{{ $id_mesa }}">
-											<button type="submit" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+											<button type="submit" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#b1b1b1)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 												<i class="fa fa-mail-reply-all"></i> Volver
 											</button>
 										</form>
 
 										<br>
 										<form action="{{ url('form_votar_seleccionar_mesa') }}"  method="get">
-											<button type="submit" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#A3DD99)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+											<button type="submit" style="font-size: 16px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 												<i class="fa fa-save"></i> Finalizar
 											</button>
 										</form>

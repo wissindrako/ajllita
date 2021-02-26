@@ -15,7 +15,7 @@
                       
                 <div class="col-sm-12 " style="background-color:rgba(0, 0, 0, 0.35); height: 60px; " >
                     {{-- <br> --}}
-                        {{-- <span style='font-size: 34px; color:white;' class=""> <b>CONTROLAZUL</b> </span> --}}
+                        {{-- <span style='font-size: 34px; color:white;' class=""> <b>MonitoreoElectoral</b> </span> --}}
                         {{-- <a class="mybtn-social pull-right" href="{{ url('/register') }}">
                             Register
                        </a> --}}
@@ -34,12 +34,12 @@
                 
                     <div class="myform-top" style="text-align:center">
                         <div style="float:center; text-align:center" class="box-body box-profile">
-                           <img style="float:center; text-align:center" src="{{ url('img/futuro.png') }}" class="profile-user-img img-responsive" />
+                           <img style="float:center; text-align:center" src="{{ url('img/logo_partido_principal.png') }}" class="profile-user-img img-responsive" />
                           <h3 style="float:center; color:gray"><b>Consulte que mesa se le asignó para el Control Electoral</b></h3>
                             {{-- <p>Ingrese su número de Carnet</p> --}}
                         </div>
                         {{-- <div class="myform_top_right_img"> --}}
-                          {{-- <img  src="{{ url('img/mas_logo.jpg') }}" style="width:100px;height:80px;" class="" /> --}}
+                          {{-- <img  src="{{ url('img/comunidad.jpg') }}" style="width:100px;height:80px;" class="" /> --}}
                         {{-- </div> --}}
                     </div>
 
@@ -82,12 +82,6 @@
                                 <div class="box-body table-responsive no-padding scrollable">
                                     <table class="table table-bordered" id="tabla_cedula">
                                         <thead>
-                                        {{-- <tr>
-                                            <th style="background-color:#3c8dbc; text-align:center; color:white">Nombre</th>
-                                            <th style="background-color:#3c8dbc; text-align:center; color:white">Recinto</th>
-                                            <th style="background-color:#3c8dbc; text-align:center; color:white">Rol</th>
-                                            <th style="background-color:#3c8dbc; text-align:center; color:white">Mesas</th>
-                                        </tr> --}}
                                         </thead>
                                         <tbody>
                                         </tbody>
@@ -98,15 +92,15 @@
                         <br><br>
                                
                         <div class="row">
-                        <a href="{{ url('https://youtu.be/9kFElXdedCE') }}" target="_blank">
+                        <a href="{{ url('https://youtu.be') }}" target="_blank">
                         <div class="">
-                            <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+                            <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#09de5a), color-stop(100%,#3ACBC7)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
                                 <div class="widget-user-header bg-white">
                                     <div class="widget-user-image">
                                         <img class="img-circle" src="{{ url('img/youtube.png') }}" style="width:65px;height:65px;" alt="User Avatar">
                                     </div>
                                     <h3 class=""><b></b></h3>
-                                <h3 style="font-size: 20px;" class="widget-user-username"><b>Video tutorial de manejo del sistema <br> controlazul.com</b> <br> (Para delegados de mesa)</h3>
+                                <h3 style="font-size: 20px;" class="widget-user-username"><b>Video tutorial de manejo del sistema <br> MonitoreoElectoral.com</b> <br> (Para delegados de mesa)</h3>
                                 <h7 class=""><br></h7>
                                 {{-- <h5 class=""><b></b></h5> --}}
                                 {{-- <h3 class="widget-user-desc">Votos: <b>asdfadsfadsfs</b></h3> --}}
@@ -115,15 +109,15 @@
                             </div>
                         </div>
                         </a>
-                        <a href="{{ url('/docs/Manual Control Azul.pdf') }}" target="_blank">
+                        <a href="{{ url('/docs/Manual Monitoreo Electoral.pdf') }}" target="_blank">
                             <div class="">
-                                <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+                                <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#09de5a), color-stop(100%,#3ACBC7)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
                                     <div class="widget-user-header bg-white">
                                         <div class="widget-user-image">
                                             <img class="img-circle" src="{{ url('img/pdf.jpg') }}" style="width:65px;height:65px;" alt="User Avatar">
                                         </div>
                                         <h3 class=""><b></b></h3>
-                                    <h3  style="font-size: 20px;" class="widget-user-username"><b>Manual de manejo del sistema <br> controlazul.com</b> <br> (Para delegados de mesa)</h3>
+                                    <h3  style="font-size: 20px;" class="widget-user-username"><b>Manual de manejo del sistema <br> MonitoreoElectoral.com</b> <br> (Para delegados de mesa)</h3>
                                     <h7 class=""><br></h7>
                                     {{-- <h5 class=""><b>asdfadfadf</b></h5>
                                     <h3 class="widget-user-desc">Votos: <b>asdfadsfadsfs</b></h3> --}}
@@ -134,13 +128,13 @@
                         </a>
                         <a href="{{ url('/docs/Manual defensa del voto RESUMEN.pdf') }}" target="_blank">
                             <div class="">
-                                <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+                                <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#09de5a), color-stop(100%,#3ACBC7)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
                                     <div class="widget-user-header bg-white">
                                         <div class="widget-user-image">
                                             <img class="img-circle" src="{{ url('img/pdf.jpg') }}" style="width:65px;height:65px;" alt="User Avatar">
                                         </div>
                                         <h3 class=""><b></b></h3>
-                                    <h3  style="font-size: 20px;" class="widget-user-username"><b>Manual de defensa del Voto (Resumen) <br> controlazul.com</b> <br> (Para delegados de mesa)</h3>
+                                    <h3  style="font-size: 20px;" class="widget-user-username"><b>Manual de defensa del Voto (Resumen) <br> MonitoreoElectoral.com</b> <br> (Para delegados de mesa)</h3>
                                     <h7 class=""><br></h7>
                                     {{-- <h5 class=""><b>asdfadfadf</b></h5>
                                     <h3 class="widget-user-desc">Votos: <b>asdfadsfadsfs</b></h3> --}}
@@ -151,13 +145,13 @@
                         </a>
                         <a href="{{ url('/docs/Manual defensa del voto COMPLETO.pdf') }}" target="_blank">
                             <div class="">
-                                <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+                                <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#09de5a), color-stop(100%,#3ACBC7)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
                                     <div class="widget-user-header bg-white">
                                         <div class="widget-user-image">
                                             <img class="img-circle" src="{{ url('img/pdf.jpg') }}" style="width:65px;height:65px;" alt="User Avatar">
                                         </div>
                                         <h3 class=""><b></b></h3>
-                                    <h3  style="font-size: 20px;" class="widget-user-username"><b>Manual de defensa del Voto (Completo) <br> controlazul.com</b> <br> (Para delegados de mesa)</h3>
+                                    <h3  style="font-size: 20px;" class="widget-user-username"><b>Manual de defensa del Voto (Completo) <br> MonitoreoElectoral.com</b> <br> (Para delegados de mesa)</h3>
                                     <h7 class=""><br></h7>
                                     {{-- <h5 class=""><b>asdfadfadf</b></h5>
                                     <h3 class="widget-user-desc">Votos: <b>asdfadsfadsfs</b></h3> --}}
@@ -166,9 +160,9 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="{{ url('/docs/Manual Control Azul.pdf') }}" target="_blank">
+                        <a href="{{ url('/docs/Manual Monitoreo Electoral.pdf') }}" target="_blank">
                             <div class="">
-                                <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+                                <div class="box box-widget widget-user-2" style="color:black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#09de5a), color-stop(100%,#3ACBC7)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
                                     <div class="widget-user-header bg-white">
                                         <div class="widget-user-image">
                                             <img class="img-circle" src="{{ url('img/pdf.jpg') }}" style="width:65px;height:65px;" alt="User Avatar">
@@ -190,8 +184,8 @@
                             </a>
                             <br><br>
                             
-                            <a href="{{ url('/docs/Manual Control Azul.pdf') }}" target="_blank" class="btn btn-block btn-social btn-default btn-lg">
-                                <i class="fa fa-file-pdf-o"></i> Manual Control Azul
+                            <a href="{{ url('/docs/Manual Monitoreo Electoral.pdf') }}" target="_blank" class="btn btn-block btn-social btn-default btn-lg">
+                                <i class="fa fa-file-pdf-o"></i> Manual Monitoreo Electoral
                             </a>
                             <br><br>
                             <a class="btn btn-block btn-social btn-default btn-lg">
@@ -257,7 +251,7 @@
                     var nuevaFila =
                     "<tr>"
                     // +"<td>"+datos.nombre_completo+"</td>"
-                    +"<td colspan=2><div class='box box-widget widget-user'><div class='widget-user-header bg-primary'><h4 style='white-space: normal;'><b>"+datos.nombre_completo+"</b></h4><h4 style='white-space: normal;'>"+datos.description+"</h4></div></td>"
+                    +"<td colspan=2><div class='box box-widget widget-user'><div class='widget-user-header bg-orange'><h4 style='white-space: normal;'><b>"+datos.nombre_completo+"</b></h4><h4 style='white-space: normal;'>"+datos.description+"</h4></div></td>"
                     +"</tr>"
                     +"<tr>"
                     // +"<td>"+datos.ci+"</td>"
@@ -273,7 +267,7 @@
                     +"<td  colspan=2><div class='description-block'><h3><b>Mesa Designada</b></h3><span style='font-size: 20px; white-space: normal;'>"+mesas+"</span></div></td>"
                     +"</tr>"
                     +"<tr>"
-                    +"<td colspan=2><a href='"+datos.geolocalizacion+"' target='_blank' class='btn btn-primary btn-lg btn-block'><i class='fa fa-map-marker'></i> ¿Cómo llegar?</a></td>"
+                    +"<td colspan=2><a href='"+datos.geolocalizacion+"' target='_blank' class='btn btn-success btn-lg btn-block'><i class='fa fa-map-marker'></i> ¿Cómo llegar?</a></td>"
                     +"</tr>";
                     $(nuevaFila).appendTo("#tabla_cedula tbody");
                 });

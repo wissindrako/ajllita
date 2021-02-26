@@ -50,22 +50,24 @@
 												<br>
 												<form action="{{ url('form_votar_presidencial') }}"  method="post">
 													<input type="hidden" name="id_mesa" value="{{ $mesa->id_mesa }}">
-													<button type="submit" style="font-size: 18px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
-														PRESIDENCIAL
+													<button type="submit" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+														ALCALDIA
 													</button>
 												</form>
 
+                        @if (isGobernacion())
 												<br>
 												<form action="{{ url('form_votar_uninominal') }}"  method="post">
 													<input type="hidden" name="id_mesa" value="{{ $mesa->id_mesa }}">
-													<button type="submit" style="font-size: 18px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
-														UNINOMINAL
+													<button type="submit" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+														GOBERNACION
 													</button>
 												</form>
+                        @endif
 
 												<br>
 												<form action="{{ url('form_votar_seleccionar_mesa') }}"  method="get">
-													<button type="submit" style="font-size: 18px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+													<button type="submit" style="font-size: 18px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#9e9e9e)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 														<i class="fa fa-mail-reply-all"></i> Volver
 													</button>
 												</form>

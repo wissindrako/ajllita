@@ -46,19 +46,20 @@
 													<input type="hidden" name="id_mesa" value="{{ $mesa->id_mesa }}">
 													<br>
 													
-													<button type="submit" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+													<button type="submit" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 														<div class="">
 															<div class="">
 																
 														<span  style='font-size: 20px; color:black; height: 50px; font-weight:bold; text-align:center' class="">MESA {{ $mesa->codigo_mesas_oep }}</span>
-														<br><span class="info-box-number">({{ $mesa->codigo_ajllita }})</span>
+														<br><span class="info-box-number">({{ $mesa->codigo_sistema }})</span>
 														<span  style='font-size: 15px; color:black; font-weight:bold; text-align:center' class="">[ {{ $mesa->id_mesa }} ]</span>
 														<br>
-														<span class="info-box-number">Votos Presidenciales:</span>
+														<span class="info-box-number">Votos Alcaldía:</span>
 															
 																<?php
 																	//Controlamos que hayan llenado los 10 registros (9 presidente y 1 blancos y nulos)
 																	$registros_presidenciales = $mesa->registros_presidenciales + $mesa->registros_presidenciales_r;
+																	
 																?>
 																@if($registros_presidenciales == 0)
 																	{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: white;	justify-content: left; margin:0px auto;">
@@ -113,63 +114,67 @@
 																	<i style='font-size: 22px; color:red; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Rev.&nbspValores</span>
 																@endif
 
+														
+														@if (isGobernacion())
 														<br>
-															<span class="info-box-number">Votos Uninominales:</span>
-																<?php
-																	//Controlamos que hayan llenado los 10 registros (9 presidente y 1 blancos y nulos)
-																	$registros_uninominales = $mesa->registros_uninominales + $mesa->registros_uninominales_r;
-																?>
-																@if($registros_uninominales == 0)
-																	{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: white;	justify-content: center; margin:0px auto;">
-																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPendiente</span>
-																	</p> --}}
-																	<i style='font-size: 22px; color:white; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Pendiente</span>
-																@elseif($registros_uninominales>0 && $registros_uninominales <= $cantidad_partidos)
-																	{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
-																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncompleto</span>
-																	</p> --}}
-																	@if($mesa->foto_uninominales == "")
-																		{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
-																			<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncompleto&nbspSin&nbspFoto</span>
-																		</p> --}}
-																		<i style='font-size: 22px; color:yellow; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Incompleto sin Foto</span>
-																	@else
-																		{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
-																			<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncompleto&nbspCon&nbspFoto</span>
-																		</p> --}}
-																		<i style='font-size: 22px; color:yellow; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Incompleto con Foto</span>
-																	@endif
-																@elseif($registros_uninominales == $cantidad_partidos+1)
-																	{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
-																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCompleto</span>
-																	</p> --}}
-																	@if($mesa->foto_uninominales == "")
-																		{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
-																			<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCompleto&nbspSin&nbspFoto</span>
-																		</p> --}}
-																		<i style='font-size: 22px; color:yellow; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Completo sin Foto</span>
-																	@else
-																		{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
-																			<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCompleto&nbspCon&nbspFoto</span>
-																		</p> --}}
-																		<i style='font-size: 22px; color:yellow; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Completo con Foto</span>
-																	@endif
+														<span class="info-box-number">Votos Gobernación:</span>
+														<?php
+															//Controlamos que hayan llenado los 10 registros (9 presidente y 1 blancos y nulos)
+															$registros_uninominales = $mesa->registros_uninominales + $mesa->registros_uninominales_r;
+														?>
+														@if($registros_uninominales == 0)
+															{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: white;	justify-content: center; margin:0px auto;">
+																<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPendiente</span>
+															</p> --}}
+															<i style='font-size: 22px; color:white; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Pendiente</span>
+														@elseif($registros_uninominales>0 && $registros_uninominales <= $cantidad_partidos)
+															{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
+																<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncompleto</span>
+															</p> --}}
+															@if($mesa->foto_uninominales == "")
+																{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
+																	<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncompleto&nbspSin&nbspFoto</span>
+																</p> --}}
+																<i style='font-size: 22px; color:yellow; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Incompleto sin Foto</span>
+															@else
+																{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: yellow;	justify-content: center; margin:0px auto;">
+																	<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspIncompleto&nbspCon&nbspFoto</span>
+																</p> --}}
+																<i style='font-size: 22px; color:yellow; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Incompleto con Foto</span>
+															@endif
+														@elseif($registros_uninominales == $cantidad_partidos+1)
+															{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
+																<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCompleto</span>
+															</p> --}}
+															@if($mesa->foto_uninominales == "")
+																{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
+																	<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCompleto&nbspSin&nbspFoto</span>
+																</p> --}}
+																<i style='font-size: 22px; color:yellow; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Completo sin Foto</span>
+															@else
+																{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: green;	justify-content: center; margin:0px auto;">
+																	<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCompleto&nbspCon&nbspFoto</span>
+																</p> --}}
+																<i style='font-size: 22px; color:green; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Completo con Foto</span>
+															@endif
 
-																@endif
+														@endif
 
 
-																<?php
-																	//Controlamos que la suma no exceda el total de votos que se deben emitir
-																	$suma_uninominales = $mesa->suma_uninominales + $mesa->suma_uninominales_nulos + $mesa->suma_uninominales_blancos;
-																?>
-																@if($suma_uninominales > $mesa->numero_votantes)
-																	{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: red;	justify-content: center; margin:0px auto;">
-																		<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRev.&nbspValores</span>
-																	</p> --}}
-																	<br>
-																	<i style='font-size: 22px; color:red; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Rev.&nbspValores</span>
-																@endif
-															</div>
+														<?php
+															//Controlamos que la suma no exceda el total de votos que se deben emitir
+															$suma_uninominales = $mesa->suma_uninominales + $mesa->suma_uninominales_nulos + $mesa->suma_uninominales_blancos;
+														?>
+														@if($suma_uninominales > $mesa->numero_votantes)
+															{{-- <p style="width: 2rem; height: 2rem; border-radius: 50%; background: red;	justify-content: center; margin:0px auto;">
+																<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRev.&nbspValores</span>
+															</p> --}}
+															<br>
+															<i style='font-size: 22px; color:red; height: 50px; font-weight:bold; text-align:center' class="fa fa-circle"></i><span style='font-size: 18px; height: 50px; text-align:center'>  Rev.&nbspValores</span>
+														@endif
+													</div>
+														@endif
+
 															<!-- /.info-box-content -->
 														  </div>
 													</button>

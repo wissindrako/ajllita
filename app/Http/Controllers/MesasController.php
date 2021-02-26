@@ -193,7 +193,7 @@ class MesasController extends Controller
         'recintos.circunscripcion', 'recintos.distrito',
         \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
         \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
-        'mesas.foto_presidenciales', 'mesas.codigo_ajllita', 'mesas.codigo_mesas_oep'
+        'mesas.foto_presidenciales', 'mesas.codigo_sistema', 'mesas.codigo_mesas_oep'
         )
         ->first();
         
@@ -280,7 +280,7 @@ class MesasController extends Controller
         'recintos.circunscripcion', 'recintos.distrito',
         \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
         \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
-        'mesas.foto_uninominales', 'mesas.codigo_ajllita', 'mesas.codigo_mesas_oep'
+        'mesas.foto_uninominales', 'mesas.codigo_sistema', 'mesas.codigo_mesas_oep'
         )
         ->first();
         
@@ -371,8 +371,8 @@ class MesasController extends Controller
         // ->where('recintos.distrito', $recinto->distrito)
         ->select('recintos.nombre as nombre_recinto', 'recintos.id_recinto', 'recintos.circunscripcion', 'numero_mesas',
                  'recintos.distrito', 
-        \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
-        \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
+                 \DB::raw('CONCAT("Cel. ", IFNULL(personas.telefono_celular, ""), " Telf.", IFNULL(personas.telefono_referencia, "")) as contacto'),
+                 \DB::raw('CONCAT(IFNULL(personas.paterno, "")," ",IFNULL(personas.materno, "")," ",IFNULL(personas.nombre, "")) as nombre_completo')
         // \DB::raw('SUM(recintos.numero_mesas) as numero_mesas')
         )
         // ->groupBy('recintos.distrito')
@@ -448,8 +448,8 @@ class MesasController extends Controller
         ->leftjoin('personas', 'users.id_persona', 'personas.id_persona')
         ->where('recintos.distrito', $recinto->distrito)
         ->select('recintos.nombre as nombre_recinto', 'recintos.id_recinto', 'recintos.numero_mesas',
-        \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
-        \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
+        \DB::raw('CONCAT("Cel. ", IFNULL(personas.telefono_celular, ""), " Telf.", IFNULL(personas.telefono_referencia, "")) as contacto'),
+        \DB::raw('CONCAT(IFNULL(personas.paterno, "")," ",IFNULL(personas.materno, "")," ",IFNULL(personas.nombre, "")) as nombre_completo')
         )
         ->get();
 
@@ -525,8 +525,8 @@ class MesasController extends Controller
         ->select('recintos.nombre as nombre_recinto',
         'mesas.codigo_mesas_oep',
         'mesas.id_mesa', 'recintos.id_recinto',
-        \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
-        \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
+        \DB::raw('CONCAT("Cel. ", IFNULL(personas.telefono_celular, ""), " Telf.", IFNULL(personas.telefono_referencia, "")) as contacto'),
+        \DB::raw('CONCAT(IFNULL(personas.paterno, "")," ",IFNULL(personas.materno, "")," ",IFNULL(personas.nombre, "")) as nombre_completo')
         )
         ->orderBy('mesas.id_mesa')
         ->get();
@@ -777,7 +777,7 @@ class MesasController extends Controller
         // ->whereNotIn('mesas.id_mesa', $mesas_recinto)
         ->select('users.id as id_usuario',
             'rel_usuario_mesa.id_mesa as rel_idmesa', 'rel_usuario_mesa.activo as mesa_activa', 
-                 'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'mesas.codigo_ajllita',
+                 'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'mesas.codigo_sistema',
                  'personas.direccion as direccion_persona',
                  \DB::raw('CONCAT("Cel. ", personas.telefono_celular," - ",personas.telefono_referencia) as contacto'),
                  \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
@@ -809,7 +809,7 @@ class MesasController extends Controller
         // ->whereNotIn('mesas.id_mesa', $mesas_recinto)
         ->select('users.id as id_usuario',
             'rel_usuario_mesa.id_mesa as rel_idmesa', 'rel_usuario_mesa.activo as mesa_activa', 
-                 'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_ajllita',
+                 'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_sistema',
                  'personas.telefono_celular',
                  \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo'),
                  \DB::raw('count(*) as responsables')
@@ -827,7 +827,7 @@ class MesasController extends Controller
         // $mesas =\DB::table('mesas')
         // ->where('mesas.id_recinto', $id_recinto)
         // ->whereNotIn('id_mesa', $mesas_recinto)
-        // ->select('id_mesa', 'codigo_mesas_oep', 'codigo_ajllita',  'id_recinto')
+        // ->select('id_mesa', 'codigo_mesas_oep', 'codigo_sistema',  'id_recinto')
         // ->get();
         
         return $mesas;
@@ -843,7 +843,7 @@ class MesasController extends Controller
         ->where('mesas.id_mesa', $id_mesa)
         ->select('users.id as id_usuario',
             'rel_usuario_mesa.id_mesa as rel_idmesa', 'rel_usuario_mesa.activo as mesa_activa', 
-                 'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_ajllita',
+                 'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_sistema',
                  'personas.telefono_celular',
                  \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
                 )
@@ -865,7 +865,7 @@ class MesasController extends Controller
         ->first();
 
         if($request->input("rol_slug") == 'militante'){
-            //rol delegado del MAS
+            //rol delegado del Partido
             return 'militante';
         }elseif ($request->input("rol_slug") == 'conductor') {
             // rol Conductor
@@ -1233,7 +1233,7 @@ class MesasController extends Controller
         ->first();
 
         $usuario->revokeRole($rol->id);
-        //$usuario->assignRole(15); //Delegado del Mas
+        //$usuario->assignRole(15); //Delegado del Partido
 
         if ($rol->slug == 'militante') {
             # code...
@@ -1342,7 +1342,7 @@ class MesasController extends Controller
                     $a++;
                     $mesa = new Mesa;
                     $mesa->codigo_mesas_oep = $codigo;
-                    $mesa->codigo_ajllita = $codigo;
+                    $mesa->codigo_sistema = $codigo;
                     $mesa->foto_presidenciales = '';
                     $mesa->foto_uninominales = '';
                     $mesa->numero_votantes = 500; // *** ACTUALIZAR DE ACUERDO AL NUMERO DE VOTANTES POR MESA ***

@@ -8,7 +8,7 @@
 @section('main-content')
 <section  id="contenido_principal">
 
-<div class="box box-success">
+<div class="box box-white">
 		<div class="box-header">
 				<h3 class="box-title">Lista de asistencia de conductores de fecha {{$fecha}}</h3>
 

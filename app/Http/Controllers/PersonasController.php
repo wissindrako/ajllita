@@ -41,7 +41,8 @@ class PersonasController extends Controller
         ->get();
 
         $roles = \DB::table('roles')
-        ->where('id', '>=', 15)
+        // ->where('id', '>=', 15)
+        ->where('nivel', '!=', 0)
         ->get();
 
         $casas =  \DB::table('casas_campana')
@@ -88,7 +89,8 @@ class PersonasController extends Controller
         ->get();
 
         $roles_listado = \DB::table('roles')
-        ->where('id', '>=', 15)
+        // ->where('id', '>=', 15)
+        ->where('nivel', '!=', 0)
         ->get();
 
         $casas_listado =  \DB::table('casas_campana')
@@ -167,7 +169,8 @@ class PersonasController extends Controller
             ->get();
     
             $roles = \DB::table('roles')
-            ->where('id', '>=', 15)
+            // ->where('id', '>=', 15)
+            ->where('nivel', '!=', 0)
             ->get();
     
             $casas =  \DB::table('casas_campana')
@@ -296,10 +299,10 @@ class PersonasController extends Controller
                         $usuario->activo=1;
                 
                         if($request->input("rol_slug") == ''){
-                            //rol delegado del MAS
+                            //rol delegado del Partido
                             return 'rol';
                         }elseif($request->input("rol_slug") == 'militante'){
-                            //rol delegado del MAS
+                            //rol delegado del Partido
                             if ($usuario->save()) {
 
                                 $rol = \DB::table('roles')
@@ -731,7 +734,8 @@ class PersonasController extends Controller
         ->get();
 
         $roles = \DB::table('roles')
-        ->where('id', '>=', 15)
+        // ->where('id', '>=', 15)
+        ->where('nivel', '!=', 0)
         ->get();
 
         $casas =  \DB::table('casas_campana')
@@ -774,7 +778,7 @@ class PersonasController extends Controller
         ->select('users.id as id_usuario',
                  'rel_usuario_mesa.id_mesa as rel_idmesa', 'rel_usuario_mesa.activo as mesa_activa',
                  'recintos.nombre as nombre_recinto', 'recintos.circunscripcion', 'recintos.distrito', 'recintos.zona',
-                 'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_ajllita',
+                 'mesas.id_mesa', 'mesas.id_recinto', 'codigo_mesas_oep', 'codigo_sistema',
                  'personas.telefono_celular',
                  \DB::raw('CONCAT(personas.paterno," ",personas.materno," ",personas.nombre) as nombre_completo')
                 )
@@ -970,7 +974,7 @@ class PersonasController extends Controller
                 $persona->id_recinto = $request->input("recinto");
 
                 if($request->input("rol_slug") == 'militante'){
-                    //rol delegado del MAS
+                    //rol delegado del Partido
                     $persona->id_rol = $rol->id;
                     if ($persona->save()) {
                         return view("mensajes.msj_enviado")->with("msj","enviado_editar_persona");

@@ -45,18 +45,28 @@
 	                  <div id="div_notificacion_sol" class="myform-bottom">
 											{{-- @foreach ($mesas as $mesa) --}}
 												<br><br>
-													<button type="button" onclick="verinfo_mesas({{$personas_logueadas->id_recinto}},10);" style="font-size: 18px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
-														PRESIDENCIAL
-													</button>
-
-												<br><br>
-													<button type="button" onclick="verinfo_mesas({{$personas_logueadas->id_recinto}},11);" style="font-size: 18px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
-														UNINOMINAL
-													</button>
-
+													{{-- <button type="button" onclick="verinfo_mesas({{$personas_logueadas->id_recinto}},10);" style="font-size: 18px; border-color: #0bcaec; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#09de5a), color-stop(100%,#3ACBC7)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+														ALCALDIA
+													</button> --}}
+                          <form action="{{ route('form_llenado_emergencia', $personas_logueadas->id_recinto) }}"  method="get">
+                            <button type="submit" style="font-size: 18px; border-color: #0bcaec; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+                              ALCALDIA
+                            </button>
+                          </form>
+                        @if (isGobernacion())
+                        <br><br>
+                        {{-- <button type="button" onclick="verinfo_mesas({{$personas_logueadas->id_recinto}},11);" style="font-size: 18px; border-color: #f51ebfd2; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#3ACBC7)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+                          GOBERNACION
+                        </button> --}}
+                        <form action="{{ route('form_llenado_emergencia_uninominales', $personas_logueadas->id_recinto) }}"  method="get">
+                          <button type="submit" style="font-size: 18px; border-color: #0bcaec; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+                            GOBERNACION
+                          </button>
+                        </form>
+                        @endif
 												<br><br>
 												<form action="{{ url('form_votar_seleccionar_mesa') }}"  method="get">
-													<button type="submit" style="font-size: 18px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87CEEB), color-stop(100%,#4682B4)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+													<button type="submit" style="font-size: 18px; padding: 10px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#a3a3a3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 														<i class="fa fa-mail-reply-all"></i> Volver
 													</button>
 												</form>

@@ -1,10 +1,53 @@
-<section  id="content" style="background-color: #002640;">
+@extends('layouts.app')
+
+@section('htmlheader_title')
+	Home
+@endsection
 
 
-<div class="box box-primary">
-        <div class="box-header" style="text-align:center">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cerrar_modal"><span aria-hidden="true">&times;</span></button>
-        <h3 class=""><b>Llenado de Mesas - Votos Presidenciales</b></h3>
+@section('main-content')
+
+<section  id="contenido_principal">
+
+    @if(session()->has('mensaje_exito'))
+        {{-- <div class="alert alert-success">
+        {{ session()->get('mensaje_exito') }}
+        </div> --}}
+        @section("scripts_toasts")
+        <script>
+            alertify.success(' Votos registrados ');
+        </script>
+        @endsection
+    @endif
+    @if(session()->has('mensaje_error'))
+        {{-- <div class="alert alert-warning">
+        {{ session()->get('mensaje_error') }}
+        </div> --}}
+        @section("scripts_toasts")
+        <script>
+            alertify.error(' No se registraron los votos, revise su conexión ');
+        </script>
+        @endsection
+    @endif
+
+    @if(session()->has('mensaje_exito_imagen'))
+        @section("scripts_toasts")
+        <script>
+            alertify.success(' Imagen Cargada ');
+        </script>
+        @endsection
+    @endif
+    @if(session()->has('mensaje_error_imagen'))
+        @section("scripts_toasts")
+        <script>
+            alertify.error(' No se cargo la imagen, vuelva a intentarlo ');
+        </script>
+        @endsection
+    @endif
+
+<div class="box box-info">
+        <div class="box-header bg-aqua" style="text-align:center;">
+        <h3 class=""><b>Llenado de Mesas - Votos Alcaldía</b></h3>
         <h3 class=""><b>{{$recinto->nombre}}</b> ({{count($mesas)}} mesas)</h3>
 				{{-- <input type="hidden" id="rol_usuario" value="{{ $rol->slug }}"> --}}
 		</div>
@@ -13,24 +56,25 @@
         {{-- {{dd($votos_presidenciales_r)}} --}}
 
 		<div class="box-body table-responsive no-padding">
-		  <table id="tabla_personas" class="table table-hover table_striped_cool table-bordered">
+		  <table id="tabla_personas" class="table table-hover table_striped_presidenciales table-bordered">
             {{-- <table class="table"> --}}
                     <thead>
                         {{-- <tr style="background-color:#111111; text-align:center; color:white"> --}}
                         <tr>
-                        <th style='font-size: 16px; text-align:center; color:#3c8dbc; font-family: "Source Sans Pro"; vertical-align: middle;'>                                    
+                        <th style='font-size: 16px; text-align:center; font-family: "Source Sans Pro"; vertical-align: middle;'>                                    
                             #
                         </th>
-                        <th style='font-size: 16px; text-align:center; color:#3c8dbc; font-family: "Source Sans Pro"; vertical-align: middle;'>
+                        <th style='font-size: 16px; text-align:center; font-family: "Source Sans Pro"; vertical-align: middle;'>
                             MESA
                         </th>
                         @foreach ($partidos as $partido)
                         {{-- <th style="text-align:center" width="9%">{{$partido->sigla}}</th> --}}
                         <th style="text-align:left" width="9%">					
-                            <div class="user-block">
+                            <div class="user-block"  style="vertical-align: middle">
                                 <img class="img-circle img-bordered-sm" src={{url($partido->logo)}} alt="user image">
                                     <span class="username">
-                                        <a href="#">{{$partido->sigla}}</a>
+                                        {{-- <a href="#">{{$partido->sigla}}</a> --}}
+                                        {{$partido->sigla}}
                                     </span>
                                 {{-- <span class="description">{{ $p['nombre_partido'] }}</span> --}}
                             </div>
@@ -40,7 +84,8 @@
                             <div class="user-block">
                                 <img class="img-circle img-bordered-sm" src={{url('/img/blanco.png')}} alt="user image">
                                     <span class="username">
-                                        <a href="#">Blancos</a>
+                                        {{-- <a href="#">Blancos</a> --}}
+                                        Blancos
                                     </span>
                                 {{-- <span class="description">{{ $p['nombre_partido'] }}</span> --}}
                             </div>
@@ -49,7 +94,8 @@
                             <div class="user-block">
                                 <img class="img-circle img-bordered-sm" src={{url('/img/nulo.png')}} alt="user image">
                                     <span class="username">
-                                        <a href="#">Nulos</a>
+                                        {{-- <a href="#">Nulos</a> --}}
+                                        Nulos
                                     </span>
                                 {{-- <span class="description">{{ $p['nombre_partido'] }}</span> --}}
                             </div>
@@ -66,19 +112,20 @@
                         @endphp
                         @if ($num % 7 == 0)
                         <tr>
-                            <th style='font-size: 16px; text-align:center; color:#3c8dbc; font-family: "Source Sans Pro"; vertical-align: middle;'>                                    
+                            <th style='font-size: 16px; text-align:center; font-family: "Source Sans Pro"; vertical-align: middle;'>                                    
                                 #
                             </th>
-                            <th style='font-size: 16px; text-align:center; color:#3c8dbc; font-family: "Source Sans Pro"; vertical-align: middle;'>
+                            <th style='font-size: 16px; text-align:center; font-family: "Source Sans Pro"; vertical-align: middle;'>
                                 MESA
                             </th>
                             @foreach ($partidos as $partido)
                             {{-- <th style="text-align:center" width="9%">{{$partido->sigla}}</th> --}}
-                            <th style="text-align:left" width="9%">					
+                            <th style="text-align:left" width="10%">					
                                 <div class="user-block">
                                     <img class="img-circle img-bordered-sm" src={{url($partido->logo)}} alt="user image">
                                         <span class="username">
-                                            <a href="#">{{$partido->sigla}}</a>
+                                            {{-- <a href="#">{{$partido->sigla}}</a> --}}
+                                            {{$partido->sigla}}
                                         </span>
                                     {{-- <span class="description">{{ $p['nombre_partido'] }}</span> --}}
                                 </div>
@@ -88,7 +135,8 @@
                                 <div class="user-block">
                                     <img class="img-circle img-bordered-sm" src={{url('/img/blanco.png')}} alt="user image">
                                         <span class="username">
-                                            <a href="#">Blancos</a>
+                                            {{-- <a href="#">Blancos</a> --}}
+                                            Blancos
                                         </span>
                                     {{-- <span class="description">{{ $p['nombre_partido'] }}</span> --}}
                                 </div>
@@ -97,26 +145,31 @@
                                 <div class="user-block">
                                     <img class="img-circle img-bordered-sm" src={{url('/img/nulo.png')}} alt="user image">
                                         <span class="username">
-                                            <a href="#">Nulos</a>
+                                            {{-- <a href="#">Nulos</a> --}}
+                                            Nulos
                                         </span>
                                     {{-- <span class="description">{{ $p['nombre_partido'] }}</span> --}}
                                 </div>
                             </th>
-                            <th style="text-align:center" width="3%"></th>
+                            <th style="text-align:center"></th>
                         </tr>
                         @endif
                         <tr>
+                            <form action="{{ route('llenado_emergencia') }}"  method="post">
                             <td style='font-size: 15px;'><b>{{$key+1}}</b></td>
-                            <td style='font-size: 15px;' scope="row"><b>{{ $mesa->id_mesa }}</b><input type="hidden" name="" id="id_mesa" value="{{$mesa->id_mesa}}"></td>
+                            <td style='font-size: 15px;' scope="row"><b>{{ $mesa->id_mesa }}</b>
+                                <input type="hidden" name="id_mesa" id="id_mesa" value="{{$mesa->id_mesa}}">
+                                <input type="hidden" name="id_recinto" id="id_recinto" value="{{$recinto->id_recinto}}">
+                            </td>
                             @foreach ($partidos as $partido)
                             <td>
                                 @if ($mesa->votos_presidenciales->where('id_partido',$partido->id_partido)->pluck('id_partido')->first() )
                                 <div class="form-group" style="text-align:center">
-                                <input type="number" name="" id="partido_{{$partido->id_partido}}" min="0" value="{{$mesa->votos_presidenciales->where('id_partido',$partido->id_partido)->pluck('validos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
+                                <input type="number" name="partidos[{{$partido->id_partido}}]" id="partido_{{$partido->id_partido}}" min="0" value="{{$mesa->votos_presidenciales->where('id_partido',$partido->id_partido)->pluck('validos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
                                 </div>
                                 @else
                                 <div class="form-group" style="text-align:center">
-                                <input type="number" name="" id="partido_{{$partido->id_partido}}" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69">
+                                <input type="number" name="partidos[{{$partido->id_partido}}]" id="partido_{{$partido->id_partido}}" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69">
                                 </div>
                                 @endif
                             </td>
@@ -124,28 +177,31 @@
                             @if (!is_null($mesa->votos_presidenciales_r ))
                             <td>
                                 <div class="form-group" style="text-align:center">
-                                    <input type="number" name="" id="blancos" min="0" value="{{$mesa->votos_presidenciales_r->where('id_mesa',$mesa->id_mesa)->pluck('blancos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
+                                    <input type="number" name="blancos" id="blancos" min="0" value="{{$mesa->votos_presidenciales_r->where('id_mesa',$mesa->id_mesa)->pluck('blancos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group" style="text-align:center">
-                                    <input type="number" name="" id="nulos" min="0" value="{{$mesa->votos_presidenciales_r->where('id_mesa',$mesa->id_mesa)->pluck('nulos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
+                                    <input type="number" name="nulos" id="nulos" min="0" value="{{$mesa->votos_presidenciales_r->where('id_mesa',$mesa->id_mesa)->pluck('nulos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
                                 </div>
                             </td>
                             @else
                             <td>
                                 <div class="form-group" style="text-align:center">
-                                    <input type="number" name="" id="blancos" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" >
+                                    <input type="number" name="blancos" id="blancos" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" >
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group" style="text-align:center">
-                                    <input type="number" name="" id="nulos" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" >
+                                    <input type="number" name="nulos" id="nulos" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" >
                                 </div>
                             </td>
                             @endif
 
-                            <td><button type="button" class="btn_mesa btn btn-default btn-xs"><i class="fa fa-fw fa-save"></i></button></td>
+                            <td>
+                                <button type="submit" class="btn btn-default btn-xs"><i class="fa fa-fw fa-save"></i></button>
+                            </td>
+                            </form>
                         <td>
                             {{-- <button type="button" class="btn_foto btn btn-default btn-xs"><i class="fa fa-camera"></i>{{ $mesa->id_mesa}}</button> --}}
                             <form>
@@ -171,56 +227,4 @@
 
 </section>
 
-<script>
-    
-        $('.table tbody').on('click', '.btn_mesa', function(){
-        //   alertify.success('id_gestion:');
-        var fila = $(this).closest('tr');
-        var id_mesa = fila.find('#id_mesa').val();
-        var partido_1 = fila.find('#partido_1').val();
-        var partido_2 = fila.find('#partido_2').val();
-        var partido_3 = fila.find('#partido_3').val();
-        var partido_4 = fila.find('#partido_4').val();
-        var partido_5 = fila.find('#partido_5').val();
-        var partido_6 = fila.find('#partido_6').val();
-        var partido_7 = fila.find('#partido_7').val();
-        var partido_8 = fila.find('#partido_8').val();
-        var partido_9 = fila.find('#partido_9').val();
-        var blancos = fila.find('#blancos').val();
-        var nulos = fila.find('#nulos').val();
-        // alertify.success('id_mesa: ' + id_mesa + ', p1: ' + partido_1+ ', p2: ' + partido_2+ ', p3: ' + partido_3+ ', p4: ' + partido_4
-        // + ', p5: ' + partido_5+ ', p6: ' + partido_6+ ', p7: ' + partido_7+ ', p8: ' + partido_8+ ', p9: ' + partido_9
-        // + ', blancos: ' + blancos+ ', nulos: ' + nulos);
-        $.ajax({
-            // alert('sdaf');
-            type:'POST',
-            url:"llenado_emergencia", // sending the request to the same page we're on right now
-            data:{
-                'id_mesa':id_mesa,
-                'partido_1':partido_1,
-                'partido_2':partido_2,
-                'partido_3':partido_3,
-                'partido_4':partido_4,
-                'partido_5':partido_5,
-                'partido_6':partido_6,
-                'partido_7':partido_7,
-                'partido_8':partido_8,
-                'partido_9':partido_9,
-                'blancos':blancos,
-                'nulos':nulos        
-            },
-                success: function(result){
-                    if (result == 'ok') {
-                        alertify.success('Mesa guardada');
-                    }
-                    else{
-                        alertify.success('Mesa guardada');
-                    }
-                }
-            }
-        )
-        
-        });
-
-        </script>
-
+@endsection

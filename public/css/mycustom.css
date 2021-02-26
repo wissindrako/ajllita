@@ -5,7 +5,7 @@ body.mybody {
     color: rgb(0, 0, 0);
     line-height: 30px;
     /* text-align: center; */
-    background-color: #3797d0ba;
+    background-color: #3ACBC7;
 
 }
 strong { 
@@ -23,7 +23,16 @@ a, a:hover, a:focus {
 
 .table_striped_cool>tbody>tr:nth-child(odd)>td,
 .table_striped_cool>tbody>tr:nth-child(odd)>th {
-	background-color: #00b7fd24;
+	background-color: #0bec964d;
+}
+
+.table_striped_presidenciales>tbody>tr:nth-child(odd)>td,
+.table_striped_presidenciales>tbody>tr:nth-child(odd)>th {
+	background-color: #0bcaec65;
+}
+.table_striped_uninominales>tbody>tr:nth-child(odd)>td,
+.table_striped_uninominales>tbody>tr:nth-child(odd)>th {
+	background-color: #f51ebf5e;
 }
 
 /* Contenidos y Formulario*/
@@ -79,7 +88,7 @@ width: auto;
 }
 .myform-bottom {
     padding: 5px 25px 30px 25px;
-    background: #3c8dbc;
+    background: #00a8d3;
     -moz-border-radius: 0 0 10px 10px; 
     -webkit-border-radius: 0 0 10px 10px; 
     border-radius: 0 0 10px 10px;
@@ -101,11 +110,12 @@ input[type="password"]:focus,
 textarea:focus, 
 textarea.form-control:focus {
     background: #fff;
-    border: 2px solid #2caae6;
+    border: 2px solid #95e62c;
 }
 button.mybtn {
     height: 50px;
-    background: rgb(0, 0, 0);
+    /* background: rgb(0, 0, 0); */
+    background: #3ACBC7;
     border: 0;
     font-size: 16px;
     font-weight: 500;
@@ -117,12 +127,12 @@ button.mybtn {
 
 button.mybtn:hover, button.mybtn:active { 
     opacity: 0.6; 
-    color: rgb(170, 170, 170); 
+    color: rgb(0, 0, 0); 
 }
 button.mybtn:focus { 
     opacity: 0.6;
     color: #fff; 
-    background: #667f8e; 
+    background: #692817; 
 }
 
 /*LOGIN REDES SOCIALES*/

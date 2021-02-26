@@ -42,22 +42,22 @@
                    </div>
 
                     <div id="div_notificacion_sol" class="myform-bottom">
-                        <div class="box box-default" id="div_usuarios_encontrados">
-                            <div  style="background-color:#111111; text-align:center; color:white" class="box-header">
+                        <div class="box box-info" id="div_usuarios_encontrados">
+                            <div  style="background-color:#fff; text-align:center; color:black" class="box-header">
                                 <h3 class="box-title"><b>Usuarios Encontrados</b></h3>
                             </div>
                             <div class="box-body table-responsive no-padding scrollable">
                                 <table class="table table-bordered" id="tabla_cedula">
                                     <thead>
                                     <tr>
-                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Nombre</th>
-                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Carnet</th>
-                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Nacimiento</th>
-                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Contacto</th>
-                                        {{-- <th style="background-color:#3c8dbc; text-align:center; color:white">Circ.</th>
-                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Distrito</th> --}}
-                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Recinto</th>
-                                        <th style="background-color:#3c8dbc; text-align:center; color:white">Rol</th>
+                                        <th style="background-color:#00a8d3; text-align:center; color:white">Nombre</th>
+                                        <th style="background-color:#00a8d3; text-align:center; color:white">Carnet</th>
+                                        <th style="background-color:#00a8d3; text-align:center; color:white">Nacimiento</th>
+                                        <th style="background-color:#00a8d3; text-align:center; color:white">Contacto</th>
+                                        {{-- <th style="background-color:#00a8d3; text-align:center; color:white">Circ.</th>
+                                        <th style="background-color:#00a8d3; text-align:center; color:white">Distrito</th> --}}
+                                        <th style="background-color:#00a8d3; text-align:center; color:white">Recinto</th>
+                                        <th style="background-color:#00a8d3; text-align:center; color:white">Rol</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -172,7 +172,7 @@
                                         @endforeach
                                         @else
                                         @foreach ($roles as $rol)
-                                            @if ($rol->id >= 20 && $rol->id <= 22)
+                                            @if ($rol->id >= 15 && $rol->id <= 22)
                                             <option value={{$rol->slug}}>{{$rol->description}}</option>                                                
                                             @endif
                                         @endforeach
@@ -358,7 +358,7 @@
                             <div class="scrollable">
                                 <table class="table table-bordered table-striped scrollable" id="tabla_mesas_json">
                                 <thead>
-                                <tr  style="background-color:#3c8dbc; text-align:center">
+                                <tr  style="background-color:#00a8d3; text-align:center">
                                     <th>#</th>
                                     <th>Código Mesa</th>
                                     <th>Nombre</th>
@@ -507,11 +507,11 @@
                 
                 if (value.mesa_activa === 0 || value.mesa_activa === null) {
                     mesas_sin_asignar++;
-                    $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+' - '+value.codigo_mesas_oep+'-'+value.codigo_ajllita+'</option>');                    
+                    $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+' - '+value.codigo_mesas_oep+'-'+value.codigo_sistema+'</option>');                    
                 } else {
                     mesas_asignadas++;
                     // $(".mesas_json select").append('<option disabled value="'+value.id_mesa+'">R:'+value.id_recinto+'-'+value.id_mesa+'-'+value.codigo_mesas_oep+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+'</option>');                    
-                    $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+' - '+value.codigo_mesas_oep+'-'+value.codigo_ajllita+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+' ('+value.responsables+') </option>');
+                    $(".mesas_json select").append('<option value="'+value.id_mesa+'">R:'+value.id_recinto+' - '+value.codigo_mesas_oep+'-'+value.codigo_sistema+' &#xf007; '+value.nombre_completo+' &#xf095; '+value.telefono_celular+' ('+value.responsables+') </option>');
                 }
                 mesas_total++;
 
@@ -583,9 +583,9 @@
                     var nuevaFila =
                     "<tr>"
                     +"<td>"+datos.nombre_completo+"</td>"
-                    +"<td>"+datos.ci+"</td>"
+                    +"<td>"+datos.cedula_identidad+"</td>"
                     +"<td>"+datos.fecha_nacimiento+"</td>"
-                    +"<td>"+datos.contacto+"</td>"
+                    +"<td>"+datos.telefono_celular+"</td>"
                     +"<td>"+datos.recinto+"</td>"
                     // +"<td>"+datos.circunscripcion+"</td>"
                     // +"<td>"+datos.distrito+"</td>"
@@ -622,7 +622,7 @@
         // +"<td>"+indice+"</td>"
         
         +"<td>"+items.codigo_mesas_oep+"</td>"
-        +"<td>"+items.codigo_ajllita+"</td>"
+        +"<td>"+items.codigo_sistema+"</td>"
         +"<td>"+items.nombre_completo+"</td>"
         +"<td>"+items.telefono_celular+"</td>"
         +"</tr>";

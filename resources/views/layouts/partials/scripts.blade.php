@@ -15,7 +15,7 @@
 
 <!-- AdminLTE App -->
 <script src="{{ asset('/js/app.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('/js/ajllita.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/js/sistema.js') }}" type="text/javascript"></script>
 
 {{-- Cuenta regresiva --}}
 <script src="{{ asset('/js/countdown.js') }}" type="text/javascript"></script>
@@ -65,6 +65,7 @@
 <!-- ChartJS -->
 <script src="{{ asset('/bower_components/chart.js/Chart.js') }}"></script>
 <script src="{{ asset('/js/Chart.min.js') }}"></script>
+@yield("scripts_toasts")
 
 
 <script>

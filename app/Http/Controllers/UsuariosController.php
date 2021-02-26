@@ -334,10 +334,14 @@ public function editar_usuario(Request $request){
 
 public function buscar_usuario(Request $request){
 	$dato=$request->input("dato_buscado");
-    $usuarios=User::where("nombre","like","%".$dato."%")
+    $usuarios=User::join('personas', 'users.id_persona', 'personas.id_persona')
+    ->where("name","like","%".$dato."%")
+    ->orwhere("nombre","like","%".$dato."%")
     ->orwhere("paterno","like","%".$dato."%")
     ->orwhere("materno","like","%".$dato."%")
-    ->orwhere("ci","like","%".$dato."%")
+    ->orwhere("cedula_identidad","like","%".$dato."%")
+    ->orwhere("users.email","like","%".$dato."%")
+    ->select('users.*','personas.nombre', 'personas.paterno', 'personas.materno', 'personas.cedula_identidad')
     ->paginate(100);
 	return view('listados.listado_usuarios')->with("usuarios",$usuarios);
 }

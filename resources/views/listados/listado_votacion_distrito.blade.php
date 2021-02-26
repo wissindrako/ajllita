@@ -8,7 +8,7 @@
 @section('main-content')
 <section  id="contenido_principal">
 
-<div class="box box-primary">
+<div class="box box-white">
 		<div class="box-header">
 				<h3 class="box-title">Listado de Votacion por Distrito</h3>	
 				{{-- <h4 class="text-black" >NOMBRE: <b>{{$persona->nombre}} {{$persona->paterno}} {{$persona->materno}}</b></h4 class="text-black" >
@@ -23,26 +23,30 @@
 		  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 			<thead>
 				<tr>
-					<th style="background-color:#111111; text-align:center; color:white;"></th>
-					<th style="background-color:#111111; text-align:center; color:white;" colspan="2">Datos del Recinto</th>
-					<th style="background-color:#111111; text-align:center; color:white;" colspan="4">Votos Presidenciales</th>
-					<th style="background-color:#111111; text-align:center; color:white;" colspan="4">Votos Uninominales</th>
-					<th style="background-color:#111111; text-align:center; color:white;" colspan="2">Datos del Responsable de Recinto</th>
+					<th style="background-color:#cf0404; text-align:center; color:white;"></th>
+					<th style="background-color:#cf0404; text-align:center; color:white;" colspan="2">Datos del Recinto</th>
+					<th style="background-color:#cf0404; text-align:center; color:white;" colspan="4">Votos Alcaldía</th>
+					@if (isGobernacion())
+					<th style="background-color:#cf0404; text-align:center; color:white;" colspan="4">Votos Gobernación</th>
+					@endif
+					<th style="background-color:#cf0404; text-align:center; color:white;" colspan="2">Datos del Responsable de Recinto</th>
 				</tr>
 				<tr>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">#</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">Nombre</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">Mesas</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">Registrados</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">Esperados</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">Total</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">Estado</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">Registrados</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">Esperados</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">Total</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">Estado</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">Nombre</th>
-					<th style="background-color:#3c8dbc; text-align:center; color:white;">Contacto</th>
+					<th style="background-color:#00a8d3; text-align:center; color:white;">#</th>
+					<th style="background-color:#00a8d3; text-align:center; color:white;">Nombre</th>
+					<th style="background-color:#00a8d3; text-align:center; color:white;">Mesas</th>
+					<th style="background-color:#00a8d3; text-align:center; color:white;">Registrados</th>
+					<th style="background-color:#00a8d3; text-align:center; color:white;">Esperados</th>
+					<th style="background-color:#00a8d3; text-align:center; color:white;">Total</th>
+					<th style="background-color:#00a8d3; text-align:center; color:white;">Estado</th>
+					@if (isGobernacion())
+					<th style="background-color:#00a8d3; text-align:center; color:white;">Registrados</th>
+					<th style="background-color:#00a8d3; text-align:center; color:white;">Esperados</th>
+					<th style="background-color:#00a8d3; text-align:center; color:white;">Total</th>
+					<th style="background-color:#00a8d3; text-align:center; color:white;">Estado</th>
+					@endif
+					<th style="background-color:#00a8d3; text-align:center; color:white;">Nombre</th>
+					<th style="background-color:#00a8d3; text-align:center; color:white;">Contacto</th>
 				</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}
@@ -77,14 +81,16 @@
 					@endphp
 					@endif
 				@endforeach
-				<td style="text-align:right;">{{$votos_pre + $b_n}}</td> {{-- Registrados --}}
-				<td style="text-align:right;">{{$recinto->numero_mesas*($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Esperados --}}
-				<td style="text-align:right;">{{$recinto->numero_mesas*($cantidad_partidos+1)}}</td> {{-- Total --}}
+				<td style="text-align:right; border:2px solid #1bd3f388; background:#19d0f03a">{{$votos_pre + $b_n}}</td> {{-- Registrados --}}
+				<td style="text-align:right; border:2px solid #1bd3f388; background:#19d0f03a">{{$recinto->numero_mesas*($cantidad_partidos+1) - ($votos_pre + $b_n)}}</td> {{-- Esperados --}}
+				<td style="text-align:right; border:2px solid #1bd3f388; background:#19d0f03a">{{$recinto->numero_mesas*($cantidad_partidos+1)}}</td> {{-- Total --}}
 				@if ($votos_pre + $b_n < $recinto->numero_mesas*($cantidad_partidos+1))
-				<td style="text-align:center;"><span class="badge bg-red">Incompleto</span></td>	
+				<td style="text-align:center; border:2px solid #1bd3f388; background:#19d0f03a"><span class="badge bg-red">Incompleto</span></td>	
 				@else
-				<td style="text-align:center;"><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;&nbsp;</span></td>
+				<td style="text-align:center; border:2px solid #1bd3f388; background:#19d0f03a"><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;&nbsp;</span></td>
 				@endif
+
+				@if (isGobernacion())
 				@foreach ($votos_uninominales as $v_uni)
 
 					@if ($recinto->id_recinto == $v_uni->id_recinto)
@@ -101,14 +107,17 @@
 					@endphp
 					@endif
 				@endforeach
-				<td style="text-align:right;">{{$votos_uni + $uni_b_n}}</td> {{-- Registrados --}}
-				<td style="text-align:right;">{{$recinto->numero_mesas*($cantidad_partidos+1) - ($votos_uni + $uni_b_n)}}</td> {{-- Esperados --}}
-				<td style="text-align:right;">{{$recinto->numero_mesas*($cantidad_partidos+1)}}</td> {{-- Total --}}
+				<td style="text-align:right; border:2px solid #f053c988; background: #f84ccd33">{{$votos_uni + $uni_b_n}}</td> {{-- Registrados --}}
+				<td style="text-align:right; border:2px solid #f053c988; background: #f84ccd33">{{$recinto->numero_mesas*($cantidad_partidos+1) - ($votos_uni + $uni_b_n)}}</td> {{-- Esperados --}}
+				<td style="text-align:right; border:2px solid #f053c988; background: #f84ccd33">{{$recinto->numero_mesas*($cantidad_partidos+1)}}</td> {{-- Total --}}
 				@if ($votos_uni + $uni_b_n < $recinto->numero_mesas*($cantidad_partidos+1))
-				<td style="text-align:center;"><span class="badge bg-red">Incompleto</span></td>	
+				<td style="text-align:center; border:2px solid #f053c988; background: #f84ccd33"><span class="badge bg-red">Incompleto</span></td>	
 				@else
-				<td style="text-align:center;"><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;&nbsp;</span></td>
+				<td style="text-align:center; border:2px solid #f053c988; background: #f84ccd33"><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;&nbsp;</span></td>
 				@endif
+
+				@endif
+
 				<td>{{$recinto->nombre_completo}}</td>
 				<td>{{$recinto->contacto}}</td>
 				</tr>

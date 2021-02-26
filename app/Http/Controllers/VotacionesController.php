@@ -13,6 +13,7 @@ Use App\User;
 Use App\Recinto;
 Use App\Mesa;
 use FontLib\EOT\File;
+use Illuminate\Support\Facades\Redirect;
 
 class VotacionesController extends Controller
 {
@@ -21,7 +22,7 @@ class VotacionesController extends Controller
     return view("formularios.form_llenar_mesas_emergencia_tipo");
   }
 
-  //PRESIDENCIALES
+  //ALCALDIA
   public function form_llenado_emergencia($id_recinto){
     
     $recinto = Recinto::find($id_recinto);
@@ -41,7 +42,7 @@ class VotacionesController extends Controller
       ->with('partidos', $partidos);
   }
 
-  //UNINOMINALES
+  //GOBERNACION
   public function form_llenado_emergencia_uninominales($id_recinto){
     
     $recinto = Recinto::find($id_recinto);
@@ -62,147 +63,27 @@ class VotacionesController extends Controller
   }
 
   public function llenado_emergencia(Request $request){
-    // $a = 0;
-    // while ($a < 10) {
-    //   $a++;
-    // }
+    // dd($request->all());
 
-    if ($request->partido_1 == "") { # code...
-    } else {
-      // return \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)->get();
-      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)->get()) > 0) {
-        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)
-      ->update(['validos' => $request->partido_1, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_presidenciales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 1,
-          'validos' => $request->partido_1,
-          'id_usuario' => Auth::user()->id]
-        ]);
+    foreach ($request->partidos as $key => $value) {
+
+      if($value != ""){
+        if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', $key)->get()) > 0) {
+          \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', $key)
+        ->update(['validos' => $value, 'id_usuario' => Auth::user()->id]);
+        
+        } else {
+          //Realizamos el registro
+          \DB::table('votos_presidenciales')->insert([
+            ['id_mesa' => $request->id_mesa,
+            'id_partido' => $key,
+            'validos' => $value,
+            'id_usuario' => Auth::user()->id]
+          ]);
+        }
       }
     }
-    if ($request->partido_2 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 2)->get()) > 0) {
-        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 2)
-      ->update(['validos' => $request->partido_2, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_presidenciales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 2,
-          'validos' => $request->partido_2,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_3 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 3)->get()) > 0) {
-        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 3)
-      ->update(['validos' => $request->partido_3, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_presidenciales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 3,
-          'validos' => $request->partido_3,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_4 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 4)->get()) > 0) {
-        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 4)
-      ->update(['validos' => $request->partido_4, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_presidenciales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 4,
-          'validos' => $request->partido_4,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_5 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 5)->get()) > 0) {
-        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 5)
-      ->update(['validos' => $request->partido_5, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_presidenciales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 5,
-          'validos' => $request->partido_5,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_6 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 6)->get()) > 0) {
-        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 6)
-      ->update(['validos' => $request->partido_6, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_presidenciales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 6,
-          'validos' => $request->partido_6,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_7 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 7)->get()) > 0) {
-        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 7)
-      ->update(['validos' => $request->partido_7, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_presidenciales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 7,
-          'validos' => $request->partido_7,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_8 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 8)->get()) > 0) {
-        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 8)
-      ->update(['validos' => $request->partido_8, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_presidenciales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 8,
-          'validos' => $request->partido_8,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_9 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 9)->get()) > 0) {
-        \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', 9)
-      ->update(['validos' => $request->partido_9, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_presidenciales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 9,
-          'validos' => $request->partido_9,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
+
     if ($request->blancos == "" && $request->nulos == "") { # code...
     } else {
       if (count(\DB::table('votos_presidenciales_r')->where('id_mesa', $request->id_mesa)->get()) > 0) {
@@ -219,160 +100,31 @@ class VotacionesController extends Controller
       }
     }
 
-    
+    return Redirect::back()->with("mensaje_exito", "mensaje_exito");
 
-    // if($a->save())
-    // {
-    //     return 'ok' ;
-    // }
-    // else
-    // {
-    //     return 'failed' ;
-    // }
   }
 
   public function llenado_emergencia_uninominales(Request $request){
-    // $a = 0;
-    // while ($a < 10) {
-    //   $a++;
-    // }
 
-    if ($request->partido_1 == "") { # code...
-    } else {
-      // return \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)->get();
-      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)->get()) > 0) {
-        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 1)
-      ->update(['validos' => $request->partido_1, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_uninominales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 1,
-          'validos' => $request->partido_1,
-          'id_usuario' => Auth::user()->id]
-        ]);
+    foreach ($request->partidos as $key => $value) {
+
+      if($value != ""){
+
+        if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', $key)->get()) > 0) {
+          \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', $key)
+        ->update(['validos' => $value, 'id_usuario' => Auth::user()->id]);
+        } else {
+          //Realizamos el registro
+          \DB::table('votos_uninominales')->insert([
+            ['id_mesa' => $request->id_mesa,
+            'id_partido' => $key,
+            'validos' => $value,
+            'id_usuario' => Auth::user()->id]
+          ]);
+        }
       }
     }
-    if ($request->partido_2 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 2)->get()) > 0) {
-        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 2)
-      ->update(['validos' => $request->partido_2, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_uninominales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 2,
-          'validos' => $request->partido_2,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_3 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 3)->get()) > 0) {
-        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 3)
-      ->update(['validos' => $request->partido_3, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_uninominales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 3,
-          'validos' => $request->partido_3,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_4 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 4)->get()) > 0) {
-        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 4)
-      ->update(['validos' => $request->partido_4, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_uninominales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 4,
-          'validos' => $request->partido_4,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_5 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 5)->get()) > 0) {
-        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 5)
-      ->update(['validos' => $request->partido_5, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_uninominales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 5,
-          'validos' => $request->partido_5,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_6 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 6)->get()) > 0) {
-        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 6)
-      ->update(['validos' => $request->partido_6, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_uninominales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 6,
-          'validos' => $request->partido_6,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_7 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 7)->get()) > 0) {
-        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 7)
-      ->update(['validos' => $request->partido_7, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_uninominales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 7,
-          'validos' => $request->partido_7,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_8 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 8)->get()) > 0) {
-        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 8)
-      ->update(['validos' => $request->partido_8, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_uninominales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 8,
-          'validos' => $request->partido_8,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
-    if ($request->partido_9 == "") { # code...
-    } else {
-      if (count(\DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 9)->get()) > 0) {
-        \DB::table('votos_uninominales')->where('id_mesa', $request->id_mesa)->where('id_partido', 9)
-      ->update(['validos' => $request->partido_9, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_uninominales')->insert([
-          ['id_mesa' => $request->id_mesa,
-          'id_partido' => 9,
-          'validos' => $request->partido_9,
-          'id_usuario' => Auth::user()->id]
-        ]);
-      }
-    }
+  
     if ($request->blancos == "" && $request->nulos == "") { # code...
     } else {
       if (count(\DB::table('votos_uninominales_r')->where('id_mesa', $request->id_mesa)->get()) > 0) {
@@ -389,16 +141,8 @@ class VotacionesController extends Controller
       }
     }
 
-    
+    return Redirect::back()->with("mensaje_exito", "mensaje_exito");
 
-    // if($a->save())
-    // {
-    //     return 'ok' ;
-    // }
-    // else
-    // {
-    //     return 'failed' ;
-    // }
   }
 
 
@@ -412,7 +156,7 @@ class VotacionesController extends Controller
     ->leftjoin('mesas', 'rel_usuario_mesa.id_mesa', '=', 'mesas.id_mesa')
     ->where('id_usuario', $id_usuario)
     ->where('activo', 1)
-    ->select('mesas.id_mesa', 'mesas.codigo_mesas_oep', 'mesas.codigo_ajllita', 'mesas.numero_votantes', 'mesas.foto_presidenciales','foto_uninominales',
+    ->select('mesas.id_mesa', 'mesas.codigo_mesas_oep', 'mesas.codigo_sistema', 'mesas.numero_votantes', 'mesas.foto_presidenciales','foto_uninominales',
                 \DB::raw("(SELECT COUNT(id_votos_presidenciales) FROM votos_presidenciales WHERE id_mesa=mesas.id_mesa) as registros_presidenciales"),
                 \DB::raw("(SELECT COUNT(id_votos_presidenciales_r) FROM votos_presidenciales_r WHERE id_mesa=mesas.id_mesa) as registros_presidenciales_r"),
                 \DB::raw("(SELECT COUNT(id_votos_uninominales) FROM votos_uninominales WHERE id_mesa=mesas.id_mesa) as registros_uninominales"),
@@ -690,13 +434,13 @@ class VotacionesController extends Controller
           ->with("codigo_mesas_oep",$codigo_mesas_oep);
   }
 
-  public function form_votar_presidencial_subir_imagen_popup($id_mesa){
+  public function form_votar_presidencial_subir_imagen_emergencia($id_mesa){
     //Tomamos los datos de la mesa
     $codigo_mesas_oep = \DB::table('mesas')
                         ->where('id_mesa', $id_mesa)
                         ->value('codigo_mesas_oep');
 
-    return view("formularios.form_votar_presidencial_subir_imagen_popup")
+    return view("formularios.form_votar_presidencial_subir_imagen_emergencia")
           ->with("id_mesa",$id_mesa)
           ->with("codigo_mesas_oep",$codigo_mesas_oep);
   }
@@ -739,7 +483,7 @@ class VotacionesController extends Controller
         $mime = $archivo->getMimeType();
         $extension=strtolower($archivo->getClientOriginalExtension());
 
-        $nuevo_nombre="presidencial-C".$recinto->circunscripcion."-D".$recinto->distrito."-Mesa-".$recinto->id_mesa;
+        $nuevo_nombre="alcaldia-C".$recinto->circunscripcion."-D".$recinto->distrito."-Mesa-".$recinto->id_mesa;
 
         $file = $request->file('archivo');
 
@@ -798,6 +542,132 @@ class VotacionesController extends Controller
         else{
           return view("mensajes.msj_error")->with("msj","Ocurrio un error al subir la imagen");
         }
+     }
+  }
+
+  public function votar_presidencial_subir_imagen_emergencia(Request $request){
+
+    //Primero validamos el archivo
+    $reglas=[ 
+      'archivo'  => 'required | mimes:jpg,jpeg,gif,png,bmp | max:2048000'
+    ];
+        
+    $mensajes=[
+      'archivo.required' => 'Deseleccionar un archivo',
+      'archivo.mimes' => 'El archivo debe ser un archivo con formato: jpg, jpeg, gif, png, bmp.',
+      'archivo.max' => 'El archivo Supera el tamaño máximo permitido',
+    ];
+
+    $validator = Validator::make( $request->all(),$reglas,$mensajes );
+    if( $validator->fails() ){ 
+
+      return Redirect::back()->with("mensaje_error_imagen", "mensaje_error");
+    }
+
+    //Subimos el archivo
+    if($request->file('archivo') != ""){
+
+        $recinto= \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->where('mesas.id_mesa', $request->id_mesa)
+        ->select('recintos.circunscripcion', 'recintos.distrito', 'recintos.distrito_referencial', 'mesas.id_mesa')
+        ->first();
+
+        $archivo = $request->file('archivo');
+        $mime = $archivo->getMimeType();
+        $extension=strtolower($archivo->getClientOriginalExtension());
+
+        $nuevo_nombre="alcaldia-C".$recinto->circunscripcion."-D".$recinto->distrito."-Mesa-".$recinto->id_mesa;
+
+        $file = $request->file('archivo');
+
+        $image = Image::make($file->getRealPath());
+        
+         //reducimos la calidad y cambiamos la dimensiones de la nueva instancia.
+        $image->resize(1280, null, function ($constraint) {
+          $constraint->aspectRatio();
+          $constraint->upsize();
+        });
+        $image->orientate();
+
+        $rutadelaimagen="../storage/media/foto_presidenciales/".$nuevo_nombre;
+        
+        if ($image->save($rutadelaimagen)){
+          //Introducimos la ruta en la BD
+          \DB::table('mesas')
+          ->where('id_mesa', $request->id_mesa)
+          ->update(['foto_presidenciales' => $rutadelaimagen]);
+          
+          return Redirect::back()->with("mensaje_exito_imagen", "mensaje_exito");
+        }
+        else{
+          return Redirect::back()->with("mensaje_error_imagen", "mensaje_error");
+        }
+     }else{
+        return Redirect::back()->with("mensaje_error_imagen", "mensaje_error");
+     }
+  }
+
+  public function votar_uninominal_subir_imagen_emergencia(Request $request){
+
+    //Primero validamos el archivo
+    $reglas=[ 
+      'archivo'  => 'required | mimes:jpg,jpeg,gif,png,bmp | max:2048000'
+    ];
+        
+    $mensajes=[
+      'archivo.required' => 'Deseleccionar un archivo',
+      'archivo.mimes' => 'El archivo debe ser un archivo con formato: jpg, jpeg, gif, png, bmp.',
+      'archivo.max' => 'El archivo Supera el tamaño máximo permitido',
+    ];
+
+    $validator = Validator::make( $request->all(),$reglas,$mensajes );
+    if( $validator->fails() ){ 
+
+      return Redirect::back()->with("mensaje_error_imagen", "mensaje_error");
+    }
+
+    //Subimos el archivo
+    if($request->file('archivo') != ""){
+
+        $recinto= \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->where('mesas.id_mesa', $request->id_mesa)
+        ->select('recintos.circunscripcion', 'recintos.distrito', 'recintos.distrito_referencial', 'mesas.id_mesa')
+        ->first();
+
+        $archivo = $request->file('archivo');
+        $mime = $archivo->getMimeType();
+        $extension=strtolower($archivo->getClientOriginalExtension());
+
+        $nuevo_nombre="gobernacion-C".$recinto->circunscripcion."-D".$recinto->distrito."-Mesa-".$recinto->id_mesa;
+
+        $file = $request->file('archivo');
+
+        $image = Image::make($file->getRealPath());
+        
+         //reducimos la calidad y cambiamos la dimensiones de la nueva instancia.
+        $image->resize(1280, null, function ($constraint) {
+          $constraint->aspectRatio();
+          $constraint->upsize();
+        });
+        $image->orientate();
+
+        $rutadelaimagen="../storage/media/foto_uninominales/".$nuevo_nombre;
+        
+        if ($image->save($rutadelaimagen)){
+          //Introducimos la ruta en la BD
+          \DB::table('mesas')
+          ->where('id_mesa', $request->id_mesa)
+          ->update(['foto_uninominales' => $rutadelaimagen]);
+
+          return Redirect::back()->with("mensaje_exito_imagen", "mensaje_exito");
+        }
+        else{
+          return Redirect::back()->with("mensaje_error_imagen", "mensaje_error");
+        }
+     }else{
+        return Redirect::back()->with("mensaje_error_imagen", "mensaje_error");
      }
   }
 
@@ -1040,13 +910,13 @@ class VotacionesController extends Controller
           ->with("codigo_mesas_oep",$codigo_mesas_oep);
   }
 
-  public function form_votar_uninominal_subir_imagen_popup($id_mesa){
+  public function form_votar_uninominal_subir_imagen_emergencia($id_mesa){
     //Tomamos los datos de la mesa
     $codigo_mesas_oep = \DB::table('mesas')
                         ->where('id_mesa', $id_mesa)
                         ->value('codigo_mesas_oep');
 
-    return view("formularios.form_votar_uninominal_subir_imagen_popup")
+    return view("formularios.form_votar_uninominal_subir_imagen_emergencia")
           ->with("id_mesa",$id_mesa)
           ->with("codigo_mesas_oep",$codigo_mesas_oep);
   }

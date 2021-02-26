@@ -15,11 +15,11 @@
         <div class="container">
             
             <div class="row">
-                <div class="box box-info">
+                <div class="box box-primary">
                     <div>
                             {{-- <iframe src="https://goo.gl/maps/huir9fbedLs&output=embed" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe> --}}
                     </div>
-                    <div class="box-header with-borde bg-aqua">
+                    <div class="box-header with-borde">
                         <h3 class="box-title">Ubicación de mi Recinto</h3>
         
                         {{-- <div class="box-tools pull-right">
@@ -89,7 +89,7 @@
                             </div>
                             <div class="col-md-12">
                                 @if (!empty($recinto))
-                                <a href="{{$recinto->geolocalizacion}}" target="_blank" class="btn btn-info btn-lg btn-block">
+                                <a href="{{$recinto->geolocalizacion}}" target="_blank" class="btn btn-primary btn-lg btn-block">
                                         <i class="fa fa-map-marker"></i> Ver
                                     </a>
                                 @else

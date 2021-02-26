@@ -179,7 +179,7 @@
 
                                    <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();"  class="btn bg-aqua btn-flat btn-block"  >
+                                                document.getElementById('logout-form').submit();"  class="btn btn-flat btn-block"  >
                                             <label class="text-black "><i class="fa fa-power-off text-black"></i> Salir</label>
                                         </a>
 

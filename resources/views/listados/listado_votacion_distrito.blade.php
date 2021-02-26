@@ -23,30 +23,30 @@
 		  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 			<thead>
 				<tr>
-					<th style="background-color:#cf0404; text-align:center; color:white;"></th>
-					<th style="background-color:#cf0404; text-align:center; color:white;" colspan="2">Datos del Recinto</th>
-					<th style="background-color:#cf0404; text-align:center; color:white;" colspan="4">Votos Alcaldía</th>
-					@if (isGobernacion())
-					<th style="background-color:#cf0404; text-align:center; color:white;" colspan="4">Votos Gobernación</th>
+					<th style="background-color:#038fe1; text-align:center; color:white;"></th>
+					<th style="background-color:#038fe1; text-align:center; color:white;" colspan="2">Datos del Recinto</th>
+					<th style="background-color:#038fe1; text-align:center; color:white;" colspan="4">Votos Alcaldía</th>
+					@if (isConcejal())
+					<th style="background-color:#038fe1; text-align:center; color:white;" colspan="4">Votos Concejal</th>
 					@endif
-					<th style="background-color:#cf0404; text-align:center; color:white;" colspan="2">Datos del Responsable de Recinto</th>
+					<th style="background-color:#038fe1; text-align:center; color:white;" colspan="2">Datos del Responsable de Recinto</th>
 				</tr>
 				<tr>
-					<th style="background-color:#00a8d3; text-align:center; color:white;">#</th>
-					<th style="background-color:#00a8d3; text-align:center; color:white;">Nombre</th>
-					<th style="background-color:#00a8d3; text-align:center; color:white;">Mesas</th>
-					<th style="background-color:#00a8d3; text-align:center; color:white;">Registrados</th>
-					<th style="background-color:#00a8d3; text-align:center; color:white;">Esperados</th>
-					<th style="background-color:#00a8d3; text-align:center; color:white;">Total</th>
-					<th style="background-color:#00a8d3; text-align:center; color:white;">Estado</th>
-					@if (isGobernacion())
-					<th style="background-color:#00a8d3; text-align:center; color:white;">Registrados</th>
-					<th style="background-color:#00a8d3; text-align:center; color:white;">Esperados</th>
-					<th style="background-color:#00a8d3; text-align:center; color:white;">Total</th>
-					<th style="background-color:#00a8d3; text-align:center; color:white;">Estado</th>
+					<th style="background-color:#32a7eb; text-align:center; color:white;">#</th>
+					<th style="background-color:#32a7eb; text-align:center; color:white;">Nombre</th>
+					<th style="background-color:#32a7eb; text-align:center; color:white;">Mesas</th>
+					<th style="background-color:#32a7eb; text-align:center; color:white;">Registrados</th>
+					<th style="background-color:#32a7eb; text-align:center; color:white;">Esperados</th>
+					<th style="background-color:#32a7eb; text-align:center; color:white;">Total</th>
+					<th style="background-color:#32a7eb; text-align:center; color:white;">Estado</th>
+					@if (isConcejal())
+					<th style="background-color:#32a7eb; text-align:center; color:white;">Registrados</th>
+					<th style="background-color:#32a7eb; text-align:center; color:white;">Esperados</th>
+					<th style="background-color:#32a7eb; text-align:center; color:white;">Total</th>
+					<th style="background-color:#32a7eb; text-align:center; color:white;">Estado</th>
 					@endif
-					<th style="background-color:#00a8d3; text-align:center; color:white;">Nombre</th>
-					<th style="background-color:#00a8d3; text-align:center; color:white;">Contacto</th>
+					<th style="background-color:#32a7eb; text-align:center; color:white;">Nombre</th>
+					<th style="background-color:#32a7eb; text-align:center; color:white;">Contacto</th>
 				</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}
@@ -90,7 +90,7 @@
 				<td style="text-align:center; border:2px solid #1bd3f388; background:#19d0f03a"><span class="badge bg-green">&nbsp;Completo&nbsp;&nbsp;&nbsp;</span></td>
 				@endif
 
-				@if (isGobernacion())
+				@if (isConcejal())
 				@foreach ($votos_uninominales as $v_uni)
 
 					@if ($recinto->id_recinto == $v_uni->id_recinto)

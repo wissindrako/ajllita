@@ -42,7 +42,7 @@ class VotacionesController extends Controller
       ->with('partidos', $partidos);
   }
 
-  //GOBERNACION
+  //CONCEJAL
   public function form_llenado_emergencia_uninominales($id_recinto){
     
     $recinto = Recinto::find($id_recinto);
@@ -640,7 +640,7 @@ class VotacionesController extends Controller
         $mime = $archivo->getMimeType();
         $extension=strtolower($archivo->getClientOriginalExtension());
 
-        $nuevo_nombre="gobernacion-C".$recinto->circunscripcion."-D".$recinto->distrito."-Mesa-".$recinto->id_mesa;
+        $nuevo_nombre="concejal-C".$recinto->circunscripcion."-D".$recinto->distrito."-Mesa-".$recinto->id_mesa;
 
         $file = $request->file('archivo');
 

@@ -18,7 +18,7 @@
                         <div class="myform-top-left">
                            {{-- <img  src="" class="img-responsive logo" /> --}}
                           <h3>
-														Mesa de Votación {{$codigo_mesas_oep}} - Gobernación - Nulos y Blancos
+														Mesa de Votación {{$codigo_mesas_oep}} - Concejal - Nulos y Blancos
 													</h3>
                             <p>Por favor registre el número de votos</p>
                         </div>

@@ -1,7 +1,7 @@
 <section>
 
-<div class="box box-info">
-		<div class="box-header bg-aqua">
+<div class="box box-primary">
+		<div class="box-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cerrar_modal"><span aria-hidden="true">&times;</span></button>
 			<h3 class="box-title">Detalle Votación Alcaldía</h3>	
 			{{-- <h4 class="text-black" >NOMBRE: <b>{{$persona->nombre}} {{$persona->paterno}} {{$persona->materno}}</b></h4 class="text-black" >
@@ -18,10 +18,10 @@
 		  <table id="tabla_votacion_general" class="table table-hover table_striped_presidenciales table-bordered">
 			<thead>
 				<tr>			
-					<th width="15%" style="background-color:#cf0404; text-align:center; color:white" class="col-sm-2">Partido</th>
-					<th width="10%" style="background-color:#cf0404; text-align:center; color:white" class="col-sm-2">Cantidad Votos</th>
-					<th width="5%" style="background-color:#cf0404; text-align:center; color:white" class="col-sm-1"></th>
-					<th width="70%" style="background-color:#cf0404; text-align:center; color:white" class="col-sm-7">Foto del Acta</th>
+					<th width="15%" style="background-color:#038fe1; text-align:center; color:white" class="col-sm-2">Partido</th>
+					<th width="10%" style="background-color:#038fe1; text-align:center; color:white" class="col-sm-2">Cantidad Votos</th>
+					<th width="5%" style="background-color:#038fe1; text-align:center; color:white" class="col-sm-1"></th>
+					<th width="70%" style="background-color:#038fe1; text-align:center; color:white" class="col-sm-7">Foto del Acta</th>
 				</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}

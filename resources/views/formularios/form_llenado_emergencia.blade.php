@@ -45,8 +45,8 @@
         @endsection
     @endif
 
-<div class="box box-info">
-        <div class="box-header bg-aqua" style="text-align:center;">
+<div class="box box-primary">
+        <div class="box-header" style="text-align:center;">
         <h3 class=""><b>Llenado de Mesas - Votos Alcaldía</b></h3>
         <h3 class=""><b>{{$recinto->nombre}}</b> ({{count($mesas)}} mesas)</h3>
 				{{-- <input type="hidden" id="rol_usuario" value="{{ $rol->slug }}"> --}}

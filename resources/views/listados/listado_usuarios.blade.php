@@ -8,7 +8,7 @@
 
 <section  id="contenido_principal">
 
-<div class="box box-info box-primary">
+<div class="box box-primary">
      <div class="box-header">
         <h4 class="box-title">Usuarios</h4>	        
         <form   action="{{ url('buscar_usuario') }}"  method="post"  >
@@ -86,7 +86,7 @@
 @if(count($usuarios)==0)
 
 
-<div class="box box-info col-xs-12">
+<div class="box box-primary col-xs-12">
 
 <div class='aprobado' style="margin-top:70px; text-align: center">
  

@@ -5,7 +5,7 @@ body.mybody {
     color: rgb(0, 0, 0);
     line-height: 30px;
     /* text-align: center; */
-    background-color: #3ACBC7;
+    background-color: #3ca8e7;
 
 }
 strong { 
@@ -88,7 +88,7 @@ width: auto;
 }
 .myform-bottom {
     padding: 5px 25px 30px 25px;
-    background: #00a8d3;
+    background: #32a7eb;
     -moz-border-radius: 0 0 10px 10px; 
     -webkit-border-radius: 0 0 10px 10px; 
     border-radius: 0 0 10px 10px;
@@ -115,12 +115,12 @@ textarea.form-control:focus {
 button.mybtn {
     height: 50px;
     /* background: rgb(0, 0, 0); */
-    background: #3ACBC7;
+    background: #e3e9e9;
     border: 0;
     font-size: 16px;
     font-weight: 500;
     line-height: 40px;
-    color: #fff;
+    color: #000;
     -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
     -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
 }

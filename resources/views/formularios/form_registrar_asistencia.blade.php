@@ -42,7 +42,7 @@
                     <div id="div_notificacion_sol" class="myform-bottom">
 											<br>
                     	<form action="{{ url('registrar_asistencia') }}"  method="post" id="f_enviar_gastronomia" class="formentrada" >
-                        <button type="submit" class="mybtn" style="background-color: #3ACBC7;">Estoy presente</button>
+                        <button type="submit" class="mybtn" style="background-color: #e9f5f4;">Estoy presente</button>
                       </form>
 											<br><br><br>
 											<form action="{{ url('registrar_falta') }}"  method="post" id="f_enviar_gastronomia" class="formentrada" >

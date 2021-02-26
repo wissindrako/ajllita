@@ -8,8 +8,8 @@
 @section('main-content')
 <section  id="contenido_principal">
 
-<div class="box box-info">
-		<div class="box-header bg-aqua">
+<div class="box box-primary">
+		<div class="box-header">
 				<h3 class="box-title">Listado de Votacion por Recinto</h3>	
 				{{-- <h4 class="text-black" >NOMBRE: <b>{{$persona->nombre}} {{$persona->paterno}} {{$persona->materno}}</b></h4 class="text-black" >
 				<h4 class="text-black" >CEDULA: <b>{{$persona->cedula_identidad}} {{$persona->complemento_cedula}} {{$persona->expedido}}</b></h4 class="text-black" > --}}
@@ -23,31 +23,31 @@
 		  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 			<thead>
 					<tr>
-						<th style="background-color:#cf0404; text-align:center; color:white" colspan="1"></th>
-						<th style="background-color:#cf0404; text-align:center; color:white" colspan="1"></th>
-						<th style="background-color:#cf0404; text-align:center; color:white" colspan="4">Votos Alcaldía</th>
-						@if (isGobernacion())
-						<th style="background-color:#cf0404; text-align:center; color:white" colspan="4">Votos Gobernación</th>
+						<th style="background-color:#038fe1; text-align:center; color:white" colspan="1"></th>
+						<th style="background-color:#038fe1; text-align:center; color:white" colspan="1"></th>
+						<th style="background-color:#038fe1; text-align:center; color:white" colspan="4">Votos Alcaldía</th>
+						@if (isConcejal())
+						<th style="background-color:#038fe1; text-align:center; color:white" colspan="4">Votos Concejal</th>
 						@endif
-						<th style="background-color:#cf0404; text-align:center; color:white" colspan="2">Datos del Responsable de Mesa</th>
+						<th style="background-color:#038fe1; text-align:center; color:white" colspan="2">Datos del Responsable de Mesa</th>
 					</tr>
 					<tr>				
 
 						{{-- <th># Recinto</th> --}}
-						<th style="background-color:#00a8d3; text-align:center; color:white">#</th>
-						<th style="background-color:#00a8d3; text-align:center; color:white">Mesa</th>
-						<th style="background-color:#00a8d3; text-align:center; color:white">Registrados</th>
-						<th style="background-color:#00a8d3; text-align:center; color:white">Esperados</th>
-						<th style="background-color:#00a8d3; text-align:center; color:white">Total</th>
-						<th style="background-color:#00a8d3; text-align:center; color:white">Estado</th>
-						@if (isGobernacion())
-						<th style="background-color:#00a8d3; text-align:center; color:white">Registrados</th>
-						<th style="background-color:#00a8d3; text-align:center; color:white">Esperados</th>
-						<th style="background-color:#00a8d3; text-align:center; color:white">Total</th>
-						<th style="background-color:#00a8d3; text-align:center; color:white">Estado</th>
+						<th style="background-color:#32a7eb; text-align:center; color:white">#</th>
+						<th style="background-color:#32a7eb; text-align:center; color:white">Mesa</th>
+						<th style="background-color:#32a7eb; text-align:center; color:white">Registrados</th>
+						<th style="background-color:#32a7eb; text-align:center; color:white">Esperados</th>
+						<th style="background-color:#32a7eb; text-align:center; color:white">Total</th>
+						<th style="background-color:#32a7eb; text-align:center; color:white">Estado</th>
+						@if (isConcejal())
+						<th style="background-color:#32a7eb; text-align:center; color:white">Registrados</th>
+						<th style="background-color:#32a7eb; text-align:center; color:white">Esperados</th>
+						<th style="background-color:#32a7eb; text-align:center; color:white">Total</th>
+						<th style="background-color:#32a7eb; text-align:center; color:white">Estado</th>
 						@endif
-						<th style="background-color:#00a8d3; text-align:center; color:white">Nombre</th>
-						<th style="background-color:#00a8d3; text-align:center; color:white">Contacto</th>
+						<th style="background-color:#32a7eb; text-align:center; color:white">Nombre</th>
+						<th style="background-color:#32a7eb; text-align:center; color:white">Contacto</th>
 					</tr>
 				{{-- <th>Estado</th>
 				<th></th> --}}
@@ -95,7 +95,7 @@
 				</td>	
 				@endif
 
-				@if (isGobernacion())
+				@if (isConcejal())
 				@foreach ($votos_uninominales as $v_uni)
 
 					@if ($mesa->id_mesa == $v_uni->id_mesa)
@@ -128,7 +128,7 @@
 				</td>
 				@endif
 
-				@endif {{-- isGobernacion --}}
+				@endif {{-- isConcejal --}}
 				<td style="text-align:center; border: 2px solid #1bd3f388;">{{$mesa->nombre_completo}}</td>
 				<td style="text-align:center; border: 2px solid #1bd3f388;">{{$mesa->contacto}}</td>
 				

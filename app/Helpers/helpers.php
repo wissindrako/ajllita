@@ -6,9 +6,9 @@
  * Time: 02:42
  */
 
-if(! function_exists('isGobernacion')){
-    function isGobernacion(){
-        return false;
+if(! function_exists('isConcejal')){
+    function isConcejal(){
+        return true;
     }
 }
 

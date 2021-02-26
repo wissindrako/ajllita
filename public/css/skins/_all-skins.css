@@ -71,7 +71,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
   background-color: #3acbc61e;
 }
 .skin-abstract .main-header li.user-header {
-  background-color: #d20705;
+  background-color: #0474cf;
 }
 .skin-abstract .content-header {
   background: transparent;
@@ -117,7 +117,7 @@ ter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endCol
   text-decoration: none;
 }
 .skin-abstract .treeview-menu > li > a {
-  color: #8aa4af;
+  color: #000;
 }
 .skin-abstract .treeview-menu > li.active > a,
 .skin-abstract .treeview-menu > li > a:hover {
@@ -191,7 +191,7 @@ ter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endCol
   color: #fff;
 }
 .skin-abstract-light .main-header .navbar .sidebar-toggle:hover {
-  background-color: #cf0404;
+  background-color: #0474cf;
 }
 @media (max-width: 767px) {
   .skin-abstract-light .main-header .navbar .dropdown-menu li.divider {
@@ -201,7 +201,7 @@ ter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endCol
     color: #fff;
   }
   .skin-abstract-light .main-header .navbar .dropdown-menu li a:hover {
-    background: #cf0404;
+    background: #0474cf;
   }
 }
 .skin-abstract-light .main-header .logo {
@@ -400,7 +400,7 @@ ter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endCol
 .skin-naranja .sidebar-menu > li.active > a {
   color: #000;
   background: #1e282c;
-  border-left-color: #f16625;
+  border-left-color: #3325f1;
 }
 .skin-naranja .sidebar-menu > li > .treeview-menu {
   margin: 0 1px;

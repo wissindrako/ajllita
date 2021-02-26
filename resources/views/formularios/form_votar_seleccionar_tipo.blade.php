@@ -55,12 +55,12 @@
 													</button>
 												</form>
 
-                        @if (isGobernacion())
+                        @if (isConcejal())
 												<br>
 												<form action="{{ url('form_votar_uninominal') }}"  method="post">
 													<input type="hidden" name="id_mesa" value="{{ $mesa->id_mesa }}">
 													<button type="submit" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
-														GOBERNACION
+														CONCEJAL
 													</button>
 												</form>
                         @endif

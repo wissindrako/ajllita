@@ -53,14 +53,14 @@
                               ALCALDIA
                             </button>
                           </form>
-                        @if (isGobernacion())
+                        @if (isConcejal())
                         <br><br>
                         {{-- <button type="button" onclick="verinfo_mesas({{$personas_logueadas->id_recinto}},11);" style="font-size: 18px; border-color: #f51ebfd2; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#3ACBC7)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
-                          GOBERNACION
+                          CONCEJAL
                         </button> --}}
                         <form action="{{ route('form_llenado_emergencia_uninominales', $personas_logueadas->id_recinto) }}"  method="get">
                           <button type="submit" style="font-size: 18px; border-color: #0bcaec; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
-                            GOBERNACION
+                            CONCEJAL
                           </button>
                         </form>
                         @endif

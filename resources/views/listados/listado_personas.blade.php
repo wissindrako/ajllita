@@ -8,8 +8,8 @@
 @section('main-content')
 <section  id="contenido_principal">
 
-<div class="box box-info">
-		<div class="box-header bg-aqua">
+<div class="box box-primary">
+		<div class="box-header">
             <h3 class="box-title">Listado de Personas</h3>
             <input type="hidden" id="rol_usuario" value="{{ $rol->slug }}">
             <div class="pull-right box-tools">

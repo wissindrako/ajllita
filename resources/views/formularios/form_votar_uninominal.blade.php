@@ -18,7 +18,7 @@
                         <div class="myform-top-left">
                            {{-- <img  src="" class="img-responsive logo" /> --}}
                           <h3>
-														Mesa de Votación {{$codigo_mesas_oep}} - Gobernación
+														Mesa de Votación {{$codigo_mesas_oep}} - Concejal
 													</h3>
                             <p>Por favor pulse sobre el partido del cual registrará los votos</p>
                         </div>

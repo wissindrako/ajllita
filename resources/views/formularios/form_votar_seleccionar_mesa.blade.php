@@ -115,9 +115,9 @@
 																@endif
 
 														
-														@if (isGobernacion())
+														@if (isConcejal())
 														<br>
-														<span class="info-box-number">Votos Gobernación:</span>
+														<span class="info-box-number">Votos Concejal:</span>
 														<?php
 															//Controlamos que hayan llenado los 10 registros (9 presidente y 1 blancos y nulos)
 															$registros_uninominales = $mesa->registros_uninominales + $mesa->registros_uninominales_r;

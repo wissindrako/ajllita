@@ -23,54 +23,28 @@
 
 	{{-- INICIO CIRCUNSCRIPCION 8 --}}
 	<div class="box box-primary">
+		<div class="box-body">
+			<div class="form-group">
+				<label>Seleccione un Distrito</label>
+				<select class="form-control input-lg" id="distrito" onchange="activar_uninominales()">
+				@foreach ($distritos as $distrito)
+					<option>{{$distrito}}</option>
+				@endforeach
+				</select>
+			  </div>
+		</div>
+	</div>
+	<div class="box box-primary">
 		<a href="javascript:void(0);" onclick="refrescar_votos();">
 			<div class="box-header with-border" style="background-color:#038fe1; text-align:center">
-			<h3 class="box-title" style="color:white">Votos Concejal Circunscripción 8</h3>
+			<h3 class="box-title" style="color:white">Votos Concejal - Distrito</h3>
 			<div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool bg-black"><i class="fa fa-refresh text-green" id="btn_refresh"></i></button>
 			</div>
 			</div>
 		</a>
 		<div class="box-body" style="">
-		  <div class="chart">
-			<canvas id="canvas_c8"  height="230" width="754"></canvas>
-		  </div>
-		
-		<!-- /.box-body -->
-
-		<div class="row">
-			{{-- <div class="col-lg-3 col-xs-6">
-			</div> --}}
-			<div class="col-lg-6 col-xs-6">
-			  <!-- small box -->
-			  <div class="small-box bg-gray">
-				<div class="inner">
-				  <h4><b>{{$circ_8->blancos}}</b></h4>
-	
-				  <p><b>Blancos</b></p>
-				</div>
-				<div class="icon">
-				  <i class="fa fa-circle-o"></i>
-				</div>
-				<br>
-			  </div>
-			</div>
-			<!-- ./col -->
-			<div class="col-lg-6 col-xs-6">
-			  <!-- small box -->
-			  <div class="small-box bg-gray">
-				<div class="inner">
-				  <h4><b>{{$circ_8->nulos}}</b></h4>
-	
-				  <p><b>Nulos</b></p>
-				</div>
-				<div class="icon">
-				  <i class="fa fa-times-circle"></i>
-				</div>
-				<br>
-			  </div>
-			</div>
-			<!-- ./col -->
+		  <div class="chart" id="chart">
 		  </div>
 		</div>
 	</div>
@@ -86,19 +60,23 @@
 @parent
 
 <script>
-function activar_uninominales_c8() {
+function activar_uninominales() {
 	// alertify.success('hola');
-	var url = "{{url('uninominales_c8')}}";
+	var distrito = document.getElementById("distrito").value;
+	var url = "{{url('uninominales_por_distrito')}}";
 	var Partidos = new Array();
 	var Labels = new Array();
 	var Votos = new Array();
+	var Porcentaje = new Array();
 	var Fill = new Array();
 	var BorderColor = new Array();
-	$.get(url, function(response){
+	$.get(url + '/'+distrito, function(response){
+		console.log(url + '/'+distrito);
 	response.forEach(function(data){
 		Partidos.push(data.sigla);
 		Labels.push(data.id_partido);
-		Votos.push(data.validos);
+		Votos.push(data.valor);
+		Porcentaje.push(data.porcentaje);
 		Fill.push(data.fill);
 		BorderColor.push(data.borderColor);
 	});
@@ -108,6 +86,7 @@ function activar_uninominales_c8() {
             {
 				label: 'Votos',
 				data: Votos,
+				porcentaje: Porcentaje,
 				datalabels: {
 					align: 'end',
 					anchor: 'start'
@@ -160,14 +139,19 @@ function activar_uninominales_c8() {
 				this.data.datasets.forEach(function (dataset, i) {
 					var meta = chartInstance.controller.getDatasetMeta(i);
 					meta.data.forEach(function (bar, index) {
-						var data = dataset.data[index];                            
-						ctx.fillText(data+' ', bar._model.x, bar._model.y +1);
+						var data = dataset.data[index];    
+						var porcentaje = dataset.porcentaje[index];                         
+						ctx.fillText(porcentaje+' %', bar._model.x, bar._model.y +1);
 					});
 				});
 			}
 		}
 	};
-	var ctx = document.getElementById("canvas_c8"),
+
+	$('#canvas').remove();
+	$('#chart').append('<canvas id="canvas" height="280" width="754"><canvas>');
+
+	var ctx = document.getElementById("canvas"),
 		myChart = new Chart(ctx, {
         type: 'bar',
         data: chartData,
@@ -177,12 +161,12 @@ function activar_uninominales_c8() {
 	});
 }
 
-activar_uninominales_c8();
+activar_uninominales();
 
 
-window.setInterval(function(){
-	location.reload();
-}, 60000);
+// window.setInterval(function(){
+// 	location.reload();
+// }, 60000);
 
 function refrescar_votos(){
 	location.reload();

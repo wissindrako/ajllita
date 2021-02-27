@@ -131,6 +131,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('form_resumen_global_por_distrito', 'GraficosController@form_resumen_global_por_distrito');
 
     Route::get('votacion_general_uninominales', 'GraficosController@votacion_general_uninominales');
+    Route::get('uninominales_por_distrito/{distrito}', 'GraficosController@uninominales_por_distrito');
+
+
     Route::get('uninominales_c8', 'GraficosController@uninominales_c8');
     Route::get('uninominales_c10', 'GraficosController@uninominales_c10');
     Route::get('uninominales_c11', 'GraficosController@uninominales_c11');

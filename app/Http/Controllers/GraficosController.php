@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mesa;
+use App\Recinto;
 
 class GraficosController extends Controller
 {
@@ -106,62 +107,10 @@ class GraficosController extends Controller
     }
 
     public function votacion_general_uninominales(){
-        $circ_8 = \DB::table('mesas')
-        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
-        ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
-        ->select('mesas.id_mesa',
-        \DB::raw('SUM(nulos) as nulos'),
-        \DB::raw('SUM(blancos) as blancos')
-        )
-        ->where('recintos.circunscripcion', 8)
-        ->first();
-
-        // $circ_10 = \DB::table('mesas')
-        // ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
-        // ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
-        // ->select('mesas.id_mesa',
-        // \DB::raw('SUM(nulos) as nulos'),
-        // \DB::raw('SUM(blancos) as blancos')
-        // )
-        // ->where('recintos.circunscripcion', 10)
-        // ->first();
-        
-        // $circ_11 = \DB::table('mesas')
-        // ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
-        // ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
-        // ->select('mesas.id_mesa',
-        // \DB::raw('SUM(nulos) as nulos'),
-        // \DB::raw('SUM(blancos) as blancos')
-        // )
-        // ->where('recintos.circunscripcion', 11)
-        // ->first();
-        
-        // $circ_12 = \DB::table('mesas')
-        // ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
-        // ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
-        // ->select('mesas.id_mesa',
-        // \DB::raw('SUM(nulos) as nulos'),
-        // \DB::raw('SUM(blancos) as blancos')
-        // )
-        // ->where('recintos.circunscripcion', 12)
-        // ->first();
-        
-        // $circ_13 = \DB::table('mesas')
-        // ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
-        // ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
-        // ->select('mesas.id_mesa',
-        // \DB::raw('SUM(nulos) as nulos'),
-        // \DB::raw('SUM(blancos) as blancos')
-        // )
-        // ->where('recintos.circunscripcion', 13)
-        // ->first();
+        $distritos = Recinto::orderBy('distrito')->distinct()->pluck('distrito');
 
         return view("graficos.votacion_general_uninominales")
-        ->with('circ_8', $circ_8);
-        // ->with('circ_10', $circ_10)
-        // ->with('circ_11', $circ_11)
-        // ->with('circ_12', $circ_12)
-        // ->with('circ_13', $circ_13);
+        ->with('distritos', $distritos);
     }
 
     public function presidenciales(){
@@ -224,6 +173,84 @@ class GraficosController extends Controller
         return response()->json($alcaldia);
     }
 
+    public function uninominales_por_distrito($distrito){
+        $votos_uninominales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales', 'mesas.id_mesa', 'votos_uninominales.id_mesa')
+        ->join('partidos', 'votos_uninominales.id_partido', 'partidos.id_partido')
+        ->select('votos_uninominales.id_partido', 'partidos.sigla', 'partidos.fill', 'partidos.borderColor',
+        \DB::raw('SUM(validos) as validos')
+        )
+        ->where('recintos.distrito', $distrito)
+        ->groupBy('votos_uninominales.id_partido')
+        ->orderby('partidos.nivel')
+        ->get();
+
+        $votos_uninominales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
+        ->select('mesas.id_mesa',
+        \DB::raw('SUM(nulos) as nulos'),
+        \DB::raw('SUM(blancos) as blancos')
+        )
+        ->where('recintos.distrito', $distrito)
+        ->first();
+
+        $suma_votos = $votos_uninominales->sum('validos') + $votos_uninominales_r->nulos + $votos_uninominales_r->blancos;
+
+        $uninominales = array();
+
+        foreach ($votos_uninominales as $key => $value) {
+            $e = array();
+            $e["id_partido"] = $value->id_partido;
+            $e["sigla"] = $value->sigla;
+            $e["fill"] = $value->fill;
+            $e["borderColor"] = $value->borderColor;
+            $e["valor"] = $value->validos;
+            if ($suma_votos == 0) {
+                $e["porcentaje"] = 0;
+            } else {
+                $e["porcentaje"] = round(($value->validos*100)/$suma_votos, 2);
+            }
+            array_push($uninominales, $e);
+        }
+
+        if($votos_uninominales_r->blancos != null){
+            $e = array();
+            $e["id_partido"] = count($votos_uninominales) + 1;
+            $e["sigla"] = 'Blanco';
+            $e["fill"] = '#fff';
+            $e["borderColor"] = '#000';
+            $e["valor"] = $votos_uninominales_r->blancos;
+            if ($suma_votos == 0) {
+                $e["porcentaje"] = 0;
+            } else {
+                $e["porcentaje"] = round(($votos_uninominales_r->blancos*100)/$suma_votos, 2);
+            }
+
+            array_push($uninominales, $e);
+        }
+            
+        if($votos_uninominales_r->nulos != null){
+            $e = array();
+            $e["id_partido"] = count($votos_uninominales) + 2;
+            $e["sigla"] = 'Nulo';
+            $e["fill"] = '#898a8a';
+            $e["borderColor"] = '#f90101';
+            $e["valor"] = $votos_uninominales_r->nulos;
+            if ($suma_votos == 0) {
+                $e["porcentaje"] = 0;
+            } else {
+                $e["porcentaje"] = round(($votos_uninominales_r->nulos*100)/$suma_votos, 2);
+            }
+
+            array_push($uninominales, $e);
+        }
+
+
+        return response()->json($uninominales);
+    }
+
     public function uninominales_c8(){
         $votos_uninominales = \DB::table('mesas')
         ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
@@ -238,6 +265,7 @@ class GraficosController extends Controller
         ->get();
         return response()->json($votos_uninominales);
     }
+
     public function uninominales_c10(){
         $votos_uninominales = \DB::table('mesas')
         ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')

@@ -31,47 +31,9 @@
 		</a>
 
 		<div class="box-body" style="">
-		  <div class="chart">
-			<canvas id="canvas"  height="230" width="754"></canvas>
-		  </div>
-		
-		<!-- /.box-body -->
+			<br>
+		  <div class="chart" id="chart">
 
-		<div class="row">
-			{{-- <div class="col-lg-3 col-xs-6">
-			</div> --}}
-			<div class="col-lg-6 col-xs-6">
-			  <!-- small box -->
-			  <div class="small-box bg-gray">
-				<div class="inner">
-				  <h4><b>{{ round(($votos_presidenciales_r->blancos*100)/$total_votos, 2) }}</b></h4>
-	
-				  <p><b>Blancos</b></p>
-				</div>
-				<div class="icon">
-				  <i class="fa fa-circle-o"></i>
-				</div>
-				{{-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> --}}
-				<br>
-			  </div>
-			</div>
-			<!-- ./col -->
-			<div class="col-lg-6 col-xs-6">
-			  <!-- small box -->
-			  <div class="small-box bg-gray">
-				<div class="inner">
-				  <h4><b>{{  round(($votos_presidenciales_r->nulos*100)/$total_votos, 2)  }}</b></h4>
-	
-				  <p><b>Nulos</b></p>
-				</div>
-				<div class="icon">
-				  <i class="fa fa-times-circle"></i>
-				</div>
-				{{-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> --}}
-				<br>
-			  </div>
-			</div>
-			<!-- ./col -->
 		  </div>
 		</div>
 	</div>
@@ -166,12 +128,16 @@ function activar_tabla_recintos_mesas() {
 						var data = dataset.data[index];
 						var porcentaje = dataset.porcentaje[index]; 
 						// ctx.fillText(data+'- '+porcentaje+' %', bar._model.x, bar._model.y +1);
-						ctx.fillText(porcentaje+' %', bar._model.x, bar._model.y +1);
+						ctx.fillText(porcentaje+' %', bar._model.x, bar._model.y +20);
 					});
 				});
 			}
 		}
 	};
+
+	$('#canvas').remove();
+	$('#chart').append('<canvas id="canvas" height="320" width="754"><canvas>');
+
 	var ctx = document.getElementById("canvas"),
 		myChart = new Chart(ctx, {
         type: 'bar',

@@ -44,6 +44,7 @@
 			</div>
 		</a>
 		<div class="box-body" style="">
+			<br>
 		  <div class="chart" id="chart">
 		  </div>
 		</div>
@@ -141,7 +142,7 @@ function activar_uninominales() {
 					meta.data.forEach(function (bar, index) {
 						var data = dataset.data[index];    
 						var porcentaje = dataset.porcentaje[index];                         
-						ctx.fillText(porcentaje+' %', bar._model.x, bar._model.y +1);
+						ctx.fillText(porcentaje+' %', bar._model.x, bar._model.y +20);
 					});
 				});
 			}

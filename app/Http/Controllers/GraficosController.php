@@ -91,18 +91,8 @@ class GraficosController extends Controller
         )
         ->first();
 
-        $votos_presidenciales_r = \DB::table('mesas')
-        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
-        ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
-        ->select('mesas.id_mesa',
-        \DB::raw('SUM(nulos) as nulos'),
-        \DB::raw('SUM(blancos) as blancos')
-        )
-        ->first();
-
         return view("graficos.porcentaje_votacion_general")
         ->with('votos_validos', $votos_validos)
-        ->with('votos_presidenciales_r', $votos_presidenciales_r)
         ->with('total_votos', $total_votos);
     }
 
@@ -144,7 +134,6 @@ class GraficosController extends Controller
         ->orderby('partidos.nivel')
         ->get();
 
-        $suma_votos = $votos_presidenciales->sum('validos');
 
         $votos_presidenciales_r = \DB::table('mesas')
         ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
@@ -154,6 +143,8 @@ class GraficosController extends Controller
         \DB::raw('SUM(blancos) as blancos')
         )
         ->first();
+
+        $suma_votos = $votos_presidenciales->sum('validos') + $votos_presidenciales_r->blancos + $votos_presidenciales_r->nulos;
 
         $alcaldia = array();
 
@@ -165,11 +156,42 @@ class GraficosController extends Controller
             $e["borderColor"] = $value->borderColor;
             $e["valor"] = $value->validos;
             $e["porcentaje"] = round(($value->validos*100)/$suma_votos, 2);
-            // $e["valor"] = round(($value->validos*100)/$total_votos, 2);
-            // $e["blancos"] = (int) $value->blancos;
-            // $e["nulos"] = (int) $value->nulos;
+
             array_push($alcaldia, $e);
         }
+
+        if($votos_presidenciales_r->blancos != null){
+            $e = array();
+            $e["id_partido"] = count($votos_presidenciales) + 1;
+            $e["sigla"] = 'Blanco';
+            $e["fill"] = '#fff';
+            $e["borderColor"] = '#000';
+            $e["valor"] = $votos_presidenciales_r->blancos;
+            if ($suma_votos == 0) {
+                $e["porcentaje"] = 0;
+            } else {
+                $e["porcentaje"] = round(($votos_presidenciales_r->blancos*100)/$suma_votos, 2);
+            }
+
+            array_push($alcaldia, $e);
+        }
+            
+        if($votos_presidenciales_r->nulos != null){
+            $e = array();
+            $e["id_partido"] = count($votos_presidenciales) + 2;
+            $e["sigla"] = 'Nulo';
+            $e["fill"] = '#898a8a';
+            $e["borderColor"] = '#f90101';
+            $e["valor"] = $votos_presidenciales_r->nulos;
+            if ($suma_votos == 0) {
+                $e["porcentaje"] = 0;
+            } else {
+                $e["porcentaje"] = round(($votos_presidenciales_r->nulos*100)/$suma_votos, 2);
+            }
+
+            array_push($alcaldia, $e);
+        }  
+
         return response()->json($alcaldia);
     }
 
@@ -246,7 +268,6 @@ class GraficosController extends Controller
 
             array_push($uninominales, $e);
         }
-
 
         return response()->json($uninominales);
     }

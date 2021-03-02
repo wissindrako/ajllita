@@ -77,7 +77,8 @@ width: auto;
     padding-top: 25px;
     font-size: 66px;
     text-align: right;
-    opacity: 0.3;
+    /* opacity: 0.3; */
+    color: #3fbaf3;
 }
 .myform_top_right_img {
     float: right;

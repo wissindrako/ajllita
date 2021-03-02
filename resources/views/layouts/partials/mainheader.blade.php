@@ -18,7 +18,7 @@
         <!-- Sidebar toggle button-->
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">{{ trans('adminlte_lang::message.togglenav') }}</span>
-            
+            <b>Menú</b>
         </a>
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">

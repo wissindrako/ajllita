@@ -12,6 +12,12 @@ if(! function_exists('isConcejal')){
     }
 }
 
+if(! function_exists('isGobernacion')){
+    function isGobernacion(){
+        return false;
+    }
+}
+
 
 if(! function_exists('limpiar')){
     function limpiar($string){

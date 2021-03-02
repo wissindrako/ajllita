@@ -21,7 +21,7 @@
               <div class="col-sm-6 col-sm-offset-3 myform-cont" >
                     <div class="myform-top">
                         <div class="myform-top-left">
-                         <img  src="{{ url('img/logo_partido_principal.png') }} " class="img-responsive logo" />
+                         <img  src="{{ url('img/logo_partido_login.png') }} " class="img-responsive logo" />
                           <h3>Elecciones Subnacionales 2021</h3>
                             <p>Digita tu usuario y contraseña:</p>
                         </div>

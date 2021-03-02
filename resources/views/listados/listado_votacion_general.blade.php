@@ -19,7 +19,7 @@
 			<thead>
 				<th style="font-size: 20px; background-color:#038fe1; text-align:center; color: #fff;">Alcaldía</th>
 				{{-- <th style="font-size: 14px;">Alcaldía</th> --}}
-				@if (isConcejal())
+				@if (isGobernacion())
 				<th style="font-size: 20px;background-color:#038fe1; text-align:center; color: #fff;">Concejal</th>
 				@endif
 			</thead>
@@ -85,7 +85,7 @@
 				</td>
 
 				{{-- Concejal --}}
-				@if (isConcejal())
+				@if (isGobernacion())
 				<td>
 				@foreach ($partidos as $p)
 					

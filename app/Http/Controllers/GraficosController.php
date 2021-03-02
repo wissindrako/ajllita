@@ -103,6 +103,13 @@ class GraficosController extends Controller
         ->with('distritos', $distritos);
     }
 
+    public function votacion_general_presidenciales(){
+        $distritos = Recinto::orderBy('distrito')->distinct()->pluck('distrito');
+
+        return view("graficos.votacion_general_presidenciales")
+        ->with('distritos', $distritos);
+    }
+
     public function presidenciales(){
         $votos_presidenciales = \DB::table('mesas')
         ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
@@ -193,6 +200,83 @@ class GraficosController extends Controller
         }  
 
         return response()->json($alcaldia);
+    }
+
+    public function presidenciales_por_distrito($distrito){
+        $votos_presidenciales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales', 'mesas.id_mesa', 'votos_presidenciales.id_mesa')
+        ->join('partidos', 'votos_presidenciales.id_partido', 'partidos.id_partido')
+        ->select('votos_presidenciales.id_partido', 'partidos.sigla', 'partidos.fill', 'partidos.borderColor',
+        \DB::raw('SUM(validos) as validos')
+        )
+        ->where('recintos.distrito', $distrito)
+        ->groupBy('votos_presidenciales.id_partido')
+        ->orderby('partidos.nivel')
+        ->get();
+
+        $votos_presidenciales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_presidenciales_r', 'mesas.id_mesa', 'votos_presidenciales_r.id_mesa')
+        ->select('mesas.id_mesa',
+        \DB::raw('SUM(nulos) as nulos'),
+        \DB::raw('SUM(blancos) as blancos')
+        )
+        ->where('recintos.distrito', $distrito)
+        ->first();
+
+        $suma_votos = $votos_presidenciales->sum('validos') + $votos_presidenciales_r->nulos + $votos_presidenciales_r->blancos;
+
+        $presidenciales = array();
+
+        foreach ($votos_presidenciales as $key => $value) {
+            $e = array();
+            $e["id_partido"] = $value->id_partido;
+            $e["sigla"] = $value->sigla;
+            $e["fill"] = $value->fill;
+            $e["borderColor"] = $value->borderColor;
+            $e["valor"] = $value->validos;
+            if ($suma_votos == 0) {
+                $e["porcentaje"] = 0;
+            } else {
+                $e["porcentaje"] = round(($value->validos*100)/$suma_votos, 2);
+            }
+            array_push($presidenciales, $e);
+        }
+
+        if($votos_presidenciales_r->blancos != null){
+            $e = array();
+            $e["id_partido"] = count($votos_presidenciales) + 1;
+            $e["sigla"] = 'Blanco';
+            $e["fill"] = '#fff';
+            $e["borderColor"] = '#000';
+            $e["valor"] = $votos_presidenciales_r->blancos;
+            if ($suma_votos == 0) {
+                $e["porcentaje"] = 0;
+            } else {
+                $e["porcentaje"] = round(($votos_presidenciales_r->blancos*100)/$suma_votos, 2);
+            }
+
+            array_push($presidenciales, $e);
+        }
+            
+        if($votos_presidenciales_r->nulos != null){
+            $e = array();
+            $e["id_partido"] = count($votos_presidenciales) + 2;
+            $e["sigla"] = 'Nulo';
+            $e["fill"] = '#898a8a';
+            $e["borderColor"] = '#f90101';
+            $e["valor"] = $votos_presidenciales_r->nulos;
+            if ($suma_votos == 0) {
+                $e["porcentaje"] = 0;
+            } else {
+                $e["porcentaje"] = round(($votos_presidenciales_r->nulos*100)/$suma_votos, 2);
+            }
+
+            array_push($presidenciales, $e);
+        }
+
+        return response()->json($presidenciales);
     }
 
     public function uninominales_por_distrito($distrito){

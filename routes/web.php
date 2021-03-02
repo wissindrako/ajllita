@@ -130,6 +130,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('porcentaje_presidenciales', 'GraficosController@porcentaje_presidenciales');
     Route::get('form_resumen_global_por_distrito', 'GraficosController@form_resumen_global_por_distrito');
 
+    Route::get('votacion_general_presidenciales', 'GraficosController@votacion_general_presidenciales');
+    Route::get('presidenciales_por_distrito/{distrito}', 'GraficosController@presidenciales_por_distrito');
+
     Route::get('votacion_general_uninominales', 'GraficosController@votacion_general_uninominales');
     Route::get('uninominales_por_distrito/{distrito}', 'GraficosController@uninominales_por_distrito');
 

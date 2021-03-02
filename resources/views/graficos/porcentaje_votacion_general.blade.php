@@ -136,7 +136,7 @@ function activar_tabla_recintos_mesas() {
 	};
 
 	$('#canvas').remove();
-	$('#chart').append('<canvas id="canvas" height="320" width="754"><canvas>');
+	$('#chart').append('<canvas id="canvas" height="300" width="754"><canvas>');
 
 	var ctx = document.getElementById("canvas"),
 		myChart = new Chart(ctx, {

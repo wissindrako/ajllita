@@ -550,11 +550,13 @@
         $(".recinto_json_select select").html("");
         var recinto = $("#input_recinto").val();
         var recinto_sin_espacios = recinto.trim();
+        
         if (recinto_sin_espacios == "") {
             
         } else {
             $.getJSON("consultaRecintosPorRecinto/"+recinto+"",{},function(objetosretorna){
                 $("#error").html("");
+                $(".recinto_json_select select").html("");
                 var TamanoArray = objetosretorna.length;
                 $(".recinto_json_select select").append('<option value=""> --- SELECCIONE EL RECINTO --- </option>');
                 $.each(objetosretorna, function(i,value){

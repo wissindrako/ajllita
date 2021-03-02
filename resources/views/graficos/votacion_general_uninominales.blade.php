@@ -150,7 +150,7 @@ function activar_uninominales() {
 	};
 
 	$('#canvas').remove();
-	$('#chart').append('<canvas id="canvas" height="280" width="754"><canvas>');
+	$('#chart').append('<canvas id="canvas" height="240" width="754"><canvas>');
 
 	var ctx = document.getElementById("canvas"),
 		myChart = new Chart(ctx, {
@@ -169,9 +169,9 @@ activar_uninominales();
 // 	location.reload();
 // }, 60000);
 
-function refrescar_votos(){
-	location.reload();
-}
+// function refrescar_votos(){
+// 	location.reload();
+// }
 
 </script>
 

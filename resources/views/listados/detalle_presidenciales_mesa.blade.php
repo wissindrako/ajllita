@@ -10,7 +10,9 @@
 			<h4 class="text-black" >DISTRITO: <b>{{$mesa->distrito}}</b></h4 class="text-black" >
 			<h4 class="text-black" >RECINTO: <b>#{{$mesa->id_recinto}} - {{$mesa->nombre_recinto}}</b></h4 class="text-black" >
 			<h4 class="text-black" ><b>MESA: {{$mesa->codigo_mesas_oep}}</b> - ({{ $mesa->codigo_sistema }})</h4 class="text-black" >
+			<h4><b>Habilitados: </b>{{$mesa->numero_votantes}}</h4>
 				<input type="hidden" name="" id="id_mesa" value="{{$mesa->id_mesa}}">
+				<input type="hidden" name="" id="habilitados" value="{{$mesa->numero_votantes}}">
 		</div>
 		<!-- /.box-header -->
 		{{-- {{dd($detalle_mesas)}} --}}
@@ -132,6 +134,10 @@
 
 </section>
 <script>
+	
+	var habilitados = parseInt(document.getElementById("habilitados").value);
+	console.log("Total Votos: " + suma_votos());
+	console.log("Número de Habilitados: " + habilitados);
 
 	$('.table tbody').on('click', '.btn_partido', function(){
 		var id_mesa = $("#id_mesa").val();
@@ -156,14 +162,17 @@
 						alertify.success('Voto del partido actualizado');
 					}
 					else if (result == 'sin_valor') {
-						alertify.success('Ingrese algun valor');
+						alertify.error('Ingrese algun valor');
 					}
 					else{
 						alertify.success('Voto del partido actualizado');
 					}
 				}
+			});
+
+			if (suma_votos() > habilitados) {
+				alertify.error('Revise la cantidad de votos');
 			}
-		)
 	});
 
 	//Blancos y Nulos
@@ -176,27 +185,52 @@
 		var id_votos_presidenciales_r = fila.find('#id_votos_presidenciales_r').val();
 
 		$.ajax({
-			// alert('sdaf');
-			type:'POST',
-			url:"detalle_editar_mesa_r", // sending the request to the same page we're on right now
-			data:{
-				'id_mesa':id_mesa,
-				'input_voto_bn':input_voto_bn,
-				'id_votos_presidenciales_r':id_votos_presidenciales_r,
-				'blanco_nulo':blanco_nulo
-			},
-				success: function(result){
-					if (result == 'ok') {
-						alertify.success('Voto del partido actualizado');
-					}
-					else if (result == 'sin_valor') {
-						alertify.success('Ingrese algun valor');
-					}
-					else{
-						alertify.success('Voto del partido actualizado');
-					}
+		// alert('sdaf');
+		type:'POST',
+		url:"detalle_editar_mesa_r", // sending the request to the same page we're on right now
+		data:{
+			'id_mesa':id_mesa,
+			'input_voto_bn':input_voto_bn,
+			'id_votos_presidenciales_r':id_votos_presidenciales_r,
+			'blanco_nulo':blanco_nulo
+		},
+			success: function(result){
+				if (result == 'ok') {
+					alertify.success('Voto del partido actualizado');
+				}
+				else if (result == 'sin_valor') {
+					alertify.success('Ingrese algun valor');
+				}
+				else{
+					alertify.success('Voto del partido actualizado');
 				}
 			}
-		)
+		});
+
+		if (suma_votos() > habilitados) {
+			alertify.error('Revise la cantidad de votos');
+		}
+
 	});
-		</script>
+
+	function suma_votos(){
+
+		// console.log(document.getElementById("input_voto").value);
+		var data = []; 
+		var table = document.getElementById( 'tabla_votacion_general' ); 
+		var input = table.getElementsByTagName( 'input' ); 
+		for ( var z = 0; z < input.length; z++ ) { 
+			if (input[z].id === 'input_voto' || input[z].id === 'input_voto_bn') {
+				// data.push( input[z].id );
+				if (input[z].value !== "") {
+					data.push( parseInt(input[z].value) ); 
+				}
+			}
+		}
+
+		let total=0;
+		data.forEach(function(a){total += a;});
+		return total;
+	}
+
+	</script>

@@ -48,8 +48,11 @@ class ImportPersonaController extends Controller
                 $last_id_persona = 0;
             }
 
-            $last_user_id = User::latest()->first()->id;
-            if (!$last_user_id) {
+            $user = User::orderBy('id', 'DESC')->first();
+            
+            if ($user) {
+                $last_user_id = $user->id;
+            }else{
                 $last_user_id = 0;
             }
             

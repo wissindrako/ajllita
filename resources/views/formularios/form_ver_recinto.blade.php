@@ -87,7 +87,7 @@
                                 </div>
                                 <!-- /.widget-user -->
                             </div>
-                            <div class="col-md-12">
+                            {{-- <div class="col-md-12">
                                 @if (!empty($recinto))
                                 <a href="{{$recinto->geolocalizacion}}" target="_blank" class="btn btn-primary btn-lg btn-block">
                                         <i class="fa fa-map-marker"></i> Ver
@@ -95,7 +95,7 @@
                                 @else
                                     
                                 @endif
-                            </div>
+                            </div> --}}
                         </div>
 
                         <!-- /.row -->

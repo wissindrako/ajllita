@@ -132,27 +132,24 @@
                 </ul>
             </li>
             @endrole --}}
-
-
+            @can('registrar_asistencia')
+            <li class="treeview">
+                <a href="{{ url('form_registrar_asistencia') }}"><i class='fa fa-calendar-check-o'></i> <span>Registrar mi asistencia</span> </a>
+            </li>
+            @endcan
 
             @role('responsable_recinto')
             {{-- <li class="treeview" ><a href="javascript:void(0);" onclick="verinfo_mesas({{$personas_logueadas->id_recinto}},10);"><i class="fa fa-circle-o text-red"></i><span> Llenado Emergencia</span></a> </li> --}}
             <li class="treeview"><a href="{{ url('form_llenar_mesas_emergencia_tipo') }}"><i class='fa fa-check-square-o'></i> Llenado Emergencia</a></li>
             @endrole
             @can('listado_votacion_recinto')
-            <li class="treeview"><a href="{{ url('listado_votacion_recinto') }}"><i class='fa fa-check-square-o'></i> Control de Mesas</a></li>
+            <li class="treeview"><a href="{{ url('listado_votacion_recinto') }}"><i class='fa fa-check-square-o'></i> Revisión de Votos por Mesas</a></li>
             @endcan
             @can('listado_votacion_distrito')
             <li class="treeview"><a href="{{ url('listado_votacion_distrito') }}"><i class='fa fa-check-square-o'></i> Control de Recintos</a></li>
             @endcan
             @can('listado_votacion_circunscripcion')
             <li class="treeview"><a href="{{ url('listado_votacion_circunscripcion') }}"><i class='fa fa-check-square-o'></i> Control de Distritos</a></li>
-            @endcan
-
-            @can('registrar_asistencia')
-            <li class="treeview">
-                <a href="{{ url('form_registrar_asistencia') }}"><i class='fa fa-calendar-check-o'></i> <span>Registrar mi asistencia</span> </a>
-            </li>
             @endcan
 
             @can('ver_lista_asistencia')
@@ -184,7 +181,7 @@
 
             @can('como_llegar_a_mi_recinto')
             <li class="treeview">
-                <a href="{{ url('form_ver_recinto') }}"><i class='fa fa-map-o'></i> <span>Como llegar a mi Recinto</span> </a>
+                <a href="{{ url('form_ver_recinto') }}"><i class='fa fa-map-o'></i> <span>Mi Recinto Asignado</span> </a>
             </li>
             @endcan
 

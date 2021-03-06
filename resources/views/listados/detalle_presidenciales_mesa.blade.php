@@ -134,6 +134,20 @@
 
 </section>
 <script>
+
+	max = 250;
+	$('input[type="number"]').keydown(function () {
+		// Save old value.
+		if (!$(this).val() || (parseInt($(this).val()) <= max && parseInt($(this).val()) >= 0))
+		$(this).data("old", $(this).val());
+	});
+	$('input[type="number"]').keyup(function () {
+		// Check correct, else revert back to old value.
+		if (!$(this).val() || (parseInt($(this).val()) <= max && parseInt($(this).val()) >= 0))
+		;
+		else
+		$(this).val($(this).data("old"));
+	});
 	
 	var habilitados = parseInt(document.getElementById("habilitados").value);
 	console.log("Total Votos: " + suma_votos());

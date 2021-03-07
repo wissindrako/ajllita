@@ -165,11 +165,11 @@
                             <td>
                                 @if ($mesa->votos_presidenciales->where('id_partido',$partido->id_partido)->pluck('id_partido')->first() )
                                 <div class="form-group" style="text-align:center">
-                                <input type="number" name="partidos[{{$partido->id_partido}}]" id="partido_{{$partido->id_partido}}" min="0" value="{{$mesa->votos_presidenciales->where('id_partido',$partido->id_partido)->pluck('validos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
+                                <input type="number" name="partidos[{{$partido->id_partido}}]" id="partido_{{$partido->id_partido}}" min="0" max="250" value="{{$mesa->votos_presidenciales->where('id_partido',$partido->id_partido)->pluck('validos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
                                 </div>
                                 @else
                                 <div class="form-group" style="text-align:center">
-                                <input type="number" name="partidos[{{$partido->id_partido}}]" id="partido_{{$partido->id_partido}}" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69">
+                                <input type="number" name="partidos[{{$partido->id_partido}}]" id="partido_{{$partido->id_partido}}" min="0" max="250" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69">
                                 </div>
                                 @endif
                             </td>
@@ -177,23 +177,23 @@
                             @if (!is_null($mesa->votos_presidenciales_r ))
                             <td>
                                 <div class="form-group" style="text-align:center">
-                                    <input type="number" name="blancos" id="blancos" min="0" value="{{$mesa->votos_presidenciales_r->where('id_mesa',$mesa->id_mesa)->pluck('blancos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
+                                    <input type="number" name="blancos" id="blancos" min="0" max="250" value="{{$mesa->votos_presidenciales_r->where('id_mesa',$mesa->id_mesa)->pluck('blancos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group" style="text-align:center">
-                                    <input type="number" name="nulos" id="nulos" min="0" value="{{$mesa->votos_presidenciales_r->where('id_mesa',$mesa->id_mesa)->pluck('nulos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
+                                    <input type="number" name="nulos" id="nulos" min="0" max="250" value="{{$mesa->votos_presidenciales_r->where('id_mesa',$mesa->id_mesa)->pluck('nulos')->first()}}" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" style='width: 80px;'>
                                 </div>
                             </td>
                             @else
                             <td>
                                 <div class="form-group" style="text-align:center">
-                                    <input type="number" name="blancos" id="blancos" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" >
+                                    <input type="number" name="blancos" id="blancos" min="0" max="250" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" >
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group" style="text-align:center">
-                                    <input type="number" name="nulos" id="nulos" min="0" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" >
+                                    <input type="number" name="nulos" id="nulos" min="0" max="250" value="" style='width: 80px;'><input type="hidden" name="" id="id_gestion" value="" pattern="[0-9]{6,9}" onkeydown="return event.keyCode !== 69" >
                                 </div>
                             </td>
                             @endif
@@ -226,5 +226,33 @@
 	  </div>
 
 </section>
+
+
+@section('scripts')
+
+
+
+@parent
+
+<script>
+
+max = 250;
+$('input[type="number"]').keydown(function () {
+	// Save old value.
+	if (!$(this).val() || (parseInt($(this).val()) <= max && parseInt($(this).val()) >= 0))
+	$(this).data("old", $(this).val());
+});
+$('input[type="number"]').keyup(function () {
+	// Check correct, else revert back to old value.
+	if (!$(this).val() || (parseInt($(this).val()) <= max && parseInt($(this).val()) >= 0))
+	;
+	else
+	$(this).val($(this).data("old"));
+});
+
+</script>
+
+@endsection
+
 
 @endsection

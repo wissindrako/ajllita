@@ -50,7 +50,7 @@ class AsistenciasController extends Controller
     $usuario_recinto = \DB::table('users')
                   ->join('personas', 'personas.id_persona', '=', 'users.id_persona')
                   ->join('recintos', 'personas.id_recinto', '=', 'recintos.id_recinto')
-                  ->select('recintos.id_recinto')
+                  ->select('recintos.distrito')
                   ->where('personas.id_persona', $id_persona)
                   ->first();
 
@@ -69,14 +69,14 @@ class AsistenciasController extends Controller
              'personas.complemento_cedula', 'personas.expedido', 'personas.telefono_celular', 'personas.telefono_referencia', 'personas.direccion as direccion_usuario',
              'origen.origen', 'sub_origen.nombre as nombre_sub_origen', 'roles.description as rol')
     ->where('asistencia.fecha', $request->fecha)
-    ->where('recintos.id_recinto', $usuario_recinto->id_recinto)
+    ->where('recintos.distrito', $usuario_recinto->distrito)
     ->whereBetween('role_user.role_id', [21, 22]) //Roles [responsable_recinto, responsable_distrito]
     ->orderBy('recintos.circunscripcion', 'ASC')
-    ->orderBy('recintos.distrito', 'ASC')
-    ->orderBy('recintos.zona', 'ASC')
+    // ->orderBy('recintos.distrito', 'ASC')
+    // ->orderBy('recintos.zona', 'ASC')
     ->orderBy('recintos.nombre', 'ASC')
     ->orderBy('asistencia.asistencia', 'DESC')
-    ->orderBy('users.email', 'ASC')
+    ->orderBy('role_user.role_id', 'ASC')
     ->get();
     // dd($listas);
     return view("listados.lista_de_asistencia_distrito")

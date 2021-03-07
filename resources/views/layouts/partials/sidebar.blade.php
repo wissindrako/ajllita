@@ -220,6 +220,22 @@
                 </ul>
             </li>
             @endrole
+
+            @role('responsable_distrito')
+            <li class="treeview">
+                <a href="#"><i class='fa fa-edit'></i> <span>Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('listado_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Cómputo de Votos</span></a></li>
+                    <li><a href="{{ url('votacion_general_presidenciales') }}"><i class='fa fa-bar-chart'></i> <span>Alcaldía por Distrito</span></a></li>
+                    {{-- <li><a href="{{ url('votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Votación Alcaldía</span></a></li>  --}}
+                    <li><a href="{{ url('porcentaje_votacion_general') }}"><i class='fa fa-bar-chart'></i> <span>Votación Alcaldía</span></a></li> 
+                    {{-- <li><a href="{{ url('form_resumen_global_por_distrito') }}"><i class='fa fa-bar-chart'></i> <span>Resumen Global </span></a></li>  --}}
+                    @if (isConcejal())
+                        <li><a href="{{ url('votacion_general_uninominales') }}"><i class='fa fa-bar-chart'></i> <span>Votación Concejal</span></a></li> 
+                    @endif
+                </ul>
+            </li>
+            @endrole
 {{-- 
             @can('exportar_asignacion_delegados_excel')
                 <li class="treeview"><a href="{{ url('form_asignacion_delegado_excel') }}"><i class='fa fa-file-excel-o text-green'></i> Asignación de Delegados</a></li>

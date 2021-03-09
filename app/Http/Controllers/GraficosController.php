@@ -103,6 +103,102 @@ class GraficosController extends Controller
         ->with('distritos', $distritos);
     }
 
+    public function porcentaje_general_uninominales(){
+        $distritos = Recinto::orderBy('distrito')->distinct()->pluck('distrito');
+
+        $mesas = Mesa::all();
+        $total_votos = $mesas->sum('numero_votantes');
+
+        $votos_validos = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales', 'mesas.id_mesa', 'votos_uninominales.id_mesa')
+        ->join('partidos', 'votos_uninominales.id_partido', 'partidos.id_partido')
+        ->select(
+        \DB::raw('SUM(validos) as validos')
+        )
+        ->first();
+
+        return view("graficos.porcentaje_general_uninominales")
+        ->with('total_votos', $total_votos)
+        ->with('votos_validos', $votos_validos)
+        ->with('distritos', $distritos);
+    }
+
+    public function data_uninominales_general(){
+        $votos_uninominales = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales', 'mesas.id_mesa', 'votos_uninominales.id_mesa')
+        ->join('partidos', 'votos_uninominales.id_partido', 'partidos.id_partido')
+        ->select('votos_uninominales.id_partido', 'partidos.sigla', 'partidos.fill', 'partidos.borderColor',
+        \DB::raw('SUM(validos) as validos')
+        )
+        ->groupBy('votos_uninominales.id_partido')
+        ->orderby('partidos.nivel')
+        ->get();
+
+        $votos_uninominales_r = \DB::table('mesas')
+        ->join('recintos', 'mesas.id_recinto', 'recintos.id_recinto')
+        ->join('votos_uninominales_r', 'mesas.id_mesa', 'votos_uninominales_r.id_mesa')
+        ->select('mesas.id_mesa',
+        \DB::raw('SUM(nulos) as nulos'),
+        \DB::raw('SUM(blancos) as blancos')
+        )
+        ->first();
+
+        $suma_votos = $votos_uninominales->sum('validos') + $votos_uninominales_r->nulos + $votos_uninominales_r->blancos;
+
+        $uninominales = array();
+
+        foreach ($votos_uninominales as $key => $value) {
+            $e = array();
+            $e["id_partido"] = $value->id_partido;
+            $e["sigla"] = $value->sigla;
+            $e["fill"] = $value->fill;
+            $e["borderColor"] = $value->borderColor;
+            $e["valor"] = $value->validos;
+            if ($suma_votos == 0) {
+                $e["porcentaje"] = 0;
+            } else {
+                $e["porcentaje"] = round(($value->validos*100)/$suma_votos, 2);
+            }
+            array_push($uninominales, $e);
+        }
+
+        if($votos_uninominales_r->blancos != null){
+            $e = array();
+            $e["id_partido"] = count($votos_uninominales) + 1;
+            $e["sigla"] = 'Blanco';
+            $e["fill"] = '#fff';
+            $e["borderColor"] = '#000';
+            $e["valor"] = $votos_uninominales_r->blancos;
+            if ($suma_votos == 0) {
+                $e["porcentaje"] = 0;
+            } else {
+                $e["porcentaje"] = round(($votos_uninominales_r->blancos*100)/$suma_votos, 2);
+            }
+
+            array_push($uninominales, $e);
+        }
+            
+        if($votos_uninominales_r->nulos != null){
+            $e = array();
+            $e["id_partido"] = count($votos_uninominales) + 2;
+            $e["sigla"] = 'Nulo';
+            $e["fill"] = '#898a8a';
+            $e["borderColor"] = '#f90101';
+            $e["valor"] = $votos_uninominales_r->nulos;
+            if ($suma_votos == 0) {
+                $e["porcentaje"] = 0;
+            } else {
+                $e["porcentaje"] = round(($votos_uninominales_r->nulos*100)/$suma_votos, 2);
+            }
+
+            array_push($uninominales, $e);
+        }
+
+        return response()->json($uninominales);
+    }
+
     public function votacion_general_presidenciales(){
         $distritos = Recinto::orderBy('distrito')->distinct()->pluck('distrito');
 

@@ -59,8 +59,8 @@
            
              -</span>
 			</td>
-			<td class="mailbox-messages mailbox-name"><a href="javascript:void(0);"  style="display:block"><i class="fa fa-user"></i>&nbsp;&nbsp;{{ $usuario->persona['nombre'] }} {{ $usuario->persona['paterno'] }} {{ $usuario->persona['materno'] }}</a></td>
-			<td class="mailbox-messages mailbox-name"><a href="javascript:void(0);"  style="display:block"><i class="fa fa-credit-card"></i>&nbsp;&nbsp;{{ $usuario->persona['cedula_identidad'] }}</a></td>
+			<td class="mailbox-messages mailbox-name"><a href="javascript:void(0);"  style="display:block"><i class="fa fa-user"></i>&nbsp;&nbsp;{{ $usuario->persona ? $usuario->persona['nombre'] : '' }} {{ $usuario->persona ? $usuario->persona['paterno'] : ''}} {{ $usuario->persona ? $usuario->persona['materno'] : '' }}</a></td>
+			<td class="mailbox-messages mailbox-name"><a href="javascript:void(0);"  style="display:block"><i class="fa fa-credit-card"></i>&nbsp;&nbsp;{{ $usuario->persona ? $usuario->persona['cedula_identidad'] : ''}}</a></td>
 			<td>{{ $usuario->name }}</td>
 			<td>{{ $usuario->email }}</td>
 			<td>

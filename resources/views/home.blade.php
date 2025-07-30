@@ -21,7 +21,7 @@
 
 			<div style="text-align:center">
 
-				<h2><b>Elecciones Subnacionales 2021</b></h2>
+				<h2><b>Elecciones Nacionales 2025</b></h2>
 				<br>
 				{{-- <h3><b>Administración </b></h3> --}}
 				<img src="{{asset('img/logo_principal.png')}}" style="width:312px;height:100%;" class="resonsive"/>

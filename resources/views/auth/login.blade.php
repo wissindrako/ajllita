@@ -22,7 +22,7 @@
                     <div class="myform-top">
                         <div class="myform-top-left">
                          <img  src="{{ url('img/logo_partido_login.png') }} " class="img-responsive logo" />
-                          <h3>Elecciones Subnacionales 2021</h3>
+                          <h3>Elecciones Nacionales 2025</h3>
                             <p>Digita tu usuario y contraseña:</p>
                         </div>
                         <div class="myform-top-right">

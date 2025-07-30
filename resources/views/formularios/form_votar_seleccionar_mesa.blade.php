@@ -46,7 +46,7 @@
 													<input type="hidden" name="id_mesa" value="{{ $mesa->id_mesa }}">
 													<br>
 													
-													<button type="submit" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
+													<button type="submit" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#29e959)); -webkit-box-shadow: inset 0px 0px 6px #ffffff; border-radius: 10px;">
 														<div class="">
 															<div class="">
 																

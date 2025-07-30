@@ -13,7 +13,9 @@
                 <div class="pull-left info">
                     {{-- <p>{{ Auth::user()->name }}</p> --}}
 
-                    <p><b>{{ $personas_logueadas['nombre'] }}</b></p>
+                    @if (isset($personas_logueadas))
+                        <p><b>{{ $personas_logueadas ? $personas_logueadas['nombre'] : '' }}</b></p>
+                    @endif
 
                     {{-- @if ($personas_logueadas['paterno'] == '')
                     <p>{{ $personas_logueadas['nombre'] }} {{ $personas_logueadas['materno'] }} </p>

@@ -18,7 +18,7 @@
                         <div class="myform-top-left">
                            {{-- <img  src="" class="img-responsive logo" /> --}}
                           <h3>
-                                Mesa de Votación {{$codigo_mesas_oep}} - Concejal
+                                Mesa de Votación {{$codigo_mesas_oep}} - Uninominal
                             </h3>
                             <p>Suba la foto del acta</p>
                         </div>

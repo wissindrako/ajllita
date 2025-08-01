@@ -26,9 +26,9 @@
 					<th style="background-color:#038fe1; text-align:center; color:white;"></th>
 					
 					<th style="background-color:#038fe1; text-align:center; color:white;" colspan="3">Datos del Recinto</th>
-					<th style="background-color:#038fe1; text-align:center; color:white;" colspan="4">Votos Alcaldía</th>
+					<th style="background-color:#038fe1; text-align:center; color:white;" colspan="4">Votos Presidenciales</th>
 					@if(isConcejal())
-					<th style="background-color:#038fe1; text-align:center; color:white;" colspan="4">Votos Concejal</th>
+					<th style="background-color:#038fe1; text-align:center; color:white;" colspan="4">Votos Uninominales</th>
 					@endif
 					<th style="background-color:#038fe1; text-align:center; color:white;" colspan="2">Datos del Responsable</th>
 				</tr>

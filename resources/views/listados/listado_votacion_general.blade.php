@@ -17,16 +17,16 @@
 		<div class="box-body table-responsive no-padding">
 		  <table id="tabla_votacion_general" class="table table-hover table-striped table-bordered">
 			<thead>
-				<th style="font-size: 20px; background-color:#038fe1; text-align:center; color: #fff;">Alcaldía</th>
-				{{-- <th style="font-size: 14px;">Alcaldía</th> --}}
+				<th style="font-size: 20px; background-color:#038fe1; text-align:center; color: #fff;">Generales</th>
+				{{-- <th style="font-size: 14px;">Presidencial</th> --}}
 				@if (isGobernacion())
-				<th style="font-size: 20px;background-color:#038fe1; text-align:center; color: #fff;">Concejal</th>
+				<th style="font-size: 20px;background-color:#038fe1; text-align:center; color: #fff;">Uninominal</th>
 				@endif
 			</thead>
 			{{-- {{dd($votos_presidenciales_r)}} --}}
 		<tbody>
 			<tr>
-				{{-- Alcaldía --}}
+				{{-- Presidencial --}}
 				<td>
 			@foreach ($partidos as $p)
 				
@@ -84,7 +84,7 @@
 
 				</td>
 
-				{{-- Concejal --}}
+				{{-- Uninominal --}}
 				@if (isGobernacion())
 				<td>
 				@foreach ($partidos as $p)

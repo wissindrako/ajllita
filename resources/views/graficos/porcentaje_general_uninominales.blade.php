@@ -25,7 +25,7 @@
 	<div class="box box-primary">
 		<a href="javascript:void(0);" onclick="refrescar_votos();">
 			<div class="box-header with-border" style="background-color:#038fe1; text-align:center">
-                <h3 class="box-title" style="color:white">Conteo General de Votos (Concejal) al {{  round(($votos_validos->validos*100)/$total_votos, 2) }} %</h3>
+                <h3 class="box-title" style="color:white">Conteo General de Votos (Uninominal) al {{  round(($votos_validos->validos*100)/$total_votos, 2) }} %</h3>
 			<div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool bg-black"><i class="fa fa-refresh text-green" id="btn_refresh"></i></button>
 			</div>

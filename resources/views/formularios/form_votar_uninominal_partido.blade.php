@@ -18,7 +18,7 @@
                         <div class="myform-top-left">
                            {{-- <img  src="" class="img-responsive logo" /> --}}
                           <h3>
-														Mesa de Votación {{$codigo_mesas_oep}} - Concejal - Partido "{{$sigla_partido}}"
+														Mesa de Votación {{$codigo_mesas_oep}} - Uninominal - Partido "{{$sigla_partido}}"
 													</h3>
                             <p>Por favor registre el número de votos</p>
                         </div>

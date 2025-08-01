@@ -54,7 +54,7 @@
 														<br><span class="info-box-number">({{ $mesa->codigo_sistema }})</span>
 														<span  style='font-size: 15px; color:black; font-weight:bold; text-align:center' class="">[ {{ $mesa->id_mesa }} ]</span>
 														<br>
-														<span class="info-box-number">Votos Alcaldía:</span>
+														<span class="info-box-number">Votos Presidenciales:</span>
 															
 																<?php
 																	//Controlamos que hayan llenado los 10 registros (9 presidente y 1 blancos y nulos)
@@ -117,7 +117,7 @@
 														
 														@if (isConcejal())
 														<br>
-														<span class="info-box-number">Votos Concejal:</span>
+														<span class="info-box-number">Votos Uninominales:</span>
 														<?php
 															//Controlamos que hayan llenado los 10 registros (9 presidente y 1 blancos y nulos)
 															$registros_uninominales = $mesa->registros_uninominales + $mesa->registros_uninominales_r;

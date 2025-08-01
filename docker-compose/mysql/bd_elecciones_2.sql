@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 30, 2025 at 02:25 AM
+-- Generation Time: Aug 01, 2025 at 03:24 AM
 -- Server version: 8.0.30
 -- PHP Version: 7.4.19
 
@@ -3391,12 +3391,12 @@ CREATE TABLE `partidos` (
 INSERT INTO `partidos` (`id_partido`, `nombre`, `sigla`, `logo`, `fill`, `borderColor`, `nivel`) VALUES
 (1, 'Movimiento Nacionalista Revolucionario', 'MNR', '/img/mnr.jpg', 'rgb(241, 130, 235)', 'rgb(250, 74, 226)', 8),
 (2, 'Partido Demócrata Cristiano', 'PDC', '/img/pdc.jpg', 'rgb(4, 131, 121)', 'rgb(255, 0, 0)', 7),
-(3, 'Movimiento Al Socialismo – Instrumento Político Por La Soberanía De Los Pueblos', 'MAS-IPSP', '/img/mas.jpg', 'rgb(6, 73, 198)', 'rgb(0, 0, 0)', 5),
+(3, 'Alianza Popular', 'AP', '/img/mas.jpg', 'rgb(18, 214, 249)', 'rgb(38, 153, 4)', 1),
 (4, 'Unidad Cívica Solidaridad', 'UCS', '/img/ucs.jpg', 'rgba(54, 162, 235, 0.2)', 'rgb(18, 214, 249)', 4),
 (5, 'Frente Para La Victoria', 'FPV', '/img/fpv.jpg', 'rgb(255, 255, 255)', 'rgb(75, 192, 192)', 2),
 (6, 'Partido De Acción Nacional Boliviano', 'PAN-BOL', '/img/pan_bol.jpg', 'rgb(255, 255, 255)', 'rgb(253, 15, 15)', 9),
 (7, 'Movimiento Tercer Sistema', 'MTS', '/img/mts.jpg', 'rgb(38, 153, 4)', 'rgb(238, 231, 1)', 3),
-(8, 'Comunidad Ciudadana', 'CC', '/img/cc.jpg', 'rgb(238, 94, 1)', 'rgb(38, 153, 4)', 1),
+(8, 'Comunidad Ciudadana', 'CC', '/img/cc.jpg', 'rgb(238, 94, 1)', 'rgb(38, 153, 4)', 5),
 (9, 'Bolivia Dice No', 'Bolivia Dice No', '/img/bdn.jpg', 'rgba(201, 203, 207, 0.2)', 'rgb(211, 22, 22)', 6);
 
 -- --------------------------------------------------------

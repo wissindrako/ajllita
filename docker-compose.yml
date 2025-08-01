@@ -32,7 +32,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name:  registro_pedagogico_phpmyadmin
+    container_name:  control_phpmyadmin
     links:
       - db
     environment:

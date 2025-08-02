@@ -51,7 +51,7 @@
 												<button type="submit" class="box box-widget widget-user-2" style="background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#09de5a), color-stop(100%,#3ACBC7)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 														<div class="widget-user-header bg-white">
 																<div class="widget-user-image">
-																	<img class="img-circle" src="{{ url($partido->logo) }}" style="width:65px;height:65px;" alt="User Avatar">
+																	<img class="img-circle" src="{{ url($partido->logo) }}" style="width:65px;height:65px;" alt="logo">
 																</div>
 													<?php $entro = 0?>
 													@foreach ($votos_introducidos as $voto_introducido)

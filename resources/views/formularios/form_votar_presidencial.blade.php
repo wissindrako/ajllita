@@ -52,7 +52,7 @@
 												<button type="submit" class="box box-widget widget-user-2" style="font-size: 16px; padding: 30px;width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#62d4f3)); -webkit-box-shadow: inset 0px 0px 6px #fff; border-radius: 10px;">
 														<div class="widget-user-header bg-white">
 															<div class="widget-user-image">
-																<img class="img-circle" src="{{ url($partido->logo) }}" style="width:65px;height:65px;" alt="User Avatar">
+																<img class="img-circle" src="{{ url($partido->logo) }}" style="width:65px;height:65px;" alt="logo">
 															</div>
 															<!-- /.widget-user-image -->
 

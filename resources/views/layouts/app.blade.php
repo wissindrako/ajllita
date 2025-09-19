@@ -30,7 +30,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="skin-green fixed">
+<body class="skin-abstract fixed">
 
 <div style="display: none;" id="cargador_empresa" align="center">
         <br>

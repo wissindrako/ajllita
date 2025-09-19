@@ -1,24 +1,27 @@
 FROM php:7.4-fpm
 
-# Arguments defined in docker-compose.yml
+# Arguments
 ARG user
 ARG uid
 
-# Install system dependencies
+# Instala dependencias para GD (freetype, jpeg y png)
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
+    libfreetype6-dev \    # <-- Añade esta línea
+    libjpeg62-turbo-dev \ # <-- Añade esta línea
     libonig-dev \
     libxml2-dev \
     zip \
     unzip
 
-# Clear cache
+# Limpia cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+# Configura GD antes de instalarlo
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

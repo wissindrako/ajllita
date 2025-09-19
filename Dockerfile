@@ -9,8 +9,8 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
-    libfreetype6-dev \    # <-- Añade esta línea
-    libjpeg62-turbo-dev \ # <-- Añade esta línea
+    libfreetype6-dev \ 
+    libjpeg62-turbo-dev \
     libonig-dev \
     libxml2-dev \
     zip \

@@ -68,46 +68,46 @@ class VotacionesController extends Controller
   public function llenado_emergencia(Request $request)
   {
     // dd($request->all());
+    try {
+      foreach ($request->partidos as $key => $value) {
+        if ($value != "") {
+          if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', $key)->get()) > 0) {
+            \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', $key)
+              ->update(['validos' => $value, 'id_usuario' => Auth::user()->id]);
+          } else {
+            \DB::table('votos_presidenciales')->insert([
+              [
+                'id_mesa' => $request->id_mesa,
+                'id_partido' => $key,
+                'validos' => $value,
+                'id_usuario' => Auth::user()->id
+              ]
+            ]);
+          }
+        }
+      }
 
-    foreach ($request->partidos as $key => $value) {
-
-      if ($value != "") {
-        if (count(\DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', $key)->get()) > 0) {
-          \DB::table('votos_presidenciales')->where('id_mesa', $request->id_mesa)->where('id_partido', $key)
-            ->update(['validos' => $value, 'id_usuario' => Auth::user()->id]);
+      if ($request->blancos == "" && $request->nulos == "") {
+        // No registrar blancos y nulos
+      } else {
+        if (count(\DB::table('votos_presidenciales_r')->where('id_mesa', $request->id_mesa)->get()) > 0) {
+          \DB::table('votos_presidenciales_r')->where('id_mesa', $request->id_mesa)
+            ->update(['blancos' => $request->blancos, 'nulos' => $request->nulos, 'id_usuario' => Auth::user()->id]);
         } else {
-          //Realizamos el registro
-          \DB::table('votos_presidenciales')->insert([
+          \DB::table('votos_presidenciales_r')->insert([
             [
               'id_mesa' => $request->id_mesa,
-              'id_partido' => $key,
-              'validos' => $value,
+              'blancos' => $request->blancos,
+              'nulos' => $request->nulos,
               'id_usuario' => Auth::user()->id
             ]
           ]);
         }
       }
+      return response()->json(['status' => 'ok', 'message' => 'Votos registrados'], 200);
+    } catch (\Exception $e) {
+      return response()->json(['status' => 'error', 'message' => 'Error al registrar votos'], 400);
     }
-
-    if ($request->blancos == "" && $request->nulos == "") { # code...
-    } else {
-      if (count(\DB::table('votos_presidenciales_r')->where('id_mesa', $request->id_mesa)->get()) > 0) {
-        \DB::table('votos_presidenciales_r')->where('id_mesa', $request->id_mesa)
-          ->update(['blancos' => $request->blancos, 'nulos' => $request->nulos, 'id_usuario' => Auth::user()->id]);
-      } else {
-        //Realizamos el registro
-        \DB::table('votos_presidenciales_r')->insert([
-          [
-            'id_mesa' => $request->id_mesa,
-            'blancos' => $request->blancos,
-            'nulos' => $request->nulos,
-            'id_usuario' => Auth::user()->id
-          ]
-        ]);
-      }
-    }
-
-    return Redirect::back()->with("mensaje_exito", "mensaje_exito");
   }
 
   public function llenado_emergencia_uninominales(Request $request)

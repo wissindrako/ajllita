@@ -55,6 +55,7 @@ services:
       - "8000:80"
     volumes:
       - ./:/var/www
+      - ./storage/app/public:/var/www/html/public/storage
       - ./docker-compose/nginx:/etc/nginx/conf.d
     networks:
       - control

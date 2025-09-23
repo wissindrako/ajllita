@@ -61,7 +61,7 @@
                     <thead>
                         {{-- <tr style="background-color:#111111; text-align:center; color:white"> --}}
                         <tr>
-                        <th style='font-size: 16px; text-align:center; font-family: "Source Sans Pro"; vertical-align: middle;'>                                    
+                        <th style='font-size: 16px; text-align:center; font-family: "Source Sans Pro"; vertical-align: middle;' width="5%">                                    
                             #
                         </th>
                         <th style='font-size: 16px; text-align:center; font-family: "Source Sans Pro"; vertical-align: middle;'>
@@ -156,8 +156,8 @@
                         @endif
                         <tr>
                             <form action="{{ route('llenado_emergencia') }}"  method="post">
-                            <td style='font-size: 15px;'><b>{{$key+1}}</b></td>
-                            <td style='font-size: 15px;' scope="row"><b>{{ $mesa->id_mesa }}</b>
+                            <td style='font-size: 15px;text-align:center;'><b>{{$key+1}}</b></td>
+                            <td style='font-size: 15px;text-align:center' scope="row"><b>{{ $mesa->id_mesa }}</b>
                                 <input type="hidden" name="id_mesa" id="id_mesa" value="{{$mesa->id_mesa}}">
                                 <input type="hidden" name="id_recinto" id="id_recinto" value="{{$recinto->id_recinto}}">
                             </td>
@@ -238,18 +238,45 @@
 
 max = 250;
 $('input[type="number"]').keydown(function () {
-	// Save old value.
-	if (!$(this).val() || (parseInt($(this).val()) <= max && parseInt($(this).val()) >= 0))
-	$(this).data("old", $(this).val());
+    if (!$(this).val() || (parseInt($(this).val()) <= max && parseInt($(this).val()) >= 0))
+        $(this).data("old", $(this).val());
 });
 $('input[type="number"]').keyup(function () {
-	// Check correct, else revert back to old value.
-	if (!$(this).val() || (parseInt($(this).val()) <= max && parseInt($(this).val()) >= 0))
-	;
-	else
-	$(this).val($(this).data("old"));
+    if (!$(this).val() || (parseInt($(this).val()) <= max && parseInt($(this).val()) >= 0))
+        ;
+    else
+        $(this).val($(this).data("old"));
 });
 
+$('#tabla_personas form').on('submit', function(event) {
+    event.preventDefault();
+    var datos = $(this).serialize();
+    var url = $(this).attr('action'); // Obtiene la URL del form
+    console.log(datos)
+    console.log(url)
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: datos,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Laravel CSRF token
+        },
+        success: function(response) {
+            // Aquí puedes manejar la respuesta del backend
+            // alertify.success('Votos registrados');
+            console.log(response)
+            if(response.status === 'ok'){
+                alertify.success(response.message)
+            }else{
+                alertify.error(response.message)
+            }
+        },
+        error: function(xhr) {
+            // Aquí puedes manejar el error
+            alertify.error('No se registraron los votos, revise su conexión');
+        }
+    });
+});
 </script>
 
 @endsection
